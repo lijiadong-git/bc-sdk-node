@@ -1,7 +1,10 @@
 "use strict";
 function __export_sdk(o, m) {
     for (var p in m) {
-        if (!exports.hasOwnProperty(p)) {
+        if (!exports.hasOwnProperty(o)) {
+            exports[o] = new Object();
+        }
+        if (!exports[o].hasOwnProperty(p)) {
             exports[o][p] = m[p];
         }
     }
