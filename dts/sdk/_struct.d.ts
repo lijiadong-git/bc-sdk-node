@@ -1,0 +1,17 @@
+export declare const pointer: any;
+export declare const DEVICE_STATE_CHANGE_DESC: any;
+export declare const P_DEVICE_STATE_CHANGE_DESC: any;
+export declare const BC_CMD_DATA: any;
+export declare const P_BC_CMD_DATA: any;
+export declare const DEVICE_LOGIN_DESC: any;
+export declare const P_DEVICE_LOGIN_DESC: any;
+export declare const DEVICE_CALLBACK_DESC: any;
+export declare const P_DEVICE_CALLBACK_DESC: any;
+export declare const RENDER_VIDEO_PLANE_DESC: any;
+export declare const P_RENDER_VIDEO_PLANE_DESC: any;
+export declare const RENDER_VIDEO_FRAME_DESC: any;
+export declare const P_RENDER_VIDEO_FRAME_DESC: any;
+export declare const RENDER_AUDIO_FRAME_DESC: any;
+export declare const P_RENDER_AUDIO_FRAME_DESC: any;
+export declare const RENDER_FRAME_DESC: any;
+export declare const P_RENDER_FRAME_DESC: any;
