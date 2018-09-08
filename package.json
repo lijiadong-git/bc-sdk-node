@@ -1,0 +1,22 @@
+{
+  "name": "bc-sdk",
+  "version": "0.0.0",
+  "description": "sdk for baichuan shenzhen",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lijiadong-git/bc-sdk-node.git"
+  },
+  "keywords": [
+    "baichuan"
+  ],
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/lijiadong-git/bc-sdk-node/issues"
+  },
+  "homepage": "https://github.com/lijiadong-git/bc-sdk-node#readme"
+}
