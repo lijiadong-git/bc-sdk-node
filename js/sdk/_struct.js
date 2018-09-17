@@ -35,6 +35,12 @@ exports.DEVICE_CALLBACK_DESC = refStruct({
     userData: exports.pointer('void')
 });
 exports.P_DEVICE_CALLBACK_DESC = exports.pointer(exports.DEVICE_CALLBACK_DESC);
+exports.DEVICE_ABILITY_ABOUT = refStruct({
+    isBattery: ref.types.bool,
+    qrCode: ref.types.bool,
+    type: ref.types.int
+});
+exports.P_DEVICE_ABILITY_ABOUT = exports.pointer(exports.DEVICE_ABILITY_ABOUT);
 // callback frame data
 exports.RENDER_VIDEO_PLANE_DESC = refStruct({
     address: exports.pointer(ref.types.uint8) // plane base address of the picture

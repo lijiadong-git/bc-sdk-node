@@ -7,6 +7,8 @@ export declare const DEVICE_LOGIN_DESC: any;
 export declare const P_DEVICE_LOGIN_DESC: any;
 export declare const DEVICE_CALLBACK_DESC: any;
 export declare const P_DEVICE_CALLBACK_DESC: any;
+export declare const DEVICE_ABILITY_ABOUT: any;
+export declare const P_DEVICE_ABILITY_ABOUT: any;
 export declare const RENDER_VIDEO_PLANE_DESC: any;
 export declare const P_RENDER_VIDEO_PLANE_DESC: any;
 export declare const RENDER_VIDEO_FRAME_DESC: any;

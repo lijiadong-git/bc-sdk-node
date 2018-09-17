@@ -4,5 +4,7 @@ function __export(m) {
 }
 Object.defineProperty(exports, "__esModule", { value: true });
 __export(require("./enum"));
+exports.H_BC_DEVICE_INVALID = -1;
+;
 ;
 //# sourceMappingURL=types.js.map

@@ -54,6 +54,62 @@ class CALLBACK {
             }
         }
     }
+    modifyCallbackHandle(oldHandle, handle) {
+        let callback_old_handle = CALLBACK.callbacks[oldHandle];
+        if (!callback_old_handle) {
+            return;
+        }
+        CALLBACK.callbacks[handle] = callback_old_handle;
+        CALLBACK.callbacks[oldHandle] = null;
+        delete CALLBACK.callbacks[oldHandle];
+    }
+    clearCallbackForHandle(handle) {
+        CALLBACK.callbacks[handle] = null;
+        delete CALLBACK.callbacks[handle];
+    }
+    clearCallbackForChannel(handle, channel) {
+        let callback_handle = CALLBACK.callbacks[handle];
+        if (!callback_handle) {
+            return;
+        }
+        let callback_channel = callback_handle[channel];
+        if (!callback_channel) {
+            return;
+        }
+        callback_handle[channel] = null;
+        delete callback_handle[channel];
+        if (0 === Object.keys(callback_handle).length) {
+            CALLBACK.callbacks[handle] = null;
+            delete CALLBACK.callbacks[handle];
+        }
+    }
+    clearCallbackForCommond(handle, channel, cmd) {
+        let callback_handle = CALLBACK.callbacks[handle];
+        if (!callback_handle) {
+            return;
+        }
+        let callback_channel = callback_handle[channel];
+        if (!callback_channel) {
+            return;
+        }
+        let callback_cmd = callback_channel[cmd];
+        if (!callback_cmd) {
+            return;
+        }
+        callback_channel[cmd] = null;
+        delete callback_channel[cmd];
+        if (0 === Object.keys(callback_channel).length) {
+            callback_handle[channel] = null;
+            delete callback_handle[channel];
+            if (0 === Object.keys(callback_handle).length) {
+                CALLBACK.callbacks[handle] = null;
+                delete CALLBACK.callbacks[handle];
+            }
+        }
+    }
+    clearCallback(handle, channel, cmd, cmdIndex) {
+        this.setCallback(handle, channel, cmd, cmdIndex, null);
+    }
 }
 CALLBACK.singleton = new CALLBACK();
 CALLBACK.callbacks = new Object();

@@ -14,7 +14,7 @@ class LIVE {
     }
     liveOpen(handle, channel, stream, callback) {
         return new Promise((resolve, reject) => {
-            let ret = native_1.default.BCSDK_LiveOpen(handle, channel, stream, LIVE.liveCallback, null);
+            let ret = native_1.native.BCSDK_LiveOpen(handle, channel, stream, LIVE.liveCallback, null);
             if (0 === ret) {
                 let tcallback = {
                     sdkCallback: callback,
