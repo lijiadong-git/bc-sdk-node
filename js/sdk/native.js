@@ -1,23 +1,43 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const ffi = require('ffi');
+const fs = require('fs');
 const _T = require("./_struct");
+if (process.platform === "win32") {
+    ffi.Library(__dirname + '/native/libs/BCP2P_API');
+    ffi.Library(__dirname + '/native/libs/IOTCAPIs');
+    ffi.Library(__dirname + '/native/libs/RDTApis');
+}
 const MFFI = ffi.Library(__dirname + '/../../native/libs/libBCSDKWrapper', {
-    /**
+    /************************************************************************
+     *
      * Device interfaces
-     */
-    BCSDK_PTZStop: ['int', ['int', 'int']],
+     *
+     ************************************************************************/
     BCSDK_AddDevice: ['int', [_T.P_DEVICE_LOGIN_DESC, _T.P_DEVICE_CALLBACK_DESC, _T.pointer('int')]],
     BCSDK_RemoveDevice: ['int', ['int']],
+    BCSDK_RemoveAllDevices: ['int', ['void']],
     BCSDK_ModifyDevice: ['int', ['int', _T.P_DEVICE_LOGIN_DESC, _T.P_DEVICE_CALLBACK_DESC, _T.pointer('int')]],
+    BCSDK_GetDeviceCount: ['int', ['void']],
+    BCSDK_GetDevice: ['int', ['int']],
+    BCSDK_SetIsInBackground: ['int', ['bool']],
+    BCSDK_SetNetworkType: ['int', ['int']],
+    BCSDK_SetDeviceNeedAutoOpen: ['int', ['int', 'bool']],
+    BCSDK_SetDeviceMaxReconnectCount: ['int', ['int', 'int']],
+    BCSDK_StartDevicesAutoOpen: ['int', ['int']],
+    BCSDK_StopDevicesAutoOpen: ['int', ['bool']],
     BCSDK_DeviceForceOpen: ['int', ['int', 'bool']],
-    BCSDK_GetDeviceState: ['int', ['int', _T.pointer('int')]],
+    BCSDK_DeviceForceClose: ['int', ['int', 'bool']],
+    BCSDK_GetDeviceChannelCount: ['int', ['int', _T.pointer('int')]],
     BCSDK_GetDeviceLoginMessage: ['int', ['int', _T.P_DEVICE_LOGIN_DESC]],
-    BCSDK_LiveOpen: ['int', ['int', 'int', 'int', ffi.Function('void', ['int', 'int', _T.RENDER_FRAME_DESC, _T.pointer('void')]), _T.pointer('void')]],
-    BCSDK_GetDeviceChannelCount: ['int', ['int', _T.pointer('int')]]
-    /**
+    BCSDK_GetDeviceState: ['int', ['int', _T.pointer('int')]],
+    BCSDK_SetDeviceExtension: ['int', ['int', _T.pointer('void')]],
+    BCSDK_GetDeviceExtension: ['int', ['int', _T.pointer(_T.pointer('void'))]]
+    /************************************************************************
+     *
      * Abilities interfaces
-     */
+     *
+     ************************************************************************/
     ,
     BCSDK_SetAbilityAbout: ['int', ['int', _T.P_DEVICE_ABILITY_ABOUT]],
     BCSDK_GetDeviceType: ['int', ['int', _T.pointer('int')]],
@@ -92,19 +112,13 @@ const MFFI = ffi.Library(__dirname + '/../../native/libs/libBCSDKWrapper', {
     BCSDK_GetAlarmOutPortCount: ['int', ['int', _T.pointer('int')]],
     BCSDK_GetDdnsVersion: ['int', ['int', _T.pointer('int')]],
     BCSDK_GetAnalogChannelCount: ['int', ['int', _T.pointer('int')]],
-    BCSDK_GetPushType: ['int', ['int', _T.pointer('int')]]
-    // rfVersion:   0 -> no support;
-    //              1 -> old,suppport 3 buttons;
-    //              2 -> support RF Remote Config;
-    //              3 -> support 4 buttons;
-    //              4 -> support RF Remote Config with Sensitivity
-    ,
+    BCSDK_GetPushType: ['int', ['int', _T.pointer('int')]],
     BCSDK_GetRfVersion: ['int', ['int', _T.pointer('int')]],
     BCSDK_GetRfNumbers: ['int', ['int', _T.pointer('int')]],
     BCSDK_GetSupportSimModule: ['int', ['int', _T.pointer('bool')]]
-    /**
+    /************************************************************************
      * MARK: Channel abilities
-     */
+     ************************************************************************/
     //, BCSDK_GetEncodeTable(H_BC_DEVICE hDevice, int channel, BC_ENC_PROFILE_TABLE *encTable);
     ,
     BCSDK_GetIsVideoLoss: ['int', ['int', 'int', _T.pointer('bool')]],
@@ -134,9 +148,7 @@ const MFFI = ffi.Library(__dirname + '/../../native/libs/libBCSDKWrapper', {
     BCSDK_GetSupportManualRingDown: ['int', ['int', 'int', _T.pointer('bool')]],
     BCSDK_GetSupportCustomRingtone: ['int', ['int', 'int', _T.pointer('bool')]],
     BCSDK_GetSupportOsdPadding: ['int', ['int', 'int', _T.pointer('bool')]],
-    BCSDK_GetSupportOsdWaterMark: ['int', ['int', 'int', _T.pointer('bool')]]
-    // Isp Cfg
-    ,
+    BCSDK_GetSupportOsdWaterMark: ['int', ['int', 'int', _T.pointer('bool')]],
     BCSDK_GetSupportIspDayNight: ['int', ['int', 'int', _T.pointer('bool')]],
     BCSDK_GetSupportIspAntiFlick: ['int', ['int', 'int', _T.pointer('bool')]],
     BCSDK_GetSupportIspExposureMode: ['int', ['int', 'int', _T.pointer('bool')]],
@@ -149,19 +161,43 @@ const MFFI = ffi.Library(__dirname + '/../../native/libs/libBCSDKWrapper', {
     BCSDK_GetSupportIspContrast: ['int', ['int', 'int', _T.pointer('bool')]],
     BCSDK_GetSupportIspSatruation: ['int', ['int', 'int', _T.pointer('bool')]],
     BCSDK_GetSupportIspHue: ['int', ['int', 'int', _T.pointer('bool')]],
-    BCSDK_GetSupportIspSharpen: ['int', ['int', 'int', _T.pointer('bool')]]
-    //
-    // base version: base device version, 0: not base device
-    //
-    // base rfVersion:   0 -> no support;
-    //              1 -> old,suppport 3 buttons;
-    //              2 -> support RF Remote Config;
-    //              3 -> support 4 buttons;
-    //              4 -> support RF Remote Config with Sensitivity
-    ,
+    BCSDK_GetSupportIspSharpen: ['int', ['int', 'int', _T.pointer('bool')]],
     BCSDK_GetBaseVersion: ['int', ['int', _T.pointer('int')]],
     BCSDK_GetBaseRfVersion: ['int', ['int', 'int', _T.pointer('int')]],
     BCSDK_GetBaseRfNumbers: ['int', ['int', 'int', _T.pointer('int')]]
+    /************************************************************************
+     *
+     * Live interfaces
+     *
+     ************************************************************************/
+    ,
+    BCSDK_GetIsLiveOpen: ['int', ['int', 'int', _T.pointer('bool')]],
+    BCSDK_GetLiveStreamType: ['int', ['int', 'int', _T.pointer('int')]],
+    BCSDK_LiveOpen: ['int', ['int', 'int', 'int', ffi.Function('void', ['int', 'int', _T.RENDER_FRAME_DESC, _T.pointer('void')]), _T.pointer('void')]],
+    BCSDK_LiveClose: ['int', ['int', 'int']],
+    BCSDK_LiveMute: ['int', ['int', 'int', 'bool']]
+    /************************************************************************
+     *
+     * PTZ interfaces
+     *
+     ************************************************************************/
+    ,
+    BCSDK_PTZStop: ['int', ['int', 'int']],
+    BCSDK_PTZUp: ['int', ['int', 'int', 'int']],
+    BCSDK_PTZDown: ['int', ['int', 'int', 'int']],
+    BCSDK_PTZLeft: ['int', ['int', 'int', 'int']],
+    BCSDK_PTZRight: ['int', ['int', 'int', 'int']],
+    BCSDK_PTZUpLeft: ['int', ['int', 'int', 'int']],
+    BCSDK_PTZUpRight: ['int', ['int', 'int', 'int']],
+    BCSDK_PTZDownLeft: ['int', ['int', 'int', 'int']],
+    BCSDK_PTZDownRight: ['int', ['int', 'int', 'int']],
+    BCSDK_PTZZoomIn: ['int', ['int', 'int', 'int']],
+    BCSDK_PTZZoomOut: ['int', ['int', 'int', 'int']],
+    BCSDK_PTZFocusFar: ['int', ['int', 'int', 'int']],
+    BCSDK_PTZFocusNear: ['int', ['int', 'int', 'int']],
+    BCSDK_PTZIrisOpen: ['int', ['int', 'int', 'int']],
+    BCSDK_PTZIrisClose: ['int', ['int', 'int', 'int']],
+    BCSDK_PTZScanAuto: ['int', ['int', 'int', 'int']]
 });
 class NativeDelegate {
     constructor() {
@@ -170,22 +206,32 @@ class NativeDelegate {
          *  Methods for Device
          *
          ****************************************************************/
-        this.BCSDK_PTZStop = MFFI.BCSDK_PTZStop;
-        this.BCSDK_GetDeviceType = MFFI.BCSDK_GetDeviceType;
         this.BCSDK_AddDevice = MFFI.BCSDK_AddDevice;
         this.BCSDK_RemoveDevice = MFFI.BCSDK_RemoveDevice;
+        this.BCSDK_RemoveAllDevices = MFFI.BCSDK_RemoveAllDevices;
         this.BCSDK_ModifyDevice = MFFI.BCSDK_ModifyDevice;
+        this.BCSDK_GetDeviceCount = MFFI.BCSDK_GetDeviceCount;
+        this.BCSDK_GetDevice = MFFI.BCSDK_GetDevice;
+        this.BCSDK_SetIsInBackground = MFFI.BCSDK_SetIsInBackground;
+        this.BCSDK_SetNetworkType = MFFI.BCSDK_SetNetworkType;
+        this.BCSDK_SetDeviceNeedAutoOpen = MFFI.BCSDK_SetDeviceNeedAutoOpen;
+        this.BCSDK_SetDeviceMaxReconnectCount = MFFI.BCSDK_SetDeviceMaxReconnectCount;
+        this.BCSDK_StartDevicesAutoOpen = MFFI.BCSDK_StartDevicesAutoOpen;
+        this.BCSDK_StopDevicesAutoOpen = MFFI.BCSDK_StopDevicesAutoOpen;
         this.BCSDK_DeviceForceOpen = MFFI.BCSDK_DeviceForceOpen;
-        this.BCSDK_GetDeviceState = MFFI.BCSDK_GetDeviceState;
-        this.BCSDK_GetDeviceLoginMessage = MFFI.BCSDK_GetDeviceLoginMessage;
-        this.BCSDK_LiveOpen = MFFI.BCSDK_LiveOpen;
+        this.BCSDK_DeviceForceClose = MFFI.BCSDK_DeviceForceClose;
         this.BCSDK_GetDeviceChannelCount = MFFI.BCSDK_GetDeviceChannelCount;
+        this.BCSDK_GetDeviceLoginMessage = MFFI.BCSDK_GetDeviceLoginMessage;
+        this.BCSDK_GetDeviceState = MFFI.BCSDK_GetDeviceState;
+        this.BCSDK_SetDeviceExtension = MFFI.BCSDK_SetDeviceExtension;
+        this.BCSDK_GetDeviceExtension = MFFI.BCSDK_GetDeviceExtension;
         /****************************************************************
          *
          *  Methods for Device Abilities
          *
          ****************************************************************/
         this.BCSDK_SetAbilityAbout = MFFI.BCSDK_SetAbilityAbout;
+        this.BCSDK_GetDeviceType = MFFI.BCSDK_GetDeviceType;
         this.BCSDK_GetDeviceNorm = MFFI.BCSDK_GetDeviceNorm;
         this.BCSDK_GetSupportRF = MFFI.BCSDK_GetSupportRF;
         this.BCSDK_GetSupportPush = MFFI.BCSDK_GetSupportPush;
@@ -262,9 +308,7 @@ class NativeDelegate {
         this.BCSDK_GetRfNumbers = MFFI.BCSDK_GetRfNumbers;
         this.BCSDK_GetSupportSimModule = MFFI.BCSDK_GetSupportSimModule;
         /****************************************************************
-         *
          *  Methods for Channel Abilities
-         *
          ****************************************************************/
         //, BCSDK_GetEncodeTable(H_BC_DEVICE hDevice, int channel, BC_ENC_PROFILE_TABLE *encTable);
         this.BCSDK_GetIsVideoLoss = MFFI.BCSDK_GetIsVideoLoss;
@@ -311,6 +355,37 @@ class NativeDelegate {
         this.BCSDK_GetBaseVersion = MFFI.BCSDK_GetBaseVersion;
         this.BCSDK_GetBaseRfVersion = MFFI.BCSDK_GetBaseRfVersion;
         this.BCSDK_GetBaseRfNumbers = MFFI.BCSDK_GetBaseRfNumbers;
+        /****************************************************************
+         *
+         *  Methods for Live
+         *
+         ****************************************************************/
+        this.BCSDK_GetLiveStreamType = MFFI.BCSDK_GetLiveStreamType;
+        this.BCSDK_LiveOpen = MFFI.BCSDK_LiveOpen;
+        this.BCSDK_GetIsLiveOpen = MFFI.BCSDK_GetIsLiveOpen;
+        this.BCSDK_LiveClose = MFFI.BCSDK_LiveClose;
+        this.BCSDK_LiveMute = MFFI.BCSDK_LiveMute;
+        /****************************************************************
+         *
+         *  Methods for PTZ
+         *
+         ****************************************************************/
+        this.BCSDK_PTZStop = MFFI.BCSDK_PTZStop;
+        this.BCSDK_PTZUp = MFFI.BCSDK_PTZUp;
+        this.BCSDK_PTZDown = MFFI.BCSDK_PTZDown;
+        this.BCSDK_PTZLeft = MFFI.BCSDK_PTZLeft;
+        this.BCSDK_PTZRight = MFFI.BCSDK_PTZRight;
+        this.BCSDK_PTZUpLeft = MFFI.BCSDK_PTZUpLeft;
+        this.BCSDK_PTZUpRight = MFFI.BCSDK_PTZUpRight;
+        this.BCSDK_PTZDownLeft = MFFI.BCSDK_PTZDownLeft;
+        this.BCSDK_PTZDownRight = MFFI.BCSDK_PTZDownRight;
+        this.BCSDK_PTZZoomIn = MFFI.BCSDK_PTZZoomIn;
+        this.BCSDK_PTZZoomOut = MFFI.BCSDK_PTZZoomOut;
+        this.BCSDK_PTZFocusFar = MFFI.BCSDK_PTZFocusFar;
+        this.BCSDK_PTZFocusNear = MFFI.BCSDK_PTZFocusNear;
+        this.BCSDK_PTZIrisOpen = MFFI.BCSDK_PTZIrisOpen;
+        this.BCSDK_PTZIrisClose = MFFI.BCSDK_PTZIrisClose;
+        this.BCSDK_PTZScanAuto = MFFI.BCSDK_PTZScanAuto;
     }
     static instance() {
         return NativeDelegate.singleton;

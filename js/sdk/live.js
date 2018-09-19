@@ -12,6 +12,36 @@ class LIVE {
     static instance() {
         return LIVE.singleton;
     }
+    getLiveStreamType(handle, channel) {
+        return new Promise((resolve, reject) => {
+            let buf = ref.alloc(ref.types.int, T.BC_STREAM_TYPE_E.E_BC_STREAM_SUB);
+            if (!buf) {
+                reject(Error('alloc buffer error !!!'));
+                return;
+            }
+            let ret = native_1.native.BCSDK_GetLiveStreamType(handle, channel, buf);
+            if (0 > ret) {
+                reject(Error('error code: ' + ret));
+                return;
+            }
+            resolve(buf.deref());
+        });
+    }
+    getIsLiveOpen(handle, channel) {
+        return new Promise((resolve, reject) => {
+            let buf = ref.alloc(ref.types.bool, false);
+            if (!buf) {
+                reject(Error('alloc buffer error !!!'));
+                return;
+            }
+            let ret = native_1.native.BCSDK_GetIsLiveOpen(handle, channel, buf);
+            if (0 > ret) {
+                reject(Error('error code: ' + ret));
+                return;
+            }
+            resolve(buf.deref());
+        });
+    }
     liveOpen(handle, channel, stream, callback) {
         return new Promise((resolve, reject) => {
             let ret = native_1.native.BCSDK_LiveOpen(handle, channel, stream, LIVE.liveCallback, null);
@@ -24,6 +54,26 @@ class LIVE {
             else {
                 reject('live open error code: ' + ret);
             }
+        });
+    }
+    liveClose(handle, channel) {
+        return new Promise((resolve, reject) => {
+            let ret = native_1.native.BCSDK_LiveClose(handle, channel);
+            if (0 > ret) {
+                reject(Error('error code: ' + ret));
+                return;
+            }
+            resolve();
+        });
+    }
+    liveMute(handle, channel, mute) {
+        return new Promise((resolve, reject) => {
+            let ret = native_1.native.BCSDK_LiveMute(handle, channel, mute);
+            if (0 > ret) {
+                reject(Error('error code: ' + ret));
+                return;
+            }
+            resolve();
         });
     }
 }

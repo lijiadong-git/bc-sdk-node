@@ -116,6 +116,7 @@ class ABILITY {
         });
         return native_1.native.BCSDK_SetAbilityAbout(handle, temp.ref()) >= 0;
     }
+    getDeviceType(handle, df) { return ABILITY.convertNative(handle, df ? df : 2); }
     getSupportRF(handle, df) { return ABILITY.convertNative(handle, df ? df : false); }
     getSupportPush(handle, df) { return ABILITY.convertNative(handle, df ? df : false); }
     getSupportReplay(handle, df) { return ABILITY.convertNative(handle, df ? df : false); }

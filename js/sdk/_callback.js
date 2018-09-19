@@ -110,6 +110,9 @@ class CALLBACK {
     clearCallback(handle, channel, cmd, cmdIndex) {
         this.setCallback(handle, channel, cmd, cmdIndex, null);
     }
+    clearAll() {
+        CALLBACK.callbacks = new Object();
+    }
 }
 CALLBACK.singleton = new CALLBACK();
 CALLBACK.callbacks = new Object();

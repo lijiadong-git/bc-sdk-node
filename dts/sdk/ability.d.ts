@@ -11,6 +11,7 @@ declare class ABILITY {
      *
      ****************************************************************/
     setAbilityAbout(handle: number, abilityAbout: T.DEVICE_ABILITY_ABOUT): boolean;
+    getDeviceType(handle: number, df?: T.BC_DEVICE_TYPE_E): Promise<T.BC_DEVICE_TYPE_E>;
     getSupportRF(handle: number, df?: boolean): Promise<boolean>;
     getSupportPush(handle: number, df?: boolean): Promise<boolean>;
     getSupportReplay(handle: number, df?: boolean): Promise<boolean>;

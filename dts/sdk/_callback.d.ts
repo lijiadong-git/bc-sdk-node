@@ -10,6 +10,7 @@ declare class CALLBACK {
     clearCallbackForChannel(handle: number, channel: number): void;
     clearCallbackForCommond(handle: number, channel: number, cmd: number): void;
     clearCallback(handle: number, channel: number, cmd: number, cmdIndex: number): void;
+    clearAll(): void;
 }
 export declare const CB: CALLBACK;
 export interface Callback<O, T> {

@@ -114,6 +114,17 @@ class DEVICE {
             resolve();
         });
     }
+    removeAll() {
+        return new Promise((resolve, reject) => {
+            let ret = native_1.native.BCSDK_RemoveAllDevices();
+            if (ret < 0) {
+                reject(Error("Error code: " + ret));
+                return;
+            }
+            _callback_1.CB.clearAll();
+            resolve();
+        });
+    }
     modify(handle, loginDes) {
         return new Promise((resolve, reject) => {
             let tloginDes = new _T.DEVICE_LOGIN_DESC({
@@ -141,6 +152,22 @@ class DEVICE {
             else {
                 reject(Error("Error code: " + perror.deref()));
             }
+        });
+    }
+    getDevicesCount() {
+        return new Promise((resolve, reject) => {
+            let count = native_1.native.BCSDK_GetDeviceCount();
+            resolve(count);
+        });
+    }
+    getDeviceAtIndex(index) {
+        return new Promise((resolve, reject) => {
+            let handle = native_1.native.BCSDK_GetDevice(index);
+            if (handle < 0) {
+                reject(Error("Error code: " + handle));
+                return;
+            }
+            resolve(handle);
         });
     }
     open(handle) {
@@ -188,12 +215,6 @@ class DEVICE {
     getChannelCount(handle) {
         let buf = ref.alloc(ref.types.int, 0);
         native_1.native.BCSDK_GetDeviceChannelCount(handle, buf);
-        let value = buf.deref();
-        return value;
-    }
-    getType(handle) {
-        let buf = ref.alloc(ref.types.int, T.BC_DEVICE_TYPE_E.E_BC_DEVICE_TYPE_UNKNOW);
-        native_1.native.BCSDK_GetDeviceType(handle, buf);
         let value = buf.deref();
         return value;
     }
