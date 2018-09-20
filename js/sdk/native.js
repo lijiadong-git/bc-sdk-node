@@ -1,14 +1,16 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const ffi = require('ffi');
-const fs = require('fs');
+const path = require('path');
+const bindings = require('bindings');
 const _T = require("./_struct");
+const folder = path.dirname(bindings.getFileName());
 if (process.platform === "win32") {
-    ffi.Library(__dirname + '/native/libs/BCP2P_API');
-    ffi.Library(__dirname + '/native/libs/IOTCAPIs');
-    ffi.Library(__dirname + '/native/libs/RDTApis');
+    ffi.Library(path.join(folder, '/BCP2P_API'));
+    ffi.Library(path.join(folder + '/IOTCAPIs'));
+    ffi.Library(path.join(folder + '/RDTApis'));
 }
-const MFFI = ffi.Library(__dirname + '/../../native/libs/libBCSDKWrapper', {
+const MFFI = ffi.Library(path.join(folder + '/libBCSDKWrapper'), {
     /************************************************************************
      *
      * Device interfaces
