@@ -52,11 +52,12 @@ const deviceCallback = ffiCallback('void', ['int', _T.BC_CMD_DATA, _T.pointer('v
             resolve();
         }
         else {
-            reject(Error("no callback !!!!!!!!!"
-                + "\n - handle: " + handle
-                + "\n - channel: " + cmdData.handleId
-                + "\n - cmd: " + T.BC_CMD_E[cmdData.bcCmd]
-                + "\n - cmd index: " + cmdData.cmdIdx));
+            reject("------- no one handle this callback !!!!!!!!! {"
+                + "\n        handle: " + handle
+                + "\n        channel: " + cmdData.handleId
+                + "\n        cmd: " + T.BC_CMD_E[cmdData.bcCmd]
+                + "\n        cmd index: " + cmdData.cmdIdx
+                + "\n}");
         }
     })
         .catch(reason => {
@@ -190,6 +191,16 @@ class DEVICE {
             if (0 > ret) {
                 reject(Error("Error code: " + ret));
             }
+        });
+    }
+    setNeedAutoOpen(handle, need) {
+        return new Promise((resolve, reject) => {
+            let ret = native_1.native.BCSDK_SetDeviceNeedAutoOpen(handle, need);
+            if (ret < 0) {
+                reject(Error("Error code: " + ret));
+                return;
+            }
+            resolve();
         });
     }
     getLoginDescription(handle) {

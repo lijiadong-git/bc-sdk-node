@@ -11,6 +11,7 @@ declare class DEVICE {
     getDevicesCount(): Promise<number>;
     getDeviceAtIndex(index: number): Promise<number>;
     open(handle: number): Promise<number>;
+    setNeedAutoOpen(handle: number, need: boolean): Promise<void>;
     getLoginDescription(handle: number): Promise<T.DEVICE_LOGIN_DESC>;
     getChannelCount(handle: number): number;
 }

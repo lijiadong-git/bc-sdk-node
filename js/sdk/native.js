@@ -6,11 +6,11 @@ const bindings = require('bindings');
 const _T = require("./_struct");
 const folder = path.dirname(bindings.getFileName());
 if (process.platform === "win32") {
-    ffi.Library(path.join(folder, '/BCP2P_API'));
-    ffi.Library(path.join(folder + '/IOTCAPIs'));
-    ffi.Library(path.join(folder + '/RDTApis'));
+    ffi.Library(path.join(folder, 'BCP2P_API'));
+    ffi.Library(path.join(folder, 'IOTCAPIs'));
+    ffi.Library(path.join(folder, 'RDTApis'));
 }
-const MFFI = ffi.Library(path.join(folder + '/libBCSDKWrapper'), {
+const MFFI = ffi.Library(path.join(folder, 'libBCSDKWrapper'), {
     /************************************************************************
      *
      * Device interfaces

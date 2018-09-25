@@ -94,9 +94,43 @@ LIVE.liveCallback = ffiCallback('void', ['int', 'int', _T.pointer(_T.RENDER_FRAM
                 reject('live callback function error ...');
                 return;
             }
-            // callback
-            let pixel_size = des.video.width * des.video.height;
-            callback.sdkCallback.onVieoData(handle, channel, des.pts, des.video.width, des.video.height, new Uint8Array(ref.reinterpret(des.video.plane[0].address, pixel_size)), new Uint8Array(ref.reinterpret(des.video.plane[1].address, pixel_size / 4)), new Uint8Array(ref.reinterpret(des.video.plane[2].address, pixel_size / 4)));
+            let plane0 = {
+                width: des.video.plane[0].width,
+                height: des.video.plane[0].height,
+                stride: des.video.plane[0].stride,
+                data: des.video.plane[0].stride * des.video.plane[0].height > 0 ?
+                    new Uint8Array(ref.reinterpret(des.video.plane[0].address, des.video.plane[0].stride * des.video.plane[0].height)) :
+                    null
+            };
+            let plane1 = {
+                width: des.video.plane[1].width,
+                height: des.video.plane[1].height,
+                stride: des.video.plane[1].stride,
+                data: des.video.plane[1].stride * des.video.plane[1].height > 0 ?
+                    new Uint8Array(ref.reinterpret(des.video.plane[1].address, des.video.plane[1].stride * des.video.plane[1].height)) :
+                    null
+            };
+            let plane2 = {
+                width: des.video.plane[2].width,
+                height: des.video.plane[2].height,
+                stride: des.video.plane[2].stride,
+                data: des.video.plane[2].stride * des.video.plane[2].height > 0 ?
+                    new Uint8Array(ref.reinterpret(des.video.plane[2].address, des.video.plane[2].stride * des.video.plane[2].height)) :
+                    null
+            };
+            let callbackData = {
+                handle: handle,
+                channel: channel,
+                pts: des.pts,
+                width: des.video.width,
+                height: des.video.height,
+                format: des.video.format,
+                plane0: plane0,
+                plane1: plane1,
+                plane2: plane2
+            };
+            // callback                
+            callback.sdkCallback.onVieoData(callbackData);
             resolve();
         }
     })
