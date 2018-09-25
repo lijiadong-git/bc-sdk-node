@@ -99,24 +99,21 @@ LIVE.liveCallback = ffiCallback('void', ['int', 'int', _T.pointer(_T.RENDER_FRAM
                 height: des.video.plane[0].height,
                 stride: des.video.plane[0].stride,
                 data: des.video.plane[0].stride * des.video.plane[0].height > 0 ?
-                    new Uint8Array(ref.reinterpret(des.video.plane[0].address, des.video.plane[0].stride * des.video.plane[0].height)) :
-                    null
+                    new Uint8Array(ref.reinterpret(des.video.plane[0].address, des.video.plane[0].stride * des.video.plane[0].height)) : null
             };
             let plane1 = {
                 width: des.video.plane[1].width,
                 height: des.video.plane[1].height,
                 stride: des.video.plane[1].stride,
                 data: des.video.plane[1].stride * des.video.plane[1].height > 0 ?
-                    new Uint8Array(ref.reinterpret(des.video.plane[1].address, des.video.plane[1].stride * des.video.plane[1].height)) :
-                    null
+                    new Uint8Array(ref.reinterpret(des.video.plane[1].address, des.video.plane[1].stride * des.video.plane[1].height)) : null
             };
             let plane2 = {
                 width: des.video.plane[2].width,
                 height: des.video.plane[2].height,
                 stride: des.video.plane[2].stride,
                 data: des.video.plane[2].stride * des.video.plane[2].height > 0 ?
-                    new Uint8Array(ref.reinterpret(des.video.plane[2].address, des.video.plane[2].stride * des.video.plane[2].height)) :
-                    null
+                    new Uint8Array(ref.reinterpret(des.video.plane[2].address, des.video.plane[2].stride * des.video.plane[2].height)) : null
             };
             let callbackData = {
                 handle: handle,

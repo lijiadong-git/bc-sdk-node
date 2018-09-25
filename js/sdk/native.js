@@ -9,6 +9,12 @@ if (process.platform === "win32") {
     ffi.Library(path.join(folder, 'BCP2P_API'));
     ffi.Library(path.join(folder, 'IOTCAPIs'));
     ffi.Library(path.join(folder, 'RDTApis'));
+    ffi.Library(path.join(folder, 'D3DX9_42'));
+    ffi.Library(path.join(folder, 'avutil-55'));
+    ffi.Library(path.join(folder, 'swresample-2'));
+    ffi.Library(path.join(folder, 'swscale-4'));
+    ffi.Library(path.join(folder, 'avcodec-57'));
+    ffi.Library(path.join(folder, 'avformat-57'));
 }
 const MFFI = ffi.Library(path.join(folder, 'libBCSDKWrapper'), {
     /************************************************************************
