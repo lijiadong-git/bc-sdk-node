@@ -4,6 +4,7 @@ const ffiFunc = require('ffi').Function;
 const ref = require('ref');
 const refStruct = require('ref-struct');
 const refArray = require('ref-array');
+const types_1 = require("../types");
 exports.pointer = ref.refType;
 exports.DEVICE_STATE_CHANGE_DESC = refStruct({
     eStateFrom: ref.types.int,
@@ -20,14 +21,14 @@ exports.BC_CMD_DATA = refStruct({
 });
 exports.P_BC_CMD_DATA = exports.pointer(exports.BC_CMD_DATA);
 exports.DEVICE_LOGIN_DESC = refStruct({
-    name: refArray('byte', 256),
+    name: refArray('byte', types_1.DEFINDE.SDK_MAX_NORMAL_STR_LEN),
     useP2P: ref.types.bool,
     port: ref.types.int,
     uidPort: ref.types.int,
-    host: refArray('byte', 1024),
-    uid: refArray('byte', 128),
-    username: refArray('byte', 32),
-    password: refArray('byte', 32)
+    host: refArray('byte', types_1.DEFINDE.SDK_MAX_HOSTNAME_LEN),
+    uid: refArray('byte', types_1.DEFINDE.SDK_MAX_UID_STR_LEN),
+    username: refArray('byte', types_1.DEFINDE.SDK_MAX_NAME_LEN),
+    password: refArray('byte', types_1.DEFINDE.SDK_MAX_PASSWD_LEN)
 });
 exports.P_DEVICE_LOGIN_DESC = exports.pointer(exports.DEVICE_LOGIN_DESC);
 exports.DEVICE_CALLBACK_DESC = refStruct({
@@ -81,4 +82,27 @@ exports.RENDER_FRAME_DESC = refStruct({
     audio: exports.RENDER_AUDIO_FRAME_DESC
 });
 exports.P_RENDER_FRAME_DESC = exports.pointer(exports.RENDER_FRAME_DESC);
+exports.BC_RESO_PROFILE = refStruct({
+    eResolution: ref.types.int,
+    iWidth: ref.types.int,
+    iHigh: ref.types.int,
+    cResolutionName: refArray('byte', types_1.DEFINDE.BC_MAX_NAME_LEN),
+    lDefFrameRate: ref.types.long,
+    lDefBitRate: ref.types.long,
+    lFrameRate: refArray('long', types_1.DEFINDE.BC_MAX_FRAME_RATE_NUM),
+    lBitRate: refArray('long', types_1.DEFINDE.BC_MAX_BIT_RATE_NUM)
+});
+exports.P_BC_RESO_PROFILE = exports.pointer(exports.BC_RESO_PROFILE);
+exports.BC_ENC_PROFILE = refStruct({
+    iChnBits: ref.types.int,
+    mainstream: exports.BC_RESO_PROFILE,
+    substream: exports.BC_RESO_PROFILE,
+    extendstream: exports.BC_RESO_PROFILE
+});
+exports.P_BC_ENC_PROFILE = exports.pointer(exports.BC_ENC_PROFILE);
+exports.BC_ENC_PROFILE_TABLE = refStruct({
+    profileNum: ref.types.int,
+    profile: refArray(exports.BC_ENC_PROFILE, types_1.DEFINDE.BC_MAX_ENC_PROFILE_NUM)
+});
+exports.P_BC_ENC_PROFILE_TABLE = exports.pointer(exports.BC_ENC_PROFILE_TABLE);
 //# sourceMappingURL=_struct.js.map

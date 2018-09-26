@@ -127,8 +127,8 @@ const MFFI = ffi.Library(path.join(folder, 'libBCSDKWrapper'), {
     /************************************************************************
      * MARK: Channel abilities
      ************************************************************************/
-    //, BCSDK_GetEncodeTable(H_BC_DEVICE hDevice, int channel, BC_ENC_PROFILE_TABLE *encTable);
     ,
+    BCSDK_GetEncodeTable: ['int', ['int', 'int', _T.P_BC_ENC_PROFILE_TABLE]],
     BCSDK_GetIsVideoLoss: ['int', ['int', 'int', _T.pointer('bool')]],
     BCSDK_GetSupportCameraMode: ['int', ['int', 'int', _T.pointer('bool')]],
     BCSDK_GetSupportExtenStream: ['int', ['int', 'int', _T.pointer('bool')]],
@@ -318,7 +318,7 @@ class NativeDelegate {
         /****************************************************************
          *  Methods for Channel Abilities
          ****************************************************************/
-        //, BCSDK_GetEncodeTable(H_BC_DEVICE hDevice, int channel, BC_ENC_PROFILE_TABLE *encTable);
+        this.BCSDK_GetEncodeTable = MFFI.BCSDK_GetEncodeTable;
         this.BCSDK_GetIsVideoLoss = MFFI.BCSDK_GetIsVideoLoss;
         this.BCSDK_GetSupportCameraMode = MFFI.BCSDK_GetSupportCameraMode;
         this.BCSDK_GetSupportExtenStream = MFFI.BCSDK_GetSupportExtenStream;

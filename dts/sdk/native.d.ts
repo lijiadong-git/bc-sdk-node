@@ -116,6 +116,7 @@ export interface NativeMethods {
     /****************************************************************
      *  Methods for Channel Abilities
      ****************************************************************/
+    BCSDK_GetEncodeTable: (handle: number, channel: number, pEncTable: any) => number;
     BCSDK_GetIsVideoLoss: (handle: number, channel: number, pSupport: any) => number;
     BCSDK_GetSupportCameraMode: (handle: number, channel: number, pSupport: any) => number;
     BCSDK_GetSupportExtenStream: (handle: number, channel: number, pSupport: any) => number;

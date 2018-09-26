@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const ref = require('ref');
 const native_1 = require("./native");
 const _T = require("./_struct");
+const T = require("../types");
 class ABILITY {
     constructor() {
     }
@@ -35,7 +36,7 @@ class ABILITY {
         Error.stackTraceLimit = origSTL;
         return functionName;
     }
-    static convertNative(handle, df, method) {
+    static convertNative(handle, df, channel, method) {
         return new Promise((resolve, reject) => {
             let value = df;
             let funcName = method ? method : ABILITY.getMethodName();
@@ -64,45 +65,13 @@ class ABILITY {
                 reject(Error('convertNative not support type !!!'));
                 return;
             }
-            func.call(native_1.native, handle, buf);
+            if (undefined != channel) {
+                func.call(native_1.native, handle, channel, buf);
+            }
             value = buf.deref();
             resolve(value);
         });
     }
-    // private static convertNativeBool(handle: number, defaultv?: boolean, method?: string) : boolean {
-    //     let value: boolean = defaultv ? defaultv : false;
-    //     let funcName: string | undefined = method ? method : ABILITY.getMethodName();
-    //     if (!funcName || 0 === funcName.length) {
-    //         return value;
-    //     }
-    //     let nativeFuncName = 'BCSDK_' + funcName.substring(0, 1).toUpperCase() + funcName.substring(1)
-    //     let func:any = (<any>native)[nativeFuncName];
-    //     if (!func) {
-    //         return value;
-    //     }
-    //     let buf = ref.alloc(ref.types.bool, value);
-    //     func.call(native, handle, buf);
-    //     value = buf.deref();
-    //     return value;
-    // }
-    // private static convertNativeInt(handle: number, defaultv?: number, method?: string) : number {
-    //     let value: number = defaultv ? defaultv : 0;
-    //     let funcName: string | undefined = method ? method : ABILITY.getMethodName();
-    //     if (!funcName || 0 === funcName.length) {
-    //         console.log(new Error('function not found ...'));
-    //         return value;
-    //     }
-    //     let nativeFuncName = 'BCSDK_' + funcName.substring(0, 1).toUpperCase() + funcName.substring(1)
-    //     let func:any = (<any>native)[nativeFuncName];
-    //     if (!func) {
-    //         console.log(new Error('function not found ...' + nativeFuncName));
-    //         return value;
-    //     }
-    //     let buf = ref.alloc(ref.types.int, value);
-    //     func.call(native, handle, buf);
-    //     value = buf.deref();
-    //     return value;
-    // }
     /****************************************************************
      *
      *  Methods for Device Abilities
@@ -199,6 +168,128 @@ class ABILITY {
      */
     getRfVersion(handle, df) { return ABILITY.convertNative(handle, df ? df : 0); }
     getRfNumbers(handle, df) { return ABILITY.convertNative(handle, df ? df : 0); }
+    /****************************************************************
+     *
+     *  Methods for Channel Abilities
+     *
+     ****************************************************************/
+    getEncodeTable(handle, channel) {
+        return new Promise((resolve, reject) => {
+            let enctab = new _T.BC_ENC_PROFILE_TABLE();
+            let ret = native_1.native.BCSDK_GetEncodeTable(handle, channel, enctab.ref());
+            if (ret < 0) {
+                reject(Error("Error code: " + ret));
+                return;
+            }
+            let et = {
+                profileNum: enctab.profileNum,
+                profile: []
+            };
+            for (let i = 0; i < enctab.profileNum; i++) {
+                let pro = enctab.profile[i];
+                // main reso profile
+                let ms = {
+                    eResolution: pro.mainstream.eResolution,
+                    iWidth: pro.mainstream.iWidth,
+                    iHigh: pro.mainstream.iHigh,
+                    cResolutionName: String.fromCharCode.apply(null, pro.mainstream.cResolutionName),
+                    lDefFrameRate: pro.mainstream.lDefFrameRate,
+                    lDefBitRate: pro.mainstream.lDefBitRate,
+                    lFrameRate: [],
+                    lBitRate: []
+                };
+                for (let m = 0; m < T.DEFINDE.BC_MAX_FRAME_RATE_NUM; m++) {
+                    ms.lFrameRate.push(pro.mainstream.lFrameRate[m]);
+                }
+                for (let m = 0; m < T.DEFINDE.BC_MAX_BIT_RATE_NUM; m++) {
+                    ms.lBitRate.push(pro.mainstream.lBitRate[m]);
+                }
+                // sub reso profile
+                let ss = {
+                    eResolution: pro.substream.eResolution,
+                    iWidth: pro.substream.iWidth,
+                    iHigh: pro.substream.iHigh,
+                    cResolutionName: String.fromCharCode.apply(null, pro.substream.cResolutionName),
+                    lDefFrameRate: pro.substream.lDefFrameRate,
+                    lDefBitRate: pro.substream.lDefBitRate,
+                    lFrameRate: [],
+                    lBitRate: []
+                };
+                for (let m = 0; m < T.DEFINDE.BC_MAX_FRAME_RATE_NUM; m++) {
+                    ss.lFrameRate.push(pro.substream.lFrameRate[m]);
+                }
+                for (let m = 0; m < T.DEFINDE.BC_MAX_BIT_RATE_NUM; m++) {
+                    ss.lBitRate.push(pro.substream.lBitRate[m]);
+                }
+                // extention reso profile
+                let es = {
+                    eResolution: pro.extendstream.eResolution,
+                    iWidth: pro.extendstream.iWidth,
+                    iHigh: pro.extendstream.iHigh,
+                    cResolutionName: String.fromCharCode.apply(null, pro.extendstream.cResolutionName),
+                    lDefFrameRate: pro.extendstream.lDefFrameRate,
+                    lDefBitRate: pro.extendstream.lDefBitRate,
+                    lFrameRate: [],
+                    lBitRate: []
+                };
+                for (let m = 0; m < T.DEFINDE.BC_MAX_FRAME_RATE_NUM; m++) {
+                    es.lFrameRate.push(pro.extendstream.lFrameRate[m]);
+                }
+                for (let m = 0; m < T.DEFINDE.BC_MAX_BIT_RATE_NUM; m++) {
+                    es.lBitRate.push(pro.extendstream.lBitRate[m]);
+                }
+                et.profile[i] = {
+                    iChnBits: pro.iChnBits,
+                    mainstream: ms,
+                    substream: ss,
+                    extendstream: es
+                };
+            }
+            resolve(et);
+        });
+    }
+    ;
+    getIsVideoLoss(handle, channel, df) { return ABILITY.convertNative(handle, df ? df : false, channel); }
+    getSupportCameraMode(handle, channel, df) { return ABILITY.convertNative(handle, df ? df : false, channel); }
+    getSupportExtenStream(handle, channel, df) { return ABILITY.convertNative(handle, df ? df : false, channel); }
+    getSupportExtenStreamCfg(handle, channel, df) { return ABILITY.convertNative(handle, df ? df : false, channel); }
+    getSupportLEDControl(handle, channel, df) { return ABILITY.convertNative(handle, df ? df : false, channel); }
+    getSupportIndicatorLight(handle, channel, df) { return ABILITY.convertNative(handle, df ? df : false, channel); }
+    getSupportPtzSpeed(handle, channel, df) { return ABILITY.convertNative(handle, df ? df : false, channel); }
+    getSupportPtzCruise(handle, channel, df) { return ABILITY.convertNative(handle, df ? df : false, channel); }
+    getSupportPtzPreset(handle, channel, df) { return ABILITY.convertNative(handle, df ? df : false, channel); }
+    getSupportPt(handle, channel, df) { return ABILITY.convertNative(handle, df ? df : false, channel); }
+    getSupportAutoPt(handle, channel, df) { return ABILITY.convertNative(handle, df ? df : false, channel); }
+    getSupportZoomAndFocus(handle, channel, df) { return ABILITY.convertNative(handle, df ? df : false, channel); }
+    getSupportAudio(handle, channel, df) { return ABILITY.convertNative(handle, df ? df : false, channel); }
+    getSupportAutoFocus(handle, channel, df) { return ABILITY.convertNative(handle, df ? df : false, channel); }
+    getSupportCropSnap(handle, channel, df) { return ABILITY.convertNative(handle, df ? df : false, channel); }
+    getSupportTalk(handle, channel, df) { return ABILITY.convertNative(handle, df ? df : false, channel); }
+    getSupportMD(handle, channel, df) { return ABILITY.convertNative(handle, df ? df : false, channel); }
+    getSupportMDWithPIR(handle, channel, df) { return ABILITY.convertNative(handle, df ? df : false, channel); }
+    getSupportShelterCfg(handle, channel, df) { return ABILITY.convertNative(handle, df ? df : false, channel); }
+    getIsBattery(handle, channel, df) { return ABILITY.convertNative(handle, df ? df : false, channel); }
+    getIsCharge(handle, channel, df) { return ABILITY.convertNative(handle, df ? df : false, channel); }
+    getSupportBatAnalysis(handle, channel, df) { return ABILITY.convertNative(handle, df ? df : false, channel); }
+    getSupportAudioAlarmEnable(handle, channel, df) { return ABILITY.convertNative(handle, df ? df : false, channel); }
+    getSupportAudioAlarmSchedule(handle, channel, df) { return ABILITY.convertNative(handle, df ? df : false, channel); }
+    getSupportManualRingDown(handle, channel, df) { return ABILITY.convertNative(handle, df ? df : false, channel); }
+    getSupportCustomRingtone(handle, channel, df) { return ABILITY.convertNative(handle, df ? df : false, channel); }
+    getSupportOsdPadding(handle, channel, df) { return ABILITY.convertNative(handle, df ? df : false, channel); }
+    getSupportOsdWaterMark(handle, channel, df) { return ABILITY.convertNative(handle, df ? df : false, channel); }
+    getSupportIspDayNight(handle, channel, df) { return ABILITY.convertNative(handle, df ? df : false, channel); }
+    getSupportIspAntiFlick(handle, channel, df) { return ABILITY.convertNative(handle, df ? df : false, channel); }
+    getSupportIspExposureMode(handle, channel, df) { return ABILITY.convertNative(handle, df ? df : false, channel); }
+    getSupportIspWhiteBalance(handle, channel, df) { return ABILITY.convertNative(handle, df ? df : false, channel); }
+    getSupportIspBacklight(handle, channel, df) { return ABILITY.convertNative(handle, df ? df : false, channel); }
+    getSupportIsp3dnr(handle, channel, df) { return ABILITY.convertNative(handle, df ? df : false, channel); }
+    getSupportIspMirror(handle, channel, df) { return ABILITY.convertNative(handle, df ? df : false, channel); }
+    getSupportIspFlip(handle, channel, df) { return ABILITY.convertNative(handle, df ? df : false, channel); }
+    getSupportIspBright(handle, channel, df) { return ABILITY.convertNative(handle, df ? df : false, channel); }
+    getSupportIspContrast(handle, channel, df) { return ABILITY.convertNative(handle, df ? df : false, channel); }
+    getSupportIspSatruation(handle, channel, df) { return ABILITY.convertNative(handle, df ? df : false, channel); }
+    getSupportIspHue(handle, channel, df) { return ABILITY.convertNative(handle, df ? df : false, channel); }
+    getSupportIspSharpen(handle, channel, df) { return ABILITY.convertNative(handle, df ? df : false, channel); }
 }
 ABILITY.singleton = new ABILITY();
 exports.ability = ABILITY.instance();

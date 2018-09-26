@@ -93,6 +93,53 @@ declare class ABILITY {
      */
     getRfVersion(handle: number, df?: number): Promise<number>;
     getRfNumbers(handle: number, df?: number): Promise<number>;
+    /****************************************************************
+     *
+     *  Methods for Channel Abilities
+     *
+     ****************************************************************/
+    getEncodeTable(handle: number, channel: number): Promise<T.BC_ENC_PROFILE_TABLE>;
+    getIsVideoLoss(handle: number, channel: number, df?: boolean): Promise<boolean>;
+    getSupportCameraMode(handle: number, channel: number, df?: boolean): Promise<boolean>;
+    getSupportExtenStream(handle: number, channel: number, df?: boolean): Promise<boolean>;
+    getSupportExtenStreamCfg(handle: number, channel: number, df?: boolean): Promise<boolean>;
+    getSupportLEDControl(handle: number, channel: number, df?: boolean): Promise<boolean>;
+    getSupportIndicatorLight(handle: number, channel: number, df?: boolean): Promise<boolean>;
+    getSupportPtzSpeed(handle: number, channel: number, df?: boolean): Promise<boolean>;
+    getSupportPtzCruise(handle: number, channel: number, df?: boolean): Promise<boolean>;
+    getSupportPtzPreset(handle: number, channel: number, df?: boolean): Promise<boolean>;
+    getSupportPt(handle: number, channel: number, df?: boolean): Promise<boolean>;
+    getSupportAutoPt(handle: number, channel: number, df?: boolean): Promise<boolean>;
+    getSupportZoomAndFocus(handle: number, channel: number, df?: boolean): Promise<boolean>;
+    getSupportAudio(handle: number, channel: number, df?: boolean): Promise<boolean>;
+    getSupportAutoFocus(handle: number, channel: number, df?: boolean): Promise<boolean>;
+    getSupportCropSnap(handle: number, channel: number, df?: boolean): Promise<boolean>;
+    getSupportTalk(handle: number, channel: number, df?: boolean): Promise<boolean>;
+    getSupportMD(handle: number, channel: number, df?: boolean): Promise<boolean>;
+    getSupportMDWithPIR(handle: number, channel: number, df?: boolean): Promise<boolean>;
+    getSupportShelterCfg(handle: number, channel: number, df?: boolean): Promise<boolean>;
+    getIsBattery(handle: number, channel: number, df?: boolean): Promise<boolean>;
+    getIsCharge(handle: number, channel: number, df?: boolean): Promise<boolean>;
+    getSupportBatAnalysis(handle: number, channel: number, df?: boolean): Promise<boolean>;
+    getSupportAudioAlarmEnable(handle: number, channel: number, df?: boolean): Promise<boolean>;
+    getSupportAudioAlarmSchedule(handle: number, channel: number, df?: boolean): Promise<boolean>;
+    getSupportManualRingDown(handle: number, channel: number, df?: boolean): Promise<boolean>;
+    getSupportCustomRingtone(handle: number, channel: number, df?: boolean): Promise<boolean>;
+    getSupportOsdPadding(handle: number, channel: number, df?: boolean): Promise<boolean>;
+    getSupportOsdWaterMark(handle: number, channel: number, df?: boolean): Promise<boolean>;
+    getSupportIspDayNight(handle: number, channel: number, df?: boolean): Promise<boolean>;
+    getSupportIspAntiFlick(handle: number, channel: number, df?: boolean): Promise<boolean>;
+    getSupportIspExposureMode(handle: number, channel: number, df?: boolean): Promise<boolean>;
+    getSupportIspWhiteBalance(handle: number, channel: number, df?: boolean): Promise<boolean>;
+    getSupportIspBacklight(handle: number, channel: number, df?: boolean): Promise<boolean>;
+    getSupportIsp3dnr(handle: number, channel: number, df?: boolean): Promise<boolean>;
+    getSupportIspMirror(handle: number, channel: number, df?: boolean): Promise<boolean>;
+    getSupportIspFlip(handle: number, channel: number, df?: boolean): Promise<boolean>;
+    getSupportIspBright(handle: number, channel: number, df?: boolean): Promise<boolean>;
+    getSupportIspContrast(handle: number, channel: number, df?: boolean): Promise<boolean>;
+    getSupportIspSatruation(handle: number, channel: number, df?: boolean): Promise<boolean>;
+    getSupportIspHue(handle: number, channel: number, df?: boolean): Promise<boolean>;
+    getSupportIspSharpen(handle: number, channel: number, df?: boolean): Promise<boolean>;
 }
 export declare const ability: ABILITY;
 export {};

@@ -193,9 +193,29 @@ class DEVICE {
             }
         });
     }
+    close(handle) {
+        return new Promise((resolve, reject) => {
+            let ret = native_1.native.BCSDK_DeviceForceClose(handle, true);
+            if (ret < 0) {
+                reject(Error("Error code: " + ret));
+                return;
+            }
+            resolve();
+        });
+    }
     setNeedAutoOpen(handle, need) {
         return new Promise((resolve, reject) => {
             let ret = native_1.native.BCSDK_SetDeviceNeedAutoOpen(handle, need);
+            if (ret < 0) {
+                reject(Error("Error code: " + ret));
+                return;
+            }
+            resolve();
+        });
+    }
+    setDeviceMaxReconnectCount(handle, count) {
+        return new Promise((resolve, reject) => {
+            let ret = native_1.native.BCSDK_SetDeviceMaxReconnectCount(handle, count);
             if (ret < 0) {
                 reject(Error("Error code: " + ret));
                 return;
@@ -208,7 +228,7 @@ class DEVICE {
             let des = new _T.DEVICE_LOGIN_DESC();
             let ret = native_1.native.BCSDK_GetDeviceLoginMessage(handle, des.ref());
             if (ret < 0) {
-                reject(Error('code: ' + ret + ' details: BCSDK_GetDeviceLoginMessage failed for ' + handle));
+                reject(Error('Error code: ' + ret));
                 return;
             }
             resolve({
@@ -224,10 +244,28 @@ class DEVICE {
         });
     }
     getChannelCount(handle) {
-        let buf = ref.alloc(ref.types.int, 0);
-        native_1.native.BCSDK_GetDeviceChannelCount(handle, buf);
-        let value = buf.deref();
-        return value;
+        return new Promise((resolve, reject) => {
+            let buf = ref.alloc(ref.types.int, 0);
+            let ret = native_1.native.BCSDK_GetDeviceChannelCount(handle, buf);
+            if (ret < 0) {
+                reject(Error("Error code: " + ret));
+                return;
+            }
+            let value = buf.deref();
+            resolve(value);
+        });
+    }
+    getDeviceState(handle) {
+        return new Promise((resolve, reject) => {
+            let buf = ref.alloc(ref.types.int, T.BCSDK_DEVICE_STATE_E.BCSDK_DEVICE_STATE_NOTREADY);
+            let ret = native_1.native.BCSDK_GetDeviceState(handle, buf);
+            if (ret < 0) {
+                reject(Error("Error code: " + ret));
+                return;
+            }
+            let value = buf.deref();
+            resolve(value);
+        });
     }
 }
 DEVICE.singleton = new DEVICE();
