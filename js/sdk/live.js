@@ -46,10 +46,14 @@ class LIVE {
         return new Promise((resolve, reject) => {
             let ret = native_1.native.BCSDK_LiveOpen(handle, channel, stream, LIVE.liveCallback, null);
             if (0 === ret) {
-                let tcallback = {
+                let cb = {
+                    sdkResolve: resolve
+                };
+                _callback_1.CB.setCallback(handle, channel, T.BC_CMD_E.E_BC_CMD_REALPLAY, 0, cb);
+                let cb2 = {
                     sdkCallback: callback,
                 };
-                _callback_1.CB.setCallback(handle, channel, -T.BC_CMD_E.E_BC_CMD_REALPLAY, 0, tcallback);
+                _callback_1.CB.setCallback(handle, channel, -T.BC_CMD_E.E_BC_CMD_REALPLAY, 0, cb2);
             }
             else {
                 reject('live open error code: ' + ret);

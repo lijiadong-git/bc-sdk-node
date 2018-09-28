@@ -38,6 +38,7 @@ declare class ABILITY {
     getSupportSeek(handle: number, df?: boolean): Promise<boolean>;
     getSupportIFramePreview(handle: number, df?: boolean): Promise<boolean>;
     getSupportIFrameReplay(handle: number, df?: boolean): Promise<boolean>;
+    getSupportHDD(handle: number, df?: boolean): Promise<boolean>;
     getSupportSDCard(handle: number, df?: boolean): Promise<boolean>;
     getSupportTimeFormat(handle: number, df?: boolean): Promise<boolean>;
     getSupportEmailTask(handle: number, df?: boolean): Promise<boolean>;

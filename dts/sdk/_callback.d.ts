@@ -17,4 +17,10 @@ export interface Callback<O, T> {
     sdkCallback?: null | undefined | O;
     sdkResolve?: null | undefined | ((value: T) => void);
 }
+export interface SDKCallback<T> extends Callback<T, void> {
+    sdkCallback: null | undefined | T;
+}
+export interface SDKResolve<T> extends Callback<void, T> {
+    sdkResolve: null | undefined | ((value: T) => void);
+}
 export {};

@@ -65,9 +65,9 @@ class ABILITY {
                 reject(Error('convertNative not support type !!!'));
                 return;
             }
-            if (undefined != channel) {
-                func.call(native_1.native, handle, channel, buf);
-            }
+            undefined != channel ?
+                func.call(native_1.native, handle, channel, buf) :
+                func.call(native_1.native, handle, buf);
             value = buf.deref();
             resolve(value);
         });
@@ -112,6 +112,7 @@ class ABILITY {
     getSupportSeek(handle, df) { return ABILITY.convertNative(handle, df ? df : false); }
     getSupportIFramePreview(handle, df) { return ABILITY.convertNative(handle, df ? df : false); }
     getSupportIFrameReplay(handle, df) { return ABILITY.convertNative(handle, df ? df : false); }
+    getSupportHDD(handle, df) { return ABILITY.convertNative(handle, df ? df : false); }
     getSupportSDCard(handle, df) { return ABILITY.convertNative(handle, df ? df : false); }
     getSupportTimeFormat(handle, df) { return ABILITY.convertNative(handle, df ? df : false); }
     getSupportEmailTask(handle, df) { return ABILITY.convertNative(handle, df ? df : false); }
