@@ -18,6 +18,7 @@ const deviceCallback = ffiCallback('void', ['int', _T.BC_CMD_DATA, _T.pointer('v
             reject(Error('sdk callback format !!!!!!! ' + cmdData));
             return;
         }
+        const channel = (cmdData.handleId & 0x000000ff) % T.DEFINDE.BC_MAX_CHANNEL;
         let callback = _callback_1.CB.getCallback(handle, cmdData.handleId, cmdData.bcCmd, cmdData.cmdIdx);
         if (callback) {
             switch (cmdData.bcCmd) {
@@ -35,6 +36,58 @@ const deviceCallback = ffiCallback('void', ['int', _T.BC_CMD_DATA, _T.pointer('v
                     if (T.BC_RSP_CODE_E.E_BC_RSP_OK == cmdData.bcRspCode) {
                         if (callback.sdkCallback && callback.sdkCallback.abilityChangeCallback) {
                             callback.sdkCallback.abilityChangeCallback(handle);
+                        }
+                    }
+                    break;
+                }
+                case T.BC_CMD_E.E_BC_CMD_SEARCH_ALARM_VIDEOS:
+                case T.BC_CMD_E.E_BC_CMD_SEARCH_RECFILES: {
+                    if (T.BC_RSP_CODE_E.E_BC_RSP_OK == cmdData.bcRspCode) {
+                        const filesCallback = _callback_1.CB.getCallback(handle, cmdData.handleId, -cmdData.bcCmd, cmdData.cmdIdx);
+                        if (filesCallback && filesCallback.sdkCallback) {
+                            let buf = ref.reinterpret(cmdData.pRspData, cmdData.dataLen);
+                            let des = ref.get(buf, 0, _T.BC_FIND_REC_FILES);
+                            let files = {
+                                seq: des.seq,
+                                fileNum: des.fileNum,
+                                recFile: []
+                            };
+                            for (let i = 0; i < des.fileNum; i++) {
+                                const file = des.recFile[i];
+                                files.recFile.push({
+                                    iChannel: file.iChannel,
+                                    cFileName: String.fromCharCode.apply(null, file.cFileName),
+                                    startTime: {
+                                        iYear: file.struStartTime.iYear,
+                                        iMonth: file.struStartTime.iMonth,
+                                        iDay: file.struStartTime.iDay,
+                                        iHour: file.struStartTime.iHour,
+                                        iMinute: file.struStartTime.iMinute,
+                                        iSecond: file.struStartTime.iSecond
+                                    },
+                                    stopTime: {
+                                        iYear: file.struStopTime.iYear,
+                                        iMonth: file.struStopTime.iMonth,
+                                        iDay: file.struStopTime.iDay,
+                                        iHour: file.struStopTime.iHour,
+                                        iMinute: file.struStopTime.iMinute,
+                                        iSecond: file.struStopTime.iSecond
+                                    },
+                                    iFileSize: file.iFileSize,
+                                    iFileSizeH: file.iFileSizeH,
+                                    recordType: file.recordType,
+                                    eStreamType: file.eStreamType,
+                                    eFileType: file.eFileType,
+                                    iContainsAudio: file.iContainsAudio
+                                });
+                            }
+                            filesCallback.sdkCallback(des.seq, files);
+                            if (des.fileNum < 40) {
+                                delete filesCallback.sdkCallback;
+                                if (0 === Object.keys(filesCallback).length) {
+                                    _callback_1.CB.clearCallback(handle, cmdData.handleId, -cmdData.bcCmd, cmdData.cmdIdx);
+                                }
+                            }
                         }
                     }
                     break;

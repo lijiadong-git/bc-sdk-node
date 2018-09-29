@@ -60,3 +60,28 @@ export interface BC_ENC_PROFILE_TABLE {
     profileNum: number;
     profile: BC_ENC_PROFILE[];
 }
+export interface BC_TIME {
+    iYear: number;
+    iMonth: number;
+    iDay: number;
+    iHour: number;
+    iMinute: number;
+    iSecond: number;
+}
+export interface BC_FIND_REC_FILE {
+    iChannel: number;
+    cFileName: string;
+    startTime: BC_TIME;
+    stopTime: BC_TIME;
+    iFileSize: number;
+    iFileSizeH: number;
+    recordType: T.RECORD_TYPE_E;
+    eStreamType: T.BC_STREAM_TYPE_E;
+    eFileType: T.BC_FILE_TYPE_E;
+    iContainsAudio: number;
+}
+export interface BC_FIND_REC_FILES {
+    seq: number;
+    fileNum: number;
+    recFile: BC_FIND_REC_FILE[];
+}

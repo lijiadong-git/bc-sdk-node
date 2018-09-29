@@ -189,5 +189,23 @@ export interface NativeMethods {
     BCSDK_PTZIrisOpen: (handle: number, channel: number, speed: number) => number;
     BCSDK_PTZIrisClose: (handle: number, channel: number, speed: number) => number;
     BCSDK_PTZScanAuto: (handle: number, channel: number, speed: number) => number;
+    /****************************************************************
+     *
+     *  Methods for Playback
+     *
+     ****************************************************************/
+    BCSDK_RecordFilesSearch: (handle: number, channel: number, start: any, end: any, type: T.RECORD_TYPE_E, stream: T.BC_STREAM_TYPE_E, seq: number) => number;
+    BCSDK_AlarmVideosSearch: (handle: number, channel: number, start: any, end: any, stream: T.BC_STREAM_TYPE_E, seq: number) => number;
+    BCSDK_PlaybackSeek: (handle: number, pTime: any) => number;
+    BCSDK_GetPlaybackState: (handle: number, channel: number, pState: any) => number;
+    BCSDK_GetIsPlaybackOpen: (handle: number, channel: number, pOpen: any) => number;
+    BCSDK_GetPlaybackStreamType: (handle: number, channel: number, pType: any) => number;
+    BCSDK_PlaybackOpen: (handle: number, channel: number, fileNam: string, cacheFile: string, sub: boolean, speed: number, callback: any, userData: any) => number;
+    BCSDK_PlaybackClose: (handle: number, channel: number) => number;
+    BCSDK_PlaybackStart: (handle: number, channel: number) => number;
+    BCSDK_PlaybackPause: (handle: number, channel: number) => number;
+    BCSDK_PlaybackStop: (handle: number, channel: number) => number;
+    BCSDK_PlaybackStep: (handle: number, channel: number) => number;
+    BCSDK_PlaybackMute: (handle: number, channel: number, mute: boolean) => number;
 }
 export declare const native: NativeMethods;

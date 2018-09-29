@@ -181,7 +181,7 @@ const MFFI = ffi.Library(path.join(folder, 'libBCSDKWrapper'), {
     ,
     BCSDK_GetIsLiveOpen: ['int', ['int', 'int', _T.pointer('bool')]],
     BCSDK_GetLiveStreamType: ['int', ['int', 'int', _T.pointer('int')]],
-    BCSDK_LiveOpen: ['int', ['int', 'int', 'int', ffi.Function('void', ['int', 'int', _T.RENDER_FRAME_DESC, _T.pointer('void')]), _T.pointer('void')]],
+    BCSDK_LiveOpen: ['int', ['int', 'int', 'int', _T.renderCallbackFunc, _T.pointer('void')]],
     BCSDK_LiveClose: ['int', ['int', 'int']],
     BCSDK_LiveMute: ['int', ['int', 'int', 'bool']]
     /************************************************************************
@@ -206,6 +206,25 @@ const MFFI = ffi.Library(path.join(folder, 'libBCSDKWrapper'), {
     BCSDK_PTZIrisOpen: ['int', ['int', 'int', 'int']],
     BCSDK_PTZIrisClose: ['int', ['int', 'int', 'int']],
     BCSDK_PTZScanAuto: ['int', ['int', 'int', 'int']]
+    /************************************************************************
+     *
+     * Playback interfaces
+     *
+     ************************************************************************/
+    ,
+    BCSDK_RecordFilesSearch: ['int', ['int', 'int', _T.BC_TIME, _T.BC_TIME, 'int', 'int', 'int']],
+    BCSDK_AlarmVideosSearch: ['int', ['int', 'int', _T.BC_TIME, _T.BC_TIME, 'int', 'int']],
+    BCSDK_PlaybackSeek: ['int', ['int', _T.P_BC_TIME]],
+    BCSDK_GetPlaybackState: ['int', ['int', 'int', _T.pointer('int')]],
+    BCSDK_GetIsPlaybackOpen: ['int', ['int', 'int', _T.pointer('bool')]],
+    BCSDK_GetPlaybackStreamType: ['int', ['int', 'int', _T.pointer('int')]],
+    BCSDK_PlaybackOpen: ['int', ['int', 'int', 'string', 'string', 'bool', 'float', _T.renderCallbackFunc, _T.pointer('void')]],
+    BCSDK_PlaybackClose: ['int', ['int', 'int']],
+    BCSDK_PlaybackStart: ['int', ['int', 'int']],
+    BCSDK_PlaybackPause: ['int', ['int', 'int']],
+    BCSDK_PlaybackStop: ['int', ['int', 'int']],
+    BCSDK_PlaybackStep: ['int', ['int', 'int']],
+    BCSDK_PlaybackMute: ['int', ['int', 'int', 'bool']]
 });
 class NativeDelegate {
     constructor() {
@@ -394,6 +413,24 @@ class NativeDelegate {
         this.BCSDK_PTZIrisOpen = MFFI.BCSDK_PTZIrisOpen;
         this.BCSDK_PTZIrisClose = MFFI.BCSDK_PTZIrisClose;
         this.BCSDK_PTZScanAuto = MFFI.BCSDK_PTZScanAuto;
+        /****************************************************************
+         *
+         *  Methods for Playback
+         *
+         ****************************************************************/
+        this.BCSDK_RecordFilesSearch = MFFI.BCSDK_RecordFilesSearch;
+        this.BCSDK_AlarmVideosSearch = MFFI.BCSDK_AlarmVideosSearch;
+        this.BCSDK_PlaybackSeek = MFFI.BCSDK_PlaybackSeek;
+        this.BCSDK_GetPlaybackState = MFFI.BCSDK_GetPlaybackState;
+        this.BCSDK_GetIsPlaybackOpen = MFFI.BCSDK_GetIsPlaybackOpen;
+        this.BCSDK_GetPlaybackStreamType = MFFI.BCSDK_GetPlaybackStreamType;
+        this.BCSDK_PlaybackOpen = MFFI.BCSDK_PlaybackOpen;
+        this.BCSDK_PlaybackClose = MFFI.BCSDK_PlaybackClose;
+        this.BCSDK_PlaybackStart = MFFI.BCSDK_PlaybackStart;
+        this.BCSDK_PlaybackPause = MFFI.BCSDK_PlaybackPause;
+        this.BCSDK_PlaybackStop = MFFI.BCSDK_PlaybackStop;
+        this.BCSDK_PlaybackStep = MFFI.BCSDK_PlaybackStep;
+        this.BCSDK_PlaybackMute = MFFI.BCSDK_PlaybackMute;
     }
     static instance() {
         return NativeDelegate.singleton;

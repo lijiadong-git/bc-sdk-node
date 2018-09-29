@@ -9,5 +9,6 @@ __export(require("./config"));
 __export(require("./device"));
 __export(require("./ability"));
 __export(require("./live"));
+__export(require("./playback"));
 __export(require("./ptz"));
 //# sourceMappingURL=sdk.js.map

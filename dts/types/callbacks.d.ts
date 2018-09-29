@@ -20,6 +20,9 @@ export interface IFrameCallbackData {
     plane1: IFramePlane;
     plane2: IFramePlane;
 }
-export interface LiveCallback {
+export interface FrameCallback {
     onVieoData: (data: IFrameCallbackData) => void;
+}
+export interface RecordFilesCallback {
+    (seq: number, files: T.BC_FIND_REC_FILES): void;
 }

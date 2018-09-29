@@ -6,6 +6,7 @@ const refStruct = require('ref-struct');
 const refArray = require('ref-array');
 const types_1 = require("../types");
 exports.pointer = ref.refType;
+exports.cString = ref.types.CString;
 exports.DEVICE_STATE_CHANGE_DESC = refStruct({
     eStateFrom: ref.types.int,
     eStateTo: ref.types.int
@@ -82,6 +83,7 @@ exports.RENDER_FRAME_DESC = refStruct({
     audio: exports.RENDER_AUDIO_FRAME_DESC
 });
 exports.P_RENDER_FRAME_DESC = exports.pointer(exports.RENDER_FRAME_DESC);
+exports.renderCallbackFunc = ffiFunc('void', ['int', 'int', exports.RENDER_FRAME_DESC, exports.pointer('void')]);
 exports.BC_RESO_PROFILE = refStruct({
     eResolution: ref.types.int,
     iWidth: ref.types.int,
@@ -105,4 +107,36 @@ exports.BC_ENC_PROFILE_TABLE = refStruct({
     profile: refArray(exports.BC_ENC_PROFILE, types_1.DEFINDE.BC_MAX_ENC_PROFILE_NUM)
 });
 exports.P_BC_ENC_PROFILE_TABLE = exports.pointer(exports.BC_ENC_PROFILE_TABLE);
+exports.BC_TIME = refStruct({
+    iYear: ref.types.int,
+    iMonth: ref.types.int,
+    iDay: ref.types.int,
+    iHour: ref.types.int,
+    iMinute: ref.types.int,
+    iSecond: ref.types.int
+});
+exports.P_BC_TIME = exports.pointer(exports.BC_TIME);
+exports.BC_FIND_REC_FILE = refStruct({
+    iChannel: ref.types.int,
+    cFileName: refArray('byte', types_1.DEFINDE.BC_MAX_FILE_LEN),
+    struStartTime: exports.BC_TIME,
+    struStopTime: exports.BC_TIME,
+    iFileSize: ref.types.uint32,
+    iFileSizeH: ref.types.uint32,
+    cCardNum: refArray('byte', 32),
+    cLocked: 'byte',
+    cSupportNum: 'byte',
+    cRes: refArray('byte', 2),
+    recordType: ref.types.int,
+    eStreamType: ref.types.int,
+    eFileType: ref.types.int,
+    iContainsAudio: ref.types.int
+});
+exports.P_BC_FIND_REC_FILE = exports.pointer(exports.BC_FIND_REC_FILE);
+exports.BC_FIND_REC_FILES = refStruct({
+    seq: ref.types.int,
+    fileNum: ref.types.int,
+    recFile: refArray(exports.BC_FIND_REC_FILE, 40)
+});
+exports.P_BC_FIND_REC_FILES = exports.pointer(exports.BC_FIND_REC_FILES);
 //# sourceMappingURL=_struct.js.map
