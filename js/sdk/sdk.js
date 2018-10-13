@@ -5,6 +5,7 @@ function __export(m) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const types = require("../types");
 exports.types = types;
+__export(require("./settings"));
 __export(require("./config"));
 __export(require("./device"));
 __export(require("./ability"));

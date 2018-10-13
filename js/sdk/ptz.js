@@ -7,6 +7,11 @@ class PTZ {
     static instance() {
         return PTZ.singleton;
     }
+    handleSDKCallback(handle, cmdData) {
+        new Promise(function (resolve, reject) {
+            resolve();
+        });
+    }
     stop(handle, speed) {
         return new Promise((resolve, reject) => {
             let ret = native_1.native.BCSDK_PTZStop(0, 0);

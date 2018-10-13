@@ -4,6 +4,7 @@ function __export(m) {
 }
 Object.defineProperty(exports, "__esModule", { value: true });
 __export(require("./definde"));
+__export(require("./error"));
 __export(require("./enum"));
 __export(require("./struct"));
 //# sourceMappingURL=types.js.map

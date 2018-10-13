@@ -12,6 +12,29 @@ class LIVE {
     static instance() {
         return LIVE.singleton;
     }
+    handleSDKCallback(handle, cmdData) {
+        new Promise((resolve) => {
+            const channel = (cmdData.handleId & 0x000000ff) % T.DEFINDE.BC_MAX_CHANNEL;
+            switch (cmdData.bcCmd) {
+                default: {
+                    _callback_1.PROMISE_CBS.handleCallback(handle, channel, cmdData.bcCmd, cmdData.cmdIdx, callback => {
+                        if (T.BC_RSP_CODE_E.E_BC_RSP_OK == cmdData.bcRspCode) {
+                            if (callback.sdkResolve) {
+                                callback.sdkResolve(cmdData.bcRspCode);
+                            }
+                        }
+                        else {
+                            if (callback.sdkReject) {
+                                callback.sdkReject(Error("Error code: " + cmdData.bcRspCode));
+                            }
+                        }
+                    });
+                    break;
+                }
+            }
+            resolve();
+        });
+    }
     getLiveStreamType(handle, channel) {
         return new Promise((resolve, reject) => {
             let buf = ref.alloc(ref.types.int, T.BC_STREAM_TYPE_E.E_BC_STREAM_SUB);
@@ -47,13 +70,14 @@ class LIVE {
             let ret = native_1.native.BCSDK_LiveOpen(handle, channel, stream, LIVE.liveCallback, null);
             if (0 === ret) {
                 let cb = {
-                    sdkResolve: resolve
+                    sdkResolve: resolve,
+                    sdkReject: reject
                 };
-                _callback_1.CB.setCallback(handle, channel, T.BC_CMD_E.E_BC_CMD_REALPLAY, 0, cb);
+                _callback_1.PROMISE_CBS.addCallback(handle, channel, T.BC_CMD_E.E_BC_CMD_REALPLAY, 0, cb);
                 let cb2 = {
                     sdkCallback: callback,
                 };
-                _callback_1.CB.setCallback(handle, channel, -T.BC_CMD_E.E_BC_CMD_REALPLAY, 0, cb2);
+                _callback_1.COMMON_CBS.setCallback(handle, channel, T.BC_CMD_E.E_BC_CMD_REALPLAY, 0, cb2);
             }
             else {
                 reject('live open error code: ' + ret);
@@ -91,7 +115,7 @@ LIVE.liveCallback = ffiCallback('void', ['int', 'int', _T.pointer(_T.RENDER_FRAM
         var des = ref.get(buf, 0, _T.RENDER_FRAME_DESC);
         if (des.type & 1) {
             // find the callback function
-            let callback = _callback_1.CB.getCallback(handle, channel, -T.BC_CMD_E.E_BC_CMD_REALPLAY, 0);
+            let callback = _callback_1.COMMON_CBS.getCallback(handle, channel, T.BC_CMD_E.E_BC_CMD_REALPLAY, 0);
             if (!callback
                 || !callback.sdkCallback
                 || !callback.sdkCallback.onVieoData) {

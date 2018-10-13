@@ -2,6 +2,7 @@ declare class PTZ {
     private static singleton;
     private constructor();
     static instance(): PTZ;
+    handleSDKCallback(handle: number, cmdData: any): void;
     stop(handle: number, speed: number): Promise<void>;
     up(handle: number, channel: number, speed: number): Promise<void>;
     down(handle: number, channel: number, speed: number): Promise<void>;

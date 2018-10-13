@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const ref = require('ref');
 const native_1 = require("./native");
 const _T = require("./_struct");
-const T = require("../types");
+const _cast_1 = require("./_cast");
 class ABILITY {
     constructor() {
     }
@@ -182,70 +182,7 @@ class ABILITY {
                 reject(Error("Error code: " + ret));
                 return;
             }
-            let et = {
-                profileNum: enctab.profileNum,
-                profile: []
-            };
-            for (let i = 0; i < enctab.profileNum; i++) {
-                let pro = enctab.profile[i];
-                // main reso profile
-                let ms = {
-                    eResolution: pro.mainstream.eResolution,
-                    iWidth: pro.mainstream.iWidth,
-                    iHigh: pro.mainstream.iHigh,
-                    cResolutionName: String.fromCharCode.apply(null, pro.mainstream.cResolutionName),
-                    lDefFrameRate: pro.mainstream.lDefFrameRate,
-                    lDefBitRate: pro.mainstream.lDefBitRate,
-                    lFrameRate: [],
-                    lBitRate: []
-                };
-                for (let m = 0; m < T.DEFINDE.BC_MAX_FRAME_RATE_NUM; m++) {
-                    ms.lFrameRate.push(pro.mainstream.lFrameRate[m]);
-                }
-                for (let m = 0; m < T.DEFINDE.BC_MAX_BIT_RATE_NUM; m++) {
-                    ms.lBitRate.push(pro.mainstream.lBitRate[m]);
-                }
-                // sub reso profile
-                let ss = {
-                    eResolution: pro.substream.eResolution,
-                    iWidth: pro.substream.iWidth,
-                    iHigh: pro.substream.iHigh,
-                    cResolutionName: String.fromCharCode.apply(null, pro.substream.cResolutionName),
-                    lDefFrameRate: pro.substream.lDefFrameRate,
-                    lDefBitRate: pro.substream.lDefBitRate,
-                    lFrameRate: [],
-                    lBitRate: []
-                };
-                for (let m = 0; m < T.DEFINDE.BC_MAX_FRAME_RATE_NUM; m++) {
-                    ss.lFrameRate.push(pro.substream.lFrameRate[m]);
-                }
-                for (let m = 0; m < T.DEFINDE.BC_MAX_BIT_RATE_NUM; m++) {
-                    ss.lBitRate.push(pro.substream.lBitRate[m]);
-                }
-                // extention reso profile
-                let es = {
-                    eResolution: pro.extendstream.eResolution,
-                    iWidth: pro.extendstream.iWidth,
-                    iHigh: pro.extendstream.iHigh,
-                    cResolutionName: String.fromCharCode.apply(null, pro.extendstream.cResolutionName),
-                    lDefFrameRate: pro.extendstream.lDefFrameRate,
-                    lDefBitRate: pro.extendstream.lDefBitRate,
-                    lFrameRate: [],
-                    lBitRate: []
-                };
-                for (let m = 0; m < T.DEFINDE.BC_MAX_FRAME_RATE_NUM; m++) {
-                    es.lFrameRate.push(pro.extendstream.lFrameRate[m]);
-                }
-                for (let m = 0; m < T.DEFINDE.BC_MAX_BIT_RATE_NUM; m++) {
-                    es.lBitRate.push(pro.extendstream.lBitRate[m]);
-                }
-                et.profile[i] = {
-                    iChnBits: pro.iChnBits,
-                    mainstream: ms,
-                    substream: ss,
-                    extendstream: es
-                };
-            }
+            let et = _cast_1.derefCast(enctab, _T.BC_ENC_PROFILE_TABLE);
             resolve(et);
         });
     }

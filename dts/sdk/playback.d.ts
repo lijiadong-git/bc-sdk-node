@@ -3,6 +3,7 @@ declare class PLAYBACK {
     private static singleton;
     private constructor();
     static instance(): PLAYBACK;
+    handleSDKCallback(handle: number, cmdData: any): void;
     private static playbackCallback;
     recordFilesSearch(handle: number, channel: number, start: T.BC_TIME, end: T.BC_TIME, type: T.RECORD_TYPE_E, streamType: T.BC_STREAM_TYPE_E, seq: number, callback: T.RecordFilesCallback): Promise<void>;
     alarmVideosSearch(handle: number, channel: number, start: T.BC_TIME, end: T.BC_TIME, streamType: T.BC_STREAM_TYPE_E, seq: number, callback: T.RecordFilesCallback): Promise<void>;

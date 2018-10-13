@@ -4,6 +4,7 @@ declare class DEVICE {
     private static singleton;
     private constructor();
     static instance(): DEVICE;
+    handleSDKCallback(handle: number, cmdData: any): void;
     add(loginDes: T.DEVICE_LOGIN_DESC, callback: DeviceCallback): Promise<number>;
     remove(handle: number): Promise<void>;
     removeAll(): Promise<void>;

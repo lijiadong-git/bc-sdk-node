@@ -1,10 +1,33 @@
-declare class CALLBACK {
+export interface SDKResolve<T> {
+    sdkResolve: null | undefined | ((value?: T) => void);
+    sdkReject: null | undefined | ((value?: any) => void);
+}
+export interface Callback<T> {
+    sdkCallback?: null | undefined | T;
+}
+declare class PromiseCallbacks {
     private static singleton;
     private constructor();
-    static instance(): CALLBACK;
+    static instance(): PromiseCallbacks;
     private static callbacks;
-    getCallback(handle: number, channel: number, cmd: number, cmdIndex: number): Callback<any, any> | null;
-    setCallback(handle: number, channel: number, cmd: number, cmdIndex: number, callback: Callback<any, any> | null | undefined): void;
+    private getCallbacks;
+    addCallback(handle: number, channel: number, cmd: number, cmdIndex: number, callback: SDKResolve<any>): void;
+    modifyCallbackHandle(oldHandle: number, handle: number): void;
+    clearCallbackForHandle(handle: number): void;
+    clearCallbackForChannel(handle: number, channel: number): void;
+    clearCallbackForCommond(handle: number, channel: number, cmd: number): void;
+    clearCallback(handle: number, channel: number, cmd: number, cmdIndex: number): void;
+    clearAll(): void;
+    handleCallback<T>(handle: number, channel: number, cmd: number, cmdIndex: number, func: (cb: SDKResolve<T>) => void): void;
+}
+export declare const PROMISE_CBS: PromiseCallbacks;
+declare class CommonCallbacks {
+    private static singleton;
+    private constructor();
+    static instance(): CommonCallbacks;
+    private static callbacks;
+    getCallback(handle: number, channel: number, cmd: number, cmdIndex: number): Callback<any> | null;
+    setCallback(handle: number, channel: number, cmd: number, cmdIndex: number, callback: Callback<any> | null | undefined): void;
     modifyCallbackHandle(oldHandle: number, handle: number): void;
     clearCallbackForHandle(handle: number): void;
     clearCallbackForChannel(handle: number, channel: number): void;
@@ -12,15 +35,5 @@ declare class CALLBACK {
     clearCallback(handle: number, channel: number, cmd: number, cmdIndex: number): void;
     clearAll(): void;
 }
-export declare const CB: CALLBACK;
-export interface Callback<O, T> {
-    sdkCallback?: null | undefined | O;
-    sdkResolve?: null | undefined | ((value: T) => void);
-}
-export interface SDKCallback<T> extends Callback<T, void> {
-    sdkCallback: null | undefined | T;
-}
-export interface SDKResolve<T> extends Callback<void, T> {
-    sdkResolve: null | undefined | ((value: T) => void);
-}
+export declare const COMMON_CBS: CommonCallbacks;
 export {};
