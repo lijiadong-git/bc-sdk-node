@@ -1,0 +1,4 @@
+{ "name" : "sdk-types",
+  "main" : "./sdk.js",
+  "typings": "./sdk.d.ts" 
+}

@@ -1,2 +1,2 @@
-import * as sdk from './dts/sdk';
+import * as sdk from './sdk';
 export { sdk };
