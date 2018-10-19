@@ -32,7 +32,7 @@ class PLAYBACK {
                                 const file = des.recFile[i];
                                 files.recFile.push({
                                     iChannel: file.iChannel,
-                                    cFileName: String.fromCharCode.apply(null, file.cFileName),
+                                    cFileName: ref.readCString(file.cFileName.buffer, 0),
                                     startTime: {
                                         iYear: file.struStartTime.iYear,
                                         iMonth: file.struStartTime.iMonth,
@@ -269,10 +269,11 @@ class PLAYBACK {
     }
 }
 PLAYBACK.singleton = new PLAYBACK();
-PLAYBACK.playbackCallback = ffi_1.Callback('void', ['int', 'int', _T.pointer(_T.RENDER_FRAME_DESC), _T.pointer('void')], function (handle, channel, frameDes, userData) {
+PLAYBACK.playbackCallback = ffi_1.Callback('void', ['int', 'int', _T.P_RENDER_FRAME_DESC, _T.pointer('void')], function (handle, channel, frameDes, userData) {
     new Promise((resolve, reject) => {
         if (!frameDes) {
             reject('live callback error format ...');
+            return;
         }
         var buf = ref.reinterpret(frameDes, _T.RENDER_FRAME_DESC.size);
         var des = ref.get(buf, 0, _T.RENDER_FRAME_DESC);
@@ -319,8 +320,8 @@ PLAYBACK.playbackCallback = ffi_1.Callback('void', ['int', 'int', _T.pointer(_T.
             };
             // callback                
             callback.sdkCallback.onVieoData(callbackData);
-            resolve();
         }
+        resolve();
     })
         .catch(reason => {
         console.log(reason);

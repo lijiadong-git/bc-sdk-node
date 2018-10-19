@@ -109,10 +109,11 @@ class LIVE {
     }
 }
 LIVE.singleton = new LIVE();
-LIVE.liveCallback = ffi_1.Callback('void', ['int', 'int', _T.pointer(_T.RENDER_FRAME_DESC), _T.pointer('void')], function (handle, channel, frameDes, userData) {
+LIVE.liveCallback = ffi_1.Callback('void', ['int', 'int', _T.P_RENDER_FRAME_DESC, _T.pointer('void')], function (handle, channel, frameDes, userData) {
     new Promise((resolve, reject) => {
         if (!frameDes) {
             reject('live callback error format ...');
+            return;
         }
         var buf = ref.reinterpret(frameDes, _T.RENDER_FRAME_DESC.size);
         var des = ref.get(buf, 0, _T.RENDER_FRAME_DESC);
@@ -159,8 +160,8 @@ LIVE.liveCallback = ffi_1.Callback('void', ['int', 'int', _T.pointer(_T.RENDER_F
             };
             // callback                
             callback.sdkCallback.onVieoData(callbackData);
-            resolve();
         }
+        resolve();
     })
         .catch(reason => {
         console.log(reason);

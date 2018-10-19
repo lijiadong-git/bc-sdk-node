@@ -713,3 +713,10 @@ export declare enum BC_SOUND_TRACK_E {
     BC_SOUND_TRACK_MONO = 0,
     BC_SOUND_TRACK_STEREO = 1
 }
+export declare enum BC_P2P_TYPE_E {
+    BC_P2P_TYPE_UNKNOW = -1,
+    BC_P2P_TYPE_NONE = 0,
+    BC_P2P_TYPE_IOTC = 1,
+    BC_P2P_TYPE_BC = 2,
+    BC_P2P_TYPE_SONG = 3
+}

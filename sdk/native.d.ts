@@ -1,4 +1,7 @@
+import * as ffi from 'ffi';
 import * as T from '../types';
+export declare const renderCallbackFunc: ffi.Function;
+export declare const deviceFoundCallback: ffi.Function;
 export interface NativeMethods {
     /****************************************************************
      *
@@ -375,5 +378,33 @@ export interface NativeMethods {
     BCSDK_RemoteSaveRingtone: (handle: number, channel: number) => number;
     BCSDK_RemoteImportRingtone: (handle: number, channel: number, param: any) => number;
     BCSDK_RemoteGetRingtoneAbility: (handle: number, channel: number) => number;
+    /************************************************************************
+     *
+     * Search interfaces
+     *
+     ************************************************************************/
+    BCSDK_AddSearchCallback: (callback: any, pUserData: any) => number;
+    BCSDK_RemoveSearchCallback: (callback: any, pUserData: any) => number;
+    BCSDK_StartDeviceSearchLoop: (time: number) => number;
+    BCSDK_StopDeviceSearchLoop: () => number;
+    BCSDK_DeviceSearchOnce: () => number;
+    BCSDK_SongP2PDeviceSearchOnce: () => number;
+    /************************************************************************
+     *
+     * Tools interfaces
+     *
+     ************************************************************************/
+    BCSDK_GetTotalBitrates: (pBitrate: any) => number;
+    BCSDK_ReInitP2p: () => void;
+    BCSDK_GetP2PType: (uid: string, pType: any) => number;
+    BCSDK_GetSongP2PType: (uid: string, pType: any) => number;
+    BCSDK_GetSongDeviceInfo: (uid: string, pInfo: any) => number;
+    BCSDK_SongP2PGetDebug: (pInfo: any) => number;
+    BCSDK_XCUID2SongUID: (uid: string, pInfo: any) => number;
+    BCSDK_SongP2PGetDetail: (pInfo: any) => number;
+    BCSDK_SongP2PGetLog: (pInfo: any) => number;
+    BCSDK_GetDiagnoseLogs: (pList: any) => number;
+    BCSDK_Encrypt: (pBuf: any) => number;
+    BCSDK_Decrypt: (pBuf: any) => number;
 }
 export declare const native: NativeMethods;

@@ -83,7 +83,6 @@ exports.RENDER_FRAME_DESC = refStruct({
     audio: exports.RENDER_AUDIO_FRAME_DESC
 });
 exports.P_RENDER_FRAME_DESC = exports.pointer(exports.RENDER_FRAME_DESC);
-exports.renderCallbackFunc = ffi_1.Function('void', ['int', 'int', exports.RENDER_FRAME_DESC, exports.pointer('void')]);
 exports.BC_RESO_PROFILE = refStruct({
     eResolution: ref.types.int,
     iWidth: ref.types.int,
@@ -1144,4 +1143,62 @@ exports.BC_RINGTONE_ABILITY = refStruct({
     audioConfigs: exports.BC_AUDIO_CONFIG_TABLE
 });
 exports.P_BC_RINGTONE_ABILITY = exports.pointer(exports.BC_RINGTONE_ABILITY);
+/// device location description
+exports.DEVICE_LOCATION_DESC = refStruct({
+    name: refArray('char', types_1.DEFINDE.SDK_MAX_NORMAL_STR_LEN),
+    ip: refArray('char', types_1.DEFINDE.SDK_MAX_NORMAL_STR_LEN),
+    port: ref.types.int,
+    uid: refArray('char', types_1.DEFINDE.SDK_MAX_UID_STR_LEN),
+    mac: refArray('char', types_1.DEFINDE.SDK_MAX_MAC_STR_LEN),
+    eDVRType: ref.types.int // BC_DEVICE_TYPE_E
+    ,
+    iChanNum: ref.types.int,
+    isSongDevice: ref.types.int
+});
+exports.P_DEVICE_LOCATION_DESC = exports.pointer(exports.DEVICE_LOCATION_DESC);
+exports.BC_P2P_DEBUG_INFO = refStruct({
+    v6_check: ref.types.int,
+    server_addr: refArray('char', 48),
+    ver: refArray('char', 16)
+});
+exports.P_BC_P2P_DEBUG_INFO = exports.pointer(exports.BC_P2P_DEBUG_INFO);
+exports.BC_P2P_UID_INFO = refStruct({
+    uid: refArray('char', types_1.DEFINDE.BC_MAX_UID_LEN)
+});
+exports.P_BC_P2P_UID_INFO = exports.pointer(exports.BC_P2P_UID_INFO);
+exports.BC_P2P_DETAIL_INFO = refStruct({
+    content: refArray('char', 1024)
+});
+exports.P_BC_P2P_DETAIL_INFO = exports.pointer(exports.BC_P2P_DETAIL_INFO);
+exports.BC_P2P_LOG = refStruct({
+    content: exports.pointer(ref.types.char),
+    length: ref.types.int
+});
+exports.P_BC_P2P_LOG = exports.pointer(exports.BC_P2P_LOG);
+exports.BC_DIAGNOSE_LOG = refStruct({
+    content: refArray('char', types_1.DEFINDE.BC_DIAGNOSE_LOG_STRING_MAX_LENGTH)
+});
+exports.P_BC_DIAGNOSE_LOG = exports.pointer(exports.BC_DIAGNOSE_LOG);
+exports.BC_DIAGNOSE_LOGS_LIST = refStruct({
+    logs: refArray(exports.BC_DIAGNOSE_LOG, types_1.DEFINDE.BC_DIAGNOSE_LOG_MAX_SIZE),
+    sizeOfLogs: ref.types.int
+});
+exports.P_BC_DIAGNOSE_LOGS_LIST = exports.pointer(exports.BC_DIAGNOSE_LOGS_LIST);
+exports.BC_CRYPT_BUF = refStruct({
+    buffer: refArray('char', types_1.DEFINDE.BASE64_OUT_SIZE),
+    len: ref.types.uint8
+});
+exports.P_BC_CRYPT_BUF = exports.pointer(exports.BC_CRYPT_BUF);
+exports.BC_P2P_DEVICE_INFO = refStruct({
+    uid: refArray('char', types_1.DEFINDE.BC_MAX_UID_LEN),
+    fm_ver: refArray('char', 16),
+    batteryType: ref.types.int // 0: not support. 1:dry battery, 2:charge battery
+    ,
+    QRCodeType: ref.types.int // 0: not support. 1: support qr code
+    ,
+    productName: refArray('char', 16) // product name: "KEEN", "CARD", ...
+    ,
+    productType: ref.types.int
+});
+exports.P_BC_P2P_DEVICE_INFO = exports.pointer(exports.BC_P2P_DEVICE_INFO);
 //# sourceMappingURL=_struct.js.map

@@ -56,6 +56,10 @@ export declare namespace DEFINDE {
     const SDK_MAX_UID_STR_LEN: number;
     const SDK_MAX_MAC_STR_LEN: number;
     const SDK_MAX_FILENAME_LEN: number;
+    const BC_DIAGNOSE_LOG_MAX_SIZE = 16;
+    const BC_DIAGNOSE_LOG_STRING_MAX_LENGTH = 256;
+    const BC_CRYPT_MAX_LEN: number;
+    const BASE64_OUT_SIZE: number;
     const BC_ALARM_IN_NONE = 0;
     const BC_ALARM_IN_MD: number;
     const BC_ALARM_IN_VL: number;

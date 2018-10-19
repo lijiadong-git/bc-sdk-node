@@ -4,6 +4,8 @@ const ffi = require("ffi");
 const path = require('path');
 const bindings = require('bindings');
 const _T = require("./_struct");
+exports.renderCallbackFunc = ffi.Function('void', ['int', 'int', _T.RENDER_FRAME_DESC, _T.pointer('void')]);
+exports.deviceFoundCallback = ffi.Function('void', [_T.P_DEVICE_LOCATION_DESC, _T.pointer('void')]);
 const folder = path.dirname(bindings.getFileName());
 if (process.platform === "win32") {
     ffi.Library(path.join(folder, 'BCP2P_API'));
@@ -178,7 +180,7 @@ const MFFI = ffi.Library(path.join(folder, 'libBCSDKWrapper'), {
     ,
     BCSDK_GetIsLiveOpen: ['int', ['int', 'int', _T.pointer('bool')]],
     BCSDK_GetLiveStreamType: ['int', ['int', 'int', _T.pointer('int')]],
-    BCSDK_LiveOpen: ['int', ['int', 'int', 'int', _T.renderCallbackFunc, _T.pointer('void')]],
+    BCSDK_LiveOpen: ['int', ['int', 'int', 'int', exports.renderCallbackFunc, _T.pointer('void')]],
     BCSDK_LiveClose: ['int', ['int', 'int']],
     BCSDK_LiveMute: ['int', ['int', 'int', 'bool']]
     /************************************************************************
@@ -215,7 +217,7 @@ const MFFI = ffi.Library(path.join(folder, 'libBCSDKWrapper'), {
     BCSDK_GetPlaybackState: ['int', ['int', 'int', _T.pointer('int')]],
     BCSDK_GetIsPlaybackOpen: ['int', ['int', 'int', _T.pointer('bool')]],
     BCSDK_GetPlaybackStreamType: ['int', ['int', 'int', _T.pointer('int')]],
-    BCSDK_PlaybackOpen: ['int', ['int', 'int', 'string', 'string', 'bool', 'float', _T.renderCallbackFunc, _T.pointer('void')]],
+    BCSDK_PlaybackOpen: ['int', ['int', 'int', 'string', 'string', 'bool', 'float', exports.renderCallbackFunc, _T.pointer('void')]],
     BCSDK_PlaybackClose: ['int', ['int', 'int']],
     BCSDK_PlaybackStart: ['int', ['int', 'int']],
     BCSDK_PlaybackPause: ['int', ['int', 'int']],
@@ -738,7 +740,7 @@ const MFFI = ffi.Library(path.join(folder, 'libBCSDKWrapper'), {
      */
     ,
     BCSDK_GetIsConfigStreamOpen: ['int', ['int', 'int', _T.pointer('bool')]],
-    BCSDK_ConfigStreamOpen: ['int', ['int', 'int', _T.renderCallbackFunc, _T.pointer('void')]],
+    BCSDK_ConfigStreamOpen: ['int', ['int', 'int', exports.renderCallbackFunc, _T.pointer('void')]],
     BCSDK_ConfigStreamClose: ['int', ['int', 'int']]
     /* Auto Focus
      *
@@ -793,6 +795,60 @@ const MFFI = ffi.Library(path.join(folder, 'libBCSDKWrapper'), {
     BCSDK_RemoteSaveRingtone: ['int', ['int', 'int']],
     BCSDK_RemoteImportRingtone: ['int', ['int', 'int', _T.P_BC_RINGTONE_FILE_INFO]],
     BCSDK_RemoteGetRingtoneAbility: ['int', ['int', 'int']]
+    /************************************************************************
+     *
+     * Search interfaces
+     *
+     ************************************************************************/
+    ,
+    BCSDK_AddSearchCallback: ['int', [exports.deviceFoundCallback, _T.pointer('void')]],
+    BCSDK_RemoveSearchCallback: ['int', [exports.deviceFoundCallback, _T.pointer('void')]]
+    /* start device search loop with loop time
+     *
+     * @param time              [2,10]
+     *
+     * @return                  E_NONE, success
+     *                          E_ILLEGAL, time is out of [2,10]
+     */
+    ,
+    BCSDK_StartDeviceSearchLoop: ['int', ['int']]
+    /* stop device search loop
+     *
+     */
+    ,
+    BCSDK_StopDeviceSearchLoop: ['int', []]
+    /* start device search once immediately
+     *
+     * @return                  E_NONE, success
+     *                          E_UND, failed
+     */
+    ,
+    BCSDK_DeviceSearchOnce: ['int', []]
+    /* start Song P2P device search once immediately
+     *
+     * @return                  E_NONE, success
+     *                          E_UND, failed
+     */
+    ,
+    BCSDK_SongP2PDeviceSearchOnce: ['int', []]
+    /************************************************************************
+     *
+     * Tools interfaces
+     *
+     ************************************************************************/
+    ,
+    BCSDK_GetTotalBitrates: ['int', [_T.pointer(ffi.types.longlong)]],
+    BCSDK_ReInitP2p: ['void', []],
+    BCSDK_GetP2PType: ['int', ['string', _T.pointer('int')]],
+    BCSDK_GetSongP2PType: ['int', ['string', _T.pointer('int')]],
+    BCSDK_GetSongDeviceInfo: ['int', ['string', _T.pointer('int')]],
+    BCSDK_SongP2PGetDebug: ['int', [_T.P_BC_P2P_DEBUG_INFO]],
+    BCSDK_XCUID2SongUID: ['int', ['string', _T.P_BC_P2P_UID_INFO]],
+    BCSDK_SongP2PGetDetail: ['int', [_T.P_BC_P2P_DETAIL_INFO]],
+    BCSDK_SongP2PGetLog: ['int', [_T.P_BC_P2P_LOG]],
+    BCSDK_GetDiagnoseLogs: ['int', [_T.P_BC_DIAGNOSE_LOGS_LIST]],
+    BCSDK_Encrypt: ['int', [_T.P_BC_CRYPT_BUF]],
+    BCSDK_Decrypt: ['int', [_T.P_BC_CRYPT_BUF]]
 });
 class NativeDelegate {
     constructor() {
@@ -1163,9 +1219,9 @@ class NativeDelegate {
         this.BCSDK_RemoteGetDst = MFFI.BCSDK_RemoteGetDst;
         this.BCSDK_RemoteSetDst = MFFI.BCSDK_RemoteSetDst;
         /* DDNS
-         *
-         * callback with E_BC_CMD_GET_DDNSCFG, E_BC_CMD_SET_DDNSCFG
-         */
+            *
+            * callback with E_BC_CMD_GET_DDNSCFG, E_BC_CMD_SET_DDNSCFG
+            */
         this.BCSDK_RemoteGetDdns = MFFI.BCSDK_RemoteGetDdns;
         this.BCSDK_RemoteSetDdns = MFFI.BCSDK_RemoteSetDdns;
         /* NTP
@@ -1262,9 +1318,9 @@ class NativeDelegate {
         this.BCSDK_RemoteGetOnlineUserCfg = MFFI.BCSDK_RemoteGetOnlineUserCfg;
         this.BCSDK_RemoteSetOnlineUserCfg = MFFI.BCSDK_RemoteSetOnlineUserCfg;
         /* force user password when first login
-         *
-         * callback with E_BC_CMD_FORCE_PASSWORD
-         */
+        *
+        * callback with E_BC_CMD_FORCE_PASSWORD
+        */
         this.BCSDK_RemoteForceUserPassword = MFFI.BCSDK_RemoteForceUserPassword;
         /* pwd state
          *
@@ -1317,10 +1373,10 @@ class NativeDelegate {
         this.BCSDK_RemoteStopAlarmReport = MFFI.BCSDK_RemoteStopAlarmReport;
         /* push open
          *
-         lback with E_BC_CMD_PUSH_ADD
+        lback with E_BC_CMD_PUSH_ADD
          */
         this.BCSDK_RemotePushOpen = MFFI.BCSDK_RemotePushOpen;
-        /*int _BCSDK_ BCSDK_RemotePushClose: (handle: number, BC_PUSH_INFO *info);*/
+        /*, RemotePushClose: (handle: number, BC_PUSH_INFO *info);*/
         /* rtmp operation
          * callback with E_BC_CMD_RTMP_START,
          */
@@ -1487,6 +1543,56 @@ class NativeDelegate {
         this.BCSDK_RemoteSaveRingtone = MFFI.BCSDK_RemoteSaveRingtone;
         this.BCSDK_RemoteImportRingtone = MFFI.BCSDK_RemoteImportRingtone;
         this.BCSDK_RemoteGetRingtoneAbility = MFFI.BCSDK_RemoteGetRingtoneAbility;
+        /************************************************************************
+         *
+         * Search interfaces
+         *
+         ************************************************************************/
+        this.BCSDK_AddSearchCallback = MFFI.BCSDK_AddSearchCallback;
+        this.BCSDK_RemoveSearchCallback = MFFI.BCSDK_RemoveSearchCallback;
+        /* start device search loop with loop time
+         *
+         * @param time              [2,10]
+         *
+         * @return                  E_NONE, success
+         *                          E_ILLEGAL, time is out of [2,10]
+         */
+        this.BCSDK_StartDeviceSearchLoop = MFFI.BCSDK_StartDeviceSearchLoop;
+        /* stop device search loop
+         *
+         */
+        this.BCSDK_StopDeviceSearchLoop = MFFI.BCSDK_StopDeviceSearchLoop;
+        /* start device search once immediately
+         *
+         * @return                  E_NONE, success
+         *                          E_UND, failed
+         */
+        this.BCSDK_DeviceSearchOnce = MFFI.BCSDK_DeviceSearchOnce;
+        /* start Song P2P device search once immediately
+         *
+         * @return                  E_NONE, success
+         *                          E_UND, failed
+         */
+        this.BCSDK_SongP2PDeviceSearchOnce = MFFI.BCSDK_SongP2PDeviceSearchOnce;
+        /************************************************************************
+         *
+         * Tools interfaces
+         *
+         ************************************************************************/
+        // -----------------------------------------------------------------------
+        // total bitrate
+        this.BCSDK_GetTotalBitrates = MFFI.BCSDK_GetTotalBitrates;
+        this.BCSDK_ReInitP2p = MFFI.BCSDK_ReInitP2p;
+        this.BCSDK_GetP2PType = MFFI.BCSDK_GetP2PType;
+        this.BCSDK_GetSongP2PType = MFFI.BCSDK_GetSongP2PType;
+        this.BCSDK_GetSongDeviceInfo = MFFI.BCSDK_GetSongDeviceInfo;
+        this.BCSDK_SongP2PGetDebug = MFFI.BCSDK_SongP2PGetDebug;
+        this.BCSDK_XCUID2SongUID = MFFI.BCSDK_XCUID2SongUID;
+        this.BCSDK_SongP2PGetDetail = MFFI.BCSDK_SongP2PGetDetail;
+        this.BCSDK_SongP2PGetLog = MFFI.BCSDK_SongP2PGetLog;
+        this.BCSDK_GetDiagnoseLogs = MFFI.BCSDK_GetDiagnoseLogs;
+        this.BCSDK_Encrypt = MFFI.BCSDK_Encrypt;
+        this.BCSDK_Decrypt = MFFI.BCSDK_Decrypt;
     }
     static instance() {
         return NativeDelegate.singleton;

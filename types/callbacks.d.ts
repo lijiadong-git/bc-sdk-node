@@ -26,3 +26,31 @@ export interface FrameCallback {
 export interface RecordFilesCallback {
     (seq: number, files: T.BC_FIND_REC_FILES): void;
 }
+export interface DEVICE_LOCATION_DESC {
+    /**
+     * max length: SDK_MAX_NORMAL_STR_LEN - 1
+     */
+    name: string;
+    /**
+     * max length: SDK_MAX_NORMAL_STR_LEN - 1
+     */
+    ip: string;
+    /**
+     * 0 - 65535
+     */
+    port: number;
+    /**
+     * max length: SDK_MAX_UID_STR_LEN - 1
+     */
+    uid: string;
+    /**
+     * max length: SDK_MAX_MAC_STR_LEN - 1
+     */
+    mac: string;
+    eDVRType: T.BC_DEVICE_TYPE_E;
+    iChanNum: number;
+    isSongDevice: number;
+}
+export interface DeviceFoundCallback {
+    (desc: DEVICE_LOCATION_DESC): void;
+}

@@ -1424,3 +1424,63 @@ export interface BC_RINGTONE_ABILITY {
     iMaxCapacity: number;
     audioConfigs: BC_AUDIO_CONFIG_TABLE;
 }
+export interface BC_P2P_DEVICE_INFO {
+    /**
+     * max length: BC_MAX_UID_LEN - 1
+     */
+    uid: string;
+    /**
+     * max length: 15
+     */
+    fm_ver: string;
+    /**
+     * 0: not support. 1:dry battery, 2:charge battery
+     */
+    batteryType: number;
+    /**
+     * 0: not support. 1: support qr code
+     */
+    QRCodeType: number;
+    /**
+     * product name: "KEEN", "CARD", ...
+     * max length: 15
+     */
+    productName: string;
+    productType: T.BC_SONG_P2P_TYPE_E;
+}
+export interface BC_P2P_DEBUG_INFO {
+    v6_check: number;
+    /**
+     * max length: 47
+     */
+    server_addr: string;
+    /**
+     * max length: 15
+     */
+    ver: string;
+}
+export interface BC_P2P_UID_INFO {
+    /**
+     * max length: BC_MAX_UID_LEN - 1
+     */
+    uid: string;
+}
+export interface BC_P2P_DETAIL_INFO {
+    /**
+     * max length: 1023
+     */
+    content: string;
+}
+export interface BC_DIAGNOSE_LOG {
+    /**
+     * max length: BC_DIAGNOSE_LOG_STRING_MAX_LENGTH - 1
+     */
+    content: string;
+}
+export interface BC_DIAGNOSE_LOGS_LIST {
+    /**
+     * length: BC_DIAGNOSE_LOG_MAX_SIZE
+     */
+    logs: BC_DIAGNOSE_LOG[];
+    sizeOfLogs: number;
+}

@@ -364,7 +364,7 @@ class DEVICE {
                 resolve(handle);
             }
             else {
-                reject(Error("Error code: " + perror.deref()));
+                reject("Error code: " + perror.deref());
             }
         });
     }

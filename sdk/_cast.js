@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+const ref = require("ref");
 function getType(obj) {
     var toString = Object.prototype.toString;
     var map = {
@@ -46,7 +47,7 @@ function derefCast(data, type) {
         if (type && type.hasOwnProperty('type')
             && type.type.hasOwnProperty('name')
             && type.type.name === 'char') {
-            obj = String.fromCharCode.apply(null, data);
+            obj = ref.readCString(data.buffer, 0);
         }
         else {
             obj = [];

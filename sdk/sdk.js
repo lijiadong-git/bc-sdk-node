@@ -12,4 +12,6 @@ __export(require("./ability"));
 __export(require("./live"));
 __export(require("./playback"));
 __export(require("./ptz"));
+__export(require("./search"));
+__export(require("./tools"));
 //# sourceMappingURL=sdk.js.map
