@@ -366,8 +366,16 @@ class CONFIG {
                                 callback.sdkResolve();
                         }
                         else {
-                            if (callback.sdkReject)
-                                callback.sdkReject(Error("Error code: " + cmdData.bcRspCode));
+                            if (callback.sdkReject) {
+                                callback.sdkReject(Error(""
+                                    + "\n------- sdk callback !!!!!!!!! {"
+                                    + "\n        code: " + T.BC_RSP_CODE_E[cmdData.bcRspCode]
+                                    + "\n        handle: " + handle
+                                    + "\n        channel: " + cmdData.handleId
+                                    + "\n        cmd: " + T.BC_CMD_E[cmdData.bcCmd]
+                                    + "\n        cmd index: " + cmdData.cmdIdx
+                                    + "\n}"));
+                            }
                         }
                     });
                     break;
@@ -839,12 +847,21 @@ class CONFIG {
      *
      * callback with E_BC_CMD_GET_RECFILEDATE
      */
-    getRecFileDaysByChannel(handle, start, end) {
+    getRecFileDaysByChannel(handle, start, end, channels) {
         let param = {
             startTime: start,
             endTime: end,
             items: []
         };
+        for (let i = 0; i < 32; i++) {
+            param.items.push({
+                iUsed: 0,
+                iRecType: []
+            });
+        }
+        channels.forEach(channel => {
+            param.items[channel].iUsed = 1;
+        });
         return this.deviceCmd(handle, T.BC_CMD_E.E_BC_CMD_GET_RECFILEDATE, native_1.native.BCSDK_RemoteGetRecFileDaysByChannel, param);
     }
     /* user config

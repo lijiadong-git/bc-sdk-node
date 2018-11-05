@@ -338,7 +338,14 @@ class DEVICE {
                         }
                         else {
                             if (callback.sdkReject) {
-                                callback.sdkReject(Error("Error code: " + cmdData.bcRspCode));
+                                callback.sdkReject(Error(""
+                                    + "\n------- sdk callback !!!!!!!!! {"
+                                    + "\n        code: " + T.BC_RSP_CODE_E[cmdData.bcRspCode]
+                                    + "\n        handle: " + handle
+                                    + "\n        channel: " + cmdData.handleId
+                                    + "\n        cmd: " + T.BC_CMD_E[cmdData.bcCmd]
+                                    + "\n        cmd index: " + cmdData.cmdIdx
+                                    + "\n}"));
                             }
                         }
                     });
@@ -431,17 +438,27 @@ class DEVICE {
     }
     open(handle) {
         return new Promise((resolve, reject) => {
-            let tcallback = {
-                sdkResolve: resolve,
-                sdkReject: reject
-            };
-            let ret = native_1.native.BCSDK_DeviceForceOpen(handle, true);
-            if (T.ERROR.E_NONE == ret) {
-                _callback_1.PROMISE_CBS.addCallback(handle, 0, T.BC_CMD_E.E_BC_CMD_LOGIN, 0, tcallback);
-            }
-            else {
-                reject(Error("Error code: " + ret));
-            }
+            this.getDeviceState(handle)
+                .then(state => {
+                if (T.BCSDK_DEVICE_STATE_E.BCSDK_DEVICE_STATE_OPENSUCCESS == state) {
+                    resolve(T.ERROR.E_NONE);
+                    return;
+                }
+                let tcallback = {
+                    sdkResolve: resolve,
+                    sdkReject: reject
+                };
+                let ret = native_1.native.BCSDK_DeviceForceOpen(handle, true);
+                if (T.ERROR.E_NONE == ret) {
+                    _callback_1.PROMISE_CBS.addCallback(handle, 0, T.BC_CMD_E.E_BC_CMD_LOGIN, 0, tcallback);
+                }
+                else {
+                    reject(Error("Error code: " + ret));
+                }
+            })
+                .catch(reason => {
+                reject(reason);
+            });
         });
     }
     close(handle) {

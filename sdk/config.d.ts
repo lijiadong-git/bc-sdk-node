@@ -86,7 +86,7 @@ declare class CONFIG {
     getCloudCfg(handle: number): Promise<T.BC_CLOUD_CFG>;
     setCloudCfg(handle: number, param: T.BC_CLOUD_CFG): Promise<void>;
     getScanAp(handle: number): Promise<T.BC_SCAN_AP>;
-    getRecFileDaysByChannel(handle: number, start: T.BC_TIME, end: T.BC_TIME): Promise<T.BC_RECORD_FILE_DAYS_BY_CHN>;
+    getRecFileDaysByChannel(handle: number, start: T.BC_TIME, end: T.BC_TIME, channels: number[]): Promise<T.BC_RECORD_FILE_DAYS_BY_CHN>;
     getUserCfg(handle: number): Promise<T.BC_USER_CFG>;
     setUserCfg(handle: number, param: T.BC_USER_CFG): Promise<void>;
     initNewUserAiblity(handle: number, param: T.BC_USER_FOR_ABILITY): Promise<void>;

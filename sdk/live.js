@@ -25,7 +25,14 @@ class LIVE {
                         }
                         else {
                             if (callback.sdkReject) {
-                                callback.sdkReject(Error("Error code: " + cmdData.bcRspCode));
+                                callback.sdkReject(Error(""
+                                    + "\n------- sdk callback !!!!!!!!! {"
+                                    + "\n        code: " + T.BC_RSP_CODE_E[cmdData.bcRspCode]
+                                    + "\n        handle: " + handle
+                                    + "\n        channel: " + cmdData.handleId
+                                    + "\n        cmd: " + T.BC_CMD_E[cmdData.bcCmd]
+                                    + "\n        cmd index: " + cmdData.cmdIdx
+                                    + "\n}"));
                             }
                         }
                     });
