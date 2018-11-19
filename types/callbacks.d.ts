@@ -10,8 +10,6 @@ export interface IFramePlane {
     data: Uint8Array | null;
 }
 export interface IFrameCallbackData {
-    handle: number;
-    channel: number;
     pts: number;
     width: number;
     height: number;
@@ -20,8 +18,16 @@ export interface IFrameCallbackData {
     plane1: IFramePlane;
     plane2: IFramePlane;
 }
+export interface IDataCallbackData {
+    handle: number;
+    channel: number;
+    dataDesc: T.DATA_FRAME_DESC;
+}
 export interface FrameCallback {
     onVieoData: (data: IFrameCallbackData) => void;
+}
+export interface DataCallback {
+    onData: (data: IDataCallbackData) => void;
 }
 export interface RecordFilesCallback {
     (seq: number, files: T.BC_FIND_REC_FILES): void;

@@ -1,3 +1,4 @@
+/// <reference types="node" />
 import * as T from './types';
 export declare type Month = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12;
 export declare type Day = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 30 | 31;
@@ -44,6 +45,26 @@ export interface DEVICE_ABILITY_ABOUT {
     isBattery: boolean;
     qrCode: boolean;
     type: T.BC_SONG_P2P_TYPE_E;
+}
+export interface DATA_VIDEO_FRAME_DESC {
+    width: number;
+    height: number;
+    frameRate: number;
+}
+export interface DATA_AUDIO_FRAME_DESC {
+    hasAAC: number;
+    sampleRate: number;
+    profile: number;
+    channels: number;
+}
+export interface DATA_FRAME_DESC {
+    version: number;
+    type: number;
+    length: number;
+    media: Buffer;
+    pts: number;
+    videoInfo: DATA_VIDEO_FRAME_DESC;
+    audioInfo: DATA_AUDIO_FRAME_DESC;
 }
 export interface BC_RESO_PROFILE {
     eResolution: number;

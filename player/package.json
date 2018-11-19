@@ -1,0 +1,4 @@
+{ "name" : "sdk-player",
+  "main" : "./player.js",
+  "typings": "./player.d.ts" 
+}

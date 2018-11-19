@@ -1,6 +1,7 @@
 import * as ffi from 'ffi';
 import * as T from '../types';
 export declare const renderCallbackFunc: ffi.Function;
+export declare const dataCallbackFunc: ffi.Function;
 export declare const deviceFoundCallback: ffi.Function;
 export interface NativeMethods {
     /****************************************************************
@@ -169,6 +170,7 @@ export interface NativeMethods {
     BCSDK_GetIsLiveOpen: (handle: number, channel: number, pOpen: any) => number;
     BCSDK_GetLiveStreamType: (handle: number, channel: number, pType: any) => number;
     BCSDK_LiveOpen: (handle: number, channel: number, stream: T.BC_STREAM_TYPE_E, callback: any, userData: any) => number;
+    BCSDK_LiveOpen2: (handle: number, channel: number, stream: T.BC_STREAM_TYPE_E, callback: any, userData: any) => number;
     BCSDK_LiveClose: (handle: number, channel: number) => number;
     BCSDK_LiveMute: (handle: number, channel: number, mute: boolean) => number;
     /****************************************************************

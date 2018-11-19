@@ -315,8 +315,8 @@ PLAYBACK.playbackCallback = ffi_1.Callback('void', ['int', 'int', _T.P_RENDER_FR
                     new Uint8Array(ref.reinterpret(des.video.plane[2].address, des.video.plane[2].stride * des.video.plane[2].height)) : null
             };
             let callbackData = {
-                handle: handle,
-                channel: channel,
+                //handle: handle,
+                //channel: channel,
                 pts: des.pts,
                 width: des.video.width,
                 height: des.video.height,

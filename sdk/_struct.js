@@ -83,6 +83,29 @@ exports.RENDER_FRAME_DESC = refStruct({
     audio: exports.RENDER_AUDIO_FRAME_DESC
 });
 exports.P_RENDER_FRAME_DESC = exports.pointer(exports.RENDER_FRAME_DESC);
+exports.DATA_VIDEO_FRAME_DESC = refStruct({
+    width: ref.types.uint32,
+    height: ref.types.uint32,
+    frameRate: ref.types.uint32
+});
+exports.P_DATA_VIDEO_FRAME_DESC = exports.pointer(exports.DATA_VIDEO_FRAME_DESC);
+exports.DATA_AUDIO_FRAME_DESC = refStruct({
+    hasAAC: ref.types.uint8,
+    sampleRate: ref.types.uint32,
+    profile: ref.types.uint8,
+    channels: ref.types.uint8
+});
+exports.P_DATA_AUDIO_FRAME_DESC = exports.pointer(exports.DATA_AUDIO_FRAME_DESC);
+exports.DATA_FRAME_DESC = refStruct({
+    version: ref.types.int,
+    type: ref.types.uint32,
+    length: ref.types.uint32,
+    media: exports.pointer(ref.types.uint8),
+    pts: ref.types.uint64,
+    videoInfo: exports.DATA_VIDEO_FRAME_DESC,
+    audioInfo: exports.DATA_AUDIO_FRAME_DESC
+});
+exports.P_DATA_FRAME_DESC = exports.pointer(exports.DATA_FRAME_DESC);
 exports.BC_RESO_PROFILE = refStruct({
     eResolution: ref.types.int,
     iWidth: ref.types.int,

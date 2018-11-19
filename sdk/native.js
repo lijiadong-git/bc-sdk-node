@@ -4,7 +4,8 @@ const ffi = require("ffi");
 const path = require('path');
 const bindings = require('bindings');
 const _T = require("./_struct");
-exports.renderCallbackFunc = ffi.Function('void', ['int', 'int', _T.RENDER_FRAME_DESC, _T.pointer('void')]);
+exports.renderCallbackFunc = ffi.Function('void', ['int', 'int', _T.P_RENDER_FRAME_DESC, _T.pointer('void')]);
+exports.dataCallbackFunc = ffi.Function('void', ['int', 'int', _T.P_DATA_FRAME_DESC, _T.pointer('void')]);
 exports.deviceFoundCallback = ffi.Function('void', [_T.P_DEVICE_LOCATION_DESC, _T.pointer('void')]);
 const folder = path.dirname(bindings.getFileName());
 if (process.platform === "win32") {
@@ -181,6 +182,7 @@ const MFFI = ffi.Library(path.join(folder, 'libBCSDKWrapper'), {
     BCSDK_GetIsLiveOpen: ['int', ['int', 'int', _T.pointer('bool')]],
     BCSDK_GetLiveStreamType: ['int', ['int', 'int', _T.pointer('int')]],
     BCSDK_LiveOpen: ['int', ['int', 'int', 'int', exports.renderCallbackFunc, _T.pointer('void')]],
+    BCSDK_LiveOpen2: ['int', ['int', 'int', 'int', exports.dataCallbackFunc, _T.pointer('void')]],
     BCSDK_LiveClose: ['int', ['int', 'int']],
     BCSDK_LiveMute: ['int', ['int', 'int', 'bool']]
     /************************************************************************
@@ -1010,6 +1012,7 @@ class NativeDelegate {
          ****************************************************************/
         this.BCSDK_GetLiveStreamType = MFFI.BCSDK_GetLiveStreamType;
         this.BCSDK_LiveOpen = MFFI.BCSDK_LiveOpen;
+        this.BCSDK_LiveOpen2 = MFFI.BCSDK_LiveOpen2;
         this.BCSDK_GetIsLiveOpen = MFFI.BCSDK_GetIsLiveOpen;
         this.BCSDK_LiveClose = MFFI.BCSDK_LiveClose;
         this.BCSDK_LiveMute = MFFI.BCSDK_LiveMute;
