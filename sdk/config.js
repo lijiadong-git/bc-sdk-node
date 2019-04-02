@@ -29,7 +29,7 @@ class CONFIG {
             }
             else {
                 if (callback.sdkReject) {
-                    callback.sdkReject(Error("Error code: " + cmdData.bcRspCode));
+                    callback.sdkReject({ code: cmdData.bcRspCode });
                 }
             }
         });
@@ -367,14 +367,11 @@ class CONFIG {
                         }
                         else {
                             if (callback.sdkReject) {
-                                callback.sdkReject(Error(""
-                                    + "\n------- sdk callback !!!!!!!!! {"
-                                    + "\n        code: " + T.BC_RSP_CODE_E[cmdData.bcRspCode]
-                                    + "\n        handle: " + handle
-                                    + "\n        channel: " + cmdData.handleId
-                                    + "\n        cmd: " + T.BC_CMD_E[cmdData.bcCmd]
-                                    + "\n        cmd index: " + cmdData.cmdIdx
-                                    + "\n}"));
+                                callback.sdkReject({
+                                    code: cmdData.bcRspCode,
+                                    description: 'remote config faild ...',
+                                    data: cmdData
+                                });
                             }
                         }
                     });
@@ -399,7 +396,7 @@ class CONFIG {
                 ret = func(handle);
             }
             if (ret != T.ERROR.E_NONE && ret != T.ERROR.E_BUSY) {
-                reject(Error("Error code: " + ret));
+                reject({ code: ret });
                 return;
             }
             let cb = {
@@ -426,7 +423,7 @@ class CONFIG {
                 ret = func(handle, channel);
             }
             if (ret != T.ERROR.E_NONE && ret != T.ERROR.E_BUSY) {
-                reject(Error("Error code: " + ret));
+                reject({ code: ret });
                 return;
             }
             let cb = {
@@ -453,7 +450,7 @@ class CONFIG {
             let buf = ref.alloc(ref.types.int, T.BCSDK_CONFIG_STATE_E.BCSDK_CONFIG_STATE_NOTREADY);
             let ret = native_1.native.BCSDK_RemoteConfigState(handle, channel, cmd, buf);
             if (ret != T.ERROR.E_NONE) {
-                reject(Error("Error code: " + ret));
+                reject({ code: ret });
                 return;
             }
             let value = ref.deref(buf);
@@ -465,7 +462,7 @@ class CONFIG {
             let buf = ref.alloc(ref.types.int, T.BCSDK_CONFIG_STATE_E.BCSDK_CONFIG_STATE_NOTREADY);
             let ret = native_1.native.BCSDK_RemoteConfigState2(handle, channel, cmd, cmdIdx, buf);
             if (ret != T.ERROR.E_NONE) {
-                reject(Error("Error code: " + ret));
+                reject({ code: ret });
                 return;
             }
             let value = ref.deref(buf);

@@ -17,7 +17,7 @@ class PTZ {
         return new Promise((resolve, reject) => {
             let ret = native_1.native.BCSDK_PTZStop(0, 0);
             if (ret != T.ERROR.E_NONE) {
-                reject(Error("Error code: " + ret));
+                reject({ code: ret });
                 return;
             }
             resolve();
@@ -27,7 +27,7 @@ class PTZ {
         return new Promise((resolve, reject) => {
             let ret = native_1.native.BCSDK_PTZUp(handle, channel, speed);
             if (ret != T.ERROR.E_NONE) {
-                reject(Error("Error code: " + ret));
+                reject({ code: ret });
                 return;
             }
             resolve();
@@ -37,7 +37,7 @@ class PTZ {
         return new Promise((resolve, reject) => {
             let ret = native_1.native.BCSDK_PTZDown(handle, channel, speed);
             if (ret != T.ERROR.E_NONE) {
-                reject(Error("Error code: " + ret));
+                reject({ code: ret });
                 return;
             }
             resolve();
@@ -47,7 +47,7 @@ class PTZ {
         return new Promise((resolve, reject) => {
             let ret = native_1.native.BCSDK_PTZLeft(handle, channel, speed);
             if (ret != T.ERROR.E_NONE) {
-                reject(Error("Error code: " + ret));
+                reject({ code: ret });
                 return;
             }
             resolve();
@@ -57,7 +57,7 @@ class PTZ {
         return new Promise((resolve, reject) => {
             let ret = native_1.native.BCSDK_PTZRight(handle, channel, speed);
             if (ret != T.ERROR.E_NONE) {
-                reject(Error("Error code: " + ret));
+                reject({ code: ret });
                 return;
             }
             resolve();
@@ -67,7 +67,7 @@ class PTZ {
         return new Promise((resolve, reject) => {
             let ret = native_1.native.BCSDK_PTZUpLeft(handle, channel, speed);
             if (ret != T.ERROR.E_NONE) {
-                reject(Error("Error code: " + ret));
+                reject({ code: ret });
                 return;
             }
             resolve();
@@ -77,7 +77,7 @@ class PTZ {
         return new Promise((resolve, reject) => {
             let ret = native_1.native.BCSDK_PTZUpRight(handle, channel, speed);
             if (ret != T.ERROR.E_NONE) {
-                reject(Error("Error code: " + ret));
+                reject({ code: ret });
                 return;
             }
             resolve();
@@ -87,7 +87,7 @@ class PTZ {
         return new Promise((resolve, reject) => {
             let ret = native_1.native.BCSDK_PTZDownLeft(handle, channel, speed);
             if (ret != T.ERROR.E_NONE) {
-                reject(Error("Error code: " + ret));
+                reject({ code: ret });
                 return;
             }
             resolve();
@@ -97,7 +97,7 @@ class PTZ {
         return new Promise((resolve, reject) => {
             let ret = native_1.native.BCSDK_PTZDownRight(handle, channel, speed);
             if (ret != T.ERROR.E_NONE) {
-                reject(Error("Error code: " + ret));
+                reject({ code: ret });
                 return;
             }
             resolve();
@@ -107,7 +107,7 @@ class PTZ {
         return new Promise((resolve, reject) => {
             let ret = native_1.native.BCSDK_PTZZoomIn(handle, channel, speed);
             if (ret != T.ERROR.E_NONE) {
-                reject(Error("Error code: " + ret));
+                reject({ code: ret });
                 return;
             }
             resolve();
@@ -117,7 +117,7 @@ class PTZ {
         return new Promise((resolve, reject) => {
             let ret = native_1.native.BCSDK_PTZZoomOut(handle, channel, speed);
             if (ret != T.ERROR.E_NONE) {
-                reject(Error("Error code: " + ret));
+                reject({ code: ret });
                 return;
             }
             resolve();
@@ -127,7 +127,7 @@ class PTZ {
         return new Promise((resolve, reject) => {
             let ret = native_1.native.BCSDK_PTZFocusFar(handle, channel, speed);
             if (ret != T.ERROR.E_NONE) {
-                reject(Error("Error code: " + ret));
+                reject({ code: ret });
                 return;
             }
             resolve();
@@ -137,7 +137,7 @@ class PTZ {
         return new Promise((resolve, reject) => {
             let ret = native_1.native.BCSDK_PTZFocusNear(handle, channel, speed);
             if (ret != T.ERROR.E_NONE) {
-                reject(Error("Error code: " + ret));
+                reject({ code: ret });
                 return;
             }
             resolve();
@@ -147,7 +147,7 @@ class PTZ {
         return new Promise((resolve, reject) => {
             let ret = native_1.native.BCSDK_PTZIrisOpen(handle, channel, speed);
             if (ret != T.ERROR.E_NONE) {
-                reject(Error("Error code: " + ret));
+                reject({ code: ret });
                 return;
             }
             resolve();
@@ -157,7 +157,7 @@ class PTZ {
         return new Promise((resolve, reject) => {
             let ret = native_1.native.BCSDK_PTZIrisClose(handle, channel, speed);
             if (ret != T.ERROR.E_NONE) {
-                reject(Error("Error code: " + ret));
+                reject({ code: ret });
                 return;
             }
             resolve();
@@ -167,7 +167,7 @@ class PTZ {
         return new Promise((resolve, reject) => {
             let ret = native_1.native.BCSDK_PTZScanAuto(handle, channel, speed);
             if (ret != T.ERROR.E_NONE) {
-                reject(Error("Error code: " + ret));
+                reject({ code: ret });
                 return;
             }
             resolve();

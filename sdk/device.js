@@ -19,7 +19,11 @@ const deviceCallback = ffi_1.Callback('void', ['int', _T.BC_CMD_DATA, _T.pointer
             || 'undefined' === typeof cmdData.bcRspCode
             || 'undefined' === typeof cmdData.dataLen
             || 'undefined' === typeof cmdData.handleId) {
-            reject(Error('sdk callback format !!!!!!! ' + cmdData));
+            reject({
+                code: T.ERROR.E_ILLEGAL,
+                description: "sdk callback format error",
+                data: cmdData
+            });
             return;
         }
         switch (cmdData.bcCmd) {
@@ -264,12 +268,16 @@ const deviceCallback = ffi_1.Callback('void', ['int', _T.BC_CMD_DATA, _T.pointer
                     break;
                 }
             default:
-                reject(Error("------- no one handle this callback !!!!!!!!! {"
+                const errStr = "------- no one handle this callback !!!!!!!!! {"
                     + "\n        handle: " + handle
                     + "\n        channel: " + cmdData.handleId
                     + "\n        cmd: " + T.BC_CMD_E[cmdData.bcCmd]
                     + "\n        cmd index: " + cmdData.cmdIdx
-                    + "\n}"));
+                    + "\n}";
+                reject({
+                    code: T.ERROR.E_NOT_FOUND,
+                    description: errStr
+                });
                 break;
         }
         ;
@@ -323,7 +331,7 @@ class DEVICE {
                         }
                         else {
                             if (callback.sdkReject) {
-                                callback.sdkReject(Error("Error code: " + cmdData.bcRspCode));
+                                callback.sdkReject({ code: cmdData.bcRspCode });
                             }
                         }
                     });
@@ -338,14 +346,11 @@ class DEVICE {
                         }
                         else {
                             if (callback.sdkReject) {
-                                callback.sdkReject(Error(""
-                                    + "\n------- sdk callback !!!!!!!!! {"
-                                    + "\n        code: " + T.BC_RSP_CODE_E[cmdData.bcRspCode]
-                                    + "\n        handle: " + handle
-                                    + "\n        channel: " + cmdData.handleId
-                                    + "\n        cmd: " + T.BC_CMD_E[cmdData.bcCmd]
-                                    + "\n        cmd index: " + cmdData.cmdIdx
-                                    + "\n}"));
+                                callback.sdkReject({
+                                    code: cmdData.bcRspCode,
+                                    description: "device sdk callback ...",
+                                    data: cmdData
+                                });
                             }
                         }
                     });
@@ -371,7 +376,7 @@ class DEVICE {
                 resolve(handle);
             }
             else {
-                reject("Error code: " + perror.deref());
+                reject({ code: perror.deref() });
             }
         });
     }
@@ -379,7 +384,7 @@ class DEVICE {
         return new Promise((resolve, reject) => {
             let ret = native_1.native.BCSDK_RemoveDevice(handle);
             if (ret != T.ERROR.E_NONE) {
-                reject(Error("Error code: " + ret));
+                reject({ code: ret });
                 return;
             }
             _callback_1.PROMISE_CBS.clearCallbackForHandle(handle);
@@ -391,7 +396,7 @@ class DEVICE {
         return new Promise((resolve, reject) => {
             let ret = native_1.native.BCSDK_RemoveAllDevices();
             if (ret != T.ERROR.E_NONE) {
-                reject(Error("Error code: " + ret));
+                reject({ code: ret });
                 return;
             }
             _callback_1.PROMISE_CBS.clearAll();
@@ -416,7 +421,7 @@ class DEVICE {
                 resolve(thandle);
             }
             else {
-                reject(Error("Error code: " + perror.deref()));
+                reject({ code: perror.deref() });
             }
         });
     }
@@ -430,7 +435,7 @@ class DEVICE {
         return new Promise((resolve, reject) => {
             let handle = native_1.native.BCSDK_GetDevice(index);
             if (handle < 0) {
-                reject(Error("Error code: " + handle));
+                reject({ code: handle });
                 return;
             }
             resolve(handle);
@@ -453,7 +458,7 @@ class DEVICE {
                     _callback_1.PROMISE_CBS.addCallback(handle, 0, T.BC_CMD_E.E_BC_CMD_LOGIN, 0, tcallback);
                 }
                 else {
-                    reject(Error("Error code: " + ret));
+                    reject({ code: ret });
                 }
             })
                 .catch(reason => {
@@ -465,7 +470,7 @@ class DEVICE {
         return new Promise((resolve, reject) => {
             let ret = native_1.native.BCSDK_DeviceForceClose(handle, true);
             if (ret != T.ERROR.E_NONE) {
-                reject(Error("Error code: " + ret));
+                reject({ code: ret });
                 return;
             }
             resolve();
@@ -475,7 +480,7 @@ class DEVICE {
         return new Promise((resolve, reject) => {
             let ret = native_1.native.BCSDK_SetDeviceNeedAutoOpen(handle, need);
             if (ret != T.ERROR.E_NONE) {
-                reject(Error("Error code: " + ret));
+                reject({ code: ret });
                 return;
             }
             resolve();
@@ -485,7 +490,7 @@ class DEVICE {
         return new Promise((resolve, reject) => {
             let ret = native_1.native.BCSDK_SetDeviceMaxReconnectCount(handle, count);
             if (ret != T.ERROR.E_NONE) {
-                reject(Error("Error code: " + ret));
+                reject({ code: ret });
                 return;
             }
             resolve();
@@ -496,7 +501,7 @@ class DEVICE {
             let des = new _T.DEVICE_LOGIN_DESC();
             let ret = native_1.native.BCSDK_GetDeviceLoginMessage(handle, des.ref());
             if (ret != T.ERROR.E_NONE) {
-                reject(Error('Error code: ' + ret));
+                reject({ code: ret });
                 return;
             }
             let param = _cast_1.derefCast(des, _T.DEVICE_LOGIN_DESC);
@@ -508,7 +513,7 @@ class DEVICE {
             let buf = ref.alloc(ref.types.int, 0);
             let ret = native_1.native.BCSDK_GetDeviceChannelCount(handle, buf);
             if (ret != T.ERROR.E_NONE) {
-                reject(Error("Error code: " + ret));
+                reject({ code: ret });
                 return;
             }
             let value = ref.deref(buf);
@@ -520,7 +525,7 @@ class DEVICE {
             let buf = ref.alloc(ref.types.int, T.BCSDK_DEVICE_STATE_E.BCSDK_DEVICE_STATE_NOTREADY);
             let ret = native_1.native.BCSDK_GetDeviceState(handle, buf);
             if (ret != T.ERROR.E_NONE) {
-                reject(Error("Error code: " + ret));
+                reject({ code: ret });
                 return;
             }
             let value = ref.deref(buf);

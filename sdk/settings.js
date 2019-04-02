@@ -14,7 +14,7 @@ class SETTINGS {
         return new Promise((resolve, reject) => {
             let ret = native_1.native.BCSDK_SetIsInBackground(background);
             if (ret < 0) {
-                reject(Error("Error code: " + ret));
+                reject({ code: ret });
                 return;
             }
             resolve();
@@ -24,7 +24,7 @@ class SETTINGS {
         return new Promise((resolve, reject) => {
             let ret = native_1.native.BCSDK_SetNetworkType(type);
             if (ret < 0) {
-                reject(Error("Error code: " + ret));
+                reject({ code: ret });
                 return;
             }
             resolve();
@@ -34,7 +34,7 @@ class SETTINGS {
         return new Promise((resolve, reject) => {
             let ret = native_1.native.BCSDK_StartDevicesAutoOpen(time);
             if (ret < 0) {
-                reject(Error("Error code: " + ret));
+                reject({ code: ret });
                 return;
             }
             resolve();
@@ -44,7 +44,7 @@ class SETTINGS {
         return new Promise((resolve, reject) => {
             let ret = native_1.native.BCSDK_StopDevicesAutoOpen(logout);
             if (ret < 0) {
-                reject(Error("Error code: " + ret));
+                reject({ code: ret });
                 return;
             }
             resolve();

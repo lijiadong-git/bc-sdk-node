@@ -6,7 +6,7 @@ declare class TOOLS {
     getTotalBitrates(): Promise<number>;
     reInitP2p(): Promise<void>;
     getP2PType(uid: string): Promise<T.BC_P2P_TYPE_E>;
-    GetSongP2PType(uid: string): Promise<T.BC_SONG_P2P_TYPE_E>;
+    getSongP2PType(uid: string): Promise<T.BC_SONG_P2P_TYPE_E>;
     getSongDeviceInfo(uid: string): Promise<T.BC_P2P_DEVICE_INFO>;
     songP2PGetDebug(): Promise<T.BC_P2P_DEBUG_INFO>;
     XCUID2SongUID(uid: string): Promise<T.BC_P2P_UID_INFO>;

@@ -74,7 +74,7 @@ class PLAYBACK {
                         }
                         else {
                             if (callback.sdkReject) {
-                                callback.sdkReject(Error("Error code: " + cmdData.bcRspCode));
+                                callback.sdkReject({ code: cmdData.bcRspCode });
                             }
                         }
                     });
@@ -89,14 +89,11 @@ class PLAYBACK {
                         }
                         else {
                             if (callback.sdkReject) {
-                                callback.sdkReject(Error(""
-                                    + "\n------- sdk callback !!!!!!!!! {"
-                                    + "\n        code: " + T.BC_RSP_CODE_E[cmdData.bcRspCode]
-                                    + "\n        handle: " + handle
-                                    + "\n        channel: " + cmdData.handleId
-                                    + "\n        cmd: " + T.BC_CMD_E[cmdData.bcCmd]
-                                    + "\n        cmd index: " + cmdData.cmdIdx
-                                    + "\n}"));
+                                callback.sdkReject({
+                                    code: cmdData.bcRspCode,
+                                    description: 'playback callback faild ...',
+                                    data: cmdData
+                                });
                             }
                         }
                     });
@@ -153,7 +150,7 @@ class PLAYBACK {
             let tt = new _T.BC_TIME(time);
             let ret = native_1.native.BCSDK_PlaybackSeek(handle, tt.ref());
             if (ret < 0) {
-                reject(Error("Error code: " + ret));
+                reject({ code: ret });
                 return;
             }
             resolve();
@@ -164,7 +161,7 @@ class PLAYBACK {
             let buf = ref.alloc(ref.types.int, T.BCSDK_MEDIA_STATE_E.BCSDK_MEDIA_STATE_NONE);
             let ret = native_1.native.BCSDK_GetPlaybackState(handle, channel, buf);
             if (ret < 0) {
-                reject(Error("Error code: " + ret));
+                reject({ code: ret });
                 return;
             }
             let value = ref.deref(buf);
@@ -176,7 +173,7 @@ class PLAYBACK {
             let buf = ref.alloc(ref.types.bool, false);
             let ret = native_1.native.BCSDK_GetIsPlaybackOpen(handle, channel, buf);
             if (ret < 0) {
-                reject(Error("Error code: " + ret));
+                reject({ code: ret });
                 return;
             }
             let value = ref.deref(buf);
@@ -188,7 +185,7 @@ class PLAYBACK {
             let buf = ref.alloc(ref.types.int, T.BC_STREAM_TYPE_E.E_BC_STREAM_MAIN);
             let ret = native_1.native.BCSDK_GetPlaybackState(handle, channel, buf);
             if (ret < 0) {
-                reject(Error("Error code: " + ret));
+                reject({ code: ret });
                 return;
             }
             let value = ref.deref(buf);
@@ -210,7 +207,7 @@ class PLAYBACK {
                 _callback_1.COMMON_CBS.setCallback(handle, channel, -T.BC_CMD_E.E_BC_CMD_PLAYBACKBYNAME, 0, cb2);
             }
             else {
-                reject(Error('Error code: ' + ret));
+                reject({ code: ret });
             }
         });
     }
@@ -218,7 +215,7 @@ class PLAYBACK {
         return new Promise((resolve, reject) => {
             let ret = native_1.native.BCSDK_PlaybackClose(handle, channel);
             if (ret < 0) {
-                reject(Error("Error code: " + ret));
+                reject({ code: ret });
                 return;
             }
             resolve();
@@ -228,7 +225,7 @@ class PLAYBACK {
         return new Promise((resolve, reject) => {
             let ret = native_1.native.BCSDK_PlaybackStart(handle, channel);
             if (ret < 0) {
-                reject(Error("Error code: " + ret));
+                reject({ code: ret });
                 return;
             }
             resolve();
@@ -238,7 +235,7 @@ class PLAYBACK {
         return new Promise((resolve, reject) => {
             let ret = native_1.native.BCSDK_PlaybackPause(handle, channel);
             if (ret < 0) {
-                reject(Error("Error code: " + ret));
+                reject({ code: ret });
                 return;
             }
             resolve();
@@ -248,7 +245,7 @@ class PLAYBACK {
         return new Promise((resolve, reject) => {
             let ret = native_1.native.BCSDK_PlaybackStop(handle, channel);
             if (ret < 0) {
-                reject(Error("Error code: " + ret));
+                reject({ code: ret });
                 return;
             }
             resolve();
@@ -258,7 +255,7 @@ class PLAYBACK {
         return new Promise((resolve, reject) => {
             let ret = native_1.native.BCSDK_PlaybackStep(handle, channel);
             if (ret < 0) {
-                reject(Error("Error code: " + ret));
+                reject({ code: ret });
                 return;
             }
             resolve();
@@ -268,7 +265,7 @@ class PLAYBACK {
         return new Promise((resolve, reject) => {
             let ret = native_1.native.BCSDK_PlaybackMute(handle, channel, mute);
             if (ret < 0) {
-                reject(Error("Error code: " + ret));
+                reject({ code: ret });
                 return;
             }
             resolve();

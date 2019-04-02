@@ -179,7 +179,7 @@ class ABILITY {
             let enctab = new _T.BC_ENC_PROFILE_TABLE();
             let ret = native_1.native.BCSDK_GetEncodeTable(handle, channel, enctab.ref());
             if (ret < 0) {
-                reject(Error("Error code: " + ret));
+                reject({ code: ret });
                 return;
             }
             let et = _cast_1.derefCast(enctab, _T.BC_ENC_PROFILE_TABLE);

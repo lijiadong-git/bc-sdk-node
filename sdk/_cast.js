@@ -40,10 +40,41 @@ function refCast(data) {
     return data;
 }
 exports.refCast = refCast;
-function derefCast(data, type) {
+/*
+export function derefCast(data: any, type: any): any {
     var t = (type && type.hasOwnProperty('name')) ? type.name : type;
-    var obj;
+    var obj: any;
+    
     if (t === 'ArrayType') {
+        if (type && type.hasOwnProperty('type')
+            && type.type.hasOwnProperty('name')
+            && type.type.name === 'char') {
+            obj = ref.readCString(data.buffer, 0);
+        }
+        else {
+            obj = [];
+            for(var i = 0, len = data.length; i < len; i++){
+                obj.push(derefCast(data[i], type.type));
+            }
+        }
+        return obj;
+    }
+    if (t === 'StructType') {
+        obj = {};
+        for(var k in type.fields){
+            obj[k] = derefCast(data[k], type.fields[k].type);
+        }
+        return obj;
+    }
+    return data;
+}
+*/
+function derefCast(data, type) {
+    if (!type) {
+        return data;
+    }
+    var obj;
+    if (type.hasOwnProperty('fixedLength')) {
         if (type && type.hasOwnProperty('type')
             && type.type.hasOwnProperty('name')
             && type.type.name === 'char') {
@@ -57,7 +88,7 @@ function derefCast(data, type) {
         }
         return obj;
     }
-    if (t === 'StructType') {
+    if (type.hasOwnProperty('fields')) {
         obj = {};
         for (var k in type.fields) {
             obj[k] = derefCast(data[k], type.fields[k].type);

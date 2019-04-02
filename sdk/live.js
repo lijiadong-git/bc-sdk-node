@@ -25,14 +25,11 @@ class LIVE {
                         }
                         else {
                             if (callback.sdkReject) {
-                                callback.sdkReject(Error(""
-                                    + "\n------- sdk callback !!!!!!!!! {"
-                                    + "\n        code: " + T.BC_RSP_CODE_E[cmdData.bcRspCode]
-                                    + "\n        handle: " + handle
-                                    + "\n        channel: " + cmdData.handleId
-                                    + "\n        cmd: " + T.BC_CMD_E[cmdData.bcCmd]
-                                    + "\n        cmd index: " + cmdData.cmdIdx
-                                    + "\n}"));
+                                callback.sdkReject({
+                                    code: cmdData.bcRspCode,
+                                    description: "live sdk callback ...",
+                                    data: cmdData
+                                });
                             }
                         }
                     });
@@ -46,13 +43,12 @@ class LIVE {
         return new Promise((resolve, reject) => {
             let buf = ref.alloc(ref.types.int, T.BC_STREAM_TYPE_E.E_BC_STREAM_SUB);
             if (!buf) {
-                ref;
                 reject(Error('alloc buffer error !!!'));
                 return;
             }
             let ret = native_1.native.BCSDK_GetLiveStreamType(handle, channel, buf);
             if (0 > ret) {
-                reject(Error('error code: ' + ret));
+                reject({ code: ret });
                 return;
             }
             let value = ref.deref(buf);
@@ -68,7 +64,7 @@ class LIVE {
             }
             let ret = native_1.native.BCSDK_GetIsLiveOpen(handle, channel, buf);
             if (0 > ret) {
-                reject(Error('error code: ' + ret));
+                reject({ code: ret });
                 return;
             }
             let value = ref.deref(buf);
@@ -117,7 +113,7 @@ class LIVE {
         return new Promise((resolve, reject) => {
             let ret = native_1.native.BCSDK_LiveClose(handle, channel);
             if (0 > ret) {
-                reject(Error('error code: ' + ret));
+                reject({ code: ret });
                 return;
             }
             resolve();
@@ -127,7 +123,7 @@ class LIVE {
         return new Promise((resolve, reject) => {
             let ret = native_1.native.BCSDK_LiveMute(handle, channel, mute);
             if (0 > ret) {
-                reject(Error('error code: ' + ret));
+                reject({ code: ref });
                 return;
             }
             resolve();
