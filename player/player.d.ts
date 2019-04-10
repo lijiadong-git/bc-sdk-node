@@ -3,8 +3,8 @@ declare class PLAYER {
     private static singleton;
     private constructor();
     static instance(): PLAYER;
-    private static frameCallbck;
-    private static playerCallback;
+    private static frameCallbcks;
+    private getPlayerCallback;
     create(): Promise<number>;
     release(hPlayer: number): Promise<void>;
     start(hPlayer: number, stream: T.BC_STREAM_TYPE_E, callback: T.FrameCallback): Promise<void>;
