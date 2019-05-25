@@ -8,4 +8,5 @@ export * from './live';
 export * from './playback';
 export * from './ptz';
 export * from './search';
+export * from './record';
 export * from './tools';

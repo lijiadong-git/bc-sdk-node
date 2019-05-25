@@ -5,7 +5,6 @@ declare class SEARCH {
     static instance(): SEARCH;
     private static callbacks;
     private static deviceFoundCallback;
-    handleSDKCallback(handle: number, cmdData: any): void;
     addCallback(callback: T.DeviceFoundCallback): Promise<void>;
     removeCallback(callback: T.DeviceFoundCallback): Promise<void>;
     startLoop(time: number): Promise<void>;

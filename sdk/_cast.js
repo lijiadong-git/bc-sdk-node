@@ -1,6 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const ref = require("ref");
+const refStruct = require("ref-struct");
+const refArray = require("ref-array");
 function getType(obj) {
     var toString = Object.prototype.toString;
     var map = {
@@ -35,17 +37,55 @@ function refCast(data) {
         return obj;
     }
     if (type === 'string') {
-        return data.split('');
+        let buf = new Buffer(data);
+        return Array.prototype.slice.call(buf);
     }
     return data;
 }
 exports.refCast = refCast;
+const refArrayName = refArray('int').name;
+const refStructName = refStruct({}).name;
+function derefCast(data, type) {
+    var t = data.__proto__.constructor.name;
+    var obj;
+    if (t && t === refArrayName) {
+        if (type && type.hasOwnProperty('type')
+            && type.type.hasOwnProperty('name')
+            && type.type.name === 'byte') {
+            obj = ref.readCString(data.buffer, 0);
+        }
+        else {
+            obj = [];
+            for (var i = 0, len = data.length; i < len; i++) {
+                obj.push(derefCast(data[i], type.type));
+            }
+        }
+        return obj;
+    }
+    if (t && t === refStructName) {
+        obj = {};
+        for (var k in type.fields) {
+            obj[k] = derefCast(data[k], type.fields[k].type);
+        }
+        return obj;
+    }
+    if (t && t === 'Buffer') {
+        if (type && type.hasOwnProperty('name')
+            && type.name === 'byte*') {
+            obj = ref.readCString(data, 0);
+        }
+        return obj;
+    }
+    return data;
+}
+exports.derefCast = derefCast;
 /*
 export function derefCast(data: any, type: any): any {
-    var t = (type && type.hasOwnProperty('name')) ? type.name : type;
+    if (!type) {
+        return data;
+    }
     var obj: any;
-    
-    if (t === 'ArrayType') {
+    if (type.hasOwnProperty('fixedLength')) {
         if (type && type.hasOwnProperty('type')
             && type.type.hasOwnProperty('name')
             && type.type.name === 'char') {
@@ -59,7 +99,7 @@ export function derefCast(data: any, type: any): any {
         }
         return obj;
     }
-    if (t === 'StructType') {
+    if (type.hasOwnProperty('fields')) {
         obj = {};
         for(var k in type.fields){
             obj[k] = derefCast(data[k], type.fields[k].type);
@@ -67,35 +107,5 @@ export function derefCast(data: any, type: any): any {
         return obj;
     }
     return data;
-}
-*/
-function derefCast(data, type) {
-    if (!type) {
-        return data;
-    }
-    var obj;
-    if (type.hasOwnProperty('fixedLength')) {
-        if (type && type.hasOwnProperty('type')
-            && type.type.hasOwnProperty('name')
-            && type.type.name === 'char') {
-            obj = ref.readCString(data.buffer, 0);
-        }
-        else {
-            obj = [];
-            for (var i = 0, len = data.length; i < len; i++) {
-                obj.push(derefCast(data[i], type.type));
-            }
-        }
-        return obj;
-    }
-    if (type.hasOwnProperty('fields')) {
-        obj = {};
-        for (var k in type.fields) {
-            obj[k] = derefCast(data[k], type.fields[k].type);
-        }
-        return obj;
-    }
-    return data;
-}
-exports.derefCast = derefCast;
+}*/ 
 //# sourceMappingURL=_cast.js.map

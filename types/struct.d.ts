@@ -1505,3 +1505,6 @@ export interface BC_DIAGNOSE_LOGS_LIST {
     logs: BC_DIAGNOSE_LOG[];
     sizeOfLogs: number;
 }
+export interface BC_REC_SCHE_TABLE_CFG {
+    iTimeTable: T.BC_REC_SCHE_TYPE_E[];
+}

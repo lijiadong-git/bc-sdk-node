@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const native_1 = require("./native");
 const ffi_1 = require("ffi");
 const ref = require("ref");
+const T = require("../types");
 const _T = require("../sdk/_struct");
 class PLAYER {
     constructor() {
@@ -14,7 +15,7 @@ class PLAYER {
         return ffi_1.Callback('void', [_T.P_RENDER_FRAME_DESC, _T.pointer('void')], function (frameDes, userData) {
             new Promise((resolve, reject) => {
                 if (!frameDes) {
-                    reject('live callback error format ...');
+                    reject({ code: T.ERROR.E_WRONG_FORMAT, description: 'live callback error format ...' });
                     return;
                 }
                 let buf = ref.reinterpret(frameDes, _T.RENDER_FRAME_DESC.size);
@@ -70,6 +71,9 @@ class PLAYER {
     release(hPlayer) {
         return new Promise(resolve => {
             native_1.native.BC_MediaPlayerRelease(hPlayer);
+            setTimeout(() => {
+                PLAYER.frameCallbcks.delete(hPlayer);
+            }, 10000);
             resolve();
         });
     }
@@ -83,7 +87,7 @@ class PLAYER {
                 resolve();
             }
             else {
-                reject('BC_MediaPlayerStart error code: ' + ret);
+                reject({ code: ret, description: 'BC_MediaPlayerStart error ...' });
             }
         });
     }
@@ -118,7 +122,6 @@ class PLAYER {
     }
     stop(hPlayer) {
         return new Promise(resolve => {
-            PLAYER.frameCallbcks.delete(hPlayer);
             native_1.native.BC_MediaPlayerStop(hPlayer);
             resolve();
         });

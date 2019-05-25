@@ -17,19 +17,19 @@ exports.BC_CMD_DATA = refStruct({
     cmdIdx: ref.types.int,
     bcRspCode: ref.types.int,
     handleId: ref.types.int,
-    pRspData: exports.pointer('byte'),
+    pRspData: exports.pointer('uint8'),
     dataLen: ref.types.ulong
 });
 exports.P_BC_CMD_DATA = exports.pointer(exports.BC_CMD_DATA);
 exports.DEVICE_LOGIN_DESC = refStruct({
-    name: refArray('char', types_1.DEFINDE.SDK_MAX_NORMAL_STR_LEN),
+    name: refArray('byte', types_1.DEFINDE.SDK_MAX_NORMAL_STR_LEN),
     useP2P: ref.types.bool,
     port: ref.types.int,
     uidPort: ref.types.int,
-    host: refArray('char', types_1.DEFINDE.SDK_MAX_HOSTNAME_LEN),
-    uid: refArray('char', types_1.DEFINDE.SDK_MAX_UID_STR_LEN),
-    username: refArray('char', types_1.DEFINDE.SDK_MAX_NAME_LEN),
-    password: refArray('char', types_1.DEFINDE.SDK_MAX_PASSWD_LEN)
+    host: refArray('byte', types_1.DEFINDE.SDK_MAX_HOSTNAME_LEN),
+    uid: refArray('byte', types_1.DEFINDE.SDK_MAX_UID_STR_LEN),
+    username: refArray('byte', types_1.DEFINDE.SDK_MAX_NAME_LEN),
+    password: refArray('byte', types_1.DEFINDE.SDK_MAX_PASSWD_LEN)
 });
 exports.P_DEVICE_LOGIN_DESC = exports.pointer(exports.DEVICE_LOGIN_DESC);
 exports.DEVICE_CALLBACK_DESC = refStruct({
@@ -110,7 +110,7 @@ exports.BC_RESO_PROFILE = refStruct({
     eResolution: ref.types.int,
     iWidth: ref.types.int,
     iHigh: ref.types.int,
-    cResolutionName: refArray('char', types_1.DEFINDE.BC_MAX_NAME_LEN),
+    cResolutionName: refArray('byte', types_1.DEFINDE.BC_MAX_NAME_LEN),
     lDefFrameRate: ref.types.long,
     lDefBitRate: ref.types.long,
     lFrameRate: refArray(ref.types.long, types_1.DEFINDE.BC_MAX_FRAME_RATE_NUM),
@@ -140,15 +140,15 @@ exports.BC_TIME = refStruct({
 exports.P_BC_TIME = exports.pointer(exports.BC_TIME);
 exports.BC_FIND_REC_FILE = refStruct({
     iChannel: ref.types.int,
-    cFileName: refArray('char', types_1.DEFINDE.BC_MAX_FILE_LEN),
+    cFileName: refArray('byte', types_1.DEFINDE.BC_MAX_FILE_LEN),
     struStartTime: exports.BC_TIME,
     struStopTime: exports.BC_TIME,
     iFileSize: ref.types.uint32,
     iFileSizeH: ref.types.uint32,
-    cCardNum: refArray('char', 32),
-    cLocked: ref.types.byte,
-    cSupportNum: ref.types.byte,
-    cRes: refArray('char', 2),
+    cCardNum: refArray('byte', 32),
+    cLocked: ref.types.uint8,
+    cSupportNum: ref.types.uint8,
+    cRes: refArray('byte', 2),
     recordType: ref.types.int,
     eStreamType: ref.types.int,
     eFileType: ref.types.int,
@@ -175,11 +175,11 @@ exports.BC_SYS_GENERAL_CFG = refStruct({
     iSecond: ref.types.int,
     iDeviceId: ref.types.int,
     iLanguage: ref.types.int,
-    cDeviceName: refArray('char', types_1.DEFINDE.BC_MAX_NAME_LEN)
+    cDeviceName: refArray('byte', types_1.DEFINDE.BC_MAX_NAME_LEN)
 });
 exports.P_BC_SYS_GENERAL_CFG = exports.pointer(exports.BC_SYS_GENERAL_CFG);
 exports.BC_DEVICE_NAME_CFG = refStruct({
-    cDeviceName: refArray('char', types_1.DEFINDE.BC_MAX_NAME_LEN)
+    cDeviceName: refArray('byte', types_1.DEFINDE.BC_MAX_NAME_LEN)
 });
 exports.P_BC_DEVICE_NAME_CFG = exports.pointer(exports.BC_DEVICE_NAME_CFG);
 exports.BC_AUTOREBOOT_CFG = refStruct({
@@ -217,18 +217,18 @@ exports.BC_RECORD_GENERAL_CFG = refStruct({
 });
 exports.P_BC_RECORD_GENERAL_CFG = exports.pointer(exports.BC_RECORD_GENERAL_CFG);
 exports.BC_EMAIL_SENDER = refStruct({
-    byAccount: refArray('char', types_1.DEFINDE.BC_MAX_ADDR_LEN),
-    byPassword: refArray('char', types_1.DEFINDE.BC_MAX_PWD_LEN)
+    byAccount: refArray('byte', types_1.DEFINDE.BC_MAX_ADDR_LEN),
+    byPassword: refArray('byte', types_1.DEFINDE.BC_MAX_PWD_LEN)
 });
 exports.P_BC_EMAIL_SENDER = exports.pointer(exports.BC_EMAIL_SENDER);
 exports.BC_EMAIL_RECEIVER = refStruct({
-    byAddress: refArray('char', types_1.DEFINDE.BC_MAX_ADDR_LEN)
+    byAddress: refArray('byte', types_1.DEFINDE.BC_MAX_ADDR_LEN)
 });
 exports.P_BC_EMAIL_RECEIVER = exports.pointer(exports.BC_EMAIL_RECEIVER);
 exports.BC_EMAIL_CFG = refStruct({
     sender: exports.BC_EMAIL_SENDER,
     receiver: refArray(exports.BC_EMAIL_RECEIVER, 3),
-    bySmtpServer: refArray('char', types_1.DEFINDE.BC_MAX_ADDR_LEN),
+    bySmtpServer: refArray('byte', types_1.DEFINDE.BC_MAX_ADDR_LEN),
     bSSL: ref.types.bool,
     iSmtpPort: ref.types.int,
     iAttachment: ref.types.int // 0:disable; 1:Attach Picture; 2:Attach Video
@@ -239,13 +239,13 @@ exports.BC_EMAIL_CFG = refStruct({
     ,
     iMailInterval: ref.types.int // 3: 30S, 6: 60S, 30: 300S, 60: 600S
     ,
-    cSendNickname: refArray('char', types_1.DEFINDE.BC_MAX_NICKNAME_LEN)
+    cSendNickname: refArray('byte', types_1.DEFINDE.BC_MAX_NICKNAME_LEN)
 });
 exports.P_BC_EMAIL_CFG = exports.pointer(exports.BC_EMAIL_CFG);
 exports.BC_RESOLUTION_INFO = refStruct({
     reso: ref.types.int // BC_RESOLUTION_E 
     ,
-    cName: refArray('char', 32) //name of resolution
+    cName: refArray('byte', 32) //name of resolution
     ,
     width: ref.types.int,
     height: ref.types.int
@@ -320,14 +320,14 @@ exports.BC_LOCAL_CFG = refStruct({
     ,
     eAutodns: ref.types.int // get dns automaticaly or static configure
     ,
-    cIp: refArray('char', types_1.DEFINDE.BC_MAX_ADDR_LEN) //ip configure
+    cIp: refArray('byte', types_1.DEFINDE.BC_MAX_ADDR_LEN) //ip configure
     ,
-    cMask: refArray('char', types_1.DEFINDE.BC_MAX_ADDR_LEN),
-    cGateway: refArray('char', types_1.DEFINDE.BC_MAX_ADDR_LEN),
-    cMac: refArray('char', types_1.DEFINDE.BC_MAX_ADDR_LEN),
-    cDns1: refArray('char', types_1.DEFINDE.BC_MAX_ADDR_LEN) //dns1 configure
+    cMask: refArray('byte', types_1.DEFINDE.BC_MAX_ADDR_LEN),
+    cGateway: refArray('byte', types_1.DEFINDE.BC_MAX_ADDR_LEN),
+    cMac: refArray('byte', types_1.DEFINDE.BC_MAX_ADDR_LEN),
+    cDns1: refArray('byte', types_1.DEFINDE.BC_MAX_ADDR_LEN) //dns1 configure
     ,
-    cDns2: refArray('char', types_1.DEFINDE.BC_MAX_ADDR_LEN) //dns2 configure
+    cDns2: refArray('byte', types_1.DEFINDE.BC_MAX_ADDR_LEN) //dns2 configure
 });
 exports.P_BC_LOCAL_CFG = exports.pointer(exports.BC_LOCAL_CFG);
 exports.BC_NET_NORMAL_PORT = refStruct({
@@ -347,26 +347,26 @@ exports.BC_UPNP_CFG = refStruct({
 });
 exports.P_BC_UPNP_CFG = exports.pointer(exports.BC_UPNP_CFG);
 exports.BC_UID_INFO = refStruct({
-    cUid: refArray('char', types_1.DEFINDE.BC_MAX_UID_LEN)
+    cUid: refArray('byte', types_1.DEFINDE.BC_MAX_UID_LEN)
 });
 exports.P_BC_UID_INFO = exports.pointer(exports.BC_UID_INFO);
 exports.BC_P2P_CFG = refStruct({
     iEnable: ref.types.int,
     iPort: ref.types.int,
-    serverDomainName: refArray('char', types_1.DEFINDE.BC_MAX_NAME_LEN)
+    serverDomainName: refArray('byte', types_1.DEFINDE.BC_MAX_NAME_LEN)
 });
 exports.P_BC_P2P_CFG = exports.pointer(exports.BC_P2P_CFG);
 exports.BC_HANDLEEXCEPTION = refStruct({
     iHandleType: ref.types.int,
-    byRelAlarmOut: refArray('char', 96)
+    byRelAlarmOut: refArray('byte', 96)
 });
 exports.P_BC_HANDLEEXCEPTION = exports.pointer(exports.BC_HANDLEEXCEPTION);
 exports.BC_ALARM_IN_CFG = refStruct({
     iInputId: ref.types.int,
     bCopyTo: ref.types.bool,
-    sAlarmInName: refArray('char', 32),
-    byAlarmType: ref.types.byte,
-    byAlarmInHandle: ref.types.byte,
+    sAlarmInName: refArray('byte', 32),
+    byAlarmType: ref.types.uint8,
+    byAlarmInHandle: ref.types.uint8,
     struAlarmHandleType: exports.BC_HANDLEEXCEPTION,
     iInvalid: ref.types.int,
     iTimeTable: refArray(ref.types.int, types_1.DEFINDE.BC_MAX_DAYS * types_1.DEFINDE.BC_MAX_TIMESEGMENT),
@@ -382,7 +382,7 @@ exports.BC_ALARM_IN_CFG = refStruct({
 exports.P_BC_ALARM_IN_CFG = exports.pointer(exports.BC_ALARM_IN_CFG);
 exports.BC_ALARM_OUT_CFG = refStruct({
     iOutputId: ref.types.int,
-    cAlarmOutName: refArray('char', 32),
+    cAlarmOutName: refArray('byte', 32),
     iAlarmOutDelay: ref.types.int,
     iInvalid: ref.types.int,
     iTimeTable: refArray(ref.types.int, types_1.DEFINDE.BC_MAX_DAYS * types_1.DEFINDE.BC_MAX_TIMESEGMENT)
@@ -434,26 +434,26 @@ exports.P_BC_DST_CFG = exports.pointer(exports.BC_DST_CFG);
 exports.BC_DDNS_CFG = refStruct({
     bEnable: ref.types.bool,
     eType: ref.types.int,
-    cDomainName: refArray('char', types_1.DEFINDE.BC_MAX_ADDR_LEN),
-    cUserName: refArray('char', types_1.DEFINDE.BC_MAX_NAME_LEN),
-    cPassword: refArray('char', types_1.DEFINDE.BC_MAX_PWD_LEN)
+    cDomainName: refArray('byte', types_1.DEFINDE.BC_MAX_ADDR_LEN),
+    cUserName: refArray('byte', types_1.DEFINDE.BC_MAX_NAME_LEN),
+    cPassword: refArray('byte', types_1.DEFINDE.BC_MAX_PWD_LEN)
 });
 exports.P_BC_DDNS_CFG = exports.pointer(exports.BC_DDNS_CFG);
 exports.BC_NTP_CFG = refStruct({
     bEnable: ref.types.bool,
-    cServer: refArray('char', types_1.DEFINDE.BC_MAX_ADDR_LEN),
+    cServer: refArray('byte', types_1.DEFINDE.BC_MAX_ADDR_LEN),
     iInterval: ref.types.int // 60 ~65535 MIN,0 for synchronize
     ,
     iPort: ref.types.int
 });
 exports.P_BC_NTP_CFG = exports.pointer(exports.BC_NTP_CFG);
 exports.BC_PPPOE_CFG = refStruct({
-    cName: refArray('char', types_1.DEFINDE.BC_MAX_NAME_LEN),
-    cPassword: refArray('char', types_1.DEFINDE.BC_MAX_PWD_LEN)
+    cName: refArray('byte', types_1.DEFINDE.BC_MAX_NAME_LEN),
+    cPassword: refArray('byte', types_1.DEFINDE.BC_MAX_PWD_LEN)
 });
 exports.P_BC_PPPOE_CFG = exports.pointer(exports.BC_PPPOE_CFG);
 exports.BC_UDID = refStruct({
-    udid: refArray('char', 128),
+    udid: refArray('byte', 128),
     iSignal: ref.types.int,
     iSupportEncrypt: ref.types.int,
     iEncrypt: ref.types.int
@@ -466,30 +466,30 @@ exports.BC_UDID_LIST = refStruct({
 exports.P_BC_UDID_LIST = exports.pointer(exports.BC_UDID_LIST);
 exports.BC_WIFI_CFG = refStruct({
     mode: ref.types.int,
-    essid: refArray('char', 128) /* ssid */,
+    essid: refArray('byte', 128) /* ssid */,
     channel: ref.types.int /* 1~13 */,
     authmod: ref.types.int,
     enccrypttype: ref.types.int,
-    key: refArray('char', 128),
+    key: refArray('byte', 128),
     udidList: exports.BC_UDID_LIST
 });
 exports.P_BC_WIFI_CFG = exports.pointer(exports.BC_WIFI_CFG);
 exports.BC_SIM_MODULE_INFO = refStruct({
-    cIMEI: refArray('char', 128) // International Mobile Equipment Identity
+    cIMEI: refArray('byte', 128) // International Mobile Equipment Identity
     ,
-    cICCID: refArray('char', 128) // Integrate circuit card identity
+    cICCID: refArray('byte', 128) // Integrate circuit card identity
     ,
-    cPhoneNum: refArray('char', 128) // phone number
+    cPhoneNum: refArray('byte', 128) // phone number
 });
 exports.P_BC_SIM_MODULE_INFO = exports.pointer(exports.BC_SIM_MODULE_INFO);
 exports.BC_BIND_CLOUD = refStruct({
-    cAuthToken: refArray('char', types_1.DEFINDE.BC_MAX_AUTH_TOKEN_LEN)
+    cAuthToken: refArray('byte', types_1.DEFINDE.BC_MAX_AUTH_TOKEN_LEN)
 });
 exports.P_BC_BIND_CLOUD = exports.pointer(exports.BC_BIND_CLOUD);
 exports.BC_CLOUD_INFO = refStruct({
     isBinded: ref.types.bool,
-    cUsername: refArray('char', types_1.DEFINDE.BC_MAX_ADDR_LEN),
-    cNickname: refArray('char', types_1.DEFINDE.BC_MAX_NICKNAME_LEN)
+    cUsername: refArray('byte', types_1.DEFINDE.BC_MAX_ADDR_LEN),
+    cNickname: refArray('byte', types_1.DEFINDE.BC_MAX_NICKNAME_LEN)
 });
 exports.P_BC_CLOUD_INFO = exports.pointer(exports.BC_CLOUD_INFO);
 exports.BC_CLOUD_STREAM_TYPE_LIST = refStruct({
@@ -516,13 +516,13 @@ exports.BC_RECORD_FILE_DAYS_BY_CHN = refStruct({
 });
 exports.P_BC_RECORD_FILE_DAYS_BY_CHN = exports.pointer(exports.BC_RECORD_FILE_DAYS_BY_CHN);
 exports.BC_USER = refStruct({
-    cUserName: refArray('char', types_1.DEFINDE.BC_MAX_NAME_LEN),
-    cPassword: refArray('char', types_1.DEFINDE.BC_MAX_PWD_LEN),
-    cLocalRight: refArray('char', 32),
-    cOldIpcRight: refArray('char', 32),
+    cUserName: refArray('byte', types_1.DEFINDE.BC_MAX_NAME_LEN),
+    cPassword: refArray('byte', types_1.DEFINDE.BC_MAX_PWD_LEN),
+    cLocalRight: refArray('byte', 32),
+    cOldIpcRight: refArray('byte', 32),
     magicNum: ref.types.int,
-    cUserIP: refArray('char', 128),
-    cMACAddr: refArray('char', 6),
+    cUserIP: refArray('byte', 128),
+    cMACAddr: refArray('byte', 6),
     iUserLevel: ref.types.int // 0:normal user;  1:admin
     ,
     iLoginState: ref.types.int,
@@ -532,24 +532,24 @@ exports.BC_USER = refStruct({
 });
 exports.P_BC_USER = exports.pointer(exports.BC_USER);
 exports.BC_USER_CFG = refStruct({
-    cUserName: refArray('char', types_1.DEFINDE.BC_MAX_NAME_LEN),
+    cUserName: refArray('byte', types_1.DEFINDE.BC_MAX_NAME_LEN),
     usernum: ref.types.int,
     user: refArray(exports.BC_USER, types_1.DEFINDE.BC_USER_NUM)
 });
 exports.P_BC_USER_CFG = exports.pointer(exports.BC_USER_CFG);
 exports.BC_USER_FOR_ABILITY = refStruct({
-    cMyUserName: refArray('char', types_1.DEFINDE.BC_MAX_NAME_LEN),
-    cUserNameForSet: refArray('char', types_1.DEFINDE.BC_MAX_NAME_LEN)
+    cMyUserName: refArray('byte', types_1.DEFINDE.BC_MAX_NAME_LEN),
+    cUserNameForSet: refArray('byte', types_1.DEFINDE.BC_MAX_NAME_LEN)
 });
 exports.P_BC_USER_FOR_ABILITY = exports.pointer(exports.BC_USER_FOR_ABILITY);
 exports.BC_USER_ONLINE_INFO = refStruct({
     iSessionId: ref.types.int,
     iUserId: ref.types.int,
-    cUserName: refArray('char', types_1.DEFINDE.BC_MAX_NAME_LEN) // Login User Name
+    cUserName: refArray('byte', types_1.DEFINDE.BC_MAX_NAME_LEN) // Login User Name
     ,
-    cPassword: refArray('char', types_1.DEFINDE.BC_MAX_PWD_LEN) // User password, the default is an empty string
+    cPassword: refArray('byte', types_1.DEFINDE.BC_MAX_PWD_LEN) // User password, the default is an empty string
     ,
-    userIP: refArray('char', types_1.DEFINDE.BC_MAX_ADDR_LEN) // User IP
+    userIP: refArray('byte', types_1.DEFINDE.BC_MAX_ADDR_LEN) // User IP
     ,
     iUserLevel: ref.types.int // 0:normal user;  1:admin
     ,
@@ -564,8 +564,8 @@ exports.BC_USER_ONLINE_CFG = refStruct({
 });
 exports.P_BC_USER_ONLINE_CFG = exports.pointer(exports.BC_USER_ONLINE_CFG);
 exports.BC_FORCE_PWD = refStruct({
-    cUserName: refArray('char', types_1.DEFINDE.BC_MAX_NAME_LEN),
-    cPassword: refArray('char', types_1.DEFINDE.BC_MAX_PWD_LEN)
+    cUserName: refArray('byte', types_1.DEFINDE.BC_MAX_NAME_LEN),
+    cPassword: refArray('byte', types_1.DEFINDE.BC_MAX_PWD_LEN)
 });
 exports.P_BC_FORCE_PWD = exports.pointer(exports.BC_FORCE_PWD);
 exports.BC_BOOT_PWD_STATE = refStruct({
@@ -573,17 +573,17 @@ exports.BC_BOOT_PWD_STATE = refStruct({
 });
 exports.P_BC_BOOT_PWD_STATE = exports.pointer(exports.BC_BOOT_PWD_STATE);
 exports.BC_UPGRADE_FILE_INFO = refStruct({
-    cSourceFileName: refArray('char', types_1.DEFINDE.BC_MAX_FILE_LEN),
+    cSourceFileName: refArray('byte', types_1.DEFINDE.BC_MAX_FILE_LEN),
     iUpgradeConfig: ref.types.int,
     uFileSize: ref.types.uint32,
     uCurSize: ref.types.uint32
 });
 exports.P_BC_UPGRADE_FILE_INFO = exports.pointer(exports.BC_UPGRADE_FILE_INFO);
 exports.BC_FTP_CFG = refStruct({
-    cServer: refArray('char', types_1.DEFINDE.BC_MAX_ADDR_LEN),
-    cUsername: refArray('char', types_1.DEFINDE.BC_MAX_NAME_LEN),
-    cPassword: refArray('char', types_1.DEFINDE.BC_MAX_PWD_LEN),
-    cRemotedir: refArray('char', types_1.DEFINDE.BC_MAX_FILE_LEN),
+    cServer: refArray('byte', types_1.DEFINDE.BC_MAX_ADDR_LEN),
+    cUsername: refArray('byte', types_1.DEFINDE.BC_MAX_NAME_LEN),
+    cPassword: refArray('byte', types_1.DEFINDE.BC_MAX_PWD_LEN),
+    cRemotedir: refArray('byte', types_1.DEFINDE.BC_MAX_FILE_LEN),
     bAnonymous: ref.types.bool,
     iPort: ref.types.int,
     iwFilelen: ref.types.int // Unit:MB
@@ -602,17 +602,17 @@ exports.BC_FTP_CFG = refStruct({
 });
 exports.P_BC_FTP_CFG = exports.pointer(exports.BC_FTP_CFG);
 exports.BC_CONFIG_FILE_INFO = refStruct({
-    cSourceFileName: refArray('char', types_1.DEFINDE.BC_MAX_FILE_LEN),
-    cSaveFileName: refArray('char', types_1.DEFINDE.BC_MAX_FILE_LEN),
+    cSourceFileName: refArray('byte', types_1.DEFINDE.BC_MAX_FILE_LEN),
+    cSaveFileName: refArray('byte', types_1.DEFINDE.BC_MAX_FILE_LEN),
     uFileSize: ref.types.uint32,
     uCurSize: ref.types.uint32
 });
 exports.P_BC_CONFIG_FILE_INFO = exports.pointer(exports.BC_CONFIG_FILE_INFO);
 exports.BC_PUSH_INFO = refStruct({
-    cToken: refArray('char', 512),
-    cPhoneType: refArray('char', 128),
-    cClientid: refArray('char', 128),
-    cRes: refArray('char', 128)
+    cToken: refArray('byte', 512),
+    cPhoneType: refArray('byte', 128),
+    cClientid: refArray('byte', 128),
+    cRes: refArray('byte', 128)
 });
 exports.P_BC_PUSH_INFO = exports.pointer(exports.BC_PUSH_INFO);
 exports.BC_RTMP_OPT_ITEM = refStruct({
@@ -681,7 +681,7 @@ exports.BC_OSD = refStruct({
 exports.P_BC_OSD = exports.pointer(exports.BC_OSD);
 exports.BC_OSD_CFG = refStruct({
     isCopyTo: ref.types.bool,
-    byChannelName: refArray('char', types_1.DEFINDE.BC_MAX_NAME_LEN),
+    byChannelName: refArray('byte', types_1.DEFINDE.BC_MAX_NAME_LEN),
     channelName: exports.BC_OSD,
     time: exports.BC_OSD,
     eSize: ref.types.int,
@@ -724,7 +724,7 @@ exports.BC_COVER_CFG = refStruct({
     bEnable: ref.types.bool // FALSE: disable, TRUE:enable
     ,
     area: refArray(exports.BC_COVER_AREA, types_1.DEFINDE.BC_MAX_COVER_AREA_NUM),
-    byRes: refArray('char', 64)
+    byRes: refArray('byte', 64)
 });
 exports.P_BC_COVER_CFG = exports.pointer(exports.BC_COVER_CFG);
 exports.BC_RECORD_SCHEDULE_CFG = refStruct({
@@ -753,13 +753,13 @@ exports.BC_PTZ_DECODER = refStruct({
 });
 exports.P_BC_PTZ_DECODER = exports.pointer(exports.BC_PTZ_DECODER);
 exports.BC_SENSITIVITY_INFO = refStruct({
-    byBeginHour: ref.types.byte // begin time: hour
+    byBeginHour: ref.types.uint8 // begin time: hour
     ,
-    byBeginMinute: ref.types.byte // begin time: minute
+    byBeginMinute: ref.types.uint8 // begin time: minute
     ,
-    byEndHour: ref.types.byte // endtime: hour
+    byEndHour: ref.types.uint8 // endtime: hour
     ,
-    byEndMinute: ref.types.byte // endtime: minute
+    byEndMinute: ref.types.uint8 // endtime: minute
     ,
     iSensitivity: ref.types.int // 1 ~ 50
 });
@@ -796,7 +796,7 @@ exports.BC_PRESET = refStruct({
     iPtzCmd: ref.types.int // if set ptz name only, pls set cmd to -1
     ,
     iPresetId: ref.types.int,
-    name: refArray('char', types_1.DEFINDE.BC_MAX_NAME_LEN) // if no use "invalid" should be set
+    name: refArray('byte', types_1.DEFINDE.BC_MAX_NAME_LEN) // if no use "invalid" should be set
 });
 exports.P_BC_PRESET = exports.pointer(exports.BC_PRESET);
 exports.BC_PTZ_PRESETS = refStruct({
@@ -813,7 +813,7 @@ exports.BC_CRUISE = refStruct({
     iPresetId: refArray(ref.types.int, types_1.DEFINDE.BC_MAX_KEY_POS),
     iTime: refArray(ref.types.int, types_1.DEFINDE.BC_MAX_KEY_POS),
     iSpeed: refArray(ref.types.int, types_1.DEFINDE.BC_MAX_KEY_POS),
-    name: refArray('char', types_1.DEFINDE.BC_MAX_NAME_LEN)
+    name: refArray('byte', types_1.DEFINDE.BC_MAX_NAME_LEN)
 });
 exports.P_BC_CRUISE = exports.pointer(exports.BC_CRUISE);
 exports.BC_PTZ_CRUISES = refStruct({
@@ -950,7 +950,7 @@ exports.BC_AUDIO_TASK = refStruct({
 });
 exports.P_BC_AUDIO_TASK = exports.pointer(exports.BC_AUDIO_TASK);
 exports.BC_SNAP_INFO = refStruct({
-    cSaveFileName: refArray('char', types_1.DEFINDE.BC_MAX_FILE_LEN),
+    cSaveFileName: refArray('byte', types_1.DEFINDE.BC_MAX_FILE_LEN),
     uFileSize: ref.types.uint32,
     uCurSize: ref.types.uint32
 });
@@ -976,7 +976,7 @@ exports.BC_CROP_SNAP_INFO = refStruct({
     ,
     iHeight: ref.types.int // height for snap
     ,
-    cSaveFileName: refArray('char', types_1.DEFINDE.BC_MAX_FILE_LEN),
+    cSaveFileName: refArray('byte', types_1.DEFINDE.BC_MAX_FILE_LEN),
     uFileSize: ref.types.uint32,
     uCurSize: ref.types.uint32
 });
@@ -1018,27 +1018,27 @@ exports.BC_MUTE_ALARM_AUDIO = refStruct({
 exports.P_BC_MUTE_ALARM_AUDIO = exports.pointer(exports.BC_MUTE_ALARM_AUDIO);
 exports.BC_RINGTONE_FILE_INFO = refStruct({
     iChannel: ref.types.int,
-    cSourceFileName: refArray('char', types_1.DEFINDE.BC_MAX_FILE_LEN),
-    cAdpcmFileName: refArray('char', types_1.DEFINDE.BC_MAX_FILE_LEN),
+    cSourceFileName: refArray('byte', types_1.DEFINDE.BC_MAX_FILE_LEN),
+    cAdpcmFileName: refArray('byte', types_1.DEFINDE.BC_MAX_FILE_LEN),
     iFileSize: ref.types.int,
     iCurSize: ref.types.int
 });
 exports.P_BC_RINGTONE_FILE_INFO = exports.pointer(exports.BC_RINGTONE_FILE_INFO);
 exports.BC_VERSION_INFO = refStruct({
-    cName: refArray('char', types_1.DEFINDE.BC_MAX_NAME_LEN) // device name
+    cName: refArray('byte', types_1.DEFINDE.BC_MAX_NAME_LEN) // device name
     ,
-    cType: refArray('char', types_1.DEFINDE.BC_MAX_NAME_LEN) // model
+    cType: refArray('byte', types_1.DEFINDE.BC_MAX_NAME_LEN) // model
     ,
-    cSerialNo: refArray('char', types_1.DEFINDE.BC_SERIALNO_LEN),
-    cBuildDay: refArray('char', types_1.DEFINDE.BC_BUILD_INFO_LEN),
-    cHardwareVer: refArray('char', types_1.DEFINDE.BC_VERSION_INFO_LEN),
-    cCfgVer: refArray('char', types_1.DEFINDE.BC_VERSION_INFO_LEN),
-    cFirmwareVer: refArray('char', types_1.DEFINDE.BC_VERSION_INFO_LEN),
-    cPakSuffix: refArray('char', types_1.DEFINDE.BC_MAX_FILE_LEN),
-    cDetail: refArray('char', types_1.DEFINDE.BC_DETAIL_INFO_LEN),
-    cCC3200Ver: refArray('char', types_1.DEFINDE.BC_VERSION_INFO_LEN) // cc3200 version
+    cSerialNo: refArray('byte', types_1.DEFINDE.BC_SERIALNO_LEN),
+    cBuildDay: refArray('byte', types_1.DEFINDE.BC_BUILD_INFO_LEN),
+    bytedwareVer: refArray('byte', types_1.DEFINDE.BC_VERSION_INFO_LEN),
+    cCfgVer: refArray('byte', types_1.DEFINDE.BC_VERSION_INFO_LEN),
+    cFirmwareVer: refArray('byte', types_1.DEFINDE.BC_VERSION_INFO_LEN),
+    cPakSuffix: refArray('byte', types_1.DEFINDE.BC_MAX_FILE_LEN),
+    cDetail: refArray('byte', types_1.DEFINDE.BC_DETAIL_INFO_LEN),
+    cCC3200Ver: refArray('byte', types_1.DEFINDE.BC_VERSION_INFO_LEN) // cc3200 version
     ,
-    cSpVer: refArray('char', types_1.DEFINDE.BC_VERSION_INFO_LEN) //sp version
+    cSpVer: refArray('byte', types_1.DEFINDE.BC_VERSION_INFO_LEN) //sp version
 });
 exports.P_BC_VERSION_INFO = exports.pointer(exports.BC_VERSION_INFO);
 exports.BC_RFSENSOR_ALARM_INFO = refStruct({
@@ -1052,7 +1052,7 @@ exports.BC_MULTI_UPDATE_STATUS = refStruct({
     iDownloadSize: ref.types.int // download size (KB)
     ,
     eState: ref.types.int,
-    cVersion: refArray('char', types_1.DEFINDE.BC_VERSION_INFO_LEN)
+    cVersion: refArray('byte', types_1.DEFINDE.BC_VERSION_INFO_LEN)
 });
 exports.P_BC_MULTI_UPDATE_STATUS = exports.pointer(exports.BC_MULTI_UPDATE_STATUS);
 exports.BC_MULTI_UPDATE_STATUS_ITEM = refStruct({
@@ -1129,7 +1129,7 @@ exports.BC_BATTERY_INFO = refStruct({
     iBatteryPercent: ref.types.int,
     iLowPowerFlag: ref.types.int // 0:not, 1:low power
     ,
-    eChargeStatus: ref.types.int // BC_CHARGE_STATUS_E
+    ebytegeStatus: ref.types.int // BC_byteGE_STATUS_E
     ,
     eAdapterStatus: ref.types.int // BC_ADAPTER_STATUS_E
     ,
@@ -1168,11 +1168,11 @@ exports.BC_RINGTONE_ABILITY = refStruct({
 exports.P_BC_RINGTONE_ABILITY = exports.pointer(exports.BC_RINGTONE_ABILITY);
 /// device location description
 exports.DEVICE_LOCATION_DESC = refStruct({
-    name: refArray('char', types_1.DEFINDE.SDK_MAX_NORMAL_STR_LEN),
-    ip: refArray('char', types_1.DEFINDE.SDK_MAX_NORMAL_STR_LEN),
+    name: refArray('byte', types_1.DEFINDE.SDK_MAX_NORMAL_STR_LEN),
+    ip: refArray('byte', types_1.DEFINDE.SDK_MAX_NORMAL_STR_LEN),
     port: ref.types.int,
-    uid: refArray('char', types_1.DEFINDE.SDK_MAX_UID_STR_LEN),
-    mac: refArray('char', types_1.DEFINDE.SDK_MAX_MAC_STR_LEN),
+    uid: refArray('byte', types_1.DEFINDE.SDK_MAX_UID_STR_LEN),
+    mac: refArray('byte', types_1.DEFINDE.SDK_MAX_MAC_STR_LEN),
     eDVRType: ref.types.int // BC_DEVICE_TYPE_E
     ,
     iChanNum: ref.types.int,
@@ -1181,25 +1181,25 @@ exports.DEVICE_LOCATION_DESC = refStruct({
 exports.P_DEVICE_LOCATION_DESC = exports.pointer(exports.DEVICE_LOCATION_DESC);
 exports.BC_P2P_DEBUG_INFO = refStruct({
     v6_check: ref.types.int,
-    server_addr: refArray('char', 48),
-    ver: refArray('char', 16)
+    server_addr: refArray('byte', 48),
+    ver: refArray('byte', 16)
 });
 exports.P_BC_P2P_DEBUG_INFO = exports.pointer(exports.BC_P2P_DEBUG_INFO);
 exports.BC_P2P_UID_INFO = refStruct({
-    uid: refArray('char', types_1.DEFINDE.BC_MAX_UID_LEN)
+    uid: refArray('byte', types_1.DEFINDE.BC_MAX_UID_LEN)
 });
 exports.P_BC_P2P_UID_INFO = exports.pointer(exports.BC_P2P_UID_INFO);
 exports.BC_P2P_DETAIL_INFO = refStruct({
-    content: refArray('char', 1024)
+    content: refArray('byte', 1024)
 });
 exports.P_BC_P2P_DETAIL_INFO = exports.pointer(exports.BC_P2P_DETAIL_INFO);
 exports.BC_P2P_LOG = refStruct({
-    content: exports.pointer(ref.types.char),
+    content: exports.pointer(ref.types.byte),
     length: ref.types.int
 });
 exports.P_BC_P2P_LOG = exports.pointer(exports.BC_P2P_LOG);
 exports.BC_DIAGNOSE_LOG = refStruct({
-    content: refArray('char', types_1.DEFINDE.BC_DIAGNOSE_LOG_STRING_MAX_LENGTH)
+    content: refArray('byte', types_1.DEFINDE.BC_DIAGNOSE_LOG_STRING_MAX_LENGTH)
 });
 exports.P_BC_DIAGNOSE_LOG = exports.pointer(exports.BC_DIAGNOSE_LOG);
 exports.BC_DIAGNOSE_LOGS_LIST = refStruct({
@@ -1208,20 +1208,43 @@ exports.BC_DIAGNOSE_LOGS_LIST = refStruct({
 });
 exports.P_BC_DIAGNOSE_LOGS_LIST = exports.pointer(exports.BC_DIAGNOSE_LOGS_LIST);
 exports.BC_CRYPT_BUF = refStruct({
-    buffer: refArray('char', types_1.DEFINDE.BASE64_OUT_SIZE),
+    buffer: refArray('byte', types_1.DEFINDE.BASE64_OUT_SIZE),
     len: ref.types.uint8
 });
 exports.P_BC_CRYPT_BUF = exports.pointer(exports.BC_CRYPT_BUF);
 exports.BC_P2P_DEVICE_INFO = refStruct({
-    uid: refArray('char', types_1.DEFINDE.BC_MAX_UID_LEN),
-    fm_ver: refArray('char', 16),
-    batteryType: ref.types.int // 0: not support. 1:dry battery, 2:charge battery
+    uid: refArray('byte', types_1.DEFINDE.BC_MAX_UID_LEN),
+    fm_ver: refArray('byte', 16),
+    batteryType: ref.types.int // 0: not support. 1:dry battery, 2:bytege battery
     ,
     QRCodeType: ref.types.int // 0: not support. 1: support qr code
     ,
-    productName: refArray('char', 16) // product name: "KEEN", "CARD", ...
+    productName: refArray('byte', 16) // product name: "KEEN", "CARD", ...
     ,
     productType: ref.types.int
 });
 exports.P_BC_P2P_DEVICE_INFO = exports.pointer(exports.BC_P2P_DEVICE_INFO);
+/// disk warning description
+exports.BC_DISK_WARNINIG_DESC = refStruct({
+    warning: ref.types.int,
+    description: exports.pointer(ref.types.byte),
+    folder: refArray('byte', types_1.DEFINDE.SDK_MAX_FILENAME_LEN),
+    folderFreeSize: ref.types.uint64,
+    diskFreeSize: ref.types.uint64
+});
+exports.P_BC_DISK_WARNINIG_DESC = exports.pointer(exports.BC_DISK_WARNINIG_DESC);
+/// record file callback description
+exports.BC_REC_EVENT_DESC = refStruct({
+    hDevice: ref.types.int,
+    channel: ref.types.int,
+    //
+    event: ref.types.int,
+    description: exports.pointer(ref.types.byte),
+    file: refArray('byte', types_1.DEFINDE.SDK_MAX_FILENAME_LEN)
+});
+exports.P_BC_REC_EVENT_DESC = exports.pointer(exports.BC_REC_EVENT_DESC);
+exports.BC_REC_SCHE_TABLE_CFG = refStruct({
+    iTimeTable: refArray(ref.types.int, types_1.DEFINDE.BC_MAX_DAYS * types_1.DEFINDE.BC_MAX_TIMESEGMENT)
+});
+exports.P_BC_REC_SCHE_TABLE_CFG = exports.pointer(exports.BC_REC_SCHE_TABLE_CFG);
 //# sourceMappingURL=_struct.js.map

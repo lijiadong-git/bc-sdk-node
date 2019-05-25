@@ -316,6 +316,7 @@ class DEVICE {
                     });
                     break;
                 }
+                case T.BC_CMD_E.E_BC_CMD_RECONNECT:
                 case T.BC_CMD_E.E_BC_CMD_GET_ABILITY: {
                     let callback = _callback_1.COMMON_CBS.getCallback(handle, channel, cmdData.bcCmd, cmdData.cmdIdx);
                     if (T.BC_RSP_CODE_E.E_BC_RSP_OK == cmdData.bcRspCode) {
@@ -373,6 +374,7 @@ class DEVICE {
             if (handle >= 0 && 0 == perror.deref()) {
                 _callback_1.COMMON_CBS.setCallback(handle, 0, T.BC_CMD_E.E_BC_CMD_CONNECTION_STATE_CHANGE, 0, { sdkCallback: callback });
                 _callback_1.COMMON_CBS.setCallback(handle, 0, T.BC_CMD_E.E_BC_CMD_GET_ABILITY, 0, { sdkCallback: callback });
+                _callback_1.COMMON_CBS.setCallback(handle, 0, T.BC_CMD_E.E_BC_CMD_RECONNECT, 0, { sdkCallback: callback });
                 resolve(handle);
             }
             else {

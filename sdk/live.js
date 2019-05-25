@@ -86,7 +86,7 @@ class LIVE {
                 _callback_1.COMMON_CBS.setCallback(handle, channel, T.BC_CMD_E.E_BC_CMD_REALPLAY, 0, cb2);
             }
             else {
-                reject('live open error code: ' + ret);
+                reject({ code: ret, description: 'live open error ...' });
             }
         });
     }
@@ -105,7 +105,7 @@ class LIVE {
                 _callback_1.COMMON_CBS.setCallback(handle, channel, T.BC_CMD_E.E_BC_CMD_REALPLAY, 0, cb2);
             }
             else {
-                reject('live open error code: ' + ret);
+                reject({ code: ret, description: 'live open error ...' });
             }
         });
     }
@@ -134,7 +134,7 @@ LIVE.singleton = new LIVE();
 LIVE.liveCallback = ffi_1.Callback('void', ['int', 'int', _T.P_RENDER_FRAME_DESC, _T.pointer('void')], function (handle, channel, frameDes, userData) {
     new Promise((resolve, reject) => {
         if (!frameDes) {
-            reject('live callback error format ...');
+            reject({ code: T.ERROR.E_WRONG_FORMAT, description: 'live callback error format ...' });
             return;
         }
         var buf = ref.reinterpret(frameDes, _T.RENDER_FRAME_DESC.size);
@@ -145,7 +145,7 @@ LIVE.liveCallback = ffi_1.Callback('void', ['int', 'int', _T.P_RENDER_FRAME_DESC
             if (!callback
                 || !callback.sdkCallback
                 || !callback.sdkCallback.onVieoData) {
-                reject('live callback function error ...');
+                reject({ code: T.ERROR.E_NOT_FOUND, description: 'live callback function error ...' });
                 return;
             }
             let plane0 = {
@@ -192,7 +192,7 @@ LIVE.liveCallback = ffi_1.Callback('void', ['int', 'int', _T.P_RENDER_FRAME_DESC
 LIVE.liveCallback2 = ffi_1.Callback('void', ['int', 'int', _T.P_DATA_FRAME_DESC, _T.pointer('void')], function (handle, channel, frameDes, userData) {
     new Promise((resolve, reject) => {
         if (!frameDes) {
-            reject('live callback error format ...');
+            reject({ code: T.ERROR.E_WRONG_FORMAT, description: 'live callback error format ...' });
             return;
         }
         var buf = ref.reinterpret(frameDes, _T.DATA_FRAME_DESC.size);
@@ -203,7 +203,7 @@ LIVE.liveCallback2 = ffi_1.Callback('void', ['int', 'int', _T.P_DATA_FRAME_DESC,
             if (!callback
                 || !callback.sdkCallback
                 || !callback.sdkCallback.onData) {
-                reject('live callback function error ...');
+                reject({ code: T.ERROR.E_NOT_FOUND, description: 'live callback function error ...' });
                 return;
             }
             let callbackData = {

@@ -12,11 +12,6 @@ class SEARCH {
     static instance() {
         return SEARCH.singleton;
     }
-    handleSDKCallback(handle, cmdData) {
-        new Promise(function (resolve, reject) {
-            resolve();
-        });
-    }
     addCallback(callback) {
         return new Promise((resolve, reject) => {
             if (-1 == SEARCH.callbacks.indexOf(callback)) {
@@ -36,7 +31,7 @@ class SEARCH {
         return new Promise((resolve, reject) => {
             let index = SEARCH.callbacks.indexOf(callback);
             if (-1 == index) {
-                reject('callback not found ...');
+                reject({ code: T.ERROR.E_NOT_FOUND, description: 'search callback not found ...' });
                 return;
             }
             SEARCH.callbacks.splice(index, 1);
@@ -112,7 +107,7 @@ SEARCH.callbacks = [];
 SEARCH.deviceFoundCallback = ffi_1.Callback('void', [_T.P_DEVICE_LOCATION_DESC, _T.pointer('void')], function (pdesc, userData) {
     new Promise((resolve, reject) => {
         if (!pdesc) {
-            reject('search callback error format ...');
+            reject({ code: T.ERROR.E_WRONG_FORMAT, description: 'search callback error format ...' });
             return;
         }
         let buf = ref.reinterpret(pdesc, _T.DEVICE_LOCATION_DESC.size);

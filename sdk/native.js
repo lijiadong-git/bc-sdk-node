@@ -5,6 +5,8 @@ const path = require('path');
 const bindings = require('bindings');
 const _T = require("./_struct");
 exports.renderCallbackFunc = ffi.Function('void', ['int', 'int', _T.P_RENDER_FRAME_DESC, _T.pointer('void')]);
+exports.diskStatusCallback = ffi.Function('void', [_T.P_BC_DISK_WARNINIG_DESC, _T.pointer('void')]);
+exports.recordStatusCallback = ffi.Function('void', [_T.P_BC_REC_EVENT_DESC, _T.pointer('void')]);
 exports.dataCallbackFunc = ffi.Function('void', ['int', 'int', _T.P_DATA_FRAME_DESC, _T.pointer('void')]);
 exports.deviceFoundCallback = ffi.Function('void', [_T.P_DEVICE_LOCATION_DESC, _T.pointer('void')]);
 const folder = path.dirname(bindings.getFileName());
@@ -226,6 +228,48 @@ const MFFI = ffi.Library(path.join(folder, 'libBCSDKWrapper'), {
     BCSDK_PlaybackStop: ['int', ['int', 'int']],
     BCSDK_PlaybackStep: ['int', ['int', 'int']],
     BCSDK_PlaybackMute: ['int', ['int', 'int', 'bool']]
+    /************************************************************************
+     *
+     * Local Reocrd interfaces
+     *
+     ************************************************************************/
+    /**
+     * Record Callback
+     */
+    ,
+    BCSDK_SetDiskCallbacks: ['int', [exports.diskStatusCallback, _T.pointer('void')]],
+    BCSDK_SetRecordCallback: ['int', [exports.recordStatusCallback, _T.pointer('void')]]
+    // -----------------------------------------------------------------------------------------------------------------
+    // Record Folder
+    ,
+    BCSDK_SetRecordFolder: ['int', ['string', 'string', 'uint64', 'uint64']]
+    // -----------------------------------------------------------------------------------------------------------------
+    // Set Channel Record File Prefixion
+    // Default is "DeviceName"CH"ChannelIndex"
+    ,
+    BCSDK_SetRecordFilePrefixion: ['int', ['int', 'int', 'string']]
+    // -----------------------------------------------------------------------------------------------------------------
+    // Local Record Schedule
+    ,
+    BCSDK_SetLocalRecordSchedule: ['int', [_T.BC_REC_SCHE_TABLE_CFG, 'int', 'int', 'int']],
+    BCSDK_OpenLocalRecordSchedule: ['int', []],
+    BCSDK_CloseLocalRecordSchedule: ['int', []]
+    // -----------------------------------------------------------------------------------------------------------------
+    // Device should record with schedule
+    // Default is false
+    ,
+    BCSDK_SetDeviceAcceptLocalRecordSchedule: ['int', ['int', 'bool']]
+    // -----------------------------------------------------------------------------------------------------------------
+    // Recording
+    ,
+    BCSDK_GetIsRecording: ['int', ['int', 'int', _T.pointer('bool')]]
+    // -----------------------------------------------------------------------------------------------------------------
+    // Manual Record
+    ,
+    BCSDK_GetIsManualRecordOpened: ['int', ['int', 'int', _T.pointer('bool')]],
+    BCSDK_OpenManualRecord: ['int', ['int', 'int']],
+    BCSDK_CloseManualRecord: ['int', ['int', 'int']],
+    BCSDK_GetLocalRecordState: ['int', ['int', 'int', _T.pointer('int')]]
     /************************************************************************
      *
      * Remote Config interfaces
@@ -1055,6 +1099,41 @@ class NativeDelegate {
         this.BCSDK_PlaybackStop = MFFI.BCSDK_PlaybackStop;
         this.BCSDK_PlaybackStep = MFFI.BCSDK_PlaybackStep;
         this.BCSDK_PlaybackMute = MFFI.BCSDK_PlaybackMute;
+        /************************************************************************
+         *
+         * Local Reocrd interfaces
+         *
+         ************************************************************************/
+        /**
+         * Record Callback
+         */
+        this.BCSDK_SetDiskCallbacks = MFFI.BCSDK_SetDiskCallbacks;
+        this.BCSDK_SetRecordCallback = MFFI.BCSDK_SetRecordCallback;
+        // -----------------------------------------------------------------------------------------------------------------
+        // Record Folder
+        this.BCSDK_SetRecordFolder = MFFI.BCSDK_SetRecordFolder;
+        // -----------------------------------------------------------------------------------------------------------------
+        // Set Channel Record File Prefixion
+        // Default is "DeviceName"CH"ChannelIndex"
+        this.BCSDK_SetRecordFilePrefixion = MFFI.BCSDK_SetRecordFilePrefixion;
+        // -----------------------------------------------------------------------------------------------------------------
+        // Local Record Schedule
+        this.BCSDK_SetLocalRecordSchedule = MFFI.BCSDK_SetLocalRecordSchedule;
+        this.BCSDK_OpenLocalRecordSchedule = MFFI.BCSDK_OpenLocalRecordSchedule;
+        this.BCSDK_CloseLocalRecordSchedule = MFFI.BCSDK_CloseLocalRecordSchedule;
+        // -----------------------------------------------------------------------------------------------------------------
+        // Device should record with schedule
+        // Default is false
+        this.BCSDK_SetDeviceAcceptLocalRecordSchedule = MFFI.BCSDK_SetDeviceAcceptLocalRecordSchedule;
+        // -----------------------------------------------------------------------------------------------------------------
+        // Recording
+        this.BCSDK_GetIsRecording = MFFI.BCSDK_GetIsRecording;
+        // -----------------------------------------------------------------------------------------------------------------
+        // Manual Record
+        this.BCSDK_GetIsManualRecordOpened = MFFI.BCSDK_GetIsManualRecordOpened;
+        this.BCSDK_OpenManualRecord = MFFI.BCSDK_OpenManualRecord;
+        this.BCSDK_CloseManualRecord = MFFI.BCSDK_CloseManualRecord;
+        this.BCSDK_GetLocalRecordState = MFFI.BCSDK_GetLocalRecordState;
         /************************************************************************
          *
          * Remote Config interfaces

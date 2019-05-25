@@ -1,6 +1,8 @@
 import * as ffi from 'ffi';
 import * as T from '../types';
 export declare const renderCallbackFunc: ffi.Function;
+export declare const diskStatusCallback: ffi.Function;
+export declare const recordStatusCallback: ffi.Function;
 export declare const dataCallbackFunc: ffi.Function;
 export declare const deviceFoundCallback: ffi.Function;
 export interface NativeMethods {
@@ -212,6 +214,27 @@ export interface NativeMethods {
     BCSDK_PlaybackStop: (handle: number, channel: number) => number;
     BCSDK_PlaybackStep: (handle: number, channel: number) => number;
     BCSDK_PlaybackMute: (handle: number, channel: number, mute: boolean) => number;
+    /************************************************************************
+     *
+     * Local Reocrd interfaces
+     *
+     ************************************************************************/
+    /**
+     * Record Callback
+     */
+    BCSDK_SetDiskCallbacks: (diskStatusCallback: any, userData: any) => number;
+    BCSDK_SetRecordCallback: (recordCallback: any, userData: any) => number;
+    BCSDK_SetRecordFolder: (tempFolder: string, folder: string, folderMaxSize: number, sizeForWarning: number) => number;
+    BCSDK_SetRecordFilePrefixion: (handle: number, channel: number, prefixion: string) => number;
+    BCSDK_SetLocalRecordSchedule: (scheduleTable: any, streamType: number, fileDuration: number, postDuration: number) => number;
+    BCSDK_OpenLocalRecordSchedule: () => number;
+    BCSDK_CloseLocalRecordSchedule: () => number;
+    BCSDK_SetDeviceAcceptLocalRecordSchedule: (handle: number, accept: boolean) => number;
+    BCSDK_GetIsRecording: (handle: number, channel: number, recording: any) => number;
+    BCSDK_GetIsManualRecordOpened: (handle: number, channel: number, open: any) => number;
+    BCSDK_OpenManualRecord: (handle: number, channel: number) => number;
+    BCSDK_CloseManualRecord: (handle: number, channel: number) => number;
+    BCSDK_GetLocalRecordState: (handle: number, channel: number, state: any) => number;
     /************************************************************************
      *
      * Remote Config interfaces

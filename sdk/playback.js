@@ -120,7 +120,7 @@ class PLAYBACK {
                 _callback_1.COMMON_CBS.setCallback(handle, channel, T.BC_CMD_E.E_BC_CMD_SEARCH_RECFILES, 0, sdkCallback);
             }
             else {
-                reject('live open error code: ' + ret);
+                reject({ code: ret, description: 'BCSDK_RecordFilesSearch error ...' });
             }
         });
     }
@@ -141,7 +141,7 @@ class PLAYBACK {
                 _callback_1.COMMON_CBS.setCallback(handle, channel, T.BC_CMD_E.E_BC_CMD_SEARCH_ALARM_VIDEOS, 0, sdkCallback);
             }
             else {
-                reject('live open error code: ' + ret);
+                reject({ code: ret, description: 'BCSDK_AlarmVideosSearch error ...' });
             }
         });
     }
@@ -276,7 +276,7 @@ PLAYBACK.singleton = new PLAYBACK();
 PLAYBACK.playbackCallback = ffi_1.Callback('void', ['int', 'int', _T.P_RENDER_FRAME_DESC, _T.pointer('void')], function (handle, channel, frameDes, userData) {
     new Promise((resolve, reject) => {
         if (!frameDes) {
-            reject('live callback error format ...');
+            reject({ code: T.ERROR.E_WRONG_FORMAT, description: 'playback callback error format ...' });
             return;
         }
         var buf = ref.reinterpret(frameDes, _T.RENDER_FRAME_DESC.size);
@@ -287,7 +287,7 @@ PLAYBACK.playbackCallback = ffi_1.Callback('void', ['int', 'int', _T.P_RENDER_FR
             if (!callback
                 || !callback.sdkCallback
                 || !callback.sdkCallback.onVieoData) {
-                reject('live callback function error ...');
+                reject({ code: T.ERROR.E_NOT_FOUND, description: 'live callback function error ...' });
                 return;
             }
             let plane0 = {

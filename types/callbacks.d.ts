@@ -2,6 +2,7 @@ import * as T from './types';
 export interface DeviceCallback {
     stateCallback: (handle: number, from: T.BCSDK_DEVICE_STATE_E, to: T.BCSDK_DEVICE_STATE_E) => void;
     abilityChangeCallback: (handle: number) => void;
+    disconnectCallback: (handle: number) => void;
 }
 export interface IFramePlane {
     width: number;
@@ -59,4 +60,24 @@ export interface DEVICE_LOCATION_DESC {
 }
 export interface DeviceFoundCallback {
     (desc: DEVICE_LOCATION_DESC): void;
+}
+export interface BC_REC_EVENT_DESC {
+    hDevice: number;
+    channel: number;
+    event: T.BCSDK_REC_EVENT_E;
+    description: string;
+    file: string;
+}
+export interface RecordStatusCallback {
+    (desc: BC_REC_EVENT_DESC): void;
+}
+export interface BC_DISK_WARNINIG_DESC {
+    warning: T.BCSDK_WARNINIG_E;
+    description: string;
+    folder: string;
+    folderFreeSize: number;
+    diskFreeSize: number;
+}
+export interface DiskStatusCallback {
+    (desc: BC_DISK_WARNINIG_DESC): void;
 }
