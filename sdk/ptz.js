@@ -13,9 +13,9 @@ class PTZ {
             resolve();
         });
     }
-    stop(handle, speed) {
+    stop(handle, channel) {
         return new Promise((resolve, reject) => {
-            let ret = native_1.native.BCSDK_PTZStop(0, 0);
+            let ret = native_1.native.BCSDK_PTZStop(handle, channel);
             if (ret != T.ERROR.E_NONE) {
                 reject({ code: ret });
                 return;
