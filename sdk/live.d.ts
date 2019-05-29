@@ -5,11 +5,9 @@ declare class LIVE {
     static instance(): LIVE;
     handleSDKCallback(handle: number, cmdData: any): void;
     private static liveCallback;
-    private static liveCallback2;
     getLiveStreamType(handle: number, channel: number): Promise<T.BC_STREAM_TYPE_E>;
     getIsLiveOpen(handle: number, channel: number): Promise<boolean>;
-    liveOpen(handle: number, channel: number, stream: T.BC_STREAM_TYPE_E, callback: T.FrameCallback): Promise<void>;
-    liveOpen2(handle: number, channel: number, stream: T.BC_STREAM_TYPE_E, callback: T.DataCallback): Promise<void>;
+    liveOpen(handle: number, channel: number, stream: T.BC_STREAM_TYPE_E, callback: T.DataCallback): Promise<void>;
     liveClose(handle: number, channel: number): Promise<void>;
     liveMute(handle: number, channel: number, mute: boolean): Promise<void>;
 }

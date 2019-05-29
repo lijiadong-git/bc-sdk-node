@@ -9,7 +9,7 @@ exports.diskStatusCallback = ffi.Function('void', [_T.P_BC_DISK_WARNINIG_DESC, _
 exports.recordStatusCallback = ffi.Function('void', [_T.P_BC_REC_EVENT_DESC, _T.pointer('void')]);
 exports.dataCallbackFunc = ffi.Function('void', ['int', 'int', _T.P_DATA_FRAME_DESC, _T.pointer('void')]);
 exports.deviceFoundCallback = ffi.Function('void', [_T.P_DEVICE_LOCATION_DESC, _T.pointer('void')]);
-const folder = path.dirname(bindings.getFileName());
+const folder = process.env.NODE_ENV === "development" ? process.env.VUE_APP_DIR_PLATFORM_EXTERNALS : __dirname;
 if (process.platform === "win32") {
     ffi.Library(path.join(folder, 'BCP2P_API'));
     ffi.Library(path.join(folder, 'IOTCAPIs'));

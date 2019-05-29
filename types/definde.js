@@ -4,6 +4,20 @@ const E = require("./enum");
 function BC_MODE(idx) { return (1 << (idx)); }
 var DEFINDE;
 (function (DEFINDE) {
+    // media frame define
+    DEFINDE.MEDIA_FRAME_TYPE_VIDEO = (1 << 0);
+    DEFINDE.MEDIA_FRAME_TYPE_KEY = (1 << 1);
+    DEFINDE.MEDIA_FRAME_TYPE_FAST = (1 << 2);
+    DEFINDE.MEDIA_FRAME_TYPE_AUDIO = (1 << 3);
+    DEFINDE.MEDIA_FRAME_TYPE_AUDIO_AAC = (1 << 4);
+    DEFINDE.MEDIA_FRAME_TYPE_GPS = (1 << 5);
+    DEFINDE.MEDIA_FRAME_TYPE_HDR = (1 << 6);
+    DEFINDE.MEDIA_FRAME_TYPE_TAIL = (1 << 7);
+    DEFINDE.MEDIA_FRAME_TYPE_DATA = (1 << 8);
+    DEFINDE.MEDIA_FRAME_TYPE_NSTR = (1 << 9);
+    DEFINDE.MEDIA_FRAME_TYPE_EOS = (1 << 10);
+    DEFINDE.MEDIA_FRAME_TYPE_INDEX = (1 << 11);
+    // const value
     DEFINDE.BC_USER_NUM = 32;
     DEFINDE.BC_PORT_STR_LEN = 10;
     DEFINDE.BC_MAX_NAME_LEN = 32;

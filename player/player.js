@@ -20,7 +20,7 @@ class PLAYER {
                 }
                 let buf = ref.reinterpret(frameDes, _T.RENDER_FRAME_DESC.size);
                 let des = ref.get(buf, 0, _T.RENDER_FRAME_DESC);
-                if (des.type & 1) {
+                if (des.type & T.DEFINDE.MEDIA_FRAME_TYPE_VIDEO) {
                     // find the callback function
                     let plane0 = {
                         width: des.video.plane[0].width,
@@ -54,6 +54,19 @@ class PLAYER {
                     };
                     if (func) {
                         func.onVieoData(callbackData);
+                    }
+                }
+                else if (des.type & T.DEFINDE.MEDIA_FRAME_TYPE_AUDIO) {
+                    let callbackData = {
+                        media: new Uint8Array(ref.reinterpret(des.audio.media, des.audio.length)),
+                        length: des.audio.length,
+                        hasAAC: des.audio.hasAAC,
+                        sampleRate: des.audio.sampleRate,
+                        profile: des.audio.profile,
+                        channels: des.audio.channels
+                    };
+                    if (func) {
+                        func.onAudioData(callbackData);
                     }
                 }
                 resolve();
@@ -117,6 +130,17 @@ class PLAYER {
             }
             else {
                 reject(new Error('feed data error !!!!!!!!!!!!!!!!!!!!!! --- ' + ret));
+            }
+        });
+    }
+    mute(hPlayer, mute) {
+        return new Promise((resolve, reject) => {
+            let ret = native_1.native.BC_MediaPlayerMute(hPlayer, mute);
+            if (0 == ret) {
+                resolve();
+            }
+            else {
+                reject({ code: ret, description: 'BC_MediaPlayerMute error ...' });
             }
         });
     }

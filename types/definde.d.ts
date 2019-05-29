@@ -1,4 +1,16 @@
 export declare namespace DEFINDE {
+    const MEDIA_FRAME_TYPE_VIDEO: number;
+    const MEDIA_FRAME_TYPE_KEY: number;
+    const MEDIA_FRAME_TYPE_FAST: number;
+    const MEDIA_FRAME_TYPE_AUDIO: number;
+    const MEDIA_FRAME_TYPE_AUDIO_AAC: number;
+    const MEDIA_FRAME_TYPE_GPS: number;
+    const MEDIA_FRAME_TYPE_HDR: number;
+    const MEDIA_FRAME_TYPE_TAIL: number;
+    const MEDIA_FRAME_TYPE_DATA: number;
+    const MEDIA_FRAME_TYPE_NSTR: number;
+    const MEDIA_FRAME_TYPE_EOS: number;
+    const MEDIA_FRAME_TYPE_INDEX: number;
     const BC_USER_NUM: number;
     const BC_PORT_STR_LEN: number;
     const BC_MAX_NAME_LEN: number;

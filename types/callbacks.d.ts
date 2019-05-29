@@ -19,6 +19,14 @@ export interface IFrameCallbackData {
     plane1: IFramePlane;
     plane2: IFramePlane;
 }
+export interface IAudioCallbackData {
+    media: Uint8Array;
+    length: number;
+    hasAAC: number;
+    sampleRate: number;
+    profile: number;
+    channels: number;
+}
 export interface IDataCallbackData {
     handle: number;
     channel: number;
@@ -26,6 +34,7 @@ export interface IDataCallbackData {
 }
 export interface FrameCallback {
     onVieoData: (data: IFrameCallbackData) => void;
+    onAudioData: (data: IAudioCallbackData) => void;
 }
 export interface DataCallback {
     onData: (data: IDataCallbackData) => void;

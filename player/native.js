@@ -7,14 +7,15 @@ const ref = require("ref");
 const _T = require("../sdk/_struct");
 exports.pointer = ref.refType;
 exports.renderCallbackFunc = ffi.Function('void', [_T.P_RENDER_FRAME_DESC, _T.pointer('void')]);
-//const folder:string = path.dirname(bindings.getFileName());
-const libPath = path.join(__dirname, 'libMediaPlayer');
+const folder = process.env.NODE_ENV === "development" ? process.env.VUE_APP_DIR_PLATFORM_EXTERNALS : __dirname;
+const libPath = path.join(folder, 'libMediaPlayer');
 console.log('load library: ' + libPath);
 const MFFI = ffi.Library(libPath, {
     BC_MediaPlayerCreate: ['int', []],
     BC_MediaPlayerRelease: ['int', ['int']],
     BC_MediaPlayerStart: ['int', ['int', 'int', exports.renderCallbackFunc]],
     BC_MediaPlayerFeed: ['int', ['int', _T.P_DATA_FRAME_DESC]],
+    BC_MediaPlayerMute: ['int', ['int', 'bool']],
     BC_MediaPlayerStop: ['int', ['int']]
 });
 class NativeDelegate {
@@ -28,6 +29,7 @@ class NativeDelegate {
         this.BC_MediaPlayerRelease = MFFI.BC_MediaPlayerRelease;
         this.BC_MediaPlayerStart = MFFI.BC_MediaPlayerStart;
         this.BC_MediaPlayerFeed = MFFI.BC_MediaPlayerFeed;
+        this.BC_MediaPlayerMute = MFFI.BC_MediaPlayerMute;
         this.BC_MediaPlayerStop = MFFI.BC_MediaPlayerStop;
     }
     static instance() {
