@@ -105,21 +105,15 @@ class SEARCH {
 SEARCH.singleton = new SEARCH();
 SEARCH.callbacks = [];
 SEARCH.deviceFoundCallback = ffi_1.Callback('void', [_T.P_DEVICE_LOCATION_DESC, _T.pointer('void')], function (pdesc, userData) {
-    new Promise((resolve, reject) => {
-        if (!pdesc) {
-            reject({ code: T.ERROR.E_WRONG_FORMAT, description: 'search callback error format ...' });
-            return;
-        }
-        let buf = ref.reinterpret(pdesc, _T.DEVICE_LOCATION_DESC.size);
-        let desc = ref.get(buf, 0, _T.DEVICE_LOCATION_DESC);
-        let param = _cast_1.derefCast(desc, _T.DEVICE_LOCATION_DESC);
-        SEARCH.callbacks.forEach(callback => {
-            callback(param);
-        });
-        resolve();
-    })
-        .catch(reason => {
-        console.log(reason);
+    if (!pdesc) {
+        // search callback error format ...
+        return;
+    }
+    let buf = ref.reinterpret(pdesc, _T.DEVICE_LOCATION_DESC.size);
+    let desc = ref.get(buf, 0, _T.DEVICE_LOCATION_DESC);
+    let param = _cast_1.derefCast(desc, _T.DEVICE_LOCATION_DESC);
+    SEARCH.callbacks.forEach(callback => {
+        callback(param);
     });
 });
 exports.search = SEARCH.instance();

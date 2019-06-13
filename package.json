@@ -1,6 +1,6 @@
 {
   "name": "bc-sdk",
-  "version": "0.0.21",
+  "version": "0.0.22",
   "description": "sdk for baichuan shenzhen",
   "main": "index.js",
   "typings": "index.d.ts",
@@ -8,11 +8,15 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
-    "@types/ref-struct": "0.0.29",
     "bindings": "~1.2.1",
     "ffi": "git+https://github.com/node-ffi/node-ffi.git",
     "nan": "^2.0.0",
     "ref-array": "^1.2.0"
+  },
+  "devDependencies": {
+    "@types/ffi": "^0.2.0",
+    "@types/ref-array": "0.0.28",
+    "@types/ref-struct": "0.0.29"
   },
   "repository": {
     "type": "git",

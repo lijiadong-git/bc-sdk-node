@@ -36,350 +36,347 @@ class CONFIG {
     }
     handleSDKCallback(handle, cmdData) {
         const channel = (cmdData.handleId & 0x000000ff) % T.DEFINDE.BC_MAX_CHANNEL;
-        new Promise(function (resolve, reject) {
-            switch (cmdData.bcCmd) {
-                case T.BC_CMD_E.E_BC_CMD_GET_VERSION: {
-                    CONFIG.handleSDKGetCallback(_T.BC_VERSION_INFO, handle, cmdData);
-                    break;
-                }
-                case T.BC_CMD_E.E_BC_CMD_GET_SYS: {
-                    CONFIG.handleSDKGetCallback(_T.BC_SYS_GENERAL_CFG, handle, cmdData);
-                    break;
-                }
-                case T.BC_CMD_E.E_BC_CMD_GET_AUTOREBOOT_CFG: {
-                    CONFIG.handleSDKGetCallback(_T.BC_AUTOREBOOT_CFG, handle, cmdData);
-                    break;
-                }
-                case T.BC_CMD_E.E_BC_CMD_GET_ADVRECORD: {
-                    CONFIG.handleSDKGetCallback(_T.BC_RECORD_GENERAL_CFG, handle, cmdData);
-                    break;
-                }
-                case T.BC_CMD_E.E_BC_CMD_GET_EMAIL: {
-                    CONFIG.handleSDKGetCallback(_T.BC_EMAIL_CFG, handle, cmdData);
-                    break;
-                }
-                case T.BC_CMD_E.E_BC_CMD_GET_OUTPUT: {
-                    CONFIG.handleSDKGetCallback(_T.BC_OUTPUT_CFG, handle, cmdData);
-                    break;
-                }
-                case T.BC_CMD_E.E_BC_CMD_GET_HDD_CFG: {
-                    CONFIG.handleSDKGetCallback(_T.BC_HDD_CFG, handle, cmdData);
-                    break;
-                }
-                case T.BC_CMD_E.E_BC_CMD_GET_HDDFULL_EXPCFG:
-                case T.BC_CMD_E.E_BC_CMD_GET_HDDERR_EXPCFG:
-                case T.BC_CMD_E.E_BC_CMD_GET_NETDISCONNECT_EXPCFG:
-                case T.BC_CMD_E.E_BC_CMD_GET_IPCONFLICT_EXPCFG: {
-                    CONFIG.handleSDKGetCallback(_T.BC_EXCEPTION_CFG, handle, cmdData);
-                    break;
-                }
-                case T.BC_CMD_E.E_BC_CMD_GET_LOCAL: {
-                    CONFIG.handleSDKGetCallback(_T.BC_LOCAL_CFG, handle, cmdData);
-                    break;
-                }
-                case T.BC_CMD_E.E_BC_CMD_GET_NORMAL_PORT: {
-                    CONFIG.handleSDKGetCallback(_T.BC_NET_NORMAL_PORT, handle, cmdData);
-                    break;
-                }
-                case T.BC_CMD_E.E_BC_CMD_GET_ADVANCED_PORTS: {
-                    CONFIG.handleSDKGetCallback(_T.BC_NET_ADVANCED_PORT, handle, cmdData);
-                    break;
-                }
-                case T.BC_CMD_E.E_BC_CMD_GET_UPNPSTATE: {
-                    CONFIG.handleSDKGetCallback(_T.BC_UPNP_CFG, handle, cmdData);
-                    break;
-                }
-                case T.BC_CMD_E.E_BC_CMD_GET_UID: {
-                    CONFIG.handleSDKGetCallback(_T.BC_UID_INFO, handle, cmdData);
-                    break;
-                }
-                case T.BC_CMD_E.E_BC_CMD_GET_PTOP_CFG: {
-                    CONFIG.handleSDKGetCallback(_T.BC_P2P_CFG, handle, cmdData);
-                    break;
-                }
-                case T.BC_CMD_E.E_BC_CMD_GET_RFSENSOR: {
-                    CONFIG.handleSDKGetCallback(_T.BC_RFSENSOR_ALARM_INFO, handle, cmdData);
-                    break;
-                }
-                case T.BC_CMD_E.E_BC_CMD_GET_ALARMINCFG: {
-                    CONFIG.handleSDKGetCallback(_T.BC_ALARM_IN_CFG, handle, cmdData);
-                    break;
-                }
-                case T.BC_CMD_E.E_BC_CMD_GET_ALARMOUTCFG: {
-                    CONFIG.handleSDKGetCallback(_T.BC_ALARM_OUT_CFG, handle, cmdData);
-                    break;
-                }
-                case T.BC_CMD_E.E_BC_CMD_GET_RF_CFG: {
-                    CONFIG.handleSDKGetCallback(_T.BC_RF_ALARM_CFG, handle, cmdData);
-                    break;
-                }
-                case T.BC_CMD_E.E_BC_CMD_GET_DST: {
-                    CONFIG.handleSDKGetCallback(_T.BC_DST_CFG, handle, cmdData);
-                    break;
-                }
-                case T.BC_CMD_E.E_BC_CMD_GET_DDNSCFG: {
-                    CONFIG.handleSDKGetCallback(_T.BC_DDNS_CFG, handle, cmdData);
-                    break;
-                }
-                case T.BC_CMD_E.E_BC_CMD_GET_NTPCFG: {
-                    CONFIG.handleSDKGetCallback(_T.BC_NTP_CFG, handle, cmdData);
-                    break;
-                }
-                case T.BC_CMD_E.E_BC_CMD_GET_PPPOECFG: {
-                    CONFIG.handleSDKGetCallback(_T.BC_PPPOE_CFG, handle, cmdData);
-                    break;
-                }
-                case T.BC_CMD_E.E_BC_CMD_GET_ONLINE_UPDATE_STATUS: {
-                    CONFIG.handleSDKGetCallback(_T.BC_ONLINE_UPDATE_STATUS, handle, cmdData);
-                    break;
-                }
-                case T.BC_CMD_E.E_BC_CMD_GET_AUTO_UPDATE: {
-                    CONFIG.handleSDKGetCallback(_T.BC_AUTO_UPDATE, handle, cmdData);
-                    break;
-                }
-                case T.BC_CMD_E.E_BC_CMD_GET_ONLINE_NEW_FIRMWARE: {
-                    CONFIG.handleSDKGetCallback(_T.BC_ONLINE_NEW_FW_INFO, handle, cmdData);
-                    break;
-                }
-                case T.BC_CMD_E.E_BC_CMD_GET_PERFORMANCE: {
-                    CONFIG.handleSDKGetCallback(_T.BC_PERFORMANCE_INFO, handle, cmdData);
-                    break;
-                }
-                case T.BC_CMD_E.E_BC_CMD_GET_WIFI_SIGNAL: {
-                    CONFIG.handleSDKGetCallback(_T.BC_WIFI_SIGNAL, handle, cmdData);
-                    break;
-                }
-                case T.BC_CMD_E.E_BC_CMD_GET_WIFI_INFO: {
-                    CONFIG.handleSDKGetCallback(_T.BC_WIFI_CFG, handle, cmdData);
-                    break;
-                }
-                case T.BC_CMD_E.E_BC_CMD_GET_3G_4G_INFO: {
-                    CONFIG.handleSDKGetCallback(_T.BC_3G_4G_INFO, handle, cmdData);
-                    break;
-                }
-                case T.BC_CMD_E.E_BC_CMD_GET_SIM_MODULE_INFO: {
-                    CONFIG.handleSDKGetCallback(_T.BC_SIM_MODULE_INFO, handle, cmdData);
-                    break;
-                }
-                case T.BC_CMD_E.E_BC_CMD_GET_CLOUD_INFO: {
-                    CONFIG.handleSDKGetCallback(_T.BC_CLOUD_INFO, handle, cmdData);
-                    break;
-                }
-                case T.BC_CMD_E.E_BC_CMD_GET_CLOUD_CFG: {
-                    CONFIG.handleSDKGetCallback(_T.BC_CLOUD_CFG, handle, cmdData);
-                    break;
-                }
-                case T.BC_CMD_E.E_BC_CMD_GET_SCAN_AP: {
-                    CONFIG.handleSDKGetCallback(_T.BC_SCAN_AP, handle, cmdData);
-                    break;
-                }
-                case T.BC_CMD_E.E_BC_CMD_GET_RECFILEDATE: {
-                    CONFIG.handleSDKGetCallback(_T.BC_RECORD_FILE_DAYS_BY_CHN, handle, cmdData);
-                    break;
-                }
-                case T.BC_CMD_E.E_BC_CMD_GET_USERCFG: {
-                    CONFIG.handleSDKGetCallback(_T.BC_USER_CFG, handle, cmdData);
-                    break;
-                }
-                case T.BC_CMD_E.E_BC_CMD_GET_USER_ONLINE: {
-                    CONFIG.handleSDKGetCallback(_T.BC_USER_ONLINE_CFG, handle, cmdData);
-                    break;
-                }
-                case T.BC_CMD_E.E_BC_CMD_GET_BOOTPWD_STATE: {
-                    CONFIG.handleSDKGetCallback(_T.BC_BOOT_PWD_STATE, handle, cmdData);
-                    break;
-                }
-                case T.BC_CMD_E.E_BC_CMD_GET_FTPCFG: {
-                    CONFIG.handleSDKGetCallback(_T.BC_FTP_CFG, handle, cmdData);
-                    break;
-                }
-                case T.BC_CMD_E.E_BC_CMD_GET_COMPRESS: {
-                    CONFIG.handleSDKGetCallback(_T.BC_CHN_ENC_INFO, handle, cmdData);
-                    break;
-                }
-                case T.BC_CMD_E.E_BC_CMD_GET_OSD: {
-                    CONFIG.handleSDKGetCallback(_T.BC_OSD_CFG, handle, cmdData);
-                    break;
-                }
-                case T.BC_CMD_E.E_BC_CMD_GET_CAMERA_CFG: {
-                    CONFIG.handleSDKGetCallback(_T.BC_CAMERA_CFG, handle, cmdData);
-                    break;
-                }
-                case T.BC_CMD_E.E_BC_CMD_GET_COVER: {
-                    CONFIG.handleSDKGetCallback(_T.BC_COVER_CFG, handle, cmdData);
-                    break;
-                }
-                case T.BC_CMD_E.E_BC_CMD_GET_RECORDSCHED: {
-                    CONFIG.handleSDKGetCallback(_T.BC_RECORD_SCHEDULE_CFG, handle, cmdData);
-                    break;
-                }
-                case T.BC_CMD_E.E_BC_CMD_GET_PTZCFG: {
-                    CONFIG.handleSDKGetCallback(_T.BC_PTZ_DECODER, handle, cmdData);
-                    break;
-                }
-                case T.BC_CMD_E.E_BC_CMD_GET_MOTION: {
-                    CONFIG.handleSDKGetCallback(_T.BC_MOTION_CFG, handle, cmdData);
-                    break;
-                }
-                case T.BC_CMD_E.E_BC_CMD_GET_VILOST: {
-                    CONFIG.handleSDKGetCallback(_T.BC_VILOST_CFG, handle, cmdData);
-                    break;
-                }
-                case T.BC_CMD_E.E_BC_CMD_GET_PRESET: {
-                    CONFIG.handleSDKGetCallback(_T.BC_PTZ_PRESETS, handle, cmdData);
-                    break;
-                }
-                case T.BC_CMD_E.E_BC_CMD_GET_CRUISE: {
-                    CONFIG.handleSDKGetCallback(_T.BC_PTZ_CRUISES, handle, cmdData);
-                    break;
-                }
-                case T.BC_CMD_E.E_BC_CMD_GET_CAMERA:
-                case T.BC_CMD_E.E_BC_CMD_GET_DEFAULT_CAMERA: {
-                    CONFIG.handleSDKGetCallback(_T.BC_ISP_CFG, handle, cmdData);
-                    break;
-                }
-                case T.BC_CMD_E.E_BC_CMD_GET_LED_STATE: {
-                    CONFIG.handleSDKGetCallback(_T.BC_LED_LIGHT_STATE, handle, cmdData);
-                    break;
-                }
-                case T.BC_CMD_E.E_BC_CMD_GET_FTPTASK: {
-                    CONFIG.handleSDKGetCallback(_T.BC_FTP_TASK, handle, cmdData);
-                    break;
-                }
-                case T.BC_CMD_E.E_BC_CMD_GET_EMAIL_TASK: {
-                    CONFIG.handleSDKGetCallback(_T.BC_EMAIL_TASK, handle, cmdData);
-                    break;
-                }
-                case T.BC_CMD_E.E_BC_CMD_GET_PUSH_TASK: {
-                    CONFIG.handleSDKGetCallback(_T.BC_PUSH_TASK, handle, cmdData);
-                    break;
-                }
-                case T.BC_CMD_E.E_BC_CMD_GET_AUDIO_TASK: {
-                    CONFIG.handleSDKGetCallback(_T.BC_AUDIO_TASK, handle, cmdData);
-                    break;
-                }
-                case T.BC_CMD_E.E_BC_CMD_GET_AUTO_FOCUS: {
-                    CONFIG.handleSDKGetCallback(_T.BC_PTZ_AUTO_FOCUS, handle, cmdData);
-                    break;
-                }
-                case T.BC_CMD_E.E_BC_CMD_GET_CROP_CFG: {
-                    CONFIG.handleSDKGetCallback(_T.BC_CROP_CFG, handle, cmdData);
-                    break;
-                }
-                case T.BC_CMD_E.E_BC_CMD_GET_BATTERY_INFO: {
-                    CONFIG.handleSDKGetCallback(_T.BC_BATTERY_INFO, handle, cmdData);
-                    break;
-                }
-                case T.BC_CMD_E.E_BC_CMD_GET_BATTERY_ANALYSIS: {
-                    CONFIG.handleSDKGetCallback(_T.BC_BATTERY_ANALYSIS, handle, cmdData);
-                    break;
-                }
-                case T.BC_CMD_E.E_BC_CMD_GET_RINGTONE_FILE_INFO: {
-                    CONFIG.handleSDKGetCallback(_T.BC_RINGTONE_FILE_INFO, handle, cmdData);
-                    break;
-                }
-                case T.BC_CMD_E.E_BC_CMD_GET_RINGTONE_CFG: {
-                    CONFIG.handleSDKGetCallback(_T.BC_RINGTONE_CFG, handle, cmdData);
-                    break;
-                }
-                case T.BC_CMD_E.E_BC_CMD_GET_RINGTONE_ABILITY: {
-                    CONFIG.handleSDKGetCallback(_T.BC_RINGTONE_ABILITY, handle, cmdData);
-                    break;
-                }
-                case T.BC_CMD_E.E_BC_CMD_SET_SYS:
-                case T.BC_CMD_E.E_BC_CMD_SET_DEVICE_NAME:
-                case T.BC_CMD_E.E_BC_CMD_SET_AUTOREBOOT_CFG:
-                case T.BC_CMD_E.E_BC_CMD_RESTORE:
-                case T.BC_CMD_E.E_BC_CMD_SET_ADVRECORD:
-                case T.BC_CMD_E.E_BC_CMD_SET_EMAIL:
-                case T.BC_CMD_E.E_BC_CMD_SET_OUTPUT:
-                case T.BC_CMD_E.E_BC_CMD_INIT_HDD:
-                case T.BC_CMD_E.E_BC_CMD_SET_HDDFULL_EXPCFG:
-                case T.BC_CMD_E.E_BC_CMD_SET_HDDERR_EXPCFG:
-                case T.BC_CMD_E.E_BC_CMD_SET_NETDISCONNECT_EXPCFG:
-                case T.BC_CMD_E.E_BC_CMD_SET_IPCONFLICT_EXPCFG:
-                case T.BC_CMD_E.E_BC_CMD_SET_LOCAL:
-                case T.BC_CMD_E.E_BC_CMD_SET_NORMAL_PORT:
-                case T.BC_CMD_E.E_BC_CMD_SET_ADVANCED_PORTS:
-                case T.BC_CMD_E.E_BC_CMD_SET_UPNPSTATE:
-                case T.BC_CMD_E.E_BC_CMD_SET_PTOP_CFG:
-                case T.BC_CMD_E.E_BC_CMD_SET_RFSENSOR:
-                case T.BC_CMD_E.E_BC_CMD_SET_ALARMINCFG:
-                case T.BC_CMD_E.E_BC_CMD_SET_ALARMOUTCFG:
-                case T.BC_CMD_E.E_BC_CMD_SET_RF_CFG:
-                case T.BC_CMD_E.E_BC_CMD_SET_RF_ALARM_STATUS:
-                case T.BC_CMD_E.E_BC_CMD_SET_DST:
-                case T.BC_CMD_E.E_BC_CMD_SET_DDNSCFG:
-                case T.BC_CMD_E.E_BC_CMD_SET_NTPCFG:
-                case T.BC_CMD_E.E_BC_CMD_SET_PPPOECFG:
-                case T.BC_CMD_E.E_BC_CMD_ONLINE_UPDATE:
-                case T.BC_CMD_E.E_BC_CMD_SET_WIFI_INFO:
-                case T.BC_CMD_E.E_BC_CMD_WIFI_TEST:
-                case T.BC_CMD_E.E_BC_CMD_SET_SIM_MODULE_INFO:
-                case T.BC_CMD_E.E_BC_CMD_BIND_CLOUD:
-                case T.BC_CMD_E.E_BC_CMD_SET_CLOUD_CFG:
-                case T.BC_CMD_E.E_BC_CMD_SET_USERCFG:
-                case T.BC_CMD_E.E_BC_CMD_SET_USER_ALL_ABILITY:
-                case T.BC_CMD_E.E_BC_CMD_SET_USER_ONLINE:
-                case T.BC_CMD_E.E_BC_CMD_FORCE_PASSWORD:
-                case T.BC_CMD_E.E_BC_CMD_SET_BOOTPWD_STATE:
-                case T.BC_CMD_E.E_BC_CMD_SET_FTPCFG:
-                case T.BC_CMD_E.E_BC_CMD_FTP_TEST:
-                case T.BC_CMD_E.E_BC_CMD_IFRAME_PREVIEW:
-                case T.BC_CMD_E.E_BC_CMD_IFRAME_REPLAY:
-                case T.BC_CMD_E.E_BC_CMD_REBOOT:
-                case T.BC_CMD_E.E_BC_CMD_DEVICE_SLEEP:
-                case T.BC_CMD_E.E_BC_CMD_GETLOG:
-                case T.BC_CMD_E.E_BC_CMD_START_ALARM_REPORT:
-                case T.BC_CMD_E.E_BC_CMD_STOP_ALARM_REPORT:
-                case T.BC_CMD_E.E_BC_CMD_PUSH_ADD:
-                case T.BC_CMD_E.E_BC_CMD_RTMP_START:
-                case T.BC_CMD_E.E_BC_CMD_RTMP_STOP:
-                case T.BC_CMD_E.E_BC_CMD_SET_COMPRESS:
-                case T.BC_CMD_E.E_BC_CMD_SET_OSD:
-                case T.BC_CMD_E.E_BC_CMD_SET_COVER:
-                case T.BC_CMD_E.E_BC_CMD_SET_RECORDSCHED:
-                case T.BC_CMD_E.E_BC_CMD_SET_PTZCFG:
-                case T.BC_CMD_E.E_BC_CMD_SET_MOTION:
-                case T.BC_CMD_E.E_BC_CMD_SET_VILOST:
-                case T.BC_CMD_E.E_BC_CMD_SET_PRESET:
-                case T.BC_CMD_E.E_BC_CMD_GOTO_PRESET:
-                case T.BC_CMD_E.E_BC_CMD_SET_CRUISE:
-                case T.BC_CMD_E.E_BC_CMD_SET_CAMERA:
-                case T.BC_CMD_E.E_BC_CMD_SET_ISP_DAY_NIGHT_MODE:
-                case T.BC_CMD_E.E_BC_CMD_SET_LED_STATE:
-                case T.BC_CMD_E.E_BC_CMD_SET_FTPTASK:
-                case T.BC_CMD_E.E_BC_CMD_SET_EMAIL_TASK:
-                case T.BC_CMD_E.E_BC_CMD_SET_PUSH_TASK:
-                case T.BC_CMD_E.E_BC_CMD_SNAP:
-                case T.BC_CMD_E.E_BC_CMD_SET_AUTO_FOCUS:
-                case T.BC_CMD_E.E_BC_CMD_SET_CROP_CFG:
-                case T.BC_CMD_E.E_BC_CMD_CROP_SNAP:
-                case T.BC_CMD_E.E_BC_CMD_SET_RINGTONE_CFG:
-                case T.BC_CMD_E.E_BC_CMD_MANUAL_RING_DOWN:
-                case T.BC_CMD_E.E_BC_CMD_MUTE_ALARM_AUDIO:
-                case T.BC_CMD_E.E_BC_CMD_SAVE_RINGTONE:
-                default: {
-                    _callback_1.PROMISE_CBS.handleCallback(handle, channel, cmdData.bcCmd, cmdData.cmdIdx, callback => {
-                        if (T.BC_RSP_CODE_E.E_BC_RSP_OK == cmdData.bcRspCode) {
-                            if (callback.sdkResolve)
-                                callback.sdkResolve();
-                        }
-                        else {
-                            if (callback.sdkReject) {
-                                callback.sdkReject({
-                                    code: cmdData.bcRspCode,
-                                    description: 'remote config faild ...',
-                                    data: cmdData
-                                });
-                            }
-                        }
-                    });
-                    break;
-                }
+        switch (cmdData.bcCmd) {
+            case T.BC_CMD_E.E_BC_CMD_GET_VERSION: {
+                CONFIG.handleSDKGetCallback(_T.BC_VERSION_INFO, handle, cmdData);
+                break;
             }
-            resolve();
-        });
+            case T.BC_CMD_E.E_BC_CMD_GET_SYS: {
+                CONFIG.handleSDKGetCallback(_T.BC_SYS_GENERAL_CFG, handle, cmdData);
+                break;
+            }
+            case T.BC_CMD_E.E_BC_CMD_GET_AUTOREBOOT_CFG: {
+                CONFIG.handleSDKGetCallback(_T.BC_AUTOREBOOT_CFG, handle, cmdData);
+                break;
+            }
+            case T.BC_CMD_E.E_BC_CMD_GET_ADVRECORD: {
+                CONFIG.handleSDKGetCallback(_T.BC_RECORD_GENERAL_CFG, handle, cmdData);
+                break;
+            }
+            case T.BC_CMD_E.E_BC_CMD_GET_EMAIL: {
+                CONFIG.handleSDKGetCallback(_T.BC_EMAIL_CFG, handle, cmdData);
+                break;
+            }
+            case T.BC_CMD_E.E_BC_CMD_GET_OUTPUT: {
+                CONFIG.handleSDKGetCallback(_T.BC_OUTPUT_CFG, handle, cmdData);
+                break;
+            }
+            case T.BC_CMD_E.E_BC_CMD_GET_HDD_CFG: {
+                CONFIG.handleSDKGetCallback(_T.BC_HDD_CFG, handle, cmdData);
+                break;
+            }
+            case T.BC_CMD_E.E_BC_CMD_GET_HDDFULL_EXPCFG:
+            case T.BC_CMD_E.E_BC_CMD_GET_HDDERR_EXPCFG:
+            case T.BC_CMD_E.E_BC_CMD_GET_NETDISCONNECT_EXPCFG:
+            case T.BC_CMD_E.E_BC_CMD_GET_IPCONFLICT_EXPCFG: {
+                CONFIG.handleSDKGetCallback(_T.BC_EXCEPTION_CFG, handle, cmdData);
+                break;
+            }
+            case T.BC_CMD_E.E_BC_CMD_GET_LOCAL: {
+                CONFIG.handleSDKGetCallback(_T.BC_LOCAL_CFG, handle, cmdData);
+                break;
+            }
+            case T.BC_CMD_E.E_BC_CMD_GET_NORMAL_PORT: {
+                CONFIG.handleSDKGetCallback(_T.BC_NET_NORMAL_PORT, handle, cmdData);
+                break;
+            }
+            case T.BC_CMD_E.E_BC_CMD_GET_ADVANCED_PORTS: {
+                CONFIG.handleSDKGetCallback(_T.BC_NET_ADVANCED_PORT, handle, cmdData);
+                break;
+            }
+            case T.BC_CMD_E.E_BC_CMD_GET_UPNPSTATE: {
+                CONFIG.handleSDKGetCallback(_T.BC_UPNP_CFG, handle, cmdData);
+                break;
+            }
+            case T.BC_CMD_E.E_BC_CMD_GET_UID: {
+                CONFIG.handleSDKGetCallback(_T.BC_UID_INFO, handle, cmdData);
+                break;
+            }
+            case T.BC_CMD_E.E_BC_CMD_GET_PTOP_CFG: {
+                CONFIG.handleSDKGetCallback(_T.BC_P2P_CFG, handle, cmdData);
+                break;
+            }
+            case T.BC_CMD_E.E_BC_CMD_GET_RFSENSOR: {
+                CONFIG.handleSDKGetCallback(_T.BC_RFSENSOR_ALARM_INFO, handle, cmdData);
+                break;
+            }
+            case T.BC_CMD_E.E_BC_CMD_GET_ALARMINCFG: {
+                CONFIG.handleSDKGetCallback(_T.BC_ALARM_IN_CFG, handle, cmdData);
+                break;
+            }
+            case T.BC_CMD_E.E_BC_CMD_GET_ALARMOUTCFG: {
+                CONFIG.handleSDKGetCallback(_T.BC_ALARM_OUT_CFG, handle, cmdData);
+                break;
+            }
+            case T.BC_CMD_E.E_BC_CMD_GET_RF_CFG: {
+                CONFIG.handleSDKGetCallback(_T.BC_RF_ALARM_CFG, handle, cmdData);
+                break;
+            }
+            case T.BC_CMD_E.E_BC_CMD_GET_DST: {
+                CONFIG.handleSDKGetCallback(_T.BC_DST_CFG, handle, cmdData);
+                break;
+            }
+            case T.BC_CMD_E.E_BC_CMD_GET_DDNSCFG: {
+                CONFIG.handleSDKGetCallback(_T.BC_DDNS_CFG, handle, cmdData);
+                break;
+            }
+            case T.BC_CMD_E.E_BC_CMD_GET_NTPCFG: {
+                CONFIG.handleSDKGetCallback(_T.BC_NTP_CFG, handle, cmdData);
+                break;
+            }
+            case T.BC_CMD_E.E_BC_CMD_GET_PPPOECFG: {
+                CONFIG.handleSDKGetCallback(_T.BC_PPPOE_CFG, handle, cmdData);
+                break;
+            }
+            case T.BC_CMD_E.E_BC_CMD_GET_ONLINE_UPDATE_STATUS: {
+                CONFIG.handleSDKGetCallback(_T.BC_ONLINE_UPDATE_STATUS, handle, cmdData);
+                break;
+            }
+            case T.BC_CMD_E.E_BC_CMD_GET_AUTO_UPDATE: {
+                CONFIG.handleSDKGetCallback(_T.BC_AUTO_UPDATE, handle, cmdData);
+                break;
+            }
+            case T.BC_CMD_E.E_BC_CMD_GET_ONLINE_NEW_FIRMWARE: {
+                CONFIG.handleSDKGetCallback(_T.BC_ONLINE_NEW_FW_INFO, handle, cmdData);
+                break;
+            }
+            case T.BC_CMD_E.E_BC_CMD_GET_PERFORMANCE: {
+                CONFIG.handleSDKGetCallback(_T.BC_PERFORMANCE_INFO, handle, cmdData);
+                break;
+            }
+            case T.BC_CMD_E.E_BC_CMD_GET_WIFI_SIGNAL: {
+                CONFIG.handleSDKGetCallback(_T.BC_WIFI_SIGNAL, handle, cmdData);
+                break;
+            }
+            case T.BC_CMD_E.E_BC_CMD_GET_WIFI_INFO: {
+                CONFIG.handleSDKGetCallback(_T.BC_WIFI_CFG, handle, cmdData);
+                break;
+            }
+            case T.BC_CMD_E.E_BC_CMD_GET_3G_4G_INFO: {
+                CONFIG.handleSDKGetCallback(_T.BC_3G_4G_INFO, handle, cmdData);
+                break;
+            }
+            case T.BC_CMD_E.E_BC_CMD_GET_SIM_MODULE_INFO: {
+                CONFIG.handleSDKGetCallback(_T.BC_SIM_MODULE_INFO, handle, cmdData);
+                break;
+            }
+            case T.BC_CMD_E.E_BC_CMD_GET_CLOUD_INFO: {
+                CONFIG.handleSDKGetCallback(_T.BC_CLOUD_INFO, handle, cmdData);
+                break;
+            }
+            case T.BC_CMD_E.E_BC_CMD_GET_CLOUD_CFG: {
+                CONFIG.handleSDKGetCallback(_T.BC_CLOUD_CFG, handle, cmdData);
+                break;
+            }
+            case T.BC_CMD_E.E_BC_CMD_GET_SCAN_AP: {
+                CONFIG.handleSDKGetCallback(_T.BC_SCAN_AP, handle, cmdData);
+                break;
+            }
+            case T.BC_CMD_E.E_BC_CMD_GET_RECFILEDATE: {
+                CONFIG.handleSDKGetCallback(_T.BC_RECORD_FILE_DAYS_BY_CHN, handle, cmdData);
+                break;
+            }
+            case T.BC_CMD_E.E_BC_CMD_GET_USERCFG: {
+                CONFIG.handleSDKGetCallback(_T.BC_USER_CFG, handle, cmdData);
+                break;
+            }
+            case T.BC_CMD_E.E_BC_CMD_GET_USER_ONLINE: {
+                CONFIG.handleSDKGetCallback(_T.BC_USER_ONLINE_CFG, handle, cmdData);
+                break;
+            }
+            case T.BC_CMD_E.E_BC_CMD_GET_BOOTPWD_STATE: {
+                CONFIG.handleSDKGetCallback(_T.BC_BOOT_PWD_STATE, handle, cmdData);
+                break;
+            }
+            case T.BC_CMD_E.E_BC_CMD_GET_FTPCFG: {
+                CONFIG.handleSDKGetCallback(_T.BC_FTP_CFG, handle, cmdData);
+                break;
+            }
+            case T.BC_CMD_E.E_BC_CMD_GET_COMPRESS: {
+                CONFIG.handleSDKGetCallback(_T.BC_CHN_ENC_INFO, handle, cmdData);
+                break;
+            }
+            case T.BC_CMD_E.E_BC_CMD_GET_OSD: {
+                CONFIG.handleSDKGetCallback(_T.BC_OSD_CFG, handle, cmdData);
+                break;
+            }
+            case T.BC_CMD_E.E_BC_CMD_GET_CAMERA_CFG: {
+                CONFIG.handleSDKGetCallback(_T.BC_CAMERA_CFG, handle, cmdData);
+                break;
+            }
+            case T.BC_CMD_E.E_BC_CMD_GET_COVER: {
+                CONFIG.handleSDKGetCallback(_T.BC_COVER_CFG, handle, cmdData);
+                break;
+            }
+            case T.BC_CMD_E.E_BC_CMD_GET_RECORDSCHED: {
+                CONFIG.handleSDKGetCallback(_T.BC_RECORD_SCHEDULE_CFG, handle, cmdData);
+                break;
+            }
+            case T.BC_CMD_E.E_BC_CMD_GET_PTZCFG: {
+                CONFIG.handleSDKGetCallback(_T.BC_PTZ_DECODER, handle, cmdData);
+                break;
+            }
+            case T.BC_CMD_E.E_BC_CMD_GET_MOTION: {
+                CONFIG.handleSDKGetCallback(_T.BC_MOTION_CFG, handle, cmdData);
+                break;
+            }
+            case T.BC_CMD_E.E_BC_CMD_GET_VILOST: {
+                CONFIG.handleSDKGetCallback(_T.BC_VILOST_CFG, handle, cmdData);
+                break;
+            }
+            case T.BC_CMD_E.E_BC_CMD_GET_PRESET: {
+                CONFIG.handleSDKGetCallback(_T.BC_PTZ_PRESETS, handle, cmdData);
+                break;
+            }
+            case T.BC_CMD_E.E_BC_CMD_GET_CRUISE: {
+                CONFIG.handleSDKGetCallback(_T.BC_PTZ_CRUISES, handle, cmdData);
+                break;
+            }
+            case T.BC_CMD_E.E_BC_CMD_GET_CAMERA:
+            case T.BC_CMD_E.E_BC_CMD_GET_DEFAULT_CAMERA: {
+                CONFIG.handleSDKGetCallback(_T.BC_ISP_CFG, handle, cmdData);
+                break;
+            }
+            case T.BC_CMD_E.E_BC_CMD_GET_LED_STATE: {
+                CONFIG.handleSDKGetCallback(_T.BC_LED_LIGHT_STATE, handle, cmdData);
+                break;
+            }
+            case T.BC_CMD_E.E_BC_CMD_GET_FTPTASK: {
+                CONFIG.handleSDKGetCallback(_T.BC_FTP_TASK, handle, cmdData);
+                break;
+            }
+            case T.BC_CMD_E.E_BC_CMD_GET_EMAIL_TASK: {
+                CONFIG.handleSDKGetCallback(_T.BC_EMAIL_TASK, handle, cmdData);
+                break;
+            }
+            case T.BC_CMD_E.E_BC_CMD_GET_PUSH_TASK: {
+                CONFIG.handleSDKGetCallback(_T.BC_PUSH_TASK, handle, cmdData);
+                break;
+            }
+            case T.BC_CMD_E.E_BC_CMD_GET_AUDIO_TASK: {
+                CONFIG.handleSDKGetCallback(_T.BC_AUDIO_TASK, handle, cmdData);
+                break;
+            }
+            case T.BC_CMD_E.E_BC_CMD_GET_AUTO_FOCUS: {
+                CONFIG.handleSDKGetCallback(_T.BC_PTZ_AUTO_FOCUS, handle, cmdData);
+                break;
+            }
+            case T.BC_CMD_E.E_BC_CMD_GET_CROP_CFG: {
+                CONFIG.handleSDKGetCallback(_T.BC_CROP_CFG, handle, cmdData);
+                break;
+            }
+            case T.BC_CMD_E.E_BC_CMD_GET_BATTERY_INFO: {
+                CONFIG.handleSDKGetCallback(_T.BC_BATTERY_INFO, handle, cmdData);
+                break;
+            }
+            case T.BC_CMD_E.E_BC_CMD_GET_BATTERY_ANALYSIS: {
+                CONFIG.handleSDKGetCallback(_T.BC_BATTERY_ANALYSIS, handle, cmdData);
+                break;
+            }
+            case T.BC_CMD_E.E_BC_CMD_GET_RINGTONE_FILE_INFO: {
+                CONFIG.handleSDKGetCallback(_T.BC_RINGTONE_FILE_INFO, handle, cmdData);
+                break;
+            }
+            case T.BC_CMD_E.E_BC_CMD_GET_RINGTONE_CFG: {
+                CONFIG.handleSDKGetCallback(_T.BC_RINGTONE_CFG, handle, cmdData);
+                break;
+            }
+            case T.BC_CMD_E.E_BC_CMD_GET_RINGTONE_ABILITY: {
+                CONFIG.handleSDKGetCallback(_T.BC_RINGTONE_ABILITY, handle, cmdData);
+                break;
+            }
+            case T.BC_CMD_E.E_BC_CMD_SET_SYS:
+            case T.BC_CMD_E.E_BC_CMD_SET_DEVICE_NAME:
+            case T.BC_CMD_E.E_BC_CMD_SET_AUTOREBOOT_CFG:
+            case T.BC_CMD_E.E_BC_CMD_RESTORE:
+            case T.BC_CMD_E.E_BC_CMD_SET_ADVRECORD:
+            case T.BC_CMD_E.E_BC_CMD_SET_EMAIL:
+            case T.BC_CMD_E.E_BC_CMD_SET_OUTPUT:
+            case T.BC_CMD_E.E_BC_CMD_INIT_HDD:
+            case T.BC_CMD_E.E_BC_CMD_SET_HDDFULL_EXPCFG:
+            case T.BC_CMD_E.E_BC_CMD_SET_HDDERR_EXPCFG:
+            case T.BC_CMD_E.E_BC_CMD_SET_NETDISCONNECT_EXPCFG:
+            case T.BC_CMD_E.E_BC_CMD_SET_IPCONFLICT_EXPCFG:
+            case T.BC_CMD_E.E_BC_CMD_SET_LOCAL:
+            case T.BC_CMD_E.E_BC_CMD_SET_NORMAL_PORT:
+            case T.BC_CMD_E.E_BC_CMD_SET_ADVANCED_PORTS:
+            case T.BC_CMD_E.E_BC_CMD_SET_UPNPSTATE:
+            case T.BC_CMD_E.E_BC_CMD_SET_PTOP_CFG:
+            case T.BC_CMD_E.E_BC_CMD_SET_RFSENSOR:
+            case T.BC_CMD_E.E_BC_CMD_SET_ALARMINCFG:
+            case T.BC_CMD_E.E_BC_CMD_SET_ALARMOUTCFG:
+            case T.BC_CMD_E.E_BC_CMD_SET_RF_CFG:
+            case T.BC_CMD_E.E_BC_CMD_SET_RF_ALARM_STATUS:
+            case T.BC_CMD_E.E_BC_CMD_SET_DST:
+            case T.BC_CMD_E.E_BC_CMD_SET_DDNSCFG:
+            case T.BC_CMD_E.E_BC_CMD_SET_NTPCFG:
+            case T.BC_CMD_E.E_BC_CMD_SET_PPPOECFG:
+            case T.BC_CMD_E.E_BC_CMD_ONLINE_UPDATE:
+            case T.BC_CMD_E.E_BC_CMD_SET_WIFI_INFO:
+            case T.BC_CMD_E.E_BC_CMD_WIFI_TEST:
+            case T.BC_CMD_E.E_BC_CMD_SET_SIM_MODULE_INFO:
+            case T.BC_CMD_E.E_BC_CMD_BIND_CLOUD:
+            case T.BC_CMD_E.E_BC_CMD_SET_CLOUD_CFG:
+            case T.BC_CMD_E.E_BC_CMD_SET_USERCFG:
+            case T.BC_CMD_E.E_BC_CMD_SET_USER_ALL_ABILITY:
+            case T.BC_CMD_E.E_BC_CMD_SET_USER_ONLINE:
+            case T.BC_CMD_E.E_BC_CMD_FORCE_PASSWORD:
+            case T.BC_CMD_E.E_BC_CMD_SET_BOOTPWD_STATE:
+            case T.BC_CMD_E.E_BC_CMD_SET_FTPCFG:
+            case T.BC_CMD_E.E_BC_CMD_FTP_TEST:
+            case T.BC_CMD_E.E_BC_CMD_IFRAME_PREVIEW:
+            case T.BC_CMD_E.E_BC_CMD_IFRAME_REPLAY:
+            case T.BC_CMD_E.E_BC_CMD_REBOOT:
+            case T.BC_CMD_E.E_BC_CMD_DEVICE_SLEEP:
+            case T.BC_CMD_E.E_BC_CMD_GETLOG:
+            case T.BC_CMD_E.E_BC_CMD_START_ALARM_REPORT:
+            case T.BC_CMD_E.E_BC_CMD_STOP_ALARM_REPORT:
+            case T.BC_CMD_E.E_BC_CMD_PUSH_ADD:
+            case T.BC_CMD_E.E_BC_CMD_RTMP_START:
+            case T.BC_CMD_E.E_BC_CMD_RTMP_STOP:
+            case T.BC_CMD_E.E_BC_CMD_SET_COMPRESS:
+            case T.BC_CMD_E.E_BC_CMD_SET_OSD:
+            case T.BC_CMD_E.E_BC_CMD_SET_COVER:
+            case T.BC_CMD_E.E_BC_CMD_SET_RECORDSCHED:
+            case T.BC_CMD_E.E_BC_CMD_SET_PTZCFG:
+            case T.BC_CMD_E.E_BC_CMD_SET_MOTION:
+            case T.BC_CMD_E.E_BC_CMD_SET_VILOST:
+            case T.BC_CMD_E.E_BC_CMD_SET_PRESET:
+            case T.BC_CMD_E.E_BC_CMD_GOTO_PRESET:
+            case T.BC_CMD_E.E_BC_CMD_SET_CRUISE:
+            case T.BC_CMD_E.E_BC_CMD_SET_CAMERA:
+            case T.BC_CMD_E.E_BC_CMD_SET_ISP_DAY_NIGHT_MODE:
+            case T.BC_CMD_E.E_BC_CMD_SET_LED_STATE:
+            case T.BC_CMD_E.E_BC_CMD_SET_FTPTASK:
+            case T.BC_CMD_E.E_BC_CMD_SET_EMAIL_TASK:
+            case T.BC_CMD_E.E_BC_CMD_SET_PUSH_TASK:
+            case T.BC_CMD_E.E_BC_CMD_SNAP:
+            case T.BC_CMD_E.E_BC_CMD_SET_AUTO_FOCUS:
+            case T.BC_CMD_E.E_BC_CMD_SET_CROP_CFG:
+            case T.BC_CMD_E.E_BC_CMD_CROP_SNAP:
+            case T.BC_CMD_E.E_BC_CMD_SET_RINGTONE_CFG:
+            case T.BC_CMD_E.E_BC_CMD_MANUAL_RING_DOWN:
+            case T.BC_CMD_E.E_BC_CMD_MUTE_ALARM_AUDIO:
+            case T.BC_CMD_E.E_BC_CMD_SAVE_RINGTONE:
+            default: {
+                _callback_1.PROMISE_CBS.handleCallback(handle, channel, cmdData.bcCmd, cmdData.cmdIdx, callback => {
+                    if (T.BC_RSP_CODE_E.E_BC_RSP_OK == cmdData.bcRspCode) {
+                        if (callback.sdkResolve)
+                            callback.sdkResolve();
+                    }
+                    else {
+                        if (callback.sdkReject) {
+                            callback.sdkReject({
+                                code: cmdData.bcRspCode,
+                                description: 'remote config faild ...',
+                                data: cmdData
+                            });
+                        }
+                    }
+                });
+                break;
+            }
+        }
     }
     deviceCmd(handle, cmd, func, param, type) {
         return new Promise((resolve, reject) => {

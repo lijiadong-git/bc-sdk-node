@@ -9,7 +9,6 @@ declare class LIVE {
     getIsLiveOpen(handle: number, channel: number): Promise<boolean>;
     liveOpen(handle: number, channel: number, stream: T.BC_STREAM_TYPE_E, callback: T.DataCallback): Promise<void>;
     liveClose(handle: number, channel: number): Promise<void>;
-    liveMute(handle: number, channel: number, mute: boolean): Promise<void>;
 }
 export declare const live: LIVE;
 export {};

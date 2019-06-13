@@ -222,6 +222,7 @@ const MFFI = ffi.Library(path.join(folder, 'libBCSDKWrapper'), {
     BCSDK_GetIsPlaybackOpen: ['int', ['int', 'int', _T.pointer('bool')]],
     BCSDK_GetPlaybackStreamType: ['int', ['int', 'int', _T.pointer('int')]],
     BCSDK_PlaybackOpen: ['int', ['int', 'int', 'string', 'string', 'bool', 'float', exports.renderCallbackFunc, _T.pointer('void')]],
+    BCSDK_PlaybackOpen2: ['int', ['int', 'int', 'string', 'string', 'bool', 'float', exports.dataCallbackFunc, _T.pointer('void')]],
     BCSDK_PlaybackClose: ['int', ['int', 'int']],
     BCSDK_PlaybackStart: ['int', ['int', 'int']],
     BCSDK_PlaybackPause: ['int', ['int', 'int']],
@@ -1092,7 +1093,7 @@ class NativeDelegate {
         this.BCSDK_GetPlaybackState = MFFI.BCSDK_GetPlaybackState;
         this.BCSDK_GetIsPlaybackOpen = MFFI.BCSDK_GetIsPlaybackOpen;
         this.BCSDK_GetPlaybackStreamType = MFFI.BCSDK_GetPlaybackStreamType;
-        this.BCSDK_PlaybackOpen = MFFI.BCSDK_PlaybackOpen;
+        this.BCSDK_PlaybackOpen = MFFI.BCSDK_PlaybackOpen2;
         this.BCSDK_PlaybackClose = MFFI.BCSDK_PlaybackClose;
         this.BCSDK_PlaybackStart = MFFI.BCSDK_PlaybackStart;
         this.BCSDK_PlaybackPause = MFFI.BCSDK_PlaybackPause;

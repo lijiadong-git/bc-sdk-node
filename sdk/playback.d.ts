@@ -11,13 +11,12 @@ declare class PLAYBACK {
     openStatus(handle: number, channel: number): Promise<T.BCSDK_MEDIA_STATE_E>;
     isOpen(handle: number, channel: number): Promise<boolean>;
     streamType(handle: number, channel: number): Promise<T.BC_STREAM_TYPE_E>;
-    open(handle: number, channel: number, fileNam: string, cacheFile: string, subStream: boolean, speed: number, callback: T.FrameCallback): Promise<void>;
+    open(handle: number, channel: number, fileNam: string, cacheFile: string, subStream: boolean, speed: number, callback: T.DataCallback): Promise<void>;
     close(handle: number, channel: number): Promise<void>;
     start(handle: number, channel: number): Promise<void>;
     pause(handle: number, channel: number): Promise<void>;
     stop(handle: number, channel: number): Promise<void>;
     nextStep(handle: number, channel: number): Promise<void>;
-    mute(handle: number, channel: number, mute: boolean): Promise<void>;
 }
 export declare const playback: PLAYBACK;
 export {};

@@ -13,67 +13,61 @@ class PLAYER {
     }
     getPlayerCallback(func) {
         return ffi_1.Callback('void', [_T.P_RENDER_FRAME_DESC, _T.pointer('void')], function (frameDes, userData) {
-            new Promise((resolve, reject) => {
-                if (!frameDes) {
-                    reject({ code: T.ERROR.E_WRONG_FORMAT, description: 'live callback error format ...' });
-                    return;
+            if (!frameDes) {
+                // error format ...
+                return;
+            }
+            let buf = ref.reinterpret(frameDes, _T.RENDER_FRAME_DESC.size);
+            let des = ref.get(buf, 0, _T.RENDER_FRAME_DESC);
+            if (des.type & T.DEFINDE.MEDIA_FRAME_TYPE_VIDEO) {
+                // find the callback function
+                let plane0 = {
+                    width: des.video.plane[0].width,
+                    height: des.video.plane[0].height,
+                    stride: des.video.plane[0].stride,
+                    data: des.video.plane[0].stride * des.video.plane[0].height > 0 ?
+                        new Uint8Array(ref.reinterpret(des.video.plane[0].address, des.video.plane[0].stride * des.video.plane[0].height)) : null
+                };
+                let plane1 = {
+                    width: des.video.plane[1].width,
+                    height: des.video.plane[1].height,
+                    stride: des.video.plane[1].stride,
+                    data: des.video.plane[1].stride * des.video.plane[1].height > 0 ?
+                        new Uint8Array(ref.reinterpret(des.video.plane[1].address, des.video.plane[1].stride * des.video.plane[1].height)) : null
+                };
+                let plane2 = {
+                    width: des.video.plane[2].width,
+                    height: des.video.plane[2].height,
+                    stride: des.video.plane[2].stride,
+                    data: des.video.plane[2].stride * des.video.plane[2].height > 0 ?
+                        new Uint8Array(ref.reinterpret(des.video.plane[2].address, des.video.plane[2].stride * des.video.plane[2].height)) : null
+                };
+                let callbackData = {
+                    pts: des.pts,
+                    width: des.video.width,
+                    height: des.video.height,
+                    format: des.video.format,
+                    plane0: plane0,
+                    plane1: plane1,
+                    plane2: plane2
+                };
+                if (func) {
+                    func.onVieoData(callbackData);
                 }
-                let buf = ref.reinterpret(frameDes, _T.RENDER_FRAME_DESC.size);
-                let des = ref.get(buf, 0, _T.RENDER_FRAME_DESC);
-                if (des.type & T.DEFINDE.MEDIA_FRAME_TYPE_VIDEO) {
-                    // find the callback function
-                    let plane0 = {
-                        width: des.video.plane[0].width,
-                        height: des.video.plane[0].height,
-                        stride: des.video.plane[0].stride,
-                        data: des.video.plane[0].stride * des.video.plane[0].height > 0 ?
-                            new Uint8Array(ref.reinterpret(des.video.plane[0].address, des.video.plane[0].stride * des.video.plane[0].height)) : null
-                    };
-                    let plane1 = {
-                        width: des.video.plane[1].width,
-                        height: des.video.plane[1].height,
-                        stride: des.video.plane[1].stride,
-                        data: des.video.plane[1].stride * des.video.plane[1].height > 0 ?
-                            new Uint8Array(ref.reinterpret(des.video.plane[1].address, des.video.plane[1].stride * des.video.plane[1].height)) : null
-                    };
-                    let plane2 = {
-                        width: des.video.plane[2].width,
-                        height: des.video.plane[2].height,
-                        stride: des.video.plane[2].stride,
-                        data: des.video.plane[2].stride * des.video.plane[2].height > 0 ?
-                            new Uint8Array(ref.reinterpret(des.video.plane[2].address, des.video.plane[2].stride * des.video.plane[2].height)) : null
-                    };
-                    let callbackData = {
-                        pts: des.pts,
-                        width: des.video.width,
-                        height: des.video.height,
-                        format: des.video.format,
-                        plane0: plane0,
-                        plane1: plane1,
-                        plane2: plane2
-                    };
-                    if (func) {
-                        func.onVieoData(callbackData);
-                    }
+            }
+            else if (des.type & T.DEFINDE.MEDIA_FRAME_TYPE_AUDIO) {
+                let callbackData = {
+                    media: new Uint8Array(ref.reinterpret(des.audio.media, des.audio.length)),
+                    length: des.audio.length,
+                    hasAAC: des.audio.hasAAC,
+                    sampleRate: des.audio.sampleRate,
+                    profile: des.audio.profile,
+                    channels: des.audio.channels
+                };
+                if (func) {
+                    func.onAudioData(callbackData);
                 }
-                else if (des.type & T.DEFINDE.MEDIA_FRAME_TYPE_AUDIO) {
-                    let callbackData = {
-                        media: new Uint8Array(ref.reinterpret(des.audio.media, des.audio.length)),
-                        length: des.audio.length,
-                        hasAAC: des.audio.hasAAC,
-                        sampleRate: des.audio.sampleRate,
-                        profile: des.audio.profile,
-                        channels: des.audio.channels
-                    };
-                    if (func) {
-                        func.onAudioData(callbackData);
-                    }
-                }
-                resolve();
-            })
-                .catch(reason => {
-                console.log(reason);
-            });
+            }
         });
     }
     create() {

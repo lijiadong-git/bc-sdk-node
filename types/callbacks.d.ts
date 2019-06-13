@@ -4,23 +4,25 @@ export interface DeviceCallback {
     abilityChangeCallback: (handle: number) => void;
     disconnectCallback: (handle: number) => void;
 }
-export interface IFramePlane {
+export interface IYUVPlane {
     width: number;
     height: number;
     stride: number;
     data: Uint8Array | null;
 }
-export interface IFrameCallbackData {
+export interface IYUVData {
     pts: number;
     width: number;
     height: number;
     format: T.BC_YUV_FORMAT_E;
-    plane0: IFramePlane;
-    plane1: IFramePlane;
-    plane2: IFramePlane;
+    plane0: IYUVPlane;
+    plane1: IYUVPlane;
+    plane2: IYUVPlane;
 }
+export declare type IFramePlane = IYUVPlane;
+export declare type IFrameCallbackData = IYUVData;
 export interface IAudioCallbackData {
-    media: Uint8Array;
+    media: Uint8Array | null;
     length: number;
     hasAAC: number;
     sampleRate: number;

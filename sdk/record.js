@@ -202,40 +202,28 @@ class RECORD {
 RECORD.singleton = new RECORD();
 RECORD.diskCallbacks = [];
 RECORD.diskStatusCallback = ffi_1.Callback('void', [_T.P_BC_DISK_WARNINIG_DESC, _T.pointer('void')], function (pdesc, userData) {
-    new Promise((resolve, reject) => {
-        if (!pdesc) {
-            reject({ code: T.ERROR.E_WRONG_FORMAT, description: 'disk callback error format ...' });
-            return;
-        }
-        let buf = ref.reinterpret(pdesc, _T.BC_DISK_WARNINIG_DESC.size);
-        let desc = ref.get(buf, 0, _T.BC_DISK_WARNINIG_DESC);
-        let param = _cast_1.derefCast(desc, _T.BC_DISK_WARNINIG_DESC);
-        RECORD.diskCallbacks.forEach(callback => {
-            callback(param);
-        });
-        resolve();
-    })
-        .catch(reason => {
-        console.log(reason);
+    if (!pdesc) {
+        // disk callback error format ...
+        return;
+    }
+    let buf = ref.reinterpret(pdesc, _T.BC_DISK_WARNINIG_DESC.size);
+    let desc = ref.get(buf, 0, _T.BC_DISK_WARNINIG_DESC);
+    let param = _cast_1.derefCast(desc, _T.BC_DISK_WARNINIG_DESC);
+    RECORD.diskCallbacks.forEach(callback => {
+        callback(param);
     });
 });
 RECORD.recordCallbacks = [];
 RECORD.recordStatusCallback = ffi_1.Callback('void', [_T.P_BC_REC_EVENT_DESC, _T.pointer('void')], function (pdesc, userData) {
-    new Promise((resolve, reject) => {
-        if (!pdesc) {
-            reject({ code: T.ERROR.E_WRONG_FORMAT, description: 'record status callback error format ...' });
-            return;
-        }
-        let buf = ref.reinterpret(pdesc, _T.BC_REC_EVENT_DESC.size);
-        let desc = ref.get(buf, 0, _T.BC_REC_EVENT_DESC);
-        let param = _cast_1.derefCast(desc, _T.BC_REC_EVENT_DESC);
-        RECORD.recordCallbacks.forEach(callback => {
-            callback(param);
-        });
-        resolve();
-    })
-        .catch(reason => {
-        console.log(reason);
+    if (!pdesc) {
+        // record status callback error format ...
+        return;
+    }
+    let buf = ref.reinterpret(pdesc, _T.BC_REC_EVENT_DESC.size);
+    let desc = ref.get(buf, 0, _T.BC_REC_EVENT_DESC);
+    let param = _cast_1.derefCast(desc, _T.BC_REC_EVENT_DESC);
+    RECORD.recordCallbacks.forEach(callback => {
+        callback(param);
     });
 });
 exports.record = RECORD.instance();

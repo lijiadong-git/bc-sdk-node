@@ -13,95 +13,92 @@ class PLAYBACK {
         return PLAYBACK.singleton;
     }
     handleSDKCallback(handle, cmdData) {
-        new Promise((resolve) => {
-            const channel = (cmdData.handleId & 0x000000ff) % T.DEFINDE.BC_MAX_CHANNEL;
-            switch (cmdData.bcCmd) {
-                case T.BC_CMD_E.E_BC_CMD_SEARCH_ALARM_VIDEOS:
-                case T.BC_CMD_E.E_BC_CMD_SEARCH_RECFILES: {
-                    if (T.BC_RSP_CODE_E.E_BC_RSP_OK == cmdData.bcRspCode) {
-                        const filesCallback = _callback_1.COMMON_CBS.getCallback(handle, cmdData.handleId, cmdData.bcCmd, cmdData.cmdIdx);
-                        if (filesCallback && filesCallback.sdkCallback) {
-                            let buf = ref.reinterpret(cmdData.pRspData, cmdData.dataLen);
-                            let des = ref.get(buf, 0, _T.BC_FIND_REC_FILES);
-                            let files = {
-                                seq: des.seq,
-                                fileNum: des.fileNum,
-                                recFile: []
-                            };
-                            for (let i = 0; i < des.fileNum; i++) {
-                                const file = des.recFile[i];
-                                files.recFile.push({
-                                    iChannel: file.iChannel,
-                                    cFileName: ref.readCString(file.cFileName.buffer, 0),
-                                    startTime: {
-                                        iYear: file.struStartTime.iYear,
-                                        iMonth: file.struStartTime.iMonth,
-                                        iDay: file.struStartTime.iDay,
-                                        iHour: file.struStartTime.iHour,
-                                        iMinute: file.struStartTime.iMinute,
-                                        iSecond: file.struStartTime.iSecond
-                                    },
-                                    stopTime: {
-                                        iYear: file.struStopTime.iYear,
-                                        iMonth: file.struStopTime.iMonth,
-                                        iDay: file.struStopTime.iDay,
-                                        iHour: file.struStopTime.iHour,
-                                        iMinute: file.struStopTime.iMinute,
-                                        iSecond: file.struStopTime.iSecond
-                                    },
-                                    iFileSize: file.iFileSize,
-                                    iFileSizeH: file.iFileSizeH,
-                                    recordType: file.recordType,
-                                    eStreamType: file.eStreamType,
-                                    eFileType: file.eFileType,
-                                    iContainsAudio: file.iContainsAudio
-                                });
-                            }
-                            filesCallback.sdkCallback(des.seq, files);
-                            if (des.fileNum < 40) {
-                                delete filesCallback.sdkCallback;
-                                if (0 === Object.keys(filesCallback).length) {
-                                    _callback_1.PROMISE_CBS.clearCallback(handle, cmdData.handleId, -cmdData.bcCmd, cmdData.cmdIdx);
-                                }
+        const channel = (cmdData.handleId & 0x000000ff) % T.DEFINDE.BC_MAX_CHANNEL;
+        switch (cmdData.bcCmd) {
+            case T.BC_CMD_E.E_BC_CMD_SEARCH_ALARM_VIDEOS:
+            case T.BC_CMD_E.E_BC_CMD_SEARCH_RECFILES: {
+                if (T.BC_RSP_CODE_E.E_BC_RSP_OK == cmdData.bcRspCode) {
+                    const filesCallback = _callback_1.COMMON_CBS.getCallback(handle, cmdData.handleId, cmdData.bcCmd, cmdData.cmdIdx);
+                    if (filesCallback && filesCallback.sdkCallback) {
+                        let buf = ref.reinterpret(cmdData.pRspData, cmdData.dataLen);
+                        let des = ref.get(buf, 0, _T.BC_FIND_REC_FILES);
+                        let files = {
+                            seq: des.seq,
+                            fileNum: des.fileNum,
+                            recFile: []
+                        };
+                        for (let i = 0; i < des.fileNum; i++) {
+                            const file = des.recFile[i];
+                            files.recFile.push({
+                                iChannel: file.iChannel,
+                                cFileName: ref.readCString(file.cFileName.buffer, 0),
+                                startTime: {
+                                    iYear: file.struStartTime.iYear,
+                                    iMonth: file.struStartTime.iMonth,
+                                    iDay: file.struStartTime.iDay,
+                                    iHour: file.struStartTime.iHour,
+                                    iMinute: file.struStartTime.iMinute,
+                                    iSecond: file.struStartTime.iSecond
+                                },
+                                stopTime: {
+                                    iYear: file.struStopTime.iYear,
+                                    iMonth: file.struStopTime.iMonth,
+                                    iDay: file.struStopTime.iDay,
+                                    iHour: file.struStopTime.iHour,
+                                    iMinute: file.struStopTime.iMinute,
+                                    iSecond: file.struStopTime.iSecond
+                                },
+                                iFileSize: file.iFileSize,
+                                iFileSizeH: file.iFileSizeH,
+                                recordType: file.recordType,
+                                eStreamType: file.eStreamType,
+                                eFileType: file.eFileType,
+                                iContainsAudio: file.iContainsAudio
+                            });
+                        }
+                        filesCallback.sdkCallback(des.seq, files);
+                        if (des.fileNum < 40) {
+                            delete filesCallback.sdkCallback;
+                            if (0 === Object.keys(filesCallback).length) {
+                                _callback_1.PROMISE_CBS.clearCallback(handle, cmdData.handleId, -cmdData.bcCmd, cmdData.cmdIdx);
                             }
                         }
                     }
-                    _callback_1.PROMISE_CBS.handleCallback(handle, channel, cmdData.bcCmd, cmdData.cmdIdx, callback => {
-                        if (T.BC_RSP_CODE_E.E_BC_RSP_OK == cmdData.bcRspCode) {
-                            if (callback.sdkResolve) {
-                                callback.sdkResolve(cmdData.bcRspCode);
-                            }
-                        }
-                        else {
-                            if (callback.sdkReject) {
-                                callback.sdkReject({ code: cmdData.bcRspCode });
-                            }
-                        }
-                    });
-                    break;
                 }
-                default: {
-                    _callback_1.PROMISE_CBS.handleCallback(handle, channel, cmdData.bcCmd, cmdData.cmdIdx, callback => {
-                        if (T.BC_RSP_CODE_E.E_BC_RSP_OK == cmdData.bcRspCode) {
-                            if (callback.sdkResolve) {
-                                callback.sdkResolve(cmdData.bcRspCode);
-                            }
+                _callback_1.PROMISE_CBS.handleCallback(handle, channel, cmdData.bcCmd, cmdData.cmdIdx, callback => {
+                    if (T.BC_RSP_CODE_E.E_BC_RSP_OK == cmdData.bcRspCode) {
+                        if (callback.sdkResolve) {
+                            callback.sdkResolve(cmdData.bcRspCode);
                         }
-                        else {
-                            if (callback.sdkReject) {
-                                callback.sdkReject({
-                                    code: cmdData.bcRspCode,
-                                    description: 'playback callback faild ...',
-                                    data: cmdData
-                                });
-                            }
+                    }
+                    else {
+                        if (callback.sdkReject) {
+                            callback.sdkReject({ code: cmdData.bcRspCode });
                         }
-                    });
-                    break;
-                }
+                    }
+                });
+                break;
             }
-            resolve();
-        });
+            default: {
+                _callback_1.PROMISE_CBS.handleCallback(handle, channel, cmdData.bcCmd, cmdData.cmdIdx, callback => {
+                    if (T.BC_RSP_CODE_E.E_BC_RSP_OK == cmdData.bcRspCode) {
+                        if (callback.sdkResolve) {
+                            callback.sdkResolve(cmdData.bcRspCode);
+                        }
+                    }
+                    else {
+                        if (callback.sdkReject) {
+                            callback.sdkReject({
+                                code: cmdData.bcRspCode,
+                                description: 'playback callback faild ...',
+                                data: cmdData
+                            });
+                        }
+                    }
+                });
+                break;
+            }
+        }
     }
     recordFilesSearch(handle, channel, start, end, type, streamType, seq, callback) {
         return new Promise((resolve, reject) => {
@@ -200,11 +197,11 @@ class PLAYBACK {
                     sdkResolve: resolve,
                     sdkReject: reject
                 };
-                _callback_1.PROMISE_CBS.addCallback(handle, channel, T.BC_CMD_E.E_BC_CMD_PLAYBACKBYNAME, 0, cb);
+                _callback_1.PROMISE_CBS.addCallback(handle, channel, T.BC_CMD_E.E_BC_CMD_PLAYBACKBYTIME, 0, cb);
                 let cb2 = {
                     sdkCallback: callback,
                 };
-                _callback_1.COMMON_CBS.setCallback(handle, channel, -T.BC_CMD_E.E_BC_CMD_PLAYBACKBYNAME, 0, cb2);
+                _callback_1.COMMON_CBS.setCallback(handle, channel, T.BC_CMD_E.E_BC_CMD_PLAYBACKBYTIME, 0, cb2);
             }
             else {
                 reject({ code: ret });
@@ -261,75 +258,50 @@ class PLAYBACK {
             resolve();
         });
     }
-    mute(handle, channel, mute) {
-        return new Promise((resolve, reject) => {
-            let ret = native_1.native.BCSDK_PlaybackMute(handle, channel, mute);
-            if (ret < 0) {
-                reject({ code: ret });
-                return;
-            }
-            resolve();
-        });
-    }
 }
 PLAYBACK.singleton = new PLAYBACK();
-PLAYBACK.playbackCallback = ffi_1.Callback('void', ['int', 'int', _T.P_RENDER_FRAME_DESC, _T.pointer('void')], function (handle, channel, frameDes, userData) {
-    new Promise((resolve, reject) => {
-        if (!frameDes) {
-            reject({ code: T.ERROR.E_WRONG_FORMAT, description: 'playback callback error format ...' });
-            return;
-        }
-        var buf = ref.reinterpret(frameDes, _T.RENDER_FRAME_DESC.size);
-        var des = ref.get(buf, 0, _T.RENDER_FRAME_DESC);
-        if (des.type & 1) {
-            // find the callback function
-            let callback = _callback_1.COMMON_CBS.getCallback(handle, channel, -T.BC_CMD_E.E_BC_CMD_PLAYBACKBYTIME, 0);
-            if (!callback
-                || !callback.sdkCallback
-                || !callback.sdkCallback.onVieoData) {
-                reject({ code: T.ERROR.E_NOT_FOUND, description: 'live callback function error ...' });
-                return;
+PLAYBACK.playbackCallback = ffi_1.Callback('void', ['int', 'int', _T.P_DATA_FRAME_DESC, _T.pointer('void')], function (handle, channel, frameDes, userData) {
+    if (!frameDes) {
+        // playback callback error format ...
+        return;
+    }
+    var buf = ref.reinterpret(frameDes, _T.DATA_FRAME_DESC.size);
+    var des = ref.get(buf, 0, _T.DATA_FRAME_DESC);
+    if (!des.media || 0 === des.length) {
+        return;
+    }
+    // find the callback function
+    let callback = _callback_1.COMMON_CBS.getCallback(handle, channel, T.BC_CMD_E.E_BC_CMD_PLAYBACKBYTIME, 0);
+    if (!callback
+        || !callback.sdkCallback
+        || !callback.sdkCallback.onData) {
+        // live callback function error ...;
+        return;
+    }
+    let callbackData = {
+        handle: handle,
+        channel: channel,
+        dataDesc: {
+            version: des.version,
+            type: des.type,
+            length: des.length,
+            media: ref.reinterpret(des.media, des.length),
+            pts: des.pts,
+            videoInfo: {
+                width: des.videoInfo.width,
+                height: des.videoInfo.height,
+                frameRate: des.videoInfo.frameRate
+            },
+            audioInfo: {
+                hasAAC: des.audioInfo.hasAAC,
+                sampleRate: des.audioInfo.sampleRate,
+                profile: des.audioInfo.profile,
+                channels: des.audioInfo.channels
             }
-            let plane0 = {
-                width: des.video.plane[0].width,
-                height: des.video.plane[0].height,
-                stride: des.video.plane[0].stride,
-                data: des.video.plane[0].stride * des.video.plane[0].height > 0 ?
-                    ref.reinterpret(des.video.plane[0].address, des.video.plane[0].stride * des.video.plane[0].height) : null
-            };
-            let plane1 = {
-                width: des.video.plane[1].width,
-                height: des.video.plane[1].height,
-                stride: des.video.plane[1].stride,
-                data: des.video.plane[1].stride * des.video.plane[1].height > 0 ?
-                    ref.reinterpret(des.video.plane[1].address, des.video.plane[1].stride * des.video.plane[1].height) : null
-            };
-            let plane2 = {
-                width: des.video.plane[2].width,
-                height: des.video.plane[2].height,
-                stride: des.video.plane[2].stride,
-                data: des.video.plane[2].stride * des.video.plane[2].height > 0 ?
-                    ref.reinterpret(des.video.plane[2].address, des.video.plane[2].stride * des.video.plane[2].height) : null
-            };
-            let callbackData = {
-                //handle: handle,
-                //channel: channel,
-                pts: des.pts,
-                width: des.video.width,
-                height: des.video.height,
-                format: des.video.format,
-                plane0: plane0,
-                plane1: plane1,
-                plane2: plane2
-            };
-            // callback                
-            callback.sdkCallback.onVieoData(callbackData);
         }
-        resolve();
-    })
-        .catch(reason => {
-        console.log(reason);
-    });
+    };
+    // callback                
+    callback.sdkCallback.onData(callbackData);
 });
 exports.playback = PLAYBACK.instance();
 //# sourceMappingURL=playback.js.map
