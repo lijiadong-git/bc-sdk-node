@@ -22,6 +22,12 @@ extern "C" {
                                OnRenderFrameCallback liveFrameCallback,
                                void *userData);
     
+    int _BCSDK_ BCSDK_LiveOpen2(H_BC_DEVICE hDevice,
+                                int channel,
+                                BC_STREAM_TYPE_E streamType,
+                                OnDataFrameCallback liveFrameCallback,
+                                void *userData);
+    
     int _BCSDK_ BCSDK_LiveClose(H_BC_DEVICE hDevice, int channel);
     
     int _BCSDK_ BCSDK_LiveMute(H_BC_DEVICE hDevice, int channel, bool mute);

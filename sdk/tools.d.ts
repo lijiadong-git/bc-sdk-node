@@ -11,7 +11,6 @@ declare class TOOLS {
     songP2PGetDebug(): Promise<T.BC_P2P_DEBUG_INFO>;
     XCUID2SongUID(uid: string): Promise<T.BC_P2P_UID_INFO>;
     songP2PGetDetail(): Promise<T.BC_P2P_DETAIL_INFO>;
-    songP2PGetLog(): Promise<string>;
     getDiagnoseLogs(): Promise<T.BC_DIAGNOSE_LOGS_LIST>;
     encrypt(enc: string): Promise<string>;
     decrypt(dec: string): Promise<string>;

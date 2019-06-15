@@ -77,6 +77,20 @@ declare class ABILITY {
     getIsBASE(handle: number, df?: boolean): Promise<boolean>;
     getHasAdminPermission(handle: number, df?: boolean): Promise<boolean>;
     getSupportSimModule(handle: number, df?: boolean): Promise<boolean>;
+    getIsLoginByDefaultPass(handle: number, df?: boolean): Promise<boolean>;
+    getSupportFTPPicture(handle: number, df?: boolean): Promise<boolean>;
+    getSupportPppoe(handle: number, df?: boolean): Promise<boolean>;
+    getSupportDateFormat(handle: number, df?: boolean): Promise<boolean>;
+    getSupportCloudSignatureLoginCfg(handle: number, df?: boolean): Promise<boolean>;
+    getSupportAccountBind(handle: number, df?: boolean): Promise<boolean>;
+    getPushSecretCode(handle: number, df?: boolean): Promise<boolean>;
+    getSupportShowQrcode(handle: number, df?: boolean): Promise<boolean>;
+    getSupportChinese(handle: number, df?: boolean): Promise<boolean>;
+    getSupportNasBind(handle: number, df?: boolean): Promise<boolean>;
+    getSupportNasUnbind(handle: number, df?: boolean): Promise<boolean>;
+    getSupportNasBindStatusInfo(handle: number, df?: boolean): Promise<boolean>;
+    getSupportExport(handle: number, df?: boolean): Promise<boolean>;
+    getSupportImport(handle: number, df?: boolean): Promise<boolean>;
     getDeviceNorm(handle: number, df?: T.BC_DEVICE_NORM_E): Promise<T.BC_DEVICE_NORM_E>;
     getUserVersion(handle: number, df?: number): Promise<number>;
     getPTZMode(handle: number, df?: number): Promise<number>;
@@ -94,6 +108,7 @@ declare class ABILITY {
      */
     getRfVersion(handle: number, df?: number): Promise<number>;
     getRfNumbers(handle: number, df?: number): Promise<number>;
+    getSmarthomeAbility(handle: number): Promise<T.BC_SMARTHOME_ABILITY_INFO>;
     /****************************************************************
      *
      *  Methods for Channel Abilities

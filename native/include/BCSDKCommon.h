@@ -411,6 +411,7 @@ typedef struct {
     char            uid[SDK_MAX_UID_STR_LEN];       // used when useP2P is true
     char            username[SDK_MAX_NAME_LEN];
     char            password[SDK_MAX_PASSWD_LEN];
+    char            defaultPass[SDK_MAX_PASSWD_LEN];
     
 } DEVICE_LOGIN_DESC;
 
@@ -446,6 +447,12 @@ typedef struct {
     BC_REC_SCHE_TYPE_E  iTimeTable[BC_MAX_DAYS][BC_MAX_TIMESEGMENT];
     
 } BC_REC_SCHE_TABLE_CFG;
+
+
+typedef struct {
+    // acceptance of the local record schedule
+    bool bAccept[BC_MAX_CHANNEL];
+} BC_REC_SCHE_DEVICE_CFG;
 
 
 /// encode type

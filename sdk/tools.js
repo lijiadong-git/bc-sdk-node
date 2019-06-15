@@ -101,19 +101,6 @@ class TOOLS {
             resolve(value);
         });
     }
-    songP2PGetLog() {
-        return new Promise((resolve, reject) => {
-            let data = new _T.BC_P2P_LOG();
-            let ret = native_1.native.BCSDK_SongP2PGetLog(data.ref());
-            if (T.ERROR.E_NONE != ret) {
-                reject({ code: ret });
-                return;
-            }
-            let buf = ref.reinterpret(data.content, data.length);
-            let value = ref.readCString(buf, 0);
-            resolve(value);
-        });
-    }
     getDiagnoseLogs() {
         return new Promise((resolve, reject) => {
             let data = new _T.BC_DIAGNOSE_LOGS_LIST();

@@ -15,6 +15,7 @@ extern "C" {
     int _BCSDK_ BCSDK_SetAbilityAbout(H_BC_DEVICE hDevice, DEVICE_ABILITY_ABOUT *about);
     
     int _BCSDK_ BCSDK_GetDeviceType(H_BC_DEVICE hDevice, BC_DEVICE_TYPE_E *type);
+    int _BCSDK_ BCSDK_GetIsLoginByDefaultPass(H_BC_DEVICE hDevice, bool *loginByDefaultPass);
     int _BCSDK_ BCSDK_GetDeviceNorm(H_BC_DEVICE hDevice, BC_DEVICE_NORM_E *norm);
     int _BCSDK_ BCSDK_GetSupportRF(H_BC_DEVICE hDevice, bool *support);
     int _BCSDK_ BCSDK_GetSupportPush(H_BC_DEVICE hDevice, bool *support);
@@ -33,24 +34,30 @@ extern "C" {
     int _BCSDK_ BCSDK_GetSupportFTPTest(H_BC_DEVICE hDevice, bool *support);
     int _BCSDK_ BCSDK_GetSupportFTPSubStream(H_BC_DEVICE hDevice, bool *support);
     int _BCSDK_ BCSDK_GetSupportFTPExtensionStream(H_BC_DEVICE hDevice, bool *support);
+    int _BCSDK_ BCSDK_GetSupportFTPPicture(H_BC_DEVICE hDevice, bool *support);
     int _BCSDK_ BCSDK_GetSupportRTSP(H_BC_DEVICE hDevice, bool *support);
     int _BCSDK_ BCSDK_GetSupportRTMP(H_BC_DEVICE hDevice, bool *support);
     int _BCSDK_ BCSDK_GetSupportONVIF(H_BC_DEVICE hDevice, bool *support);
     int _BCSDK_ BCSDK_GetSupportP2PEnable(H_BC_DEVICE hDevice, bool *support);
     int _BCSDK_ BCSDK_GetSupportP2PDomainName(H_BC_DEVICE hDevice, bool *support);
     int _BCSDK_ BCSDK_GetSupportP2PPort(H_BC_DEVICE hDevice, bool *support);
+    int _BCSDK_ BCSDK_GetSupportPppoe(H_BC_DEVICE hDevice, bool *support);
     int _BCSDK_ BCSDK_GetSupportSeek(H_BC_DEVICE hDevice, bool *support);
     int _BCSDK_ BCSDK_GetSupportIFramePreview(H_BC_DEVICE hDevice, bool *support);
     int _BCSDK_ BCSDK_GetSupportIFrameReplay(H_BC_DEVICE hDevice, bool *support);
     int _BCSDK_ BCSDK_GetSupportHDD(H_BC_DEVICE hDevice, bool *support);
     int _BCSDK_ BCSDK_GetSupportSDCard(H_BC_DEVICE hDevice, bool *support);
     int _BCSDK_ BCSDK_GetSupportTimeFormat(H_BC_DEVICE hDevice, bool *support);
+    int _BCSDK_ BCSDK_GetSupportDateFormat(H_BC_DEVICE hDevice, bool *support);
     int _BCSDK_ BCSDK_GetSupportEmailTask(H_BC_DEVICE hDevice, bool *support);
     int _BCSDK_ BCSDK_GetSupportEmailNickName(H_BC_DEVICE hDevice, bool *support);
     int _BCSDK_ BCSDK_GetSupportPushTask(H_BC_DEVICE hDevice, bool *support);
     int _BCSDK_ BCSDK_GetSupportCloud(H_BC_DEVICE hDevice, bool *support);
     int _BCSDK_ BCSDK_GetSupportCloudCfg(H_BC_DEVICE hDevice, bool *support);
     int _BCSDK_ BCSDK_GetSupportCloudSchedule(H_BC_DEVICE hDevice, bool *support);
+    int _BCSDK_ BCSDK_GetSupportCloudSignatureLoginCfg(H_BC_DEVICE hDevice, bool *support);
+    int _BCSDK_ BCSDK_GetSupportAccountBind(H_BC_DEVICE hDevice, bool *support);
+    int _BCSDK_ BCSDK_GetSmarthomeAbility(H_BC_DEVICE hDevice, BC_SMARTHOME_ABILITY_INFO *smarthome);
     int _BCSDK_ BCSDK_GetSupportUpgrade(H_BC_DEVICE hDevice, bool *support);
     int _BCSDK_ BCSDK_GetSupportOutput(H_BC_DEVICE hDevice, bool *support);
     int _BCSDK_ BCSDK_GetSupportVideoLost(H_BC_DEVICE hDevice, bool *support);
@@ -89,6 +96,7 @@ extern "C" {
     int _BCSDK_ BCSDK_GetDdnsVersion(H_BC_DEVICE hDevice, int *version);
     int _BCSDK_ BCSDK_GetAnalogChannelCount(H_BC_DEVICE hDevice, int *count);
     int _BCSDK_ BCSDK_GetPushType(H_BC_DEVICE hDevice, int *pushType);
+    int _BCSDK_ BCSDK_GetPushSecretCode(H_BC_DEVICE hDevice, char *secretCode, int maxLen);
     
     // rfVersion:   0 -> no support;
     //              1 -> old,suppport 3 buttons;
@@ -99,6 +107,13 @@ extern "C" {
     
     int _BCSDK_ BCSDK_GetRfNumbers(H_BC_DEVICE hDevice, int *count);
     int _BCSDK_ BCSDK_GetSupportSimModule(H_BC_DEVICE hDevice, bool *support);
+    int _BCSDK_ BCSDK_GetSupportShowQrcode(H_BC_DEVICE hDevice, bool *support);
+    int _BCSDK_ BCSDK_GetSupportChinese(H_BC_DEVICE hDevice, bool *support);
+    int _BCSDK_ BCSDK_GetSupportNasBind(H_BC_DEVICE hDevice, bool *support);
+    int _BCSDK_ BCSDK_GetSupportNasUnbind(H_BC_DEVICE hDevice, bool *support);
+    int _BCSDK_ BCSDK_GetSupportNasBindStatusInfo(H_BC_DEVICE hDevice, bool *support);
+    int _BCSDK_ BCSDK_GetSupportExport(H_BC_DEVICE hDevice, bool *support);
+    int _BCSDK_ BCSDK_GetSupportImport(H_BC_DEVICE hDevice, bool *support);
     
     
     
@@ -125,6 +140,8 @@ extern "C" {
     int _BCSDK_ BCSDK_GetSupportTalk(H_BC_DEVICE hDevice, int channel, bool *support);
     int _BCSDK_ BCSDK_GetSupportMD(H_BC_DEVICE hDevice, int channel, bool *support);
     int _BCSDK_ BCSDK_GetSupportMDWithPIR(H_BC_DEVICE hDevice, int channel, bool *support);
+    int _BCSDK_ BCSDK_GetSupportMDTriggerAudio(H_BC_DEVICE hDevice, int channel, bool *support);
+    int _BCSDK_ BCSDK_GetSupportMDTriggerRecord(H_BC_DEVICE hDevice, int channel, bool *support);
     int _BCSDK_ BCSDK_GetSupportShelterCfg(H_BC_DEVICE hDevice, int channel, bool *support);
     int _BCSDK_ BCSDK_GetIsBattery(H_BC_DEVICE hDevice, int channel, bool *isBattery);
     int _BCSDK_ BCSDK_GetIsCharge(H_BC_DEVICE hDevice, int channel, bool *isCharge);

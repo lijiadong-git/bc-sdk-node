@@ -15,6 +15,7 @@ extern "C" {
     int _BCSDK_ BCSDK_GetIsDownloading(H_BC_DEVICE hDevice, bool *download);
     
     int _BCSDK_ BCSDK_StartDownloadFile(H_BC_DEVICE hDevice,
+                                        const char *uid,//for NAS
                                         const char *fileName,
                                         bool subStream,
                                         BC_FILE_TYPE_E type,
@@ -23,6 +24,7 @@ extern "C" {
     
     int _BCSDK_ BCSDK_StartDownloadByTime(H_BC_DEVICE hDevice,
                                           int channel,
+                                          const char *uid,//for NAS
                                           BC_TIME startTime,
                                           BC_TIME endTime,
                                           bool subStream,

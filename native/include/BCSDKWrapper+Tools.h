@@ -9,7 +9,7 @@ extern "C" {
 #include "BCSDKCommon.h"
 
     
-    // -----------------------------------------------------------------------------------------------------------------
+    // ------------------------------------------------------------------------------------------------------------
     // total bitrate
     int _BCSDK_ BCSDK_GetTotalBitrates(long long *bitrate);
     
@@ -24,7 +24,6 @@ extern "C" {
     int _BCSDK_ BCSDK_XCUID2SongUID(const char *uid, BC_P2P_UID_INFO *info);
     
     int _BCSDK_ BCSDK_SongP2PGetDetail(BC_P2P_DETAIL_INFO *detailInfo);
-    int _BCSDK_ BCSDK_SongP2PGetLog(BC_P2P_LOG *logInfo);
     
     int _BCSDK_ BCSDK_GetDiagnoseLogs(BC_DIAGNOSE_LOGS_LIST *logsList);
     

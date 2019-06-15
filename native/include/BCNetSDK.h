@@ -44,7 +44,7 @@
 #define BC_MAX_ALARMIN                     64
 #define BC_MAX_CHANNEL                     32
 #define BC_MAX_RF_NUM_V20                  64
-#define BC_MAX_DISKNUM                     64
+#define BC_MAX_DISKNUM                     16
 #define BC_MAX_ENC_PROFILE_NUM             32
 
 #define BC_LOG_INFO_LEN             4096
@@ -339,6 +339,11 @@ typedef enum
     E_BC_CMD_MUTE_ALARM_AUDIO               = 2221,
     E_BC_CMD_GET_RINGTONE_ABILITY           = 2222,
     E_BC_CMD_SEARCH_ALARM_VIDEOS            = 2223,
+    E_BC_CMD_NAS_BIND                       = 2224,
+    E_BC_CMD_NAS_UNBIND                     = 2225,
+    E_BC_CMD_NAS_GET_BIND_INFO              = 2226,
+    E_BC_CMD_GET_SIGNATURE_LOGIN_CFG        = 2227,
+    E_BC_CMD_SET_SIGNATURE_LOGIN_CFG        = 2228,
     
     
     // sdk up layer callback use
@@ -1097,6 +1102,7 @@ typedef struct tagBC_LOGIN_INFO {
 
     char cUserName[BC_MAX_NAME_LEN+32];
     char cPassword[BC_MAX_PWD_LEN+32];
+    char cDefaultPass[BC_MAX_PWD_LEN+32];
     
     unsigned int delayCallbackTime; //ms,   0:no delay
     
@@ -1153,9 +1159,13 @@ typedef struct tagBC_DEVICE_INFO{
     int     iSupportAutoUpdate;
     int     iUserVerion;
     int     iRfNumber;
+    char    cSecretCode[128];
     
     int     iIsRelayConnection;
-    int     iMaxReconnectTimes;    
+    int     iMaxReconnectTimes;
+    
+    int     useDefaultPass;
+    
 } BC_DEVICE_INFO,*LPBC_DEVICE_INFO;
 
 
@@ -1165,6 +1175,22 @@ typedef struct
     int             iRfVersion[BC_MAX_CHANNEL];
     int             iRfNumber[BC_MAX_CHANNEL];
 } BC_BASE_ABILITY_INFO;
+
+
+#define BC_SMARTHOME_NAME_MAX_LEN   32
+#define BC_SMARTHOME_ITEMS_MAX_NUM  20
+typedef struct
+{
+    char    cName[BC_SMARTHOME_NAME_MAX_LEN];
+    unsigned int uiValue;
+} BC_SMARTHOME_ITEM;
+
+typedef struct
+{
+    int     iVersion; // 0:not support smarthome, !=0 : support smarthome
+    int     iSize;
+    BC_SMARTHOME_ITEM items[BC_SMARTHOME_ITEMS_MAX_NUM];
+} BC_SMARTHOME_ABILITY_INFO;
 
 typedef struct tagBC_ABILITY_INFO{
     char     cUserName[BC_MAX_NAME_LEN];
@@ -1201,15 +1227,21 @@ typedef struct tagBC_ABILITY_INFO{
     int      iNtp; // 1:support, 0:not
     int      iUseP2pCfg;
     int      iP2pCfg; //bit0: domain name cfg  bit1:server port cfg, bit2: enable p2p
+    int      iUsePppoe;
+    int      iPppoe; //bit0: support pppoe
+    int      iUseStorageMode;
+    int      iStorageMode; //bit0:support hdd, bit1:support SD-Card
     
     int      iAutoUpdate;
     int      iPushAlarm;
-    int      iFtp; // bit0:support ftp, bit1:support subStream and pic, bit2:support extension stream and pic.
+    int      iFtp; // bit0:support ftp, bit1:support subStream and pic, bit2:support extension stream and pic, bit3:not support picture
     int      iFtpTest;
     int      iEmail;
     int      iWifi;
     int      iWifiVersion; //bit0: init wifi after logining success first time
     int      iRecord;     //  bit0: 1-md record  bit1: 1-normal record
+    int      iUseNewRecordType;
+    int      iNewRecordType;//  bit0: 1-md record  bit1: 1-normal record
     int      iUseRecordCfg;
     int 	 iRecordCfg;  //bit0:post record  bit1:pre record  bit2:overwrite  bit3:packet time bit4:post record time list
     int      iWifiTest;
@@ -1225,6 +1257,8 @@ typedef struct tagBC_ABILITY_INFO{
     int      iRfVersion;
     int      iNoExternStream;
     int      iTimeFormat;
+    int      iUseDateFormat;
+    int      iDateFormat; // bit0:support date format set.
     
 /*   iDDnsVersion
      0:3322+dyndns
@@ -1244,11 +1278,14 @@ typedef struct tagBC_ABILITY_INFO{
     int      iPushVersion;       // 1:new, has push task. 0:old, no
     int      iSupportUpgrade;    // 1: support upgrade online  0:not
     int      iSupportAudioTask;  // 1: support audio task. 0:not
-    int      iPushType;          // 0 :udp push  1:http push
-    int      iCloudVersion; // bit0:cloud task cfg, bit1:bind & get bind info, bit2:upload cfg
+    int      iPushType;          // 0 :udp push  1:http push  2:https push
+    int      iCloudVersion; // bit0:cloud task cfg, bit1:cloud storage, bit2:upload cfg, bit3:signature login cfg, bit4:bind & get bind info
     int      iApMode;    // 0: not support  1: ap wifi wizard
     int      iReplayVersion; // bit0: 1-replay fast forward, bit1:support mark alarm video
     int      i4gDevVersion; // bit0: 3g/4g net info  bit1: SIM module Info
+    int      iShowQrcode; // bit0: show QRCode
+    int      iLanguageVersion;// bit0: support chinese
+    int      iCfgFileOperation;// bit0: 1-disable export, bit1: 1-disable import
     
     int      iSupportAutoFocus[BC_MAX_CHANNEL]; // 1: support auto focus  0:not
     int      iSupportCrop[BC_MAX_CHANNEL];      // 1: support crop live stream
@@ -1261,7 +1298,9 @@ typedef struct tagBC_ABILITY_INFO{
     bool     bIndicatorLight[BC_MAX_CHANNEL];
     bool     bSupportAudioTalk[BC_MAX_CHANNEL]; // 1: support audio talk,  0:not
     int      iUseMotion;
-    bool     iMotionVersion[BC_MAX_CHANNEL]; // 1:support MD, 2:support MD with PIR
+    int      iMotionVersion[BC_MAX_CHANNEL]; // 1:support MD, 2:support MD with PIR
+    int      iUseMdConfig;
+    int      iMdConfig[BC_MAX_CHANNEL]; //bit0:support audio warnning, bit1:support trigger recording settings.
     int      iUseBattery;
     int      iBattery[BC_MAX_CHANNEL]; // 0:not, 1:dry battery, 2:charge battery
     int      iUseBatAnalysis;
@@ -1269,7 +1308,7 @@ typedef struct tagBC_ABILITY_INFO{
     int      iUseShelterCfg;
     int      bShelterCfg[BC_MAX_CHANNEL]; // 1:battery, 0:not
     int      iUseAudioVersion;
-    int      iAudioVersion[BC_MAX_CHANNEL]; // bit0: support audio task, bit1:audio alarm schedule, bit2:manual ring down bit3:custom ringtone
+    int      iAudioVersion[BC_MAX_CHANNEL]; // bit0: audio alarm enable, bit1:audio alarm schedule, bit2:manual ring down bit3:custom ringtone
     int      iUseOsdCfg;
     int      iOsdCfg[BC_MAX_CHANNEL]; // bit0: support watermark, bit1: support padding
     
@@ -1292,6 +1331,10 @@ typedef struct tagBC_ABILITY_INFO{
     int     iIspCfg[BC_MAX_CHANNEL];
     
     BC_BASE_ABILITY_INFO    baseAbility;
+    int     iNasVersion; // bit0:1-support bind  bit1:1-support unbind  bit2:1-support get bind info
+    
+    BC_SMARTHOME_ABILITY_INFO smarthome;
+    
 } BC_ABILITY_INFO;
 
 
@@ -1334,6 +1377,8 @@ typedef struct tagBC_STREAM_PARAM {
 
 typedef struct {
     int channel;
+    char cUID[BC_MAX_UID_LEN];// for NAS
+    
     char fileName[BC_MAX_FILE_LEN];
     int iUseSubStream;
     float iMultiple; // the speed of playback
@@ -1342,6 +1387,8 @@ typedef struct {
 
 typedef struct {
     int iChannel;
+    char cUID[BC_MAX_UID_LEN];// for NAS
+    
     char cSourceFileName[BC_MAX_FILE_LEN];
     char cSaveFileName[BC_MAX_FILE_LEN];
     char cTempFileName[BC_MAX_FILE_LEN];
@@ -1353,6 +1400,8 @@ typedef struct {
 
 typedef struct {
     int iChannel;
+    char cUID[BC_MAX_UID_LEN];// for NAS
+    
     BC_TIME startTime;
     BC_TIME endTime;
     char cSaveFileName[BC_MAX_FILE_LEN];
@@ -1485,13 +1534,22 @@ typedef struct tagBC_HANDLEEXCEPTION
     char     byRelAlarmOut[96];
 } BC_HANDLEEXCEPTION;
 
+#define BC_MD_AREA_MAX_HEIGHT   68
+#define BC_MD_AREA_MAX_WIDTH    120
+
 typedef struct tagBC_MOTION_CFG
 {
+    /* validField, used for only set some params.
+     * for example, validField = "<bEnable><sensitivityInfo>", only set  bEnable, sensitivityInfo"
+     * "bMotionScope, iWidth, iHeight" and "iInvalid, iTimeTable" are independent.
+     */
+    char                 validField[128];
+    
     bool                 isCopyTo;
     bool                 bEnable;                         // FALSE: disable, TRUE:enable
-    int                  iWidth;   // video image width, max:96
-    int                  iHeight;   // video image hight, max:64
-    bool                 bMotionScope[64][96];           // 1: set to motion, 0: not set
+    int                  iWidth;   // video image width, max:120
+    int                  iHeight;   // video image hight, max:68
+    bool                 bMotionScope[BC_MD_AREA_MAX_HEIGHT][BC_MD_AREA_MAX_WIDTH];           // 1: set to motion, 0: not set
     BC_SENSITIVITY_INFO  sensitivityInfo[BC_MAX_MOTION_SENS_NUM];
     BC_ALARM_OUT         alarmOut;
     char                 byRelRecordChannel[BC_MAX_CHANNEL];     // 0: not set, 1:set
@@ -1503,9 +1561,9 @@ typedef struct tagBC_MOTION_CFG
 
 typedef struct {
     
-    int                  iWidth;   // video image width, max:96
-    int                  iHeight;   // video image hight, max:64
-    bool                 bMotionScope[64][96];// 1: set to motion, 0: not set
+    int                  iWidth;   // video image width, max:120
+    int                  iHeight;   // video image hight, max:68
+    bool                 bMotionScope[BC_MD_AREA_MAX_HEIGHT][BC_MD_AREA_MAX_WIDTH];// 1: set to motion, 0: not set
 } BC_MD_SCOPE;
 
 typedef struct tagBC_BLIND_CFG{
@@ -1627,6 +1685,11 @@ typedef struct tagBC_OSD
 
 typedef struct tagBC_OSD_CFG
 {
+    /* validField, used for only set some params.
+     * for example, validField = "<byChannelName><channelName>", only set byChannelName, channelName.
+     */
+    char validField[128];
+    
     bool                     isCopyTo;
     char                     byChannelName[BC_MAX_NAME_LEN];
     BC_OSD                   channelName;
@@ -1635,11 +1698,19 @@ typedef struct tagBC_OSD_CFG
     BC_LANGUAGE_E            elanguage;
     int                      iBgColor; //1:use bg color
     int                      iWaterMark;//1:use water mark
+    int                      iWaterMarkXPos; //readonly water mark Topleft pos X default:0x10000
+    int                      iWaterMarkYPos; //readonly water mark Topleft pos Y default:0x10000
 } BC_OSD_CFG,*LPBC_OSD_CFG;
 
 /* daylight saving time */
 typedef struct tagBC_DST
 {
+    /* validField, used for only set some params.
+     * "iStartMonth, iStartIndex, iStartWeekday, iStartHour, iStartMinute, iStartSecond" is independent.
+     * "iEndMonth, iEndIndex, iEndWeekday, iEndHour, iEndMinute, iEndSecond" is independent.
+     */
+    char validField[128];
+    
     bool bEnable;
     int iOffset;       // hours offset of timezone
     
@@ -1657,11 +1728,16 @@ typedef struct tagBC_DST
     int iEndMinute;
     int iEndSecond;
     
-    int iVersion;// bit0: 1 support weekday cfg
+    int iVersion;// readonly. bit0: 1 support weekday cfg
 } BC_DST_CFG, *LPBC_DST_CFG;
 
 typedef struct tagBC_SYS_GENERAL_CFG
 {
+    /* validField, used for only set some params.
+     * "iYear, iMonth, iDay, iHour, iMin, iSecond" is independent.
+     */
+    char validField[128];
+    
     BC_TVSYSTEM_E eTS;
     int iTimeZone; // Example: For GMT +8:00, lTimeZone = -8*3600
     BC_DATE_TYPE_E eDateFormat;
@@ -1716,11 +1792,10 @@ typedef enum
  */
 typedef struct tagBC_ISP_CFG{
     
-    /*  flag, used for only set some params.
-     *  bit0: eAntiflick
-     *  bit1: eDayNightMode
+    /* validField, used for only set some params.
+     * for example, validField = "<lBright><lContrast><eAntiflick><eDayNightMode>", only set lBright, lContrast, eAntiflick, eDayNightMode.
      */
-    int flag;
+    char validField[128];
     
     long lChannel;                       // 0~BC_MAX_CHANNEL
     long lBright;                        // 0~0xff, default 0x80
@@ -1741,10 +1816,7 @@ typedef struct tagBC_ISP_CFG{
     BC_LINE_CTRL_VALUE    blueGain;      // blue gain, 0~100, default 50
     BC_DAY_NIGHT_MODE_E   eDayNightMode; // day/night mode
     BC_IR_CUT_TYPE_E      eIRCut;        // ir-cut-filter
-    //BC_LINE_CTRL_VALUE    exposure;      // 0~0xff,default:0x80
-    long				  lExposureRes;
     long				  lExposureLevel;
-    long				  lExposureCur;
     BC_BLC_MODE_E         eBLCType;      // Backlight compensation mode
     BC_LINE_CTRL_VALUE    DRCTarget;     // Wide dynamic range, 0~0xff,default:0x80
     BC_LINE_CTRL_VALUE    BLCTarget;     // Backlight intensity,0~0xff,default:0x80
@@ -1786,8 +1858,14 @@ typedef enum
 
 typedef struct {
     
+    /* validField, used for only set some params.
+     * for example, validField = "<eLEDState>", only set  eLEDState
+     */
+    char                validField[128];
+    
     BC_LED_STATE_E      eLEDState;
-    int                 iVersion;// 1:auto,close,open. 2:auto,close
+    int                 iVersion;// 1:LED auto,close,open. 2:LED auto,close
+    
     BC_LIGHT_STATE_E    eIndicatorLight;
 } BC_LED_LIGHT_STATE;
 
@@ -1873,8 +1951,9 @@ typedef struct tagBC_VERSION_INFO
 typedef struct tagBC_EMAIL_CFG
 {
     struct{
-        char   byAccount[BC_MAX_ADDR_LEN];
-        char  byPassword[BC_MAX_PWD_LEN];      // sender email
+        char    byAccount[BC_MAX_ADDR_LEN];
+        int     iSenderMaxLen;  //readonly, max len of byAccount
+        char    byPassword[BC_MAX_PWD_LEN];      // sender email
     }sender;
     
     struct{
@@ -1895,6 +1974,12 @@ typedef struct tagBC_EMAIL_CFG
 
 typedef struct tagBC_EMAIL_TASK
 {
+    /* validField, used for only set some params.
+     * validField only suppport for setting <bEnable>,
+     * validField = "" or "<bEnable>".
+     */
+    char                validField[128];
+    
     bool                bEnable;
     int                 iInvalid;
     int                 iTimeTable[BC_MAX_DAYS][BC_MAX_TIMESEGMENT];
@@ -1954,6 +2039,11 @@ typedef struct
 
 typedef struct tagBC_RECORD_GENERAL_CFG
 {
+    /* validField, used for only set some params.
+     * for example, validField = "<bOverWrite><iPackageTime>", only set  bOverWrite, iPackageTime"
+     */
+    char                validField[128];
+    
     bool                bOverWrite;
     int                 iPackageTime;  //30 45 60 MIN
     int                 iPostRecordTime; //1 2 5 10 MIN
@@ -1963,6 +2053,12 @@ typedef struct tagBC_RECORD_GENERAL_CFG
 
 typedef struct tagBC_RECORD_SCHEDULE_CFG
 {
+    /* validField, used for only set some params.
+     * validField only suppport for setting <bEnable>,
+     * validField = "" or "<bEnable>".
+     */
+    char                    validField[128];
+    
     bool					bEnable;
    	int                 	iInvalid;
     int                 	iTimeTable[BC_MAX_DAYS][BC_MAX_TIMESEGMENT];
@@ -2175,6 +2271,12 @@ typedef struct
     int iDisable;
 } BC_PTZ_AUTO_FOCUS;
 
+typedef enum
+{
+    BC_STORAGE_TYPE_UNKNOWN = 0,
+    BC_STORAGE_TYPE_HDD = 1,
+    BC_STORAGE_TYPE_SD_CARD = 2,
+} BC_STORAGE_TYPE_E;
 
 typedef struct tagBC_HDD
 {
@@ -2185,6 +2287,9 @@ typedef struct tagBC_HDD
     bool  bMount;
     int   iRemainSizeG;// Unit:GB
     int   iRemainSizeM;
+    
+    BC_STORAGE_TYPE_E eStorageType;
+    bool  bIsInUse;
 } BC_HDD;
 
 typedef struct tagBC_HDD_CFG
@@ -2197,6 +2302,7 @@ typedef struct tagBC_HDD_INIT_CFG
 {
     int   iTotal;
     int   iInitId[BC_MAX_DISKNUM];
+    BC_STORAGE_TYPE_E eStorageType[BC_MAX_DISKNUM];
 } BC_HDD_INIT_CFG,*LPBC_HDD_INIT_CFG;
 
 typedef struct tagBC_AUTOREBOOT_CFG
@@ -2222,6 +2328,14 @@ typedef enum {
     BC_FTP_TRANSPORT_MODE_PASV = 2,
 } BC_FTP_TRANSPORT_MODE_E;
 
+#define BC_FTP_INTERVAL_TABLE_MAX_SIZE  16
+
+typedef struct
+{
+    int iSize;
+    int iInterval[BC_FTP_INTERVAL_TABLE_MAX_SIZE];
+} BC_FTP_INTERVAL_LIST;
+
 typedef struct tagBC_FTP_CFG
 {
     char  cServer[BC_MAX_ADDR_LEN];
@@ -2233,15 +2347,22 @@ typedef struct tagBC_FTP_CFG
     int   iwFilelen;            //Unit:MB
     bool  bSupportTest;         //1:support ftp test
     int   iSupportStreamType;
-    int   iStreamType;          //0:pic and mainStream video, 1:pic and subStream video, 2:pic and extension stream video, 3:only picture
+    int   iStreamType;          //0:pic and mainStream video, 1:pic and subStream video, 2:pic and extension stream video, 3:only picture, 4:mainStream video only, 5:subStream video only, 6:extension stream video only
     int   iSupportInterval;
     int   iInterval;            //seconds
+    BC_FTP_INTERVAL_LIST intervalList; // readonly
     int   iSupportTransportMode;
     BC_FTP_TRANSPORT_MODE_E    eTransportMode;
 } BC_FTP_CFG, *LPBC_FTP_CFG;
 
 typedef struct tagBC_FTP_TASK
 {
+    /* validField, used for only set some params.
+     * validField only suppport for setting <bEnable>,
+     * validField = "" or "<bEnable>".
+     */
+    char                validField[128];
+    
     bool                bEnable;
     int                 iInvalid;
     int                 iTimeTable[BC_MAX_DAYS][BC_MAX_TIMESEGMENT];
@@ -2379,6 +2500,11 @@ typedef struct tagBC_WIFI_CFG
     BC_UDID_LIST udidList;
 } BC_WIFI_CFG,*LPBC_WIFI_CFG;
 
+typedef struct
+{
+    int iRspCode[BC_MAX_CHANNEL];//0:none, 1:success, 2:failed
+} BC_WIFI_CFG_RSP;
+
 typedef struct tagBC_WIFI_SIGNAL
 {
     int iSignal;        //0~-255
@@ -2414,6 +2540,8 @@ typedef struct tagBC_FILE_FIND{
     int              iFileType;
     BC_TIME          struStartTime;
     BC_TIME          struStopTime;
+    
+    char             cUID[BC_MAX_UID_LEN];// for NAS
 } BC_FILE_FIND,*LPBC_FILE_FIND;
 
 typedef enum {
@@ -2483,6 +2611,7 @@ typedef struct
 typedef struct {
     
     int             iUsed;
+    char            cUID[BC_MAX_UID_LEN];// for NAS
     int             iRecType[32];  //  0:none, 1:normal, 2:alarm
 } BC_RECORD_FILE_DAYS;
 
@@ -2657,7 +2786,7 @@ typedef struct
     int  iRegisterHandle;
     char cUid[128];
     char cUidKey[128];
-    char cRes[128];
+    char cPushServer[128];
 } BC_PUSH_RSP_INFO;
 
 
@@ -3069,6 +3198,12 @@ typedef struct tagBC_PUSH_TASK
 //audio task
 typedef struct tagBC_AUDIO_TASK
 {
+    /* validField, used for only set some params.
+     * validField only suppport for setting <bEnable>,
+     * validField = "" or "<bEnable>".
+     */
+    char                validField[128];
+    
     bool                bEnable;
     int                 iInvalid;
     int                 iTimeTable[BC_MAX_DAYS][BC_MAX_TIMESEGMENT];
@@ -3080,13 +3215,12 @@ typedef struct tagBC_AUDIO_TASK
 typedef struct
 {
     char cAuthToken[BC_MAX_AUTH_TOKEN_LEN];
+    int iForceAutoUpload;
 } BC_BIND_CLOUD;
 
 typedef struct
 {
     bool isBinded;
-    char cUsername[BC_MAX_ADDR_LEN];
-    char cNickname[BC_MAX_NICKNAME_LEN];
 } BC_CLOUD_INFO;
 
 
@@ -3098,11 +3232,21 @@ typedef struct
 
 typedef struct
 {
+    /* validField, used for only set some params.
+     * for example, validField = "<iAutoUpload><streamCfg>", only set iAutoUpload and streamCfg"
+     */
+    char validField[128];
+    
     int iAutoUpload;
     int iSupportMultiStream;
     BC_CLOUD_STREAM_TYPE_LIST streamAbility;
     BC_CLOUD_STREAM_TYPE_LIST streamCfg;
 } BC_CLOUD_CFG;
+
+typedef struct
+{
+    int iIsOpened;
+} BC_SIGNATURE_LOGIN_CFG;
 
 
 //
@@ -3116,6 +3260,12 @@ typedef enum {
 // rf alarm cfg
 typedef struct tagBC_RF_ALARM_CFG
 {
+    /* validField, used for only set some params.
+     * for example, validField = "<bEnable><eSensitivity>", only set  bEnable, eSensitivity"
+     * iRfId is required. "iInvalid, iTimeTable" and "channelNum, triggeredHandleType" are independent.
+     */
+    char                validField[128];
+    
     bool                isCopyTo;
     int                 iRfId;
     bool                bEnable;
@@ -3165,6 +3315,8 @@ typedef enum {
     BC_SONG_P2P_TYPE_ARGUS_2    = 4,
     BC_SONG_P2P_TYPE_GO         = 5,
     BC_SONG_P2P_TYPE_ARGUS_PRO  = 6,
+    BC_SONG_P2P_TYPE_KEEN_2     = 7,//keen 2 = argus pt
+    BC_SONG_P2P_TYPE_B16        = 8,
     BC_SONG_P2P_TYPE_OTHERS     = 255
 } BC_SONG_P2P_TYPE_E;
 
@@ -3195,13 +3347,6 @@ typedef struct
 {
     char content[1024];
 } BC_P2P_DETAIL_INFO;
-
-typedef struct
-{
-    char *content;
-    int length;
-} BC_P2P_LOG;
-
 
 
 // charge battery info
@@ -3272,10 +3417,9 @@ typedef struct {
 typedef struct {
     
     // last days information
-//    int iSize;
 //    int heartbeats[BC_BATTERY_HEARTBEAT_MAX_DAYS];
-//    int rfAlarms[BC_BATTERY_HEARTBEAT_MAX_DAYS];
-//    BC_BATTERY_IRCUT ircuts[BC_BATTERY_HEARTBEAT_MAX_DAYS];
+    int rfAlarms[BC_BATTERY_HEARTBEAT_MAX_DAYS];
+    BC_BATTERY_IRCUT ircuts[BC_BATTERY_HEARTBEAT_MAX_DAYS];
     
     //
     int maxLifeForColor;
@@ -3353,6 +3497,30 @@ typedef struct
     BC_BASE_LIVE_TIME   liveTime[64];
 } BC_BASE_LIVE_TIME_INFO;
 
+
+// NAS
+#define BC_NAS_BIND_INFO_MAX_NUM   32
+
+typedef struct
+{
+    char cDevName[BC_MAX_NAME_LEN];
+    char cUID[BC_MAX_UID_LEN];
+    char cUserName[BC_MAX_NAME_LEN];
+    char cPassword[BC_MAX_PWD_LEN];
+} BC_NAS_BIND;
+
+typedef struct
+{
+    char cDevName[BC_MAX_NAME_LEN];
+    char cUID[BC_MAX_UID_LEN];
+    int iBindStatus;//0:none, 1:is bound
+} BC_NAS_BIND_INFO_ITEM;
+
+typedef struct
+{
+    int iSize;
+    BC_NAS_BIND_INFO_ITEM infoList[BC_NAS_BIND_INFO_MAX_NUM];
+} BC_NAS_BIND_STATUS_INFO;
 
 
 //param by get or write config

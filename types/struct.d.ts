@@ -40,6 +40,10 @@ export interface DEVICE_LOGIN_DESC {
      * max length 31 / SDK_MAX_PASSWD_LEN
      */
     password: string;
+    /**
+     * max length 31 / SDK_MAX_PASSWD_LEN
+     */
+    defaultPass: string;
 }
 export interface DEVICE_ABILITY_ABOUT {
     isBattery: boolean;
@@ -115,6 +119,7 @@ export interface BC_FIND_REC_FILES {
     recFile: BC_FIND_REC_FILE[];
 }
 export interface BC_SYS_GENERAL_CFG {
+    validField: string;
     eTS: T.BC_TVSYSTEM_E;
     /**
      * Example: For GMT +8:00; lTimeZone = -8*3600
@@ -222,6 +227,7 @@ export interface BC_RECORD_TIME_LIST {
     durationTime: number[];
 }
 export interface BC_RECORD_GENERAL_CFG {
+    validField: string;
     bOverWrite: boolean;
     /**
      * 30 45 60 MIN
@@ -246,6 +252,10 @@ export interface BC_EMAIL_CFG {
          * max length: BC_MAX_ADDR_LEN - 1
          */
         byAccount: string;
+        /**
+         * readonly, max len of byAccount
+         */
+        iSenderMaxLen: number;
         /**
          * max length: BC_MAX_PWD_LEN - 1
          */
@@ -340,6 +350,8 @@ export interface BC_HDD {
      */
     iRemainSizeG: number;
     iRemainSizeM: number;
+    eStorageType: T.BC_STORAGE_TYPE_E;
+    bIsInUse: boolean;
 }
 export interface BC_HDD_CFG {
     iTotal: number;
@@ -351,6 +363,10 @@ export interface BC_HDD_INIT_CFG {
      * max length: BC_MAX_DISKNUM
      */
     iInitId: number[];
+    /**
+     * max length: BC_MAX_DISKNUM
+     */
+    eStorageType: T.BC_STORAGE_TYPE_E[];
 }
 export interface BC_ALARM_OUT {
     /**
@@ -463,6 +479,7 @@ export interface BC_ALARM_OUT_CFG {
     iTimeTable: number[];
 }
 export interface BC_RF_ALARM_CFG {
+    validField: string;
     isCopyTo: boolean;
     iRfId: number;
     bEnable: boolean;
@@ -480,6 +497,7 @@ export interface BC_RF_ALARM_STATUS {
     bEnable: boolean;
 }
 export interface BC_DST_CFG {
+    validField: string;
     bEnable: boolean;
     iOffset: number;
     iStartMonth: Month;
@@ -685,17 +703,10 @@ export interface BC_BIND_CLOUD {
      * max length: BC_MAX_AUTH_TOKEN_LEN - 1
      */
     cAuthToken: string;
+    iForceAutoUpload: number;
 }
 export interface BC_CLOUD_INFO {
     isBinded: boolean;
-    /**
-     * max length: BC_MAX_ADDR_LEN - 1
-     */
-    cUsername: string;
-    /**
-     * max length: BC_MAX_NICKNAME_LEN - 1
-     */
-    cNickname: string;
 }
 export interface BC_CLOUD_STREAM_TYPE_LIST {
     iSize: number;
@@ -706,6 +717,7 @@ export interface BC_CLOUD_STREAM_TYPE_LIST {
     streamType: number[];
 }
 export interface BC_CLOUD_CFG {
+    validField: string;
     iAutoUpload: number;
     iSupportMultiStream: number;
     streamAbility: BC_CLOUD_STREAM_TYPE_LIST;
@@ -716,6 +728,11 @@ export interface BC_SCAN_AP {
 }
 export interface BC_RECORD_FILE_DAYS {
     iUsed: number;
+    /**
+     * max length: T.BC_MAX_UID_LEN - 1
+     * for NAS
+     */
+    cUID: string;
     /**
      * 0:none; 1:normal; 2:alarm
      * max length: 32
@@ -888,6 +905,13 @@ export interface BC_FTP_CFG {
      * seconds
      */
     iInterval: number;
+    intervalList: {
+        iSize: number;
+        /**
+         * max length: BC_FTP_INTERVAL_TABLE_MAX_SIZE
+         */
+        iInterval: number[];
+    };
     iSupportTransportMode: number;
     eTransportMode: T.BC_FTP_TRANSPORT_MODE_E;
 }
@@ -970,6 +994,7 @@ export interface BC_OSD {
     iY: number;
 }
 export interface BC_OSD_CFG {
+    validField: string;
     isCopyTo: boolean;
     /**
      * max length: BC_MAX_NAME_LEN - 1
@@ -981,6 +1006,8 @@ export interface BC_OSD_CFG {
     elanguage: T.BC_LANGUAGE_E;
     iBgColor: number;
     iWaterMark: number;
+    iWaterMarkXPos: number;
+    iWaterMarkYPos: number;
 }
 export interface BC_CAMERA_CFG {
     eCameraMode: T.BC_CAMERA_MODE_E;
@@ -1006,6 +1033,7 @@ export interface BC_COVER_CFG {
     byRes: string;
 }
 export interface BC_RECORD_SCHEDULE_CFG {
+    validField: string;
     bEnable: boolean;
     iInvalid: number;
     iTimeTable: number[];
@@ -1073,22 +1101,23 @@ export interface BC_SENSITIVITY_INFO {
     iSensitivity: number;
 }
 export interface BC_MOTION_CFG {
+    validField: string;
     isCopyTo: boolean;
     /**
      * FALSE: disable, TRUE:enable
      */
     bEnable: boolean;
     /**
-     * video image width, max:96
+     * video image width, max:120
      */
     iWidth: number;
     /**
-     * video image hight, max:64
+     * video image hight, max:68
      */
     iHeight: number;
     /**
      * 1: set to motion, 0: not set
-     * length: 64 * 96
+     * length: 68 * 120
      */
     bMotionScope: boolean[];
     /**
@@ -1175,7 +1204,7 @@ export interface BC_LINE_CTRL_VALUE {
     lCur: number;
 }
 export interface BC_ISP_CFG {
-    flag: number;
+    validField: string;
     /**
      * 0~BC_MAX_CHANNEL
      */
@@ -1250,9 +1279,7 @@ export interface BC_ISP_CFG {
      * ir-cut-filter
      */
     eIRCut: T.BC_IR_CUT_TYPE_E;
-    lExposureRes: number;
     lExposureLevel: number;
-    lExposureCur: number;
     /**
      * Backlight compensation mode
      */
@@ -1296,6 +1323,7 @@ export interface BC_DAY_NIGHT_MODE_CFG {
     eMode: T.BC_DAY_NIGHT_MODE_E;
 }
 export interface BC_LED_LIGHT_STATE {
+    validField: string;
     eLEDState: T.BC_LED_STATE_E;
     /**
      * 1:auto,close,open. 2:auto,close
@@ -1304,11 +1332,13 @@ export interface BC_LED_LIGHT_STATE {
     eIndicatorLight: T.BC_LIGHT_STATE_E;
 }
 export interface BC_FTP_TASK {
+    validField: string;
     bEnable: boolean;
     iInvalid: number;
     iTimeTable: number[];
 }
 export interface BC_EMAIL_TASK {
+    validField: string;
     bEnable: boolean;
     iInvalid: number;
     iTimeTable: number[];
@@ -1320,6 +1350,7 @@ export interface BC_PUSH_TASK {
     iPushVersion: number;
 }
 export interface BC_AUDIO_TASK {
+    validField: string;
     bEnable: boolean;
     iInvalid: number;
     iTimeTable: number[];
@@ -1507,4 +1538,22 @@ export interface BC_DIAGNOSE_LOGS_LIST {
 }
 export interface BC_REC_SCHE_TABLE_CFG {
     iTimeTable: T.BC_REC_SCHE_TYPE_E[];
+}
+export interface BC_SIGNATURE_LOGIN_CFG {
+    iIsOpened: number;
+}
+export interface BC_NAS_BIND {
+    cDevName: string;
+    cUID: string;
+    cUserName: string;
+    cPassword: string;
+}
+export interface BC_SMARTHOME_ITEM {
+    cName: string;
+    uiValue: number;
+}
+export interface BC_SMARTHOME_ABILITY_INFO {
+    iVersion: number;
+    iSize: number;
+    items: BC_SMARTHOME_ITEM[];
 }

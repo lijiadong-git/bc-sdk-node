@@ -378,10 +378,15 @@ class CONFIG {
             }
         }
     }
-    deviceCmd(handle, cmd, func, param, type) {
+    deviceCmd(handle, cmd, func, param, type, cmdIdx) {
         return new Promise((resolve, reject) => {
             let ret = T.ERROR.E_UND;
-            if (undefined !== param && undefined !== type) {
+            if (undefined !== param && undefined !== type && undefined !== cmdIdx) {
+                let castParam = _cast_1.refCast(param);
+                let data = new type(castParam);
+                ret = func(handle, data.ref(), cmdIdx);
+            }
+            else if (undefined !== param && undefined !== type) {
                 let castParam = _cast_1.refCast(param);
                 let data = new type(castParam);
                 ret = func(handle, data.ref());
@@ -481,7 +486,7 @@ class CONFIG {
         return this.deviceCmd(handle, T.BC_CMD_E.E_BC_CMD_GET_SYS, native_1.native.BCSDK_RemoteGetSysGeneralCfg);
     }
     setSysGeneralCfg(handle, param) {
-        return this.deviceCmd(handle, T.BC_CMD_E.E_BC_CMD_SET_SYS, native_1.native.BCSDK_RemoteSetSysGeneralCfg, param, _T.BC_SYS_GENERAL_CFG);
+        return this.deviceCmd(handle, T.BC_CMD_E.E_BC_CMD_SET_SYS, native_1.native.BCSDK_RemoteSetSysGeneralCfg, param, _T.BC_SYS_GENERAL_CFG, 0);
     }
     setDeviceName(handle, param) {
         return this.deviceCmd(handle, T.BC_CMD_E.E_BC_CMD_SET_DEVICE_NAME, native_1.native.BCSDK_RemoteSetDeviceName, param, _T.BC_DEVICE_NAME_CFG);
@@ -511,7 +516,7 @@ class CONFIG {
         return this.deviceCmd(handle, T.BC_CMD_E.E_BC_CMD_GET_ADVRECORD, native_1.native.BCSDK_RemoteGetRecordGenCfg);
     }
     setRecordGenCfg(handle, param) {
-        return this.deviceCmd(handle, T.BC_CMD_E.E_BC_CMD_SET_ADVRECORD, native_1.native.BCSDK_RemoteSetRecordGenCfg, param, _T.BC_RECORD_GENERAL_CFG);
+        return this.deviceCmd(handle, T.BC_CMD_E.E_BC_CMD_SET_ADVRECORD, native_1.native.BCSDK_RemoteSetRecordGenCfg, param, _T.BC_RECORD_GENERAL_CFG, 0);
     }
     /* email
      *
@@ -697,7 +702,7 @@ class CONFIG {
         return this.channelCmd(handle, rfId, T.BC_CMD_E.E_BC_CMD_GET_RF_CFG, native_1.native.BCSDK_RemoteGetRfAlarmCfg);
     }
     setRfAlarmCfg(handle, param) {
-        return this.deviceCmd(handle, T.BC_CMD_E.E_BC_CMD_SET_RF_CFG, native_1.native.BCSDK_RemoteSetRfAlarmCfg, param, _T.BC_RF_ALARM_CFG);
+        return this.deviceCmd(handle, T.BC_CMD_E.E_BC_CMD_SET_RF_CFG, native_1.native.BCSDK_RemoteSetRfAlarmCfg, param, _T.BC_RF_ALARM_CFG, 0);
     }
     setRfAlarmStatus(handle, param) {
         return this.deviceCmd(handle, T.BC_CMD_E.E_BC_CMD_SET_RF_ALARM_STATUS, native_1.native.BCSDK_RemoteSetRfAlarmStatus, param, _T.BC_RF_ALARM_STATUS);
@@ -710,7 +715,7 @@ class CONFIG {
         return this.deviceCmd(handle, T.BC_CMD_E.E_BC_CMD_GET_DST, native_1.native.BCSDK_RemoteGetDst);
     }
     setDst(handle, param) {
-        return this.deviceCmd(handle, T.BC_CMD_E.E_BC_CMD_SET_DST, native_1.native.BCSDK_RemoteSetDst, param, _T.BC_DST_CFG);
+        return this.deviceCmd(handle, T.BC_CMD_E.E_BC_CMD_SET_DST, native_1.native.BCSDK_RemoteSetDst, param, _T.BC_DST_CFG, 0);
     }
     /* DDNS
      *
@@ -850,6 +855,7 @@ class CONFIG {
         for (let i = 0; i < 32; i++) {
             param.items.push({
                 iUsed: 0,
+                cUID: '',
                 iRecType: []
             });
         }

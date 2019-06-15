@@ -191,7 +191,7 @@ class PLAYBACK {
     }
     open(handle, channel, fileNam, cacheFile, subStream, speed, callback) {
         return new Promise((resolve, reject) => {
-            let ret = native_1.native.BCSDK_PlaybackOpen(handle, channel, fileNam, cacheFile, subStream, speed, PLAYBACK.playbackCallback, null);
+            let ret = native_1.native.BCSDK_PlaybackOpen(handle, channel, '', fileNam, cacheFile, subStream, speed, PLAYBACK.playbackCallback, null);
             if (0 === ret) {
                 let cb = {
                     sdkResolve: resolve,

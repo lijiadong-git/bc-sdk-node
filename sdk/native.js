@@ -54,6 +54,7 @@ const MFFI = ffi.Library(path.join(folder, 'libBCSDKWrapper'), {
     ,
     BCSDK_SetAbilityAbout: ['int', ['int', _T.P_DEVICE_ABILITY_ABOUT]],
     BCSDK_GetDeviceType: ['int', ['int', _T.pointer('int')]],
+    BCSDK_GetIsLoginByDefaultPass: ['int', ['int', _T.pointer('bool')]],
     BCSDK_GetDeviceNorm: ['int', ['int', _T.pointer('int')]],
     BCSDK_GetSupportRF: ['int', ['int', _T.pointer('bool')]],
     BCSDK_GetSupportPush: ['int', ['int', _T.pointer('bool')]],
@@ -72,24 +73,30 @@ const MFFI = ffi.Library(path.join(folder, 'libBCSDKWrapper'), {
     BCSDK_GetSupportFTPTest: ['int', ['int', _T.pointer('bool')]],
     BCSDK_GetSupportFTPSubStream: ['int', ['int', _T.pointer('bool')]],
     BCSDK_GetSupportFTPExtensionStream: ['int', ['int', _T.pointer('bool')]],
+    BCSDK_GetSupportFTPPicture: ['int', ['int', _T.pointer('bool')]],
     BCSDK_GetSupportRTSP: ['int', ['int', _T.pointer('bool')]],
     BCSDK_GetSupportRTMP: ['int', ['int', _T.pointer('bool')]],
     BCSDK_GetSupportONVIF: ['int', ['int', _T.pointer('bool')]],
     BCSDK_GetSupportP2PEnable: ['int', ['int', _T.pointer('bool')]],
     BCSDK_GetSupportP2PDomainName: ['int', ['int', _T.pointer('bool')]],
     BCSDK_GetSupportP2PPort: ['int', ['int', _T.pointer('bool')]],
+    BCSDK_GetSupportPppoe: ['int', ['int', _T.pointer('bool')]],
     BCSDK_GetSupportSeek: ['int', ['int', _T.pointer('bool')]],
     BCSDK_GetSupportIFramePreview: ['int', ['int', _T.pointer('bool')]],
     BCSDK_GetSupportIFrameReplay: ['int', ['int', _T.pointer('bool')]],
     BCSDK_GetSupportHDD: ['int', ['int', _T.pointer('bool')]],
     BCSDK_GetSupportSDCard: ['int', ['int', _T.pointer('bool')]],
     BCSDK_GetSupportTimeFormat: ['int', ['int', _T.pointer('bool')]],
+    BCSDK_GetSupportDateFormat: ['int', ['int', _T.pointer('bool')]],
     BCSDK_GetSupportEmailTask: ['int', ['int', _T.pointer('bool')]],
     BCSDK_GetSupportEmailNickName: ['int', ['int', _T.pointer('bool')]],
     BCSDK_GetSupportPushTask: ['int', ['int', _T.pointer('bool')]],
     BCSDK_GetSupportCloud: ['int', ['int', _T.pointer('bool')]],
     BCSDK_GetSupportCloudCfg: ['int', ['int', _T.pointer('bool')]],
     BCSDK_GetSupportCloudSchedule: ['int', ['int', _T.pointer('bool')]],
+    BCSDK_GetSupportCloudSignatureLoginCfg: ['int', ['int', _T.pointer('bool')]],
+    BCSDK_GetSupportAccountBind: ['int', ['int', _T.pointer('bool')]],
+    BCSDK_GetSmarthomeAbility: ['int', ['int', _T.pointer('int')]],
     BCSDK_GetSupportUpgrade: ['int', ['int', _T.pointer('bool')]],
     BCSDK_GetSupportOutput: ['int', ['int', _T.pointer('bool')]],
     BCSDK_GetSupportVideoLost: ['int', ['int', _T.pointer('bool')]],
@@ -128,7 +135,14 @@ const MFFI = ffi.Library(path.join(folder, 'libBCSDKWrapper'), {
     BCSDK_GetPushType: ['int', ['int', _T.pointer('int')]],
     BCSDK_GetRfVersion: ['int', ['int', _T.pointer('int')]],
     BCSDK_GetRfNumbers: ['int', ['int', _T.pointer('int')]],
-    BCSDK_GetSupportSimModule: ['int', ['int', _T.pointer('bool')]]
+    BCSDK_GetSupportSimModule: ['int', ['int', _T.pointer('bool')]],
+    BCSDK_GetSupportShowQrcode: ['int', ['int', _T.pointer('bool')]],
+    BCSDK_GetSupportChinese: ['int', ['int', _T.pointer('bool')]],
+    BCSDK_GetSupportNasBind: ['int', ['int', _T.pointer('bool')]],
+    BCSDK_GetSupportNasUnbind: ['int', ['int', _T.pointer('bool')]],
+    BCSDK_GetSupportNasBindStatusInfo: ['int', ['int', _T.pointer('bool')]],
+    BCSDK_GetSupportExport: ['int', ['int', _T.pointer('bool')]],
+    BCSDK_GetSupportImport: ['int', ['int', _T.pointer('bool')]]
     /************************************************************************
      * MARK: Channel abilities
      ************************************************************************/
@@ -152,6 +166,8 @@ const MFFI = ffi.Library(path.join(folder, 'libBCSDKWrapper'), {
     BCSDK_GetSupportTalk: ['int', ['int', 'int', _T.pointer('bool')]],
     BCSDK_GetSupportMD: ['int', ['int', 'int', _T.pointer('bool')]],
     BCSDK_GetSupportMDWithPIR: ['int', ['int', 'int', _T.pointer('bool')]],
+    BCSDK_GetSupportMDTriggerAudio: ['int', ['int', 'int', _T.pointer('bool')]],
+    BCSDK_GetSupportMDTriggerRecord: ['int', ['int', 'int', _T.pointer('bool')]],
     BCSDK_GetSupportShelterCfg: ['int', ['int', 'int', _T.pointer('bool')]],
     BCSDK_GetIsBattery: ['int', ['int', 'int', _T.pointer('bool')]],
     BCSDK_GetIsCharge: ['int', ['int', 'int', _T.pointer('bool')]],
@@ -221,8 +237,8 @@ const MFFI = ffi.Library(path.join(folder, 'libBCSDKWrapper'), {
     BCSDK_GetPlaybackState: ['int', ['int', 'int', _T.pointer('int')]],
     BCSDK_GetIsPlaybackOpen: ['int', ['int', 'int', _T.pointer('bool')]],
     BCSDK_GetPlaybackStreamType: ['int', ['int', 'int', _T.pointer('int')]],
-    BCSDK_PlaybackOpen: ['int', ['int', 'int', 'string', 'string', 'bool', 'float', exports.renderCallbackFunc, _T.pointer('void')]],
-    BCSDK_PlaybackOpen2: ['int', ['int', 'int', 'string', 'string', 'bool', 'float', exports.dataCallbackFunc, _T.pointer('void')]],
+    BCSDK_PlaybackOpen: ['int', ['int', 'int', 'string', 'string', 'string', 'bool', 'float', exports.renderCallbackFunc, _T.pointer('void')]],
+    BCSDK_PlaybackOpen2: ['int', ['int', 'int', 'string', 'string', 'string', 'bool', 'float', exports.dataCallbackFunc, _T.pointer('void')]],
     BCSDK_PlaybackClose: ['int', ['int', 'int']],
     BCSDK_PlaybackStart: ['int', ['int', 'int']],
     BCSDK_PlaybackPause: ['int', ['int', 'int']],
@@ -303,7 +319,7 @@ const MFFI = ffi.Library(path.join(folder, 'libBCSDKWrapper'), {
      */
     ,
     BCSDK_RemoteGetSysGeneralCfg: ['int', ['int']],
-    BCSDK_RemoteSetSysGeneralCfg: ['int', ['int', _T.P_BC_SYS_GENERAL_CFG]],
+    BCSDK_RemoteSetSysGeneralCfg: ['int', ['int', _T.P_BC_SYS_GENERAL_CFG, 'int']],
     BCSDK_RemoteSetDeviceName: ['int', ['int', _T.P_BC_DEVICE_NAME_CFG]]
     /* autoReboot
      *
@@ -326,7 +342,7 @@ const MFFI = ffi.Library(path.join(folder, 'libBCSDKWrapper'), {
      */
     ,
     BCSDK_RemoteGetRecordGenCfg: ['int', ['int']],
-    BCSDK_RemoteSetRecordGenCfg: ['int', ['int', _T.P_BC_RECORD_GENERAL_CFG]]
+    BCSDK_RemoteSetRecordGenCfg: ['int', ['int', _T.P_BC_RECORD_GENERAL_CFG, 'int']]
     /* email
      *
      * callback with E_BC_CMD_GET_EMAIL, E_BC_CMD_SET_EMAIL, E_BC_CMD_EMAILTEST
@@ -454,7 +470,7 @@ const MFFI = ffi.Library(path.join(folder, 'libBCSDKWrapper'), {
      */
     ,
     BCSDK_RemoteGetRfAlarmCfg: ['int', ['int', 'int']],
-    BCSDK_RemoteSetRfAlarmCfg: ['int', ['int', _T.P_BC_RF_ALARM_CFG]],
+    BCSDK_RemoteSetRfAlarmCfg: ['int', ['int', _T.P_BC_RF_ALARM_CFG, 'int']],
     BCSDK_RemoteSetRfAlarmStatus: ['int', ['int', _T.P_BC_RF_ALARM_STATUS]]
     /* DST
      *
@@ -462,7 +478,7 @@ const MFFI = ffi.Library(path.join(folder, 'libBCSDKWrapper'), {
      */
     ,
     BCSDK_RemoteGetDst: ['int', ['int']],
-    BCSDK_RemoteSetDst: ['int', ['int', _T.P_BC_DST_CFG]]
+    BCSDK_RemoteSetDst: ['int', ['int', _T.P_BC_DST_CFG, 'int']]
     /* DDNS
      *
      * callback with E_BC_CMD_GET_DDNSCFG, E_BC_CMD_SET_DDNSCFG
@@ -546,7 +562,17 @@ const MFFI = ffi.Library(path.join(folder, 'libBCSDKWrapper'), {
     BCSDK_RemoteGetCloudInfo: ['int', ['int']],
     BCSDK_RemoteBindCloud: ['int', ['int', _T.P_BC_BIND_CLOUD]],
     BCSDK_RemoteGetCloudCfg: ['int', ['int']],
-    BCSDK_RemoteSetCloudCfg: ['int', ['int', _T.P_BC_CLOUD_CFG]]
+    BCSDK_RemoteSetCloudCfg: ['int', ['int', _T.P_BC_CLOUD_CFG]],
+    BCSDK_RemoteGetSignatureLoginCfg: ['int', ['int']],
+    BCSDK_RemoteSetSignatureLoginCfg: ['int', ['int', _T.BC_SIGNATURE_LOGIN_CFG]]
+    /* NAS
+     *
+     * callback with E_BC_CMD_NAS_GET_BIND_INFO, E_BC_CMD_NAS_BIND, E_BC_CMD_NAS_UNBIND
+     */
+    ,
+    BCSDK_RemoteNasGetBindInfo: ['int', ['int']],
+    BCSDK_RemoteNasBind: ['int', ['int', _T.BC_NAS_BIND]],
+    BCSDK_RemoteNasUnbind: ['int', ['int', _T.BC_NAS_BIND, 'int']]
     /* Scan ap
      *
      * callback with E_BC_CMD_GET_SCAN_AP
@@ -673,7 +699,7 @@ const MFFI = ffi.Library(path.join(folder, 'libBCSDKWrapper'), {
      */
     ,
     BCSDK_RemoteGetOsdCfg: ['int', ['int', 'int']],
-    BCSDK_RemoteSetOsdCfg: ['int', ['int', 'int', _T.P_BC_OSD_CFG]]
+    BCSDK_RemoteSetOsdCfg: ['int', ['int', 'int', _T.P_BC_OSD_CFG, 'int']]
     /* cameraCfg
      *
      * callback with E_BC_CMD_GET_CAMERA_CFG, E_BC_CMD_SET_CAMERA_CFG
@@ -708,7 +734,7 @@ const MFFI = ffi.Library(path.join(folder, 'libBCSDKWrapper'), {
      */
     ,
     BCSDK_RemoteGetMotionCfg: ['int', ['int', 'int']],
-    BCSDK_RemoteSetMotionCfg: ['int', ['int', 'int', _T.P_BC_MOTION_CFG]]
+    BCSDK_RemoteSetMotionCfg: ['int', ['int', 'int', _T.P_BC_MOTION_CFG, 'int']]
     /* Video Loss
      *
      * callback with E_BC_CMD_GET_VILOST, E_BC_CMD_SET_VILOST
@@ -740,7 +766,7 @@ const MFFI = ffi.Library(path.join(folder, 'libBCSDKWrapper'), {
     ,
     BCSDK_RemoteGetIspCfg: ['int', ['int', 'int']],
     BCSDK_RemoteGetDefaultIspCfg: ['int', ['int', 'int']],
-    BCSDK_RemoteSetIspCfg: ['int', ['int', 'int', _T.P_BC_ISP_CFG]],
+    BCSDK_RemoteSetIspCfg: ['int', ['int', 'int', _T.P_BC_ISP_CFG, 'int']],
     BCSDK_RemoteSetIspDayNightMode: ['int', ['int', 'int', _T.P_BC_DAY_NIGHT_MODE_CFG]]
     /* LED
      *
@@ -748,7 +774,7 @@ const MFFI = ffi.Library(path.join(folder, 'libBCSDKWrapper'), {
      */
     ,
     BCSDK_RemoteGetLedState: ['int', ['int', 'int']],
-    BCSDK_RemoteSetLedState: ['int', ['int', 'int', _T.P_BC_LED_LIGHT_STATE]]
+    BCSDK_RemoteSetLedState: ['int', ['int', 'int', _T.P_BC_LED_LIGHT_STATE, 'int']]
     /* Ftp Task
      *
      * callback with E_BC_CMD_GET_FTPTASK, E_BC_CMD_SET_FTPTASK
@@ -892,7 +918,6 @@ const MFFI = ffi.Library(path.join(folder, 'libBCSDKWrapper'), {
     BCSDK_SongP2PGetDebug: ['int', [_T.P_BC_P2P_DEBUG_INFO]],
     BCSDK_XCUID2SongUID: ['int', ['string', _T.P_BC_P2P_UID_INFO]],
     BCSDK_SongP2PGetDetail: ['int', [_T.P_BC_P2P_DETAIL_INFO]],
-    BCSDK_SongP2PGetLog: ['int', [_T.P_BC_P2P_LOG]],
     BCSDK_GetDiagnoseLogs: ['int', [_T.P_BC_DIAGNOSE_LOGS_LIST]],
     BCSDK_Encrypt: ['int', [_T.P_BC_CRYPT_BUF]],
     BCSDK_Decrypt: ['int', [_T.P_BC_CRYPT_BUF]]
@@ -930,6 +955,7 @@ class NativeDelegate {
          ****************************************************************/
         this.BCSDK_SetAbilityAbout = MFFI.BCSDK_SetAbilityAbout;
         this.BCSDK_GetDeviceType = MFFI.BCSDK_GetDeviceType;
+        this.BCSDK_GetIsLoginByDefaultPass = MFFI.BCSDK_GetIsLoginByDefaultPass;
         this.BCSDK_GetDeviceNorm = MFFI.BCSDK_GetDeviceNorm;
         this.BCSDK_GetSupportRF = MFFI.BCSDK_GetSupportRF;
         this.BCSDK_GetSupportPush = MFFI.BCSDK_GetSupportPush;
@@ -948,24 +974,30 @@ class NativeDelegate {
         this.BCSDK_GetSupportFTPTest = MFFI.BCSDK_GetSupportFTPTest;
         this.BCSDK_GetSupportFTPSubStream = MFFI.BCSDK_GetSupportFTPSubStream;
         this.BCSDK_GetSupportFTPExtensionStream = MFFI.BCSDK_GetSupportFTPExtensionStream;
+        this.BCSDK_GetSupportFTPPicture = MFFI.BCSDK_GetSupportFTPPicture;
         this.BCSDK_GetSupportRTSP = MFFI.BCSDK_GetSupportRTSP;
         this.BCSDK_GetSupportRTMP = MFFI.BCSDK_GetSupportRTMP;
         this.BCSDK_GetSupportONVIF = MFFI.BCSDK_GetSupportONVIF;
         this.BCSDK_GetSupportP2PEnable = MFFI.BCSDK_GetSupportP2PEnable;
         this.BCSDK_GetSupportP2PDomainName = MFFI.BCSDK_GetSupportP2PDomainName;
         this.BCSDK_GetSupportP2PPort = MFFI.BCSDK_GetSupportP2PPort;
+        this.BCSDK_GetSupportPppoe = MFFI.BCSDK_GetSupportPppoe;
         this.BCSDK_GetSupportSeek = MFFI.BCSDK_GetSupportSeek;
         this.BCSDK_GetSupportIFramePreview = MFFI.BCSDK_GetSupportIFramePreview;
         this.BCSDK_GetSupportIFrameReplay = MFFI.BCSDK_GetSupportIFrameReplay;
         this.BCSDK_GetSupportHDD = MFFI.BCSDK_GetSupportHDD;
         this.BCSDK_GetSupportSDCard = MFFI.BCSDK_GetSupportSDCard;
         this.BCSDK_GetSupportTimeFormat = MFFI.BCSDK_GetSupportTimeFormat;
+        this.BCSDK_GetSupportDateFormat = MFFI.BCSDK_GetSupportDateFormat;
         this.BCSDK_GetSupportEmailTask = MFFI.BCSDK_GetSupportEmailTask;
         this.BCSDK_GetSupportEmailNickName = MFFI.BCSDK_GetSupportEmailNickName;
         this.BCSDK_GetSupportPushTask = MFFI.BCSDK_GetSupportPushTask;
         this.BCSDK_GetSupportCloud = MFFI.BCSDK_GetSupportCloud;
         this.BCSDK_GetSupportCloudCfg = MFFI.BCSDK_GetSupportCloudCfg;
         this.BCSDK_GetSupportCloudSchedule = MFFI.BCSDK_GetSupportCloudSchedule;
+        this.BCSDK_GetSupportCloudSignatureLoginCfg = MFFI.BCSDK_GetSupportCloudSignatureLoginCfg;
+        this.BCSDK_GetSupportAccountBind = MFFI.BCSDK_GetSupportAccountBind;
+        this.BCSDK_GetSmarthomeAbility = MFFI.BCSDK_GetSmarthomeAbility;
         this.BCSDK_GetSupportUpgrade = MFFI.BCSDK_GetSupportUpgrade;
         this.BCSDK_GetSupportOutput = MFFI.BCSDK_GetSupportOutput;
         this.BCSDK_GetSupportVideoLost = MFFI.BCSDK_GetSupportVideoLost;
@@ -1005,6 +1037,13 @@ class NativeDelegate {
         this.BCSDK_GetRfVersion = MFFI.BCSDK_GetRfVersion;
         this.BCSDK_GetRfNumbers = MFFI.BCSDK_GetRfNumbers;
         this.BCSDK_GetSupportSimModule = MFFI.BCSDK_GetSupportSimModule;
+        this.BCSDK_GetSupportShowQrcode = MFFI.BCSDK_GetSupportShowQrcode;
+        this.BCSDK_GetSupportChinese = MFFI.BCSDK_GetSupportChinese;
+        this.BCSDK_GetSupportNasBind = MFFI.BCSDK_GetSupportNasBind;
+        this.BCSDK_GetSupportNasUnbind = MFFI.BCSDK_GetSupportNasUnbind;
+        this.BCSDK_GetSupportNasBindStatusInfo = MFFI.BCSDK_GetSupportNasBindStatusInfo;
+        this.BCSDK_GetSupportExport = MFFI.BCSDK_GetSupportExport;
+        this.BCSDK_GetSupportImport = MFFI.BCSDK_GetSupportImport;
         /****************************************************************
          *  Methods for Channel Abilities
          ****************************************************************/
@@ -1027,6 +1066,8 @@ class NativeDelegate {
         this.BCSDK_GetSupportTalk = MFFI.BCSDK_GetSupportTalk;
         this.BCSDK_GetSupportMD = MFFI.BCSDK_GetSupportMD;
         this.BCSDK_GetSupportMDWithPIR = MFFI.BCSDK_GetSupportMDWithPIR;
+        this.BCSDK_GetSupportMDTriggerAudio = MFFI.BCSDK_GetSupportMDTriggerAudio;
+        this.BCSDK_GetSupportMDTriggerRecord = MFFI.BCSDK_GetSupportMDTriggerRecord;
         this.BCSDK_GetSupportShelterCfg = MFFI.BCSDK_GetSupportShelterCfg;
         this.BCSDK_GetIsBattery = MFFI.BCSDK_GetIsBattery;
         this.BCSDK_GetIsCharge = MFFI.BCSDK_GetIsCharge;
@@ -1373,6 +1414,15 @@ class NativeDelegate {
         this.BCSDK_RemoteBindCloud = MFFI.BCSDK_RemoteBindCloud;
         this.BCSDK_RemoteGetCloudCfg = MFFI.BCSDK_RemoteGetCloudCfg;
         this.BCSDK_RemoteSetCloudCfg = MFFI.BCSDK_RemoteSetCloudCfg;
+        this.BCSDK_RemoteGetSignatureLoginCfg = MFFI.BCSDK_RemoteGetSignatureLoginCfg;
+        this.BCSDK_RemoteSetSignatureLoginCfg = MFFI.BCSDK_RemoteSetSignatureLoginCfg;
+        /* NAS
+         *
+         * callback with E_BC_CMD_NAS_GET_BIND_INFO, E_BC_CMD_NAS_BIND, E_BC_CMD_NAS_UNBIND
+         */
+        this.BCSDK_RemoteNasGetBindInfo = MFFI.BCSDK_RemoteNasGetBindInfo;
+        this.BCSDK_RemoteNasBind = MFFI.BCSDK_RemoteNasBind;
+        this.BCSDK_RemoteNasUnbind = MFFI.BCSDK_RemoteNasUnbind;
         /* Scan ap
          *
          * callback with E_BC_CMD_GET_SCAN_AP
@@ -1672,7 +1722,6 @@ class NativeDelegate {
         this.BCSDK_SongP2PGetDebug = MFFI.BCSDK_SongP2PGetDebug;
         this.BCSDK_XCUID2SongUID = MFFI.BCSDK_XCUID2SongUID;
         this.BCSDK_SongP2PGetDetail = MFFI.BCSDK_SongP2PGetDetail;
-        this.BCSDK_SongP2PGetLog = MFFI.BCSDK_SongP2PGetLog;
         this.BCSDK_GetDiagnoseLogs = MFFI.BCSDK_GetDiagnoseLogs;
         this.BCSDK_Encrypt = MFFI.BCSDK_Encrypt;
         this.BCSDK_Decrypt = MFFI.BCSDK_Decrypt;

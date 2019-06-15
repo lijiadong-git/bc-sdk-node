@@ -32,7 +32,6 @@ class PLAYER {
                 // error format ...
                 return;
             }
-            console.log('getPlayerCallback --- ' + userData);
             let hPlayer = userData;
             let cache = PLAYER.frameCallbcks.get(hPlayer);
             if (!cache) {

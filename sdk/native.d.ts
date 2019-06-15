@@ -37,6 +37,7 @@ export interface NativeMethods {
      ****************************************************************/
     BCSDK_SetAbilityAbout: (handle: number, pAbilityAbout: any) => number;
     BCSDK_GetDeviceType: (handle: number, pType: any) => number;
+    BCSDK_GetIsLoginByDefaultPass: (handle: number, isDefault: any) => number;
     BCSDK_GetDeviceNorm: (handle: number, pNorm: any) => number;
     BCSDK_GetSupportRF: (handle: number, pSupport: any) => number;
     BCSDK_GetSupportPush: (handle: number, pSupport: any) => number;
@@ -55,24 +56,30 @@ export interface NativeMethods {
     BCSDK_GetSupportFTPTest: (handle: number, pSupport: any) => number;
     BCSDK_GetSupportFTPSubStream: (handle: number, pSupport: any) => number;
     BCSDK_GetSupportFTPExtensionStream: (handle: number, pSupport: any) => number;
+    BCSDK_GetSupportFTPPicture: (handle: number, pSupport: any) => number;
     BCSDK_GetSupportRTSP: (handle: number, pSupport: any) => number;
     BCSDK_GetSupportRTMP: (handle: number, pSupport: any) => number;
     BCSDK_GetSupportONVIF: (handle: number, pSupport: any) => number;
     BCSDK_GetSupportP2PEnable: (handle: number, pSupport: any) => number;
     BCSDK_GetSupportP2PDomainName: (handle: number, pSupport: any) => number;
     BCSDK_GetSupportP2PPort: (handle: number, pSupport: any) => number;
+    BCSDK_GetSupportPppoe: (handle: number, pSupport: any) => number;
     BCSDK_GetSupportSeek: (handle: number, pSupport: any) => number;
     BCSDK_GetSupportIFramePreview: (handle: number, pSupport: any) => number;
     BCSDK_GetSupportIFrameReplay: (handle: number, pSupport: any) => number;
     BCSDK_GetSupportHDD: (handle: number, pSupport: any) => number;
     BCSDK_GetSupportSDCard: (handle: number, pSupport: any) => number;
     BCSDK_GetSupportTimeFormat: (handle: number, pSupport: any) => number;
+    BCSDK_GetSupportDateFormat: (handle: number, pSupport: any) => number;
     BCSDK_GetSupportEmailTask: (handle: number, pSupport: any) => number;
     BCSDK_GetSupportEmailNickName: (handle: number, pSupport: any) => number;
     BCSDK_GetSupportPushTask: (handle: number, pSupport: any) => number;
     BCSDK_GetSupportCloud: (handle: number, pSupport: any) => number;
     BCSDK_GetSupportCloudCfg: (handle: number, pSupport: any) => number;
     BCSDK_GetSupportCloudSchedule: (handle: number, pSupport: any) => number;
+    BCSDK_GetSupportCloudSignatureLoginCfg: (handle: number, pSupport: any) => number;
+    BCSDK_GetSupportAccountBind: (handle: number, pSupport: any) => number;
+    BCSDK_GetSmarthomeAbility: (handle: number, ability: any) => number;
     BCSDK_GetSupportUpgrade: (handle: number, pSupport: any) => number;
     BCSDK_GetSupportOutput: (handle: number, pSupport: any) => number;
     BCSDK_GetSupportVideoLost: (handle: number, pSupport: any) => number;
@@ -119,6 +126,13 @@ export interface NativeMethods {
     BCSDK_GetRfVersion: (handle: number, pSupport: any) => number;
     BCSDK_GetRfNumbers: (handle: number, pSupport: any) => number;
     BCSDK_GetSupportSimModule: (handle: number, pSupport: any) => number;
+    BCSDK_GetSupportShowQrcode: (handle: number, pSupport: any) => number;
+    BCSDK_GetSupportChinese: (handle: number, pSupport: any) => number;
+    BCSDK_GetSupportNasBind: (handle: number, pSupport: any) => number;
+    BCSDK_GetSupportNasUnbind: (handle: number, pSupport: any) => number;
+    BCSDK_GetSupportNasBindStatusInfo: (handle: number, pSupport: any) => number;
+    BCSDK_GetSupportExport: (handle: number, pSupport: any) => number;
+    BCSDK_GetSupportImport: (handle: number, pSupport: any) => number;
     /****************************************************************
      *  Methods for Channel Abilities
      ****************************************************************/
@@ -141,6 +155,8 @@ export interface NativeMethods {
     BCSDK_GetSupportTalk: (handle: number, channel: number, pSupport: any) => number;
     BCSDK_GetSupportMD: (handle: number, channel: number, pSupport: any) => number;
     BCSDK_GetSupportMDWithPIR: (handle: number, channel: number, pSupport: any) => number;
+    BCSDK_GetSupportMDTriggerAudio: (handle: number, channel: number, pSupport: any) => number;
+    BCSDK_GetSupportMDTriggerRecord: (handle: number, channel: number, pSupport: any) => number;
     BCSDK_GetSupportShelterCfg: (handle: number, channel: number, pSupport: any) => number;
     BCSDK_GetIsBattery: (handle: number, channel: number, pSupport: any) => number;
     BCSDK_GetIsCharge: (handle: number, channel: number, pSupport: any) => number;
@@ -207,7 +223,7 @@ export interface NativeMethods {
     BCSDK_GetPlaybackState: (handle: number, channel: number, pState: any) => number;
     BCSDK_GetIsPlaybackOpen: (handle: number, channel: number, pOpen: any) => number;
     BCSDK_GetPlaybackStreamType: (handle: number, channel: number, pType: any) => number;
-    BCSDK_PlaybackOpen: (handle: number, channel: number, fileNam: string, cacheFile: string, sub: boolean, speed: number, callback: any, userData: any) => number;
+    BCSDK_PlaybackOpen: (handle: number, channel: number, uid: string, fileNam: string, cacheFile: string, sub: boolean, speed: number, callback: any, userData: any) => number;
     BCSDK_PlaybackClose: (handle: number, channel: number) => number;
     BCSDK_PlaybackStart: (handle: number, channel: number) => number;
     BCSDK_PlaybackPause: (handle: number, channel: number) => number;
@@ -247,13 +263,13 @@ export interface NativeMethods {
     BCSDK_RemoteConfigState2: (handle: number, channel: number, cmd: T.BC_CMD_E, cmdIdx: number, pState: any) => number;
     BCSDK_RemoteGetVersionInfo: (handle: number) => number;
     BCSDK_RemoteGetSysGeneralCfg: (handle: number) => number;
-    BCSDK_RemoteSetSysGeneralCfg: (handle: number, param: any) => number;
+    BCSDK_RemoteSetSysGeneralCfg: (handle: number, param: any, cmdIdx: number) => number;
     BCSDK_RemoteSetDeviceName: (handle: number, param: any) => number;
     BCSDK_RemoteGetAutoRebootCfg: (handle: number) => number;
     BCSDK_RemoteSetAutoRebootCfg: (handle: number, param: any) => number;
     BCSDK_RemoteFactoryDefault: (handle: number, param: any) => number;
     BCSDK_RemoteGetRecordGenCfg: (handle: number) => number;
-    BCSDK_RemoteSetRecordGenCfg: (handle: number, param: any) => number;
+    BCSDK_RemoteSetRecordGenCfg: (handle: number, param: any, cmdIdx: number) => number;
     BCSDK_RemoteGetMailCfg: (handle: number) => number;
     BCSDK_RemoteSetMailCfg: (handle: number, param: any) => number;
     BCSDK_RemoteEmailTest: (handle: number, param: any) => number;
@@ -291,10 +307,10 @@ export interface NativeMethods {
     BCSDK_RemoteGetAlarmOut: (handle: number, outputId: number) => number;
     BCSDK_RemoteSetAlarmOut: (handle: number, param: any) => number;
     BCSDK_RemoteGetRfAlarmCfg: (handle: number, rfId: number) => number;
-    BCSDK_RemoteSetRfAlarmCfg: (handle: number, param: any) => number;
+    BCSDK_RemoteSetRfAlarmCfg: (handle: number, param: any, cmdIdx: number) => number;
     BCSDK_RemoteSetRfAlarmStatus: (handle: number, param: any) => number;
     BCSDK_RemoteGetDst: (handle: number) => number;
-    BCSDK_RemoteSetDst: (handle: number, param: any) => number;
+    BCSDK_RemoteSetDst: (handle: number, param: any, cmdIdx: number) => number;
     BCSDK_RemoteGetDdns: (handle: number) => number;
     BCSDK_RemoteSetDdns: (handle: number, param: any) => number;
     BCSDK_RemoteGetNtp: (handle: number) => number;
@@ -318,6 +334,11 @@ export interface NativeMethods {
     BCSDK_RemoteBindCloud: (handle: number, param: any) => number;
     BCSDK_RemoteGetCloudCfg: (handle: number) => number;
     BCSDK_RemoteSetCloudCfg: (handle: number, param: any) => number;
+    BCSDK_RemoteGetSignatureLoginCfg: (handle: number) => number;
+    BCSDK_RemoteSetSignatureLoginCfg: (handle: number, param: any) => number;
+    BCSDK_RemoteNasGetBindInfo: (handle: number) => number;
+    BCSDK_RemoteNasBind: (handle: number, param: any) => number;
+    BCSDK_RemoteNasUnbind: (handle: number, param: any, cmdIdx: number) => number;
     BCSDK_RemoteGetScanAp: (handle: number) => number;
     BCSDK_RemoteGetRecFileDaysByChannel: (handle: number, param: any) => number;
     BCSDK_RemoteGetUserCfg: (handle: number) => number;
@@ -350,7 +371,7 @@ export interface NativeMethods {
     BCSDK_RemoteGetEncCfg: (handle: number, channel: number) => number;
     BCSDK_RemoteSetEncCfg: (handle: number, channel: number, param: any) => number;
     BCSDK_RemoteGetOsdCfg: (handle: number, channel: number) => number;
-    BCSDK_RemoteSetOsdCfg: (handle: number, channel: number, param: any) => number;
+    BCSDK_RemoteSetOsdCfg: (handle: number, channel: number, param: any, cmdIdx: number) => number;
     BCSDK_RemoteGetCameraCfg: (handle: number, channel: number) => number;
     BCSDK_RemoteSetCameraCfg: (handle: number, channel: number, param: any) => number;
     BCSDK_RemoteGetShelter: (handle: number, channel: number) => number;
@@ -360,7 +381,7 @@ export interface NativeMethods {
     BCSDK_RemoteGetPtzCfg: (handle: number, channel: number) => number;
     BCSDK_RemoteSetPtzCfg: (handle: number, channel: number, param: any) => number;
     BCSDK_RemoteGetMotionCfg: (handle: number, channel: number) => number;
-    BCSDK_RemoteSetMotionCfg: (handle: number, channel: number, param: any) => number;
+    BCSDK_RemoteSetMotionCfg: (handle: number, channel: number, param: any, cmdIdx: number) => number;
     BCSDK_RemoteGetVideoLoss: (handle: number, channel: number) => number;
     BCSDK_RemoteSetVideoLoss: (handle: number, channel: number, param: any) => number;
     BCSDK_RemoteGetPresets: (handle: number, channel: number) => number;
@@ -372,10 +393,10 @@ export interface NativeMethods {
     BCSDK_RemoteCruiseStop: (handle: number, channel: number, cruise: number) => number;
     BCSDK_RemoteGetIspCfg: (handle: number, channel: number) => number;
     BCSDK_RemoteGetDefaultIspCfg: (handle: number, channel: number) => number;
-    BCSDK_RemoteSetIspCfg: (handle: number, channel: number, param: any) => number;
+    BCSDK_RemoteSetIspCfg: (handle: number, channel: number, param: any, cmdIdx: number) => number;
     BCSDK_RemoteSetIspDayNightMode: (handle: number, channel: number, param: any) => number;
     BCSDK_RemoteGetLedState: (handle: number, channel: number) => number;
-    BCSDK_RemoteSetLedState: (handle: number, channel: number, param: any) => number;
+    BCSDK_RemoteSetLedState: (handle: number, channel: number, param: any, cmdIdx: number) => number;
     BCSDK_RemoteGetFtpTask: (handle: number, channel: number) => number;
     BCSDK_RemoteSetFtpTask: (handle: number, channel: number, param: any) => number;
     BCSDK_RemoteGetEmailTask: (handle: number, channel: number) => number;
@@ -427,7 +448,6 @@ export interface NativeMethods {
     BCSDK_SongP2PGetDebug: (pInfo: any) => number;
     BCSDK_XCUID2SongUID: (uid: string, pInfo: any) => number;
     BCSDK_SongP2PGetDetail: (pInfo: any) => number;
-    BCSDK_SongP2PGetLog: (pInfo: any) => number;
     BCSDK_GetDiagnoseLogs: (pList: any) => number;
     BCSDK_Encrypt: (pBuf: any) => number;
     BCSDK_Decrypt: (pBuf: any) => number;

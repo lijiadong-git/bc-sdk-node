@@ -12,9 +12,9 @@ extern "C" {
      * MARK: Channel
      ******************************************************************************/
     
-    // -----------------------------------------------------------------------------------------------------------------
+    // ------------------------------------------------------------------------------------------------------------
     // playback
-    int _BCSDK_ BCSDK_RecordFilesSearch(H_BC_DEVICE hDevice, int channel, BC_TIME start, BC_TIME end, RECORD_TYPE type, BC_STREAM_TYPE_E streamType, int seq);
+    int _BCSDK_ BCSDK_RecordFilesSearch(H_BC_DEVICE hDevice, int channel, const char *uid/*for NAS*/, BC_TIME start, BC_TIME end, RECORD_TYPE type, BC_STREAM_TYPE_E streamType, int seq);
     int _BCSDK_ BCSDK_AlarmVideosSearch(H_BC_DEVICE hDevice, int channel, BC_TIME start, BC_TIME end, BC_STREAM_TYPE_E streamType, int seq);
     
     int _BCSDK_ BCSDK_PlaybackSeek(H_BC_DEVICE hDevice, BC_TIME *to);
@@ -27,11 +27,21 @@ extern "C" {
     
     int _BCSDK_ BCSDK_PlaybackOpen(H_BC_DEVICE hDevice,
                                    int channel,
+                                   const char *uid,//for NAS
                                    const char *fileNam,
                                    const char *cacheFile,
                                    bool subStream,
                                    float speedMultiple,
                                    OnRenderFrameCallback playbackFrameCallback,
+                                   void *userData);
+    int _BCSDK_ BCSDK_PlaybackOpen2(H_BC_DEVICE hDevice,
+                                   int channel,
+                                   const char *uid,//for NAS
+                                   const char *fileNam,
+                                   const char *cacheFile,
+                                   bool subStream,
+                                   float speedMultiple,
+                                   OnDataFrameCallback playbackFrameCallback,
                                    void *userData);
     int _BCSDK_ BCSDK_PlaybackClose(H_BC_DEVICE hDevice, int channel);
    

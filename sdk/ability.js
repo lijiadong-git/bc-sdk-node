@@ -151,6 +151,20 @@ class ABILITY {
     getIsBASE(handle, df) { return ABILITY.convertNative(handle, df ? df : false); }
     getHasAdminPermission(handle, df) { return ABILITY.convertNative(handle, df ? df : false); }
     getSupportSimModule(handle, df) { return ABILITY.convertNative(handle, df ? df : false); }
+    getIsLoginByDefaultPass(handle, df) { return ABILITY.convertNative(handle, df ? df : false); }
+    getSupportFTPPicture(handle, df) { return ABILITY.convertNative(handle, df ? df : false); }
+    getSupportPppoe(handle, df) { return ABILITY.convertNative(handle, df ? df : false); }
+    getSupportDateFormat(handle, df) { return ABILITY.convertNative(handle, df ? df : false); }
+    getSupportCloudSignatureLoginCfg(handle, df) { return ABILITY.convertNative(handle, df ? df : false); }
+    getSupportAccountBind(handle, df) { return ABILITY.convertNative(handle, df ? df : false); }
+    getPushSecretCode(handle, df) { return ABILITY.convertNative(handle, df ? df : false); }
+    getSupportShowQrcode(handle, df) { return ABILITY.convertNative(handle, df ? df : false); }
+    getSupportChinese(handle, df) { return ABILITY.convertNative(handle, df ? df : false); }
+    getSupportNasBind(handle, df) { return ABILITY.convertNative(handle, df ? df : false); }
+    getSupportNasUnbind(handle, df) { return ABILITY.convertNative(handle, df ? df : false); }
+    getSupportNasBindStatusInfo(handle, df) { return ABILITY.convertNative(handle, df ? df : false); }
+    getSupportExport(handle, df) { return ABILITY.convertNative(handle, df ? df : false); }
+    getSupportImport(handle, df) { return ABILITY.convertNative(handle, df ? df : false); }
     // get number properties
     getDeviceNorm(handle, df) { return ABILITY.convertNative(handle, df ? df : -1); }
     getUserVersion(handle, df) { return ABILITY.convertNative(handle, df ? df : 0); }
@@ -169,6 +183,18 @@ class ABILITY {
      */
     getRfVersion(handle, df) { return ABILITY.convertNative(handle, df ? df : 0); }
     getRfNumbers(handle, df) { return ABILITY.convertNative(handle, df ? df : 0); }
+    getSmarthomeAbility(handle) {
+        return new Promise((resolve, reject) => {
+            let param = new _T.BC_SMARTHOME_ABILITY_INFO();
+            let ret = native_1.native.BCSDK_GetSmarthomeAbility(handle, param.ref());
+            if (ret < 0) {
+                reject({ code: ret });
+                return;
+            }
+            let et = _cast_1.derefCast(param, _T.BC_SMARTHOME_ABILITY_INFO);
+            resolve(et);
+        });
+    }
     /****************************************************************
      *
      *  Methods for Channel Abilities

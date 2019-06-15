@@ -29,7 +29,8 @@ exports.DEVICE_LOGIN_DESC = refStruct({
     host: refArray('byte', types_1.DEFINDE.SDK_MAX_HOSTNAME_LEN),
     uid: refArray('byte', types_1.DEFINDE.SDK_MAX_UID_STR_LEN),
     username: refArray('byte', types_1.DEFINDE.SDK_MAX_NAME_LEN),
-    password: refArray('byte', types_1.DEFINDE.SDK_MAX_PASSWD_LEN)
+    password: refArray('byte', types_1.DEFINDE.SDK_MAX_PASSWD_LEN),
+    defaultPass: refArray('byte', types_1.DEFINDE.SDK_MAX_PASSWD_LEN)
 });
 exports.P_DEVICE_LOGIN_DESC = exports.pointer(exports.DEVICE_LOGIN_DESC);
 exports.DEVICE_CALLBACK_DESC = refStruct({
@@ -162,6 +163,10 @@ exports.BC_FIND_REC_FILES = refStruct({
 });
 exports.P_BC_FIND_REC_FILES = exports.pointer(exports.BC_FIND_REC_FILES);
 exports.BC_SYS_GENERAL_CFG = refStruct({
+    /* validField, used for only set some params.
+     * "iYear, iMonth, iDay, iHour, iMin, iSecond" is independent.
+     */
+    validField: refArray('byte', 128),
     eTS: ref.types.int,
     iTimeZone: ref.types.int // Example: For GMT +8:00, lTimeZone = -8*3600
     ,
@@ -207,6 +212,10 @@ exports.BC_RECORD_TIME_LIST = refStruct({
 });
 exports.P_BC_RECORD_TIME_LIST = exports.pointer(exports.BC_RECORD_TIME_LIST);
 exports.BC_RECORD_GENERAL_CFG = refStruct({
+    /* validField, used for only set some params.
+     * for example, validField = "<bOverWrite><iPackageTime>", only set  bOverWrite, iPackageTime"
+     */
+    validField: refArray('byte', 128),
     bOverWrite: ref.types.bool,
     iPackageTime: ref.types.int //30 45 60 MIN
     ,
@@ -218,6 +227,8 @@ exports.BC_RECORD_GENERAL_CFG = refStruct({
 exports.P_BC_RECORD_GENERAL_CFG = exports.pointer(exports.BC_RECORD_GENERAL_CFG);
 exports.BC_EMAIL_SENDER = refStruct({
     byAccount: refArray('byte', types_1.DEFINDE.BC_MAX_ADDR_LEN),
+    iSenderMaxLen: ref.types.int // readonly, max len of byAccount
+    ,
     byPassword: refArray('byte', types_1.DEFINDE.BC_MAX_PWD_LEN)
 });
 exports.P_BC_EMAIL_SENDER = exports.pointer(exports.BC_EMAIL_SENDER);
@@ -292,7 +303,10 @@ exports.BC_HDD = refStruct({
     bMount: ref.types.bool,
     iRemainSizeG: ref.types.int // Unit:GB
     ,
-    iRemainSizeM: ref.types.int
+    iRemainSizeM: ref.types.int,
+    eStorageType: ref.types.int // BC_STORAGE_TYPE_E 
+    ,
+    bIsInUse: ref.types.bool
 });
 exports.P_BC_HDD = exports.pointer(exports.BC_HDD);
 exports.BC_HDD_CFG = refStruct({
@@ -302,7 +316,8 @@ exports.BC_HDD_CFG = refStruct({
 exports.P_BC_HDD_CFG = exports.pointer(exports.BC_HDD_CFG);
 exports.BC_HDD_INIT_CFG = refStruct({
     iTotal: ref.types.int,
-    iInitId: refArray(ref.types.long, types_1.DEFINDE.BC_MAX_DISKNUM)
+    iInitId: refArray(ref.types.int, types_1.DEFINDE.BC_MAX_DISKNUM),
+    eStorageType: refArray(ref.types.int, types_1.DEFINDE.BC_MAX_DISKNUM) // BC_STORAGE_TYPE_E
 });
 exports.P_BC_HDD_INIT_CFG = exports.pointer(exports.BC_HDD_INIT_CFG);
 exports.BC_ALARM_OUT = refStruct({
@@ -389,6 +404,11 @@ exports.BC_ALARM_OUT_CFG = refStruct({
 });
 exports.P_BC_ALARM_OUT_CFG = exports.pointer(exports.BC_ALARM_OUT_CFG);
 exports.BC_RF_ALARM_CFG = refStruct({
+    /* validField, used for only set some params.
+     * for example, validField = "<bEnable><eSensitivity>", only set  bEnable, eSensitivity"
+     * iRfId is required. "iInvalid, iTimeTable" and "channelNum, triggeredHandleType" are independent.
+     */
+    validField: refArray('byte', 128),
     isCopyTo: ref.types.bool,
     iRfId: ref.types.int,
     bEnable: ref.types.bool,
@@ -410,6 +430,11 @@ exports.BC_RF_ALARM_STATUS = refStruct({
 });
 exports.P_BC_RF_ALARM_STATUS = exports.pointer(exports.BC_RF_ALARM_STATUS);
 exports.BC_DST_CFG = refStruct({
+    /* validField, used for only set some params.
+     * "iStartMonth, iStartIndex, iStartWeekday, iStartHour, iStartMinute, iStartSecond" is independent.
+     * "iEndMonth, iEndIndex, iEndWeekday, iEndHour, iEndMinute, iEndSecond" is independent.
+     */
+    validField: refArray('byte', 128),
     bEnable: ref.types.bool,
     iOffset: ref.types.int // hours offset of timezone
     ,
@@ -483,13 +508,12 @@ exports.BC_SIM_MODULE_INFO = refStruct({
 });
 exports.P_BC_SIM_MODULE_INFO = exports.pointer(exports.BC_SIM_MODULE_INFO);
 exports.BC_BIND_CLOUD = refStruct({
-    cAuthToken: refArray('byte', types_1.DEFINDE.BC_MAX_AUTH_TOKEN_LEN)
+    cAuthToken: refArray('byte', types_1.DEFINDE.BC_MAX_AUTH_TOKEN_LEN),
+    iForceAutoUpload: ref.types.int
 });
 exports.P_BC_BIND_CLOUD = exports.pointer(exports.BC_BIND_CLOUD);
 exports.BC_CLOUD_INFO = refStruct({
-    isBinded: ref.types.bool,
-    cUsername: refArray('byte', types_1.DEFINDE.BC_MAX_ADDR_LEN),
-    cNickname: refArray('byte', types_1.DEFINDE.BC_MAX_NICKNAME_LEN)
+    isBinded: ref.types.bool
 });
 exports.P_BC_CLOUD_INFO = exports.pointer(exports.BC_CLOUD_INFO);
 exports.BC_CLOUD_STREAM_TYPE_LIST = refStruct({
@@ -498,6 +522,10 @@ exports.BC_CLOUD_STREAM_TYPE_LIST = refStruct({
 });
 exports.P_BC_CLOUD_STREAM_TYPE_LIST = exports.pointer(exports.BC_CLOUD_STREAM_TYPE_LIST);
 exports.BC_CLOUD_CFG = refStruct({
+    /* validField, used for only set some params.
+     * for example, validField = "<iAutoUpload><streamCfg>", only set iAutoUpload and streamCfg"
+     */
+    validField: refArray('byte', 128),
     iAutoUpload: ref.types.int,
     iSupportMultiStream: ref.types.int,
     streamAbility: exports.BC_CLOUD_STREAM_TYPE_LIST,
@@ -506,6 +534,8 @@ exports.BC_CLOUD_CFG = refStruct({
 exports.P_BC_CLOUD_CFG = exports.pointer(exports.BC_CLOUD_CFG);
 exports.BC_RECORD_FILE_DAYS = refStruct({
     iUsed: ref.types.int,
+    cUID: refArray('byte', types_1.DEFINDE.BC_MAX_UID_LEN) // for NAS
+    ,
     iRecType: refArray(ref.types.int, 32) //  0:none, 1:normal, 2:alarm
 });
 exports.P_BC_RECORD_FILE_DAYS = exports.pointer(exports.BC_RECORD_FILE_DAYS);
@@ -579,6 +609,11 @@ exports.BC_UPGRADE_FILE_INFO = refStruct({
     uCurSize: ref.types.uint32
 });
 exports.P_BC_UPGRADE_FILE_INFO = exports.pointer(exports.BC_UPGRADE_FILE_INFO);
+exports.BC_FTP_INTERVAL_LIST = refStruct({
+    iSize: ref.types.int,
+    iInterval: refArray(ref.types.int, types_1.DEFINDE.BC_FTP_INTERVAL_TABLE_MAX_SIZE)
+});
+exports.P_BC_FTP_INTERVAL_LIST = exports.pointer(exports.BC_FTP_INTERVAL_LIST);
 exports.BC_FTP_CFG = refStruct({
     cServer: refArray('byte', types_1.DEFINDE.BC_MAX_ADDR_LEN),
     cUsername: refArray('byte', types_1.DEFINDE.BC_MAX_NAME_LEN),
@@ -597,6 +632,7 @@ exports.BC_FTP_CFG = refStruct({
     iSupportInterval: ref.types.int,
     iInterval: ref.types.int // seconds
     ,
+    intervalList: exports.BC_FTP_INTERVAL_LIST,
     iSupportTransportMode: ref.types.int,
     eTransportMode: ref.types.int
 });
@@ -680,6 +716,10 @@ exports.BC_OSD = refStruct({
 });
 exports.P_BC_OSD = exports.pointer(exports.BC_OSD);
 exports.BC_OSD_CFG = refStruct({
+    /* validField, used for only set some params.
+     * for example, validField = "<byChannelName><channelName>", only set byChannelName, channelName.
+     */
+    validField: refArray('byte', 128),
     isCopyTo: ref.types.bool,
     byChannelName: refArray('byte', types_1.DEFINDE.BC_MAX_NAME_LEN),
     channelName: exports.BC_OSD,
@@ -689,6 +729,10 @@ exports.BC_OSD_CFG = refStruct({
     iBgColor: ref.types.int // 1:use bg color
     ,
     iWaterMark: ref.types.int // 1:use water mark
+    ,
+    iWaterMarkXPos: ref.types.int // readonly water mark Topleft pos X default:0x10000
+    ,
+    iWaterMarkYPos: ref.types.int // readonly water mark Topleft pos Y default:0x10000
 });
 exports.P_BC_OSD_CFG = exports.pointer(exports.BC_OSD_CFG);
 exports.BC_CAMERA_CFG = refStruct({
@@ -728,6 +772,12 @@ exports.BC_COVER_CFG = refStruct({
 });
 exports.P_BC_COVER_CFG = exports.pointer(exports.BC_COVER_CFG);
 exports.BC_RECORD_SCHEDULE_CFG = refStruct({
+    /* max: 128
+     * validField, used for only set some params.
+     * validField only suppport for setting <bEnable>,
+     * validField = "" or "<bEnable>".
+     */
+    validField: refArray('byte', 128),
     bEnable: ref.types.bool,
     iInvalid: ref.types.int,
     iTimeTable: refArray(ref.types.int, types_1.DEFINDE.BC_MAX_DAYS * types_1.DEFINDE.BC_MAX_TIMESEGMENT)
@@ -765,6 +815,7 @@ exports.BC_SENSITIVITY_INFO = refStruct({
 });
 exports.P_BC_SENSITIVITY_INFO = exports.pointer(exports.BC_SENSITIVITY_INFO);
 exports.BC_MOTION_CFG = refStruct({
+    validField: refArray('byte', 128),
     isCopyTo: ref.types.bool,
     bEnable: ref.types.bool // FALSE: disable, TRUE:enable
     ,
@@ -842,11 +893,10 @@ and Flip to the default value
 2: Set other members to the default value
 */
 exports.BC_ISP_CFG = refStruct({
-    /*  flag, used for only set some params.
-     *  bit0: eAntiflick
-     *  bit1: eDayNightMode
+    /* validField, used for only set some params.
+     * for example, validField = "<lBright><lContrast><eAntiflick><eDayNightMode>", only set lBright, lContrast, eAntiflick, eDayNightMode.
      */
-    flag: ref.types.int,
+    validField: refArray('byte', 128),
     lChannel: ref.types.long // 0~BC_MAX_CHANNEL
     ,
     lBright: ref.types.long // 0~0xff, default 0x80
@@ -883,11 +933,8 @@ exports.BC_ISP_CFG = refStruct({
     eDayNightMode: ref.types.int // day/night mode - BC_DAY_NIGHT_MODE_E
     ,
     eIRCut: ref.types.int // ir-cut-filter - BC_IR_CUT_TYPE_E
-    //, exposure:             BC_LINE_CTRL_VALUE  // 0~0xff,default:0x80
     ,
-    lExposureRes: ref.types.long,
     lExposureLevel: ref.types.long,
-    lExposureCur: ref.types.long,
     eBLCType: ref.types.int // Backlight compensation mode - BC_BLC_MODE_E
     ,
     DRCTarget: exports.BC_LINE_CTRL_VALUE // Wide dynamic range, 0~0xff,default:0x80
@@ -917,6 +964,10 @@ exports.BC_DAY_NIGHT_MODE_CFG = refStruct({
 });
 exports.P_BC_DAY_NIGHT_MODE_CFG = exports.pointer(exports.BC_DAY_NIGHT_MODE_CFG);
 exports.BC_LED_LIGHT_STATE = refStruct({
+    /* validField, used for only set some params.
+     * for example, validField = "<eLEDState>", only set  eLEDState
+     */
+    validField: refArray('byte', 128),
     eLEDState: ref.types.int // BC_LED_STATE_E                
     ,
     iVersion: ref.types.int // 1:auto,close,open. 2:auto,close
@@ -925,12 +976,22 @@ exports.BC_LED_LIGHT_STATE = refStruct({
 });
 exports.P_BC_LED_LIGHT_STATE = exports.pointer(exports.BC_LED_LIGHT_STATE);
 exports.BC_FTP_TASK = refStruct({
+    /* validField, used for only set some params.
+     * validField only suppport for setting <bEnable>,
+     * validField = "" or "<bEnable>".
+     */
+    validField: refArray(ref.types.int, 128),
     bEnable: ref.types.bool,
     iInvalid: ref.types.int,
     iTimeTable: refArray(ref.types.int, types_1.DEFINDE.BC_MAX_DAYS * types_1.DEFINDE.BC_MAX_TIMESEGMENT)
 });
 exports.P_BC_FTP_TASK = exports.pointer(exports.BC_FTP_TASK);
 exports.BC_EMAIL_TASK = refStruct({
+    /* validField, used for only set some params.
+     * validField only suppport for setting <bEnable>,
+     * validField = "" or "<bEnable>".
+     */
+    validField: refArray('byte', 128),
     bEnable: ref.types.bool,
     iInvalid: ref.types.int,
     iTimeTable: refArray(ref.types.int, types_1.DEFINDE.BC_MAX_DAYS * types_1.DEFINDE.BC_MAX_TIMESEGMENT)
@@ -944,6 +1005,11 @@ exports.BC_PUSH_TASK = refStruct({
 });
 exports.P_BC_PUSH_TASK = exports.pointer(exports.BC_PUSH_TASK);
 exports.BC_AUDIO_TASK = refStruct({
+    /* validField, used for only set some params.
+     * validField only suppport for setting <bEnable>,
+     * validField = "" or "<bEnable>".
+     */
+    validField: refArray('byte', 128),
     bEnable: ref.types.bool,
     iInvalid: ref.types.int,
     iTimeTable: refArray(ref.types.int, types_1.DEFINDE.BC_MAX_DAYS * types_1.DEFINDE.BC_MAX_TIMESEGMENT)
@@ -1193,11 +1259,6 @@ exports.BC_P2P_DETAIL_INFO = refStruct({
     content: refArray('byte', 1024)
 });
 exports.P_BC_P2P_DETAIL_INFO = exports.pointer(exports.BC_P2P_DETAIL_INFO);
-exports.BC_P2P_LOG = refStruct({
-    content: exports.pointer(ref.types.byte),
-    length: ref.types.int
-});
-exports.P_BC_P2P_LOG = exports.pointer(exports.BC_P2P_LOG);
 exports.BC_DIAGNOSE_LOG = refStruct({
     content: refArray('byte', types_1.DEFINDE.BC_DIAGNOSE_LOG_STRING_MAX_LENGTH)
 });
@@ -1247,4 +1308,26 @@ exports.BC_REC_SCHE_TABLE_CFG = refStruct({
     iTimeTable: refArray(ref.types.int, types_1.DEFINDE.BC_MAX_DAYS * types_1.DEFINDE.BC_MAX_TIMESEGMENT)
 });
 exports.P_BC_REC_SCHE_TABLE_CFG = exports.pointer(exports.BC_REC_SCHE_TABLE_CFG);
+exports.BC_SIGNATURE_LOGIN_CFG = refStruct({
+    iIsOpened: ref.types.int
+});
+exports.P_BC_SIGNATURE_LOGIN_CFG = exports.pointer(exports.BC_SIGNATURE_LOGIN_CFG);
+exports.BC_NAS_BIND = refStruct({
+    cDevName: refArray('byte', types_1.DEFINDE.BC_MAX_NAME_LEN),
+    cUID: refArray('byte', types_1.DEFINDE.BC_MAX_UID_LEN),
+    cUserName: refArray('byte', types_1.DEFINDE.BC_MAX_NAME_LEN),
+    cPassword: refArray('byte', types_1.DEFINDE.BC_MAX_PWD_LEN)
+});
+exports.P_BC_NAS_BIND = exports.pointer(exports.BC_NAS_BIND);
+exports.BC_SMARTHOME_ITEM = refStruct({
+    cName: refArray('byte', types_1.DEFINDE.BC_SMARTHOME_NAME_MAX_LEN),
+    uiValue: ref.types.uint
+});
+exports.P_BC_SMARTHOME_ITEM = exports.pointer(exports.BC_SMARTHOME_ITEM);
+exports.BC_SMARTHOME_ABILITY_INFO = refStruct({
+    iVersion: ref.types.int,
+    iSize: ref.types.int,
+    items: refArray(exports.BC_SMARTHOME_ITEM, types_1.DEFINDE.BC_SMARTHOME_ITEMS_MAX_NUM)
+});
+exports.P_BC_SMARTHOME_ABILITY_INFO = exports.pointer(exports.BC_SMARTHOME_ABILITY_INFO);
 //# sourceMappingURL=_struct.js.map

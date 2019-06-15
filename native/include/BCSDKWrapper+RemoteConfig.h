@@ -37,7 +37,7 @@ extern "C" {
      * callback with E_BC_CMD_GET_SYS, E_BC_CMD_SET_SYS, E_BC_CMD_SET_DEVICE_NAME
      */
     int _BCSDK_ BCSDK_RemoteGetSysGeneralCfg(H_BC_DEVICE hDevice);
-    int _BCSDK_ BCSDK_RemoteSetSysGeneralCfg(H_BC_DEVICE hDevice, BC_SYS_GENERAL_CFG *cfgParam);
+    int _BCSDK_ BCSDK_RemoteSetSysGeneralCfg(H_BC_DEVICE hDevice, BC_SYS_GENERAL_CFG *cfgParam, int cmdIdx);
     int _BCSDK_ BCSDK_RemoteSetDeviceName(H_BC_DEVICE hDevice, BC_DEVICE_NAME_CFG *cfgParam);
     
     
@@ -62,7 +62,7 @@ extern "C" {
      * callback with E_BC_CMD_GET_ADVRECORD, E_BC_CMD_SET_ADVRECORD
      */
     int _BCSDK_ BCSDK_RemoteGetRecordGenCfg(H_BC_DEVICE hDevice);
-    int _BCSDK_ BCSDK_RemoteSetRecordGenCfg(H_BC_DEVICE hDevice, BC_RECORD_GENERAL_CFG *genParam);
+    int _BCSDK_ BCSDK_RemoteSetRecordGenCfg(H_BC_DEVICE hDevice, BC_RECORD_GENERAL_CFG *genParam, int cmdIdx);
     
     
     /* email
@@ -208,7 +208,7 @@ extern "C" {
      * callback with E_BC_CMD_GET_RF_CFG, E_BC_CMD_SET_RF_CFG, E_BC_CMD_SET_RF_ALARM_STATUS
      */
     int _BCSDK_ BCSDK_RemoteGetRfAlarmCfg(H_BC_DEVICE hDevice, int rfId);
-    int _BCSDK_ BCSDK_RemoteSetRfAlarmCfg(H_BC_DEVICE hDevice, BC_RF_ALARM_CFG *rfAlarmCfg);
+    int _BCSDK_ BCSDK_RemoteSetRfAlarmCfg(H_BC_DEVICE hDevice, BC_RF_ALARM_CFG *rfAlarmCfg, int cmdIdx);
     int _BCSDK_ BCSDK_RemoteSetRfAlarmStatus(H_BC_DEVICE hDevice, BC_RF_ALARM_STATUS *rfAlarmStatus);
     
     
@@ -217,7 +217,7 @@ extern "C" {
      * callback with E_BC_CMD_GET_DST, E_BC_CMD_SET_DST
      */
     int _BCSDK_ BCSDK_RemoteGetDst(H_BC_DEVICE hDevice);
-    int _BCSDK_ BCSDK_RemoteSetDst(H_BC_DEVICE hDevice, BC_DST_CFG *dstCfg);
+    int _BCSDK_ BCSDK_RemoteSetDst(H_BC_DEVICE hDevice, BC_DST_CFG *dstCfg, int cmdIdx);
     
     
     /* DDNS
@@ -307,12 +307,25 @@ extern "C" {
     
     /* Cloud
      *
-     * callback with E_BC_CMD_GET_CLOUD_INFO, E_BC_CMD_BIND_CLOUD, E_BC_CMD_GET_CLOUD_CFG, E_BC_CMD_SET_CLOUD_CFG
+     * callback with    E_BC_CMD_GET_CLOUD_INFO, E_BC_CMD_BIND_CLOUD,
+     *                  E_BC_CMD_GET_CLOUD_CFG, E_BC_CMD_SET_CLOUD_CFG,
+     *                  E_BC_CMD_GET_SIGNATURE_LOGIN_CFG, E_BC_CMD_SET_SIGNATURE_LOGIN_CFG
      */
     int _BCSDK_ BCSDK_RemoteGetCloudInfo(H_BC_DEVICE hDevice);
     int _BCSDK_ BCSDK_RemoteBindCloud(H_BC_DEVICE hDevice, BC_BIND_CLOUD *info);
     int _BCSDK_ BCSDK_RemoteGetCloudCfg(H_BC_DEVICE hDevice);
     int _BCSDK_ BCSDK_RemoteSetCloudCfg(H_BC_DEVICE hDevice, BC_CLOUD_CFG *cloudCfg);
+    int _BCSDK_ BCSDK_RemoteGetSignatureLoginCfg(H_BC_DEVICE hDevice);
+    int _BCSDK_ BCSDK_RemoteSetSignatureLoginCfg(H_BC_DEVICE hDevice, BC_SIGNATURE_LOGIN_CFG *signatureLoginCfg);
+    
+    
+    /* NAS
+     *
+     * callback with E_BC_CMD_NAS_GET_BIND_INFO, E_BC_CMD_NAS_BIND, E_BC_CMD_NAS_UNBIND
+     */
+    int _BCSDK_ BCSDK_RemoteNasGetBindInfo(H_BC_DEVICE hDevice);
+    int _BCSDK_ BCSDK_RemoteNasBind(H_BC_DEVICE hDevice, BC_NAS_BIND *info);
+    int _BCSDK_ BCSDK_RemoteNasUnbind(H_BC_DEVICE hDevice, BC_NAS_BIND *info, int cmdIdx);
     
     
     /* Scan ap
@@ -459,7 +472,7 @@ extern "C" {
      * callback with E_BC_CMD_GET_OSD, E_BC_CMD_SET_OSD
      */
     int _BCSDK_ BCSDK_RemoteGetOsdCfg(H_BC_DEVICE hDevice, int channel);
-    int _BCSDK_ BCSDK_RemoteSetOsdCfg(H_BC_DEVICE hDevice, int channel, BC_OSD_CFG *osdCfgParam);
+    int _BCSDK_ BCSDK_RemoteSetOsdCfg(H_BC_DEVICE hDevice, int channel, BC_OSD_CFG *osdCfgParam, int cmdIdx);
     
     
     /* cameraCfg
@@ -499,7 +512,7 @@ extern "C" {
      * callback with E_BC_CMD_GET_MOTION, E_BC_CMD_SET_MOTION
      */
     int _BCSDK_ BCSDK_RemoteGetMotionCfg(H_BC_DEVICE hDevice, int channel);
-    int _BCSDK_ BCSDK_RemoteSetMotionCfg(H_BC_DEVICE hDevice, int channel, BC_MOTION_CFG *motionCfg);
+    int _BCSDK_ BCSDK_RemoteSetMotionCfg(H_BC_DEVICE hDevice, int channel, BC_MOTION_CFG *motionCfg, int cmdIdx);
     
     
     /* Video Loss
@@ -535,7 +548,7 @@ extern "C" {
      */
     int _BCSDK_ BCSDK_RemoteGetIspCfg(H_BC_DEVICE hDevice, int channel);
     int _BCSDK_ BCSDK_RemoteGetDefaultIspCfg(H_BC_DEVICE hDevice, int channel);
-    int _BCSDK_ BCSDK_RemoteSetIspCfg(H_BC_DEVICE hDevice, int channel, BC_ISP_CFG *ispCfg);
+    int _BCSDK_ BCSDK_RemoteSetIspCfg(H_BC_DEVICE hDevice, int channel, BC_ISP_CFG *ispCfg, int cmdIdx);
     int _BCSDK_ BCSDK_RemoteSetIspDayNightMode(H_BC_DEVICE hDevice, int channel, BC_DAY_NIGHT_MODE_CFG *modeCfg);
     
     
@@ -544,7 +557,7 @@ extern "C" {
      * callback with E_BC_CMD_GET_LED_STATE, E_BC_CMD_SET_LED_STATE
      */
     int _BCSDK_ BCSDK_RemoteGetLedState(H_BC_DEVICE hDevice, int channel);
-    int _BCSDK_ BCSDK_RemoteSetLedState(H_BC_DEVICE hDevice, int channel, BC_LED_LIGHT_STATE *ledState);
+    int _BCSDK_ BCSDK_RemoteSetLedState(H_BC_DEVICE hDevice, int channel, BC_LED_LIGHT_STATE *ledState, int cmdIdx);
     
     
     /* Ftp Task
