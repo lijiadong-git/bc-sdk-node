@@ -6,7 +6,7 @@ const path = require('path');
 const ref = require("ref");
 const _T = require("../sdk/_struct");
 exports.pointer = ref.refType;
-exports.renderCallbackFunc = ffi.Function('void', [_T.P_RENDER_FRAME_DESC, _T.pointer('void')]);
+exports.renderCallbackFunc = ffi.Function('void', [_T.P_RENDER_FRAME_DESC, ref.types.size_t]);
 const folder = process.env.NODE_ENV === "development" ? process.env.VUE_APP_DIR_PLATFORM_EXTERNALS : __dirname;
 const libPath = path.join(folder, 'libMediaPlayer');
 console.log('load library: ' + libPath);

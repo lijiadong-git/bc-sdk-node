@@ -5,6 +5,21 @@ const ffi_1 = require("ffi");
 const ref = require("ref");
 const T = require("../types");
 const _T = require("../sdk/_struct");
+class LengthBuf {
+    constructor(len) {
+        this.len = len;
+        this.buf = new Uint8Array(len);
+    }
+    get buffer() { return this.buf; }
+    get length() { return this.len; }
+    set(buffer, length) {
+        if (length > this.len) {
+            this.len = length;
+            this.buf = new Uint8Array(length);
+        }
+        this.buf.set(buffer);
+    }
+}
 class PLAYER {
     constructor() {
     }
@@ -12,52 +27,51 @@ class PLAYER {
         return PLAYER.singleton;
     }
     getPlayerCallback(func) {
-        return ffi_1.Callback('void', [_T.P_RENDER_FRAME_DESC, _T.pointer('void')], function (frameDes, userData) {
+        return ffi_1.Callback('void', [_T.P_RENDER_FRAME_DESC, ref.types.size_t], function (frameDes, userData) {
             if (!frameDes) {
                 // error format ...
+                return;
+            }
+            console.log('getPlayerCallback --- ' + userData);
+            let hPlayer = userData;
+            let cache = PLAYER.frameCallbcks.get(hPlayer);
+            if (!cache) {
                 return;
             }
             let buf = ref.reinterpret(frameDes, _T.RENDER_FRAME_DESC.size);
             let des = ref.get(buf, 0, _T.RENDER_FRAME_DESC);
             if (des.type & T.DEFINDE.MEDIA_FRAME_TYPE_VIDEO) {
-                // find the callback function
-                let plane0 = {
-                    width: des.video.plane[0].width,
-                    height: des.video.plane[0].height,
-                    stride: des.video.plane[0].stride,
-                    data: des.video.plane[0].stride * des.video.plane[0].height > 0 ?
-                        new Uint8Array(ref.reinterpret(des.video.plane[0].address, des.video.plane[0].stride * des.video.plane[0].height)) : null
-                };
-                let plane1 = {
-                    width: des.video.plane[1].width,
-                    height: des.video.plane[1].height,
-                    stride: des.video.plane[1].stride,
-                    data: des.video.plane[1].stride * des.video.plane[1].height > 0 ?
-                        new Uint8Array(ref.reinterpret(des.video.plane[1].address, des.video.plane[1].stride * des.video.plane[1].height)) : null
-                };
-                let plane2 = {
-                    width: des.video.plane[2].width,
-                    height: des.video.plane[2].height,
-                    stride: des.video.plane[2].stride,
-                    data: des.video.plane[2].stride * des.video.plane[2].height > 0 ?
-                        new Uint8Array(ref.reinterpret(des.video.plane[2].address, des.video.plane[2].stride * des.video.plane[2].height)) : null
-                };
+                let planes = [];
+                for (let i = 0; i < 3; i++) {
+                    let len = des.video.plane[i].stride * des.video.plane[i].height;
+                    if (len > 0) {
+                        cache.bufVideo[i].set(ref.reinterpret(des.video.plane[i].address, len), len);
+                    }
+                    planes.push({
+                        width: des.video.plane[i].width,
+                        height: des.video.plane[i].height,
+                        stride: des.video.plane[i].stride,
+                        data: len > 0 ? cache.bufVideo[i].buffer : null
+                    });
+                }
                 let callbackData = {
                     pts: des.pts,
                     width: des.video.width,
                     height: des.video.height,
                     format: des.video.format,
-                    plane0: plane0,
-                    plane1: plane1,
-                    plane2: plane2
+                    plane0: planes[0],
+                    plane1: planes[1],
+                    plane2: planes[2]
                 };
                 if (func) {
                     func.onVieoData(callbackData);
                 }
             }
             else if (des.type & T.DEFINDE.MEDIA_FRAME_TYPE_AUDIO) {
+                let len = des.audio.length;
+                cache.bufAudio.set(ref.reinterpret(des.audio.media, len), len);
                 let callbackData = {
-                    media: new Uint8Array(ref.reinterpret(des.audio.media, des.audio.length)),
+                    media: cache.bufAudio.buffer,
                     length: des.audio.length,
                     hasAAC: des.audio.hasAAC,
                     sampleRate: des.audio.sampleRate,
@@ -90,7 +104,11 @@ class PLAYER {
             let ret = native_1.native.BC_MediaPlayerStart(hPlayer, stream, playerCallback);
             if (0 === ret) {
                 console.log('BC_MediaPlayerStart success --- ' + hPlayer);
-                PLAYER.frameCallbcks.set(hPlayer, playerCallback);
+                PLAYER.frameCallbcks.set(hPlayer, {
+                    func: playerCallback,
+                    bufVideo: [new LengthBuf(460800), new LengthBuf(460800), new LengthBuf(460800)],
+                    bufAudio: new LengthBuf(4096)
+                });
                 resolve();
             }
             else {
