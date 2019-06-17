@@ -157,7 +157,6 @@ class ABILITY {
     getSupportDateFormat(handle, df) { return ABILITY.convertNative(handle, df ? df : false); }
     getSupportCloudSignatureLoginCfg(handle, df) { return ABILITY.convertNative(handle, df ? df : false); }
     getSupportAccountBind(handle, df) { return ABILITY.convertNative(handle, df ? df : false); }
-    getPushSecretCode(handle, df) { return ABILITY.convertNative(handle, df ? df : false); }
     getSupportShowQrcode(handle, df) { return ABILITY.convertNative(handle, df ? df : false); }
     getSupportChinese(handle, df) { return ABILITY.convertNative(handle, df ? df : false); }
     getSupportNasBind(handle, df) { return ABILITY.convertNative(handle, df ? df : false); }
@@ -254,6 +253,8 @@ class ABILITY {
     getSupportIspSatruation(handle, channel, df) { return ABILITY.convertNative(handle, df ? df : false, channel); }
     getSupportIspHue(handle, channel, df) { return ABILITY.convertNative(handle, df ? df : false, channel); }
     getSupportIspSharpen(handle, channel, df) { return ABILITY.convertNative(handle, df ? df : false, channel); }
+    getSupportMDTriggerAudio(handle, channel, df) { return ABILITY.convertNative(handle, df ? df : false, channel); }
+    getSupportMDTriggerRecord(handle, channel, df) { return ABILITY.convertNative(handle, df ? df : false, channel); }
 }
 ABILITY.singleton = new ABILITY();
 exports.ability = ABILITY.instance();

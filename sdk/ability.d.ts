@@ -83,7 +83,6 @@ declare class ABILITY {
     getSupportDateFormat(handle: number, df?: boolean): Promise<boolean>;
     getSupportCloudSignatureLoginCfg(handle: number, df?: boolean): Promise<boolean>;
     getSupportAccountBind(handle: number, df?: boolean): Promise<boolean>;
-    getPushSecretCode(handle: number, df?: boolean): Promise<boolean>;
     getSupportShowQrcode(handle: number, df?: boolean): Promise<boolean>;
     getSupportChinese(handle: number, df?: boolean): Promise<boolean>;
     getSupportNasBind(handle: number, df?: boolean): Promise<boolean>;
@@ -156,6 +155,8 @@ declare class ABILITY {
     getSupportIspSatruation(handle: number, channel: number, df?: boolean): Promise<boolean>;
     getSupportIspHue(handle: number, channel: number, df?: boolean): Promise<boolean>;
     getSupportIspSharpen(handle: number, channel: number, df?: boolean): Promise<boolean>;
+    getSupportMDTriggerAudio(handle: number, channel: number, df?: boolean): Promise<boolean>;
+    getSupportMDTriggerRecord(handle: number, channel: number, df?: boolean): Promise<boolean>;
 }
 export declare const ability: ABILITY;
 export {};
