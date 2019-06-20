@@ -862,7 +862,7 @@ class CONFIG {
         channels.forEach(channel => {
             param.items[channel].iUsed = 1;
         });
-        return this.deviceCmd(handle, T.BC_CMD_E.E_BC_CMD_GET_RECFILEDATE, native_1.native.BCSDK_RemoteGetRecFileDaysByChannel, param);
+        return this.deviceCmd(handle, T.BC_CMD_E.E_BC_CMD_GET_RECFILEDATE, native_1.native.BCSDK_RemoteGetRecFileDaysByChannel, param, _T.BC_RECORD_FILE_DAYS_BY_CHN);
     }
     /* user config
      *

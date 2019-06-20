@@ -288,6 +288,11 @@ export declare enum BC_YUV_FORMAT_E {
     BC_YUV_FORMAT_NV12 = 2,
     BC_YUV_FORMAT_NV21 = 3
 }
+export declare enum BC_MEDIA_TYPE_E {
+    BC_MEDIA_TYPE_LIVE = 0,
+    BC_MEDIA_TYPE_PLAYBACK = 1,
+    BC_MEDIA_TYPE_UNKNOW = 255
+}
 export declare enum BC_STREAM_TYPE_E {
     E_BC_STREAM_MAIN = 0,
     E_BC_STREAM_SUB = 1,

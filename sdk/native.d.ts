@@ -217,7 +217,7 @@ export interface NativeMethods {
      *  Methods for Playback
      *
      ****************************************************************/
-    BCSDK_RecordFilesSearch: (handle: number, channel: number, start: any, end: any, type: T.RECORD_TYPE_E, stream: T.BC_STREAM_TYPE_E, seq: number) => number;
+    BCSDK_RecordFilesSearch: (handle: number, channel: number, uid: string, start: any, end: any, type: T.RECORD_TYPE_E, stream: T.BC_STREAM_TYPE_E, seq: number) => number;
     BCSDK_AlarmVideosSearch: (handle: number, channel: number, start: any, end: any, stream: T.BC_STREAM_TYPE_E, seq: number) => number;
     BCSDK_PlaybackSeek: (handle: number, pTime: any) => number;
     BCSDK_GetPlaybackState: (handle: number, channel: number, pState: any) => number;

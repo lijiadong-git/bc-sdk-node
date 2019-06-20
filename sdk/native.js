@@ -231,7 +231,7 @@ const MFFI = ffi.Library(path.join(folder, 'libBCSDKWrapper'), {
      *
      ************************************************************************/
     ,
-    BCSDK_RecordFilesSearch: ['int', ['int', 'int', _T.BC_TIME, _T.BC_TIME, 'int', 'int', 'int']],
+    BCSDK_RecordFilesSearch: ['int', ['int', 'int', 'string', _T.BC_TIME, _T.BC_TIME, 'int', 'int', 'int']],
     BCSDK_AlarmVideosSearch: ['int', ['int', 'int', _T.BC_TIME, _T.BC_TIME, 'int', 'int']],
     BCSDK_PlaybackSeek: ['int', ['int', _T.P_BC_TIME]],
     BCSDK_GetPlaybackState: ['int', ['int', 'int', _T.pointer('int')]],

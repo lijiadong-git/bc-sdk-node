@@ -104,7 +104,7 @@ class PLAYBACK {
         return new Promise((resolve, reject) => {
             const tstart = new _T.BC_TIME(start);
             const tend = new _T.BC_TIME(end);
-            let ret = native_1.native.BCSDK_RecordFilesSearch(handle, channel, tstart, tend, type, streamType, seq);
+            let ret = native_1.native.BCSDK_RecordFilesSearch(handle, channel, '', tstart, tend, type, streamType, seq);
             if (0 == ret) {
                 let sdkResolve = {
                     sdkResolve: resolve,

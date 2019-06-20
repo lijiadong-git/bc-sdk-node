@@ -97,10 +97,10 @@ class PLAYER {
             resolve();
         });
     }
-    start(hPlayer, stream, callback) {
+    start(hPlayer, type, stream, cacheFile, callback) {
         return new Promise((resolve, reject) => {
             let playerCallback = this.getPlayerCallback(callback);
-            let ret = native_1.native.BC_MediaPlayerStart(hPlayer, stream, playerCallback);
+            let ret = native_1.native.BC_MediaPlayerStart(hPlayer, type, stream, cacheFile, playerCallback);
             if (0 === ret) {
                 console.log('BC_MediaPlayerStart success --- ' + hPlayer);
                 PLAYER.frameCallbcks.set(hPlayer, {

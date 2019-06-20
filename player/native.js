@@ -13,7 +13,7 @@ console.log('load library: ' + libPath);
 const MFFI = ffi.Library(libPath, {
     BC_MediaPlayerCreate: ['int', []],
     BC_MediaPlayerRelease: ['int', ['int']],
-    BC_MediaPlayerStart: ['int', ['int', 'int', exports.renderCallbackFunc]],
+    BC_MediaPlayerStart: ['int', ['int', 'int', 'int', 'string', exports.renderCallbackFunc]],
     BC_MediaPlayerFeed: ['int', ['int', _T.P_DATA_FRAME_DESC]],
     BC_MediaPlayerMute: ['int', ['int', 'bool']],
     BC_MediaPlayerStop: ['int', ['int']]
