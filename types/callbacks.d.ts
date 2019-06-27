@@ -3,6 +3,7 @@ export interface DeviceCallback {
     stateCallback: (handle: number, from: T.BCSDK_DEVICE_STATE_E, to: T.BCSDK_DEVICE_STATE_E) => void;
     abilityChangeCallback: (handle: number) => void;
     disconnectCallback: (handle: number) => void;
+    alarmReportCallback: (handle: number, status: T.BC_ALARM_STATUS_REPORT) => void;
 }
 export interface IYUVPlane {
     width: number;

@@ -1330,4 +1330,12 @@ exports.BC_SMARTHOME_ABILITY_INFO = refStruct({
     items: refArray(exports.BC_SMARTHOME_ITEM, types_1.DEFINDE.BC_SMARTHOME_ITEMS_MAX_NUM)
 });
 exports.P_BC_SMARTHOME_ABILITY_INFO = exports.pointer(exports.BC_SMARTHOME_ABILITY_INFO);
+exports.BC_CHANNEL_ALARM_STATUS_REPORT = refStruct({
+    bMotion: ref.types.bool
+});
+exports.P_BC_CHANNEL_ALARM_STATUS_REPORT = exports.pointer(exports.BC_CHANNEL_ALARM_STATUS_REPORT);
+exports.BC_ALARM_STATUS_REPORT = refStruct({
+    reportByChannel: refArray(exports.BC_CHANNEL_ALARM_STATUS_REPORT, types_1.DEFINDE.BC_MAX_CHANNEL)
+});
+exports.P_BC_ALARM_STATUS_REPORT = exports.pointer(exports.BC_ALARM_STATUS_REPORT);
 //# sourceMappingURL=_struct.js.map

@@ -1557,3 +1557,9 @@ export interface BC_SMARTHOME_ABILITY_INFO {
     iSize: number;
     items: BC_SMARTHOME_ITEM[];
 }
+export interface BC_CHANNEL_ALARM_STATUS_REPORT {
+    bMotion: boolean;
+}
+export interface BC_ALARM_STATUS_REPORT {
+    reportByChannel: BC_CHANNEL_ALARM_STATUS_REPORT[];
+}

@@ -287,3 +287,7 @@ export declare const BC_SMARTHOME_ITEM: refStruct;
 export declare const P_BC_SMARTHOME_ITEM: ref.Type;
 export declare const BC_SMARTHOME_ABILITY_INFO: refStruct;
 export declare const P_BC_SMARTHOME_ABILITY_INFO: ref.Type;
+export declare const BC_CHANNEL_ALARM_STATUS_REPORT: refStruct;
+export declare const P_BC_CHANNEL_ALARM_STATUS_REPORT: ref.Type;
+export declare const BC_ALARM_STATUS_REPORT: refStruct;
+export declare const P_BC_ALARM_STATUS_REPORT: ref.Type;
