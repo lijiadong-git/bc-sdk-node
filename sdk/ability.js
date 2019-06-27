@@ -123,7 +123,7 @@ class ABILITY {
     getSupportCloudSchedule(handle, df) { return ABILITY.convertNative(handle, df ? df : false); }
     getSupportOutput(handle, df) { return ABILITY.convertNative(handle, df ? df : false); }
     getSupportUpgrade(handle, df) { return ABILITY.convertNative(handle, df ? df : false); }
-    getSupportVideoLost(handle, df) { return ABILITY.convertNative(handle, df ? df : false); }
+    getSupportVideoLoss(handle, df) { return ABILITY.convertNative(handle, df ? df : false); }
     getSupportPTZSetting(handle, df) { return ABILITY.convertNative(handle, df ? df : false); }
     getSupportPerformance(handle, df) { return ABILITY.convertNative(handle, df ? df : false); }
     getSupportAutoUpdate(handle, df) { return ABILITY.convertNative(handle, df ? df : false); }

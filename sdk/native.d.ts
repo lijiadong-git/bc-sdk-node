@@ -82,7 +82,7 @@ export interface NativeMethods {
     BCSDK_GetSmarthomeAbility: (handle: number, ability: any) => number;
     BCSDK_GetSupportUpgrade: (handle: number, pSupport: any) => number;
     BCSDK_GetSupportOutput: (handle: number, pSupport: any) => number;
-    BCSDK_GetSupportVideoLost: (handle: number, pSupport: any) => number;
+    BCSDK_GetSupportVideoLoss: (handle: number, pSupport: any) => number;
     BCSDK_GetSupportPTZSetting: (handle: number, pSupport: any) => number;
     BCSDK_GetSupportPerformance: (handle: number, pSupport: any) => number;
     BCSDK_GetSupportAutoUpdate: (handle: number, pSupport: any) => number;

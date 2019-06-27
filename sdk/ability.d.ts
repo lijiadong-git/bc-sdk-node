@@ -49,7 +49,7 @@ declare class ABILITY {
     getSupportCloudSchedule(handle: number, df?: boolean): Promise<boolean>;
     getSupportOutput(handle: number, df?: boolean): Promise<boolean>;
     getSupportUpgrade(handle: number, df?: boolean): Promise<boolean>;
-    getSupportVideoLost(handle: number, df?: boolean): Promise<boolean>;
+    getSupportVideoLoss(handle: number, df?: boolean): Promise<boolean>;
     getSupportPTZSetting(handle: number, df?: boolean): Promise<boolean>;
     getSupportPerformance(handle: number, df?: boolean): Promise<boolean>;
     getSupportAutoUpdate(handle: number, df?: boolean): Promise<boolean>;

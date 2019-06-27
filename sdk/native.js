@@ -1000,7 +1000,7 @@ class NativeDelegate {
         this.BCSDK_GetSmarthomeAbility = MFFI.BCSDK_GetSmarthomeAbility;
         this.BCSDK_GetSupportUpgrade = MFFI.BCSDK_GetSupportUpgrade;
         this.BCSDK_GetSupportOutput = MFFI.BCSDK_GetSupportOutput;
-        this.BCSDK_GetSupportVideoLost = MFFI.BCSDK_GetSupportVideoLost;
+        this.BCSDK_GetSupportVideoLoss = MFFI.BCSDK_GetSupportVideoLost;
         this.BCSDK_GetSupportPTZSetting = MFFI.BCSDK_GetSupportPTZSetting;
         this.BCSDK_GetSupportPerformance = MFFI.BCSDK_GetSupportPerformance;
         this.BCSDK_GetSupportAutoUpdate = MFFI.BCSDK_GetSupportAutoUpdate;

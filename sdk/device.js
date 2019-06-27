@@ -295,11 +295,6 @@ class DEVICE {
                             callback.sdkCallback.stateCallback(handle, des.eStateFrom, des.eStateTo);
                         }
                     }
-                    _callback_1.PROMISE_CBS.handleCallback(handle, channel, cmdData.bcCmd, cmdData.cmdIdx, callback => {
-                        if (callback.sdkResolve) {
-                            callback.sdkResolve(cmdData.bcRspCode);
-                        }
-                    });
                     break;
                 }
                 case T.BC_CMD_E.E_BC_CMD_RECONNECT:
@@ -310,18 +305,6 @@ class DEVICE {
                             callback.sdkCallback.abilityChangeCallback(handle);
                         }
                     }
-                    _callback_1.PROMISE_CBS.handleCallback(handle, channel, cmdData.bcCmd, cmdData.cmdIdx, callback => {
-                        if (T.BC_RSP_CODE_E.E_BC_RSP_OK == cmdData.bcRspCode) {
-                            if (callback.sdkResolve) {
-                                callback.sdkResolve(cmdData.bcRspCode);
-                            }
-                        }
-                        else {
-                            if (callback.sdkReject) {
-                                callback.sdkReject({ code: cmdData.bcRspCode });
-                            }
-                        }
-                    });
                     break;
                 }
                 case T.BC_CMD_E.E_BC_CMD_ALARM_REPORT: {
@@ -334,18 +317,13 @@ class DEVICE {
                             callback.sdkCallback.alarmReportCallback(handle, param);
                         }
                     }
-                    _callback_1.PROMISE_CBS.handleCallback(handle, channel, cmdData.bcCmd, cmdData.cmdIdx, callback => {
-                        if (T.BC_RSP_CODE_E.E_BC_RSP_OK == cmdData.bcRspCode) {
-                            if (callback.sdkResolve) {
-                                callback.sdkResolve(cmdData.bcRspCode);
-                            }
-                        }
-                        else {
-                            if (callback.sdkReject) {
-                                callback.sdkReject({ code: cmdData.bcRspCode });
-                            }
-                        }
-                    });
+                    break;
+                }
+                case T.BC_CMD_E.E_BC_CMD_CAMERA_STATE: {
+                    let callback = _callback_1.COMMON_CBS.getCallback(handle, channel, cmdData.bcCmd, cmdData.cmdIdx);
+                    if (callback && callback.sdkCallback) {
+                        callback.sdkCallback.cameraStateCallback(handle);
+                    }
                     break;
                 }
                 default: {
@@ -386,6 +364,7 @@ class DEVICE {
                 _callback_1.COMMON_CBS.setCallback(handle, 0, T.BC_CMD_E.E_BC_CMD_GET_ABILITY, 0, { sdkCallback: callback });
                 _callback_1.COMMON_CBS.setCallback(handle, 0, T.BC_CMD_E.E_BC_CMD_RECONNECT, 0, { sdkCallback: callback });
                 _callback_1.COMMON_CBS.setCallback(handle, 0, T.BC_CMD_E.E_BC_CMD_ALARM_REPORT, 0, { sdkCallback: callback });
+                _callback_1.COMMON_CBS.setCallback(handle, 0, T.BC_CMD_E.E_BC_CMD_CAMERA_STATE, 0, { sdkCallback: callback });
                 resolve(handle);
             }
             else {
