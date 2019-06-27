@@ -793,7 +793,7 @@ export interface BC_USER_CFG {
     /**
      * max length: BC_USER_NUM
      */
-    user: BC_USER;
+    user: BC_USER[];
 }
 export interface BC_USER_FOR_ABILITY {
     /**
@@ -841,7 +841,7 @@ export interface BC_USER_ONLINE_CFG {
     /**
      * max length: BC_USER_NUM
      */
-    user: BC_USER_ONLINE_INFO;
+    user: BC_USER_ONLINE_INFO[];
 }
 export interface BC_FORCE_PWD {
     /**

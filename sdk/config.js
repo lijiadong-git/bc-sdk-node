@@ -381,15 +381,12 @@ class CONFIG {
     deviceCmd(handle, cmd, func, param, type, cmdIdx) {
         return new Promise((resolve, reject) => {
             let ret = T.ERROR.E_UND;
-            if (undefined !== param && undefined !== type && undefined !== cmdIdx) {
+            if (undefined !== param && undefined !== type) {
                 let castParam = _cast_1.refCast(param);
                 let data = new type(castParam);
-                ret = func(handle, data.ref(), cmdIdx);
-            }
-            else if (undefined !== param && undefined !== type) {
-                let castParam = _cast_1.refCast(param);
-                let data = new type(castParam);
-                ret = func(handle, data.ref());
+                undefined === cmdIdx ?
+                    ret = func(handle, data.ref()) :
+                    ret = func(handle, data.ref(), cmdIdx);
             }
             else if (undefined !== param) {
                 ret = func(handle, param);
@@ -1011,7 +1008,7 @@ class CONFIG {
         return this.channelCmd(handle, channel, T.BC_CMD_E.E_BC_CMD_GET_OSD, native_1.native.BCSDK_RemoteGetOsdCfg);
     }
     setOsdCfg(handle, channel, param) {
-        return this.channelCmd(handle, channel, T.BC_CMD_E.E_BC_CMD_SET_OSD, native_1.native.BCSDK_RemoteSetOsdCfg, param, _T.BC_OSD_CFG);
+        return this.channelCmd(handle, channel, T.BC_CMD_E.E_BC_CMD_SET_OSD, native_1.native.BCSDK_RemoteSetOsdCfg, param, _T.BC_OSD_CFG, 0);
     }
     /* cameraCfg
      *
@@ -1061,7 +1058,7 @@ class CONFIG {
         return this.channelCmd(handle, channel, T.BC_CMD_E.E_BC_CMD_GET_MOTION, native_1.native.BCSDK_RemoteGetMotionCfg);
     }
     setMotionCfg(handle, channel, param) {
-        return this.channelCmd(handle, channel, T.BC_CMD_E.E_BC_CMD_SET_MOTION, native_1.native.BCSDK_RemoteSetMotionCfg, param, _T.BC_MOTION_CFG);
+        return this.channelCmd(handle, channel, T.BC_CMD_E.E_BC_CMD_SET_MOTION, native_1.native.BCSDK_RemoteSetMotionCfg, param, _T.BC_MOTION_CFG, 0);
     }
     /* Video Loss
      *
@@ -1114,7 +1111,7 @@ class CONFIG {
         return this.channelCmd(handle, channel, T.BC_CMD_E.E_BC_CMD_GET_DEFAULT_CAMERA, native_1.native.BCSDK_RemoteGetDefaultIspCfg);
     }
     setIspCfg(handle, channel, param) {
-        return this.channelCmd(handle, channel, T.BC_CMD_E.E_BC_CMD_SET_CAMERA, native_1.native.BCSDK_RemoteSetIspCfg, param, _T.BC_ISP_CFG);
+        return this.channelCmd(handle, channel, T.BC_CMD_E.E_BC_CMD_SET_CAMERA, native_1.native.BCSDK_RemoteSetIspCfg, param, _T.BC_ISP_CFG, 0);
     }
     setIspDayNightMode(handle, channel, param) {
         return this.channelCmd(handle, channel, T.BC_CMD_E.E_BC_CMD_SET_ISP_DAY_NIGHT_MODE, native_1.native.BCSDK_RemoteSetIspDayNightMode, param, _T.BC_DAY_NIGHT_MODE_CFG);
@@ -1127,7 +1124,7 @@ class CONFIG {
         return this.channelCmd(handle, channel, T.BC_CMD_E.E_BC_CMD_GET_LED_STATE, native_1.native.BCSDK_RemoteGetLedState);
     }
     setLedState(handle, channel, param) {
-        return this.channelCmd(handle, channel, T.BC_CMD_E.E_BC_CMD_SET_LED_STATE, native_1.native.BCSDK_RemoteSetLedState, param, _T.BC_LED_LIGHT_STATE);
+        return this.channelCmd(handle, channel, T.BC_CMD_E.E_BC_CMD_SET_LED_STATE, native_1.native.BCSDK_RemoteSetLedState, param, _T.BC_LED_LIGHT_STATE, 0);
     }
     /* Ftp Task
      *
