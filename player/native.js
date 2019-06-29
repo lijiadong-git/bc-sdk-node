@@ -10,6 +10,14 @@ exports.renderCallbackFunc = ffi.Function('void', [_T.P_RENDER_FRAME_DESC, ref.t
 const folder = process.env.NODE_ENV === "development" ? process.env.VUE_APP_DIR_PLATFORM_EXTERNALS : __dirname;
 const libPath = path.join(folder, 'libMediaPlayer');
 console.log('load library: ' + libPath);
+if (process.platform === "win32") {
+    ffi.Library(path.join(folder, 'D3DX9_42'));
+    ffi.Library(path.join(folder, 'avutil-55'));
+    ffi.Library(path.join(folder, 'swresample-2'));
+    ffi.Library(path.join(folder, 'swscale-4'));
+    ffi.Library(path.join(folder, 'avcodec-57'));
+    ffi.Library(path.join(folder, 'avformat-57'));
+}
 const MFFI = ffi.Library(libPath, {
     BC_MediaPlayerCreate: ['int', []],
     BC_MediaPlayerRelease: ['int', ['int']],

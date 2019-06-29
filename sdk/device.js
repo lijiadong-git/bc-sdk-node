@@ -14,7 +14,7 @@ const deviceCallback = ffi_1.Callback('void', ['int', _T.BC_CMD_DATA, _T.pointer
     if (!cmdData /*_T.BC_CMD_DATA*/
         || 'undefined' === typeof cmdData.bcCmd
         || 'undefined' === typeof cmdData.cmdIdx
-        || 'undefined' === typeof cmdData.cmdIdx
+        || 'undefined' === typeof cmdData.pRspData
         || 'undefined' === typeof cmdData.bcRspCode
         || 'undefined' === typeof cmdData.dataLen
         || 'undefined' === typeof cmdData.handleId) {
