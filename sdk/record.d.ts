@@ -16,7 +16,7 @@ declare class RECORD {
     setLocalRecordSchedule(scheduleTable: T.BC_REC_SCHE_TABLE_CFG, streamType: T.BC_STREAM_TYPE_E, fileDuration: number, postDuration: number): Promise<void>;
     openLocalRecordSchedule(): Promise<void>;
     closeLocalRecordSchedule(): Promise<void>;
-    setDeviceAcceptLocalRecordSchedule(hDevice: number, accept: boolean): Promise<void>;
+    setDeviceAcceptLocalRecordSchedule(hDevice: number, accept: T.BC_REC_SCHE_DEVICE_CFG): Promise<void>;
     getIsRecording(hDevice: number, channel: number): Promise<boolean>;
     getIsManualRecordOpened(hDevice: number, channel: number): Promise<boolean>;
     openManualRecord(hDevice: number, channel: number): Promise<void>;

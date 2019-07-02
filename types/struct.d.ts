@@ -1563,3 +1563,6 @@ export interface BC_CHANNEL_ALARM_STATUS_REPORT {
 export interface BC_ALARM_STATUS_REPORT {
     reportByChannel: BC_CHANNEL_ALARM_STATUS_REPORT[];
 }
+export interface BC_REC_SCHE_DEVICE_CFG {
+    bAccept: boolean[];
+}

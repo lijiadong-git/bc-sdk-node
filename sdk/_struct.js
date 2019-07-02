@@ -1338,4 +1338,9 @@ exports.BC_ALARM_STATUS_REPORT = refStruct({
     reportByChannel: refArray(exports.BC_CHANNEL_ALARM_STATUS_REPORT, types_1.DEFINDE.BC_MAX_CHANNEL)
 });
 exports.P_BC_ALARM_STATUS_REPORT = exports.pointer(exports.BC_ALARM_STATUS_REPORT);
+exports.BC_REC_SCHE_DEVICE_CFG = refStruct({
+    // acceptance of the local record schedule
+    bAccept: refArray(ref.types.bool, types_1.DEFINDE.BC_MAX_CHANNEL)
+});
+exports.P_BC_REC_SCHE_DEVICE_CFG = exports.pointer(exports.BC_REC_SCHE_DEVICE_CFG);
 //# sourceMappingURL=_struct.js.map

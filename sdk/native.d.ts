@@ -245,7 +245,7 @@ export interface NativeMethods {
     BCSDK_SetLocalRecordSchedule: (scheduleTable: any, streamType: number, fileDuration: number, postDuration: number) => number;
     BCSDK_OpenLocalRecordSchedule: () => number;
     BCSDK_CloseLocalRecordSchedule: () => number;
-    BCSDK_SetDeviceAcceptLocalRecordSchedule: (handle: number, accept: boolean) => number;
+    BCSDK_SetDeviceAcceptLocalRecordSchedule: (handle: number, accept: any) => number;
     BCSDK_GetIsRecording: (handle: number, channel: number, recording: any) => number;
     BCSDK_GetIsManualRecordOpened: (handle: number, channel: number, open: any) => number;
     BCSDK_OpenManualRecord: (handle: number, channel: number) => number;

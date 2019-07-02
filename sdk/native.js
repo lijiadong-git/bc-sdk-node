@@ -275,7 +275,7 @@ const MFFI = ffi.Library(path.join(folder, 'libBCSDKWrapper'), {
     // Device should record with schedule
     // Default is false
     ,
-    BCSDK_SetDeviceAcceptLocalRecordSchedule: ['int', ['int', 'bool']]
+    BCSDK_SetDeviceAcceptLocalRecordSchedule: ['int', ['int', _T.BC_REC_SCHE_DEVICE_CFG]]
     // -----------------------------------------------------------------------------------------------------------------
     // Recording
     ,
