@@ -980,7 +980,7 @@ exports.BC_FTP_TASK = refStruct({
      * validField only suppport for setting <bEnable>,
      * validField = "" or "<bEnable>".
      */
-    validField: refArray(ref.types.int, 128),
+    validField: refArray('byte', 128),
     bEnable: ref.types.bool,
     iInvalid: ref.types.int,
     iTimeTable: refArray(ref.types.int, types_1.DEFINDE.BC_MAX_DAYS * types_1.DEFINDE.BC_MAX_TIMESEGMENT)
