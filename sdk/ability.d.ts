@@ -3,8 +3,7 @@ declare class ABILITY {
     private static singleton;
     private constructor();
     static instance(): ABILITY;
-    private static getMethodName;
-    private static convertNative;
+    private static nativeCall;
     /****************************************************************
      *
      *  Methods for Device Abilities
