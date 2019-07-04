@@ -46,6 +46,9 @@ export interface DataCallback {
 export interface RecordFilesCallback {
     (seq: number, files: T.BC_FIND_REC_FILES): void;
 }
+export interface AlarmVideosCallback {
+    (seq: number, files: T.BC_ALARM_VIDEOS_INFO): void;
+}
 export interface DEVICE_LOCATION_DESC {
     /**
      * max length: SDK_MAX_NORMAL_STR_LEN - 1

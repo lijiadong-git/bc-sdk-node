@@ -162,6 +162,20 @@ exports.BC_FIND_REC_FILES = refStruct({
     recFile: refArray(exports.BC_FIND_REC_FILE, 40)
 });
 exports.P_BC_FIND_REC_FILES = exports.pointer(exports.BC_FIND_REC_FILES);
+exports.BC_ALARM_VIDEO_ITEM = refStruct({
+    cFileName: refArray('byte', types_1.DEFINDE.BC_MAX_FILE_LEN),
+    startTime: exports.BC_TIME,
+    endTime: exports.BC_TIME
+});
+exports.P_BC_ALARM_VIDEO_ITEM = exports.pointer(exports.BC_ALARM_VIDEO_ITEM);
+exports.BC_ALARM_VIDEOS_INFO = refStruct({
+    seq: ref.types.int // the times of this alarm video find
+    ,
+    iFinished: ref.types.int,
+    iItemSize: ref.types.int,
+    alarmItems: refArray(exports.BC_ALARM_VIDEO_ITEM, 60)
+});
+exports.P_BC_ALARM_VIDEOS_INFO = exports.pointer(exports.BC_ALARM_VIDEOS_INFO);
 exports.BC_SYS_GENERAL_CFG = refStruct({
     /* validField, used for only set some params.
      * "iYear, iMonth, iDay, iHour, iMin, iSecond" is independent.

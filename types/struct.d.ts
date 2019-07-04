@@ -118,6 +118,17 @@ export interface BC_FIND_REC_FILES {
     fileNum: number;
     recFile: BC_FIND_REC_FILE[];
 }
+export interface BC_ALARM_VIDEO_ITEM {
+    cFileName: string;
+    startTime: BC_TIME;
+    endTime: BC_TIME;
+}
+export interface BC_ALARM_VIDEOS_INFO {
+    seq: number;
+    iFinished: number;
+    iItemSize: number;
+    alarmItems: BC_ALARM_VIDEO_ITEM[];
+}
 export interface BC_SYS_GENERAL_CFG {
     validField: string;
     eTS: T.BC_TVSYSTEM_E;

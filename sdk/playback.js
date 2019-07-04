@@ -15,7 +15,6 @@ class PLAYBACK {
     handleSDKCallback(handle, cmdData) {
         const channel = (cmdData.handleId & 0x000000ff) % T.DEFINDE.BC_MAX_CHANNEL;
         switch (cmdData.bcCmd) {
-            case T.BC_CMD_E.E_BC_CMD_SEARCH_ALARM_VIDEOS:
             case T.BC_CMD_E.E_BC_CMD_SEARCH_RECFILES: {
                 if (T.BC_RSP_CODE_E.E_BC_RSP_OK == cmdData.bcRspCode) {
                     const filesCallback = _callback_1.COMMON_CBS.getCallback(handle, cmdData.handleId, cmdData.bcCmd, cmdData.cmdIdx);
@@ -58,6 +57,63 @@ class PLAYBACK {
                         }
                         filesCallback.sdkCallback(des.seq, files);
                         if (des.fileNum < 40) {
+                            delete filesCallback.sdkCallback;
+                            if (0 === Object.keys(filesCallback).length) {
+                                _callback_1.PROMISE_CBS.clearCallback(handle, cmdData.handleId, -cmdData.bcCmd, cmdData.cmdIdx);
+                            }
+                        }
+                    }
+                }
+                _callback_1.PROMISE_CBS.handleCallback(handle, channel, cmdData.bcCmd, cmdData.cmdIdx, callback => {
+                    if (T.BC_RSP_CODE_E.E_BC_RSP_OK == cmdData.bcRspCode) {
+                        if (callback.sdkResolve) {
+                            callback.sdkResolve(cmdData.bcRspCode);
+                        }
+                    }
+                    else {
+                        if (callback.sdkReject) {
+                            callback.sdkReject({ code: cmdData.bcRspCode });
+                        }
+                    }
+                });
+                break;
+            }
+            case T.BC_CMD_E.E_BC_CMD_SEARCH_ALARM_VIDEOS: {
+                if (T.BC_RSP_CODE_E.E_BC_RSP_OK == cmdData.bcRspCode) {
+                    const filesCallback = _callback_1.COMMON_CBS.getCallback(handle, cmdData.handleId, cmdData.bcCmd, cmdData.cmdIdx);
+                    if (filesCallback && filesCallback.sdkCallback) {
+                        let buf = ref.reinterpret(cmdData.pRspData, cmdData.dataLen);
+                        let des = ref.get(buf, 0, _T.BC_ALARM_VIDEOS_INFO);
+                        let files = {
+                            seq: des.seq,
+                            iFinished: des.iFinished,
+                            iItemSize: des.iItemSize,
+                            alarmItems: []
+                        };
+                        for (let i = 0; i < des.iItemSize; i++) {
+                            const file = des.alarmItems[i];
+                            files.alarmItems.push({
+                                cFileName: ref.readCString(file.cFileName.buffer, 0),
+                                startTime: {
+                                    iYear: file.startTime.iYear,
+                                    iMonth: file.startTime.iMonth,
+                                    iDay: file.startTime.iDay,
+                                    iHour: file.startTime.iHour,
+                                    iMinute: file.startTime.iMinute,
+                                    iSecond: file.startTime.iSecond
+                                },
+                                endTime: {
+                                    iYear: file.endTime.iYear,
+                                    iMonth: file.endTime.iMonth,
+                                    iDay: file.endTime.iDay,
+                                    iHour: file.endTime.iHour,
+                                    iMinute: file.endTime.iMinute,
+                                    iSecond: file.endTime.iSecond
+                                }
+                            });
+                        }
+                        filesCallback.sdkCallback(des.seq, files);
+                        if (files.iFinished) {
                             delete filesCallback.sdkCallback;
                             if (0 === Object.keys(filesCallback).length) {
                                 _callback_1.PROMISE_CBS.clearCallback(handle, cmdData.handleId, -cmdData.bcCmd, cmdData.cmdIdx);
