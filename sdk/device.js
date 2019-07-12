@@ -408,6 +408,7 @@ class DEVICE {
             let thandle = native_1.native.BCSDK_ModifyDevice(handle, tloginDes.ref(), callbackDes.ref(), perror);
             if (thandle >= 0 && 0 == perror.deref()) {
                 if (handle != thandle) {
+                    _callback_1.COMMON_CBS.modifyCallbackHandle(handle, thandle);
                     _callback_1.PROMISE_CBS.modifyCallbackHandle(handle, thandle);
                 }
                 resolve(thandle);
