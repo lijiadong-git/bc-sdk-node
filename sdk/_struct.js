@@ -1111,7 +1111,7 @@ exports.BC_VERSION_INFO = refStruct({
     ,
     cSerialNo: refArray('byte', types_1.DEFINDE.BC_SERIALNO_LEN),
     cBuildDay: refArray('byte', types_1.DEFINDE.BC_BUILD_INFO_LEN),
-    bytedwareVer: refArray('byte', types_1.DEFINDE.BC_VERSION_INFO_LEN),
+    cHardwareVer: refArray('byte', types_1.DEFINDE.BC_VERSION_INFO_LEN),
     cCfgVer: refArray('byte', types_1.DEFINDE.BC_VERSION_INFO_LEN),
     cFirmwareVer: refArray('byte', types_1.DEFINDE.BC_VERSION_INFO_LEN),
     cPakSuffix: refArray('byte', types_1.DEFINDE.BC_MAX_FILE_LEN),
