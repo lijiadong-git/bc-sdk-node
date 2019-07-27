@@ -90,6 +90,13 @@ exports.DATA_VIDEO_FRAME_DESC = refStruct({
     frameRate: ref.types.uint32
 });
 exports.P_DATA_VIDEO_FRAME_DESC = exports.pointer(exports.DATA_VIDEO_FRAME_DESC);
+exports.COMMON_FRAME_DESC = refStruct({
+    version: ref.types.int,
+    type: ref.types.uint32,
+    pts: ref.types.uint64,
+    delay: ref.types.uint64 /*ms*/
+});
+exports.P_COMMON_FRAME_DESC = exports.pointer(exports.COMMON_FRAME_DESC);
 exports.DATA_AUDIO_FRAME_DESC = refStruct({
     hasAAC: ref.types.uint8,
     sampleRate: ref.types.uint32,

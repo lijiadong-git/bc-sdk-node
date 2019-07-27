@@ -36,6 +36,13 @@ export interface IDataCallbackData {
     channel: number;
     dataDesc: T.DATA_FRAME_DESC;
 }
+export interface IFrameDesc {
+    version: number;
+    type: 'video' | 'audio' | 'unknow';
+    pts: number;
+    delay: number;
+}
+export declare type FrameDescCallback = (desc: IFrameDesc) => void;
 export interface FrameCallback {
     onVieoData: (data: IFrameCallbackData) => void;
     onAudioData: (data: IAudioCallbackData) => void;

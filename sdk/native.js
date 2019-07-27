@@ -5,9 +5,10 @@ const path = require('path');
 const bindings = require('bindings');
 const _T = require("./_struct");
 exports.renderCallbackFunc = ffi.Function('void', ['int', 'int', _T.P_RENDER_FRAME_DESC, _T.pointer('void')]);
+exports.dataCallbackFunc = ffi.Function('void', ['int', 'int', _T.P_DATA_FRAME_DESC, _T.pointer('void')]);
+exports.commonCallbackFunc = ffi.Function('void', ['int', 'int', _T.P_COMMON_FRAME_DESC, _T.pointer('void')]);
 exports.diskStatusCallback = ffi.Function('void', [_T.P_BC_DISK_WARNINIG_DESC, _T.pointer('void')]);
 exports.recordStatusCallback = ffi.Function('void', [_T.P_BC_REC_EVENT_DESC, _T.pointer('void')]);
-exports.dataCallbackFunc = ffi.Function('void', ['int', 'int', _T.P_DATA_FRAME_DESC, _T.pointer('void')]);
 exports.deviceFoundCallback = ffi.Function('void', [_T.P_DEVICE_LOCATION_DESC, _T.pointer('void')]);
 const folder = process.env.NODE_ENV === "development" ? process.env.VUE_APP_DIR_PLATFORM_EXTERNALS : __dirname;
 if (process.platform === "win32") {
@@ -200,7 +201,8 @@ const MFFI = ffi.Library(path.join(folder, 'libBCSDKWrapper'), {
     BCSDK_GetIsLiveOpen: ['int', ['int', 'int', _T.pointer('bool')]],
     BCSDK_GetLiveStreamType: ['int', ['int', 'int', _T.pointer('int')]],
     BCSDK_LiveOpen: ['int', ['int', 'int', 'int', exports.renderCallbackFunc, _T.pointer('void')]],
-    BCSDK_LiveOpen2: ['int', ['int', 'int', 'int', exports.dataCallbackFunc, _T.pointer('void')]],
+    BCSDK_SetLivePlayer: ['int', ['int', 'int', 'int']],
+    BCSDK_LiveOpen2: ['int', ['int', 'int', 'int', exports.commonCallbackFunc, _T.pointer('void')]],
     BCSDK_LiveClose: ['int', ['int', 'int']],
     BCSDK_LiveMute: ['int', ['int', 'int', 'bool']]
     /************************************************************************
@@ -238,13 +240,28 @@ const MFFI = ffi.Library(path.join(folder, 'libBCSDKWrapper'), {
     BCSDK_GetIsPlaybackOpen: ['int', ['int', 'int', _T.pointer('bool')]],
     BCSDK_GetPlaybackStreamType: ['int', ['int', 'int', _T.pointer('int')]],
     BCSDK_PlaybackOpen: ['int', ['int', 'int', 'string', 'string', 'string', 'bool', 'float', exports.renderCallbackFunc, _T.pointer('void')]],
-    BCSDK_PlaybackOpen2: ['int', ['int', 'int', 'string', 'string', 'string', 'bool', 'float', exports.dataCallbackFunc, _T.pointer('void')]],
+    BCSDK_SetPlaybackPlayer: ['int', ['int', 'int', 'int']],
+    BCSDK_PlaybackOpen2: ['int', ['int', 'int', 'string', 'string', 'string', 'bool', 'float', 'int', exports.commonCallbackFunc, _T.pointer('void')]],
     BCSDK_PlaybackClose: ['int', ['int', 'int']],
     BCSDK_PlaybackStart: ['int', ['int', 'int']],
     BCSDK_PlaybackPause: ['int', ['int', 'int']],
     BCSDK_PlaybackStop: ['int', ['int', 'int']],
     BCSDK_PlaybackStep: ['int', ['int', 'int']],
     BCSDK_PlaybackMute: ['int', ['int', 'int', 'bool']]
+    /************************************************************************
+     *
+     * Player interfaces
+     *
+     ************************************************************************/
+    ,
+    BCSDK_PlayerCreate: ['int', ['long', 'float', 'float', 'float', 'float']],
+    BCSDK_PlayerRelease: ['int', ['int']],
+    BCSDK_PlayerResize: ['int', ['int', 'float', 'float', 'float', 'float']],
+    BCSDK_PlayerShow: ['int', ['int']],
+    BCSDK_PlayerHide: ['int', ['int']],
+    BCSDK_PlayerClear: ['int', ['int', 'float', 'float', 'float']],
+    BCSDK_PlayerForceClear: ['int', ['int', 'float', 'float', 'float']],
+    BCSDK_PlayerUpdate: ['int', ['int']]
     /************************************************************************
      *
      * Local Reocrd interfaces
@@ -1098,6 +1115,7 @@ class NativeDelegate {
          ****************************************************************/
         this.BCSDK_GetLiveStreamType = MFFI.BCSDK_GetLiveStreamType;
         this.BCSDK_LiveOpen = MFFI.BCSDK_LiveOpen;
+        this.BCSDK_SetLivePlayer = MFFI.BCSDK_SetLivePlayer;
         this.BCSDK_LiveOpen2 = MFFI.BCSDK_LiveOpen2;
         this.BCSDK_GetIsLiveOpen = MFFI.BCSDK_GetIsLiveOpen;
         this.BCSDK_LiveClose = MFFI.BCSDK_LiveClose;
@@ -1134,6 +1152,7 @@ class NativeDelegate {
         this.BCSDK_GetPlaybackState = MFFI.BCSDK_GetPlaybackState;
         this.BCSDK_GetIsPlaybackOpen = MFFI.BCSDK_GetIsPlaybackOpen;
         this.BCSDK_GetPlaybackStreamType = MFFI.BCSDK_GetPlaybackStreamType;
+        this.BCSDK_SetPlaybackPlayer = MFFI.BCSDK_SetPlaybackPlayer;
         this.BCSDK_PlaybackOpen = MFFI.BCSDK_PlaybackOpen2;
         this.BCSDK_PlaybackClose = MFFI.BCSDK_PlaybackClose;
         this.BCSDK_PlaybackStart = MFFI.BCSDK_PlaybackStart;
@@ -1141,6 +1160,19 @@ class NativeDelegate {
         this.BCSDK_PlaybackStop = MFFI.BCSDK_PlaybackStop;
         this.BCSDK_PlaybackStep = MFFI.BCSDK_PlaybackStep;
         this.BCSDK_PlaybackMute = MFFI.BCSDK_PlaybackMute;
+        /************************************************************************
+         *
+         * Player interfaces
+         *
+         ************************************************************************/
+        this.BCSDK_PlayerCreate = MFFI.BCSDK_PlayerCreate;
+        this.BCSDK_PlayerRelease = MFFI.BCSDK_PlayerRelease;
+        this.BCSDK_PlayerResize = MFFI.BCSDK_PlayerResize;
+        this.BCSDK_PlayerShow = MFFI.BCSDK_PlayerShow;
+        this.BCSDK_PlayerHide = MFFI.BCSDK_PlayerHide;
+        this.BCSDK_PlayerClear = MFFI.BCSDK_PlayerClear;
+        this.BCSDK_PlayerForceClear = MFFI.BCSDK_PlayerForceClear;
+        this.BCSDK_PlayerUpdate = MFFI.BCSDK_PlayerUpdate;
         /************************************************************************
          *
          * Local Reocrd interfaces

@@ -1,9 +1,10 @@
 import * as ffi from 'ffi';
 import * as T from '../types';
 export declare const renderCallbackFunc: ffi.Function;
+export declare const dataCallbackFunc: ffi.Function;
+export declare const commonCallbackFunc: ffi.Function;
 export declare const diskStatusCallback: ffi.Function;
 export declare const recordStatusCallback: ffi.Function;
-export declare const dataCallbackFunc: ffi.Function;
 export declare const deviceFoundCallback: ffi.Function;
 export interface NativeMethods {
     /****************************************************************
@@ -188,6 +189,7 @@ export interface NativeMethods {
     BCSDK_GetIsLiveOpen: (handle: number, channel: number, pOpen: any) => number;
     BCSDK_GetLiveStreamType: (handle: number, channel: number, pType: any) => number;
     BCSDK_LiveOpen: (handle: number, channel: number, stream: T.BC_STREAM_TYPE_E, callback: any, userData: any) => number;
+    BCSDK_SetLivePlayer: (handle: number, channel: number, hPlayer: number) => number;
     BCSDK_LiveOpen2: (handle: number, channel: number, stream: T.BC_STREAM_TYPE_E, callback: any, userData: any) => number;
     BCSDK_LiveClose: (handle: number, channel: number) => number;
     BCSDK_LiveMute: (handle: number, channel: number, mute: boolean) => number;
@@ -223,13 +225,27 @@ export interface NativeMethods {
     BCSDK_GetPlaybackState: (handle: number, channel: number, pState: any) => number;
     BCSDK_GetIsPlaybackOpen: (handle: number, channel: number, pOpen: any) => number;
     BCSDK_GetPlaybackStreamType: (handle: number, channel: number, pType: any) => number;
-    BCSDK_PlaybackOpen: (handle: number, channel: number, uid: string, fileNam: string, cacheFile: string, sub: boolean, speed: number, callback: any, userData: any) => number;
+    BCSDK_SetPlaybackPlayer: (handle: number, channel: number, hPlayer: number) => number;
+    BCSDK_PlaybackOpen: (handle: number, channel: number, uid: string, fileNam: string, cacheFile: string, sub: boolean, speed: number, hPlayer: number, callback: any, userData: any) => number;
     BCSDK_PlaybackClose: (handle: number, channel: number) => number;
     BCSDK_PlaybackStart: (handle: number, channel: number) => number;
     BCSDK_PlaybackPause: (handle: number, channel: number) => number;
     BCSDK_PlaybackStop: (handle: number, channel: number) => number;
     BCSDK_PlaybackStep: (handle: number, channel: number) => number;
     BCSDK_PlaybackMute: (handle: number, channel: number, mute: boolean) => number;
+    /************************************************************************
+     *
+     * Player interfaces
+     *
+     ************************************************************************/
+    BCSDK_PlayerCreate: (hWnd: any, x: number, y: number, w: number, h: number) => number;
+    BCSDK_PlayerRelease: (hPlayer: number) => number;
+    BCSDK_PlayerResize: (hPlayer: number, x: number, y: number, w: number, h: number) => number;
+    BCSDK_PlayerShow: (hPlayer: number) => number;
+    BCSDK_PlayerHide: (hPlayer: number) => number;
+    BCSDK_PlayerClear: (hPlayer: number, r: number, g: number, b: number) => number;
+    BCSDK_PlayerForceClear: (hPlayer: number, r: number, g: number, b: number) => number;
+    BCSDK_PlayerUpdate: (hPlayer: number) => number;
     /************************************************************************
      *
      * Local Reocrd interfaces

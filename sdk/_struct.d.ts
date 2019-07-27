@@ -22,6 +22,8 @@ export declare const RENDER_FRAME_DESC: refStruct;
 export declare const P_RENDER_FRAME_DESC: ref.Type;
 export declare const DATA_VIDEO_FRAME_DESC: refStruct;
 export declare const P_DATA_VIDEO_FRAME_DESC: ref.Type;
+export declare const COMMON_FRAME_DESC: refStruct;
+export declare const P_COMMON_FRAME_DESC: ref.Type;
 export declare const DATA_AUDIO_FRAME_DESC: refStruct;
 export declare const P_DATA_AUDIO_FRAME_DESC: ref.Type;
 export declare const DATA_FRAME_DESC: refStruct;

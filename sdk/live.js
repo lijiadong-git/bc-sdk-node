@@ -52,6 +52,16 @@ class LIVE {
             resolve(value);
         });
     }
+    setLivePlayer(handle, channel, hPlayer) {
+        return new Promise((resolve, reject) => {
+            let ret = native_1.native.BCSDK_SetLivePlayer(handle, channel, hPlayer);
+            if (0 > ret) {
+                reject({ code: ret });
+                return;
+            }
+            resolve();
+        });
+    }
     getIsLiveOpen(handle, channel) {
         return new Promise((resolve, reject) => {
             let buf = ref.alloc(ref.types.bool, false);
@@ -70,17 +80,14 @@ class LIVE {
     }
     liveOpen(handle, channel, stream, callback) {
         return new Promise((resolve, reject) => {
-            let ret = native_1.native.BCSDK_LiveOpen2(handle, channel, stream, LIVE.liveCallback, null);
+            let ret = native_1.native.BCSDK_LiveOpen2(handle, channel, stream, LIVE.frameDescCallback, ref.NULL);
             if (0 === ret) {
                 let cb = {
                     sdkResolve: resolve,
                     sdkReject: reject
                 };
                 _callback_1.PROMISE_CBS.addCallback(handle, channel, T.BC_CMD_E.E_BC_CMD_REALPLAY, 0, cb);
-                let cb2 = {
-                    sdkCallback: callback,
-                };
-                _callback_1.COMMON_CBS.setCallback(handle, channel, T.BC_CMD_E.E_BC_CMD_REALPLAY, 0, cb2);
+                _callback_1.COMMON_CBS.setCallback(handle, channel, T.BC_CMD_E.E_BC_CMD_REALPLAY, 0, { sdkCallback: callback });
             }
             else {
                 reject({ code: ret, description: 'live open error ...' });
@@ -141,6 +148,29 @@ LIVE.liveCallback = ffi_1.Callback('void', ['int', 'int', _T.P_DATA_FRAME_DESC, 
     };
     // callback                
     callback.sdkCallback.onData(callbackData);
+});
+LIVE.frameDescCallback = ffi_1.Callback('void', ['int', 'int', _T.P_COMMON_FRAME_DESC, _T.pointer('void')], function (handle, channel, frameDes, userData) {
+    if (!frameDes) {
+        return;
+    }
+    var buf = ref.reinterpret(frameDes, _T.COMMON_FRAME_DESC.size);
+    var des = ref.get(buf, 0, _T.COMMON_FRAME_DESC);
+    // find the callback function
+    let callback = _callback_1.COMMON_CBS.getCallback(handle, channel, T.BC_CMD_E.E_BC_CMD_REALPLAY, 0);
+    if (!callback || !callback.sdkCallback) {
+        // live callback function error ...;
+        return;
+    }
+    let type = (des.type & T.DEFINDE.MEDIA_FRAME_TYPE_VIDEO) ? 'video' :
+        (des.type & T.DEFINDE.MEDIA_FRAME_TYPE_AUDIO) ? 'audio' : 'unknow';
+    let callbackData = {
+        version: des.version,
+        type: type,
+        pts: des.pts,
+        delay: des.delay
+    };
+    // callback                
+    callback.sdkCallback(callbackData);
 });
 exports.live = LIVE.instance();
 //# sourceMappingURL=live.js.map
