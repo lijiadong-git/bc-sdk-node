@@ -1,7 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const ffi = require("ffi");
-//const bindings = require('bindings')
 const path = require('path');
 const ref = require("ref");
 const _T = require("../sdk/_struct");

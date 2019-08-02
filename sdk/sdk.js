@@ -11,6 +11,7 @@ __export(require("./device"));
 __export(require("./ability"));
 __export(require("./live"));
 __export(require("./playback"));
+__export(require("./talk"));
 __export(require("./player"));
 __export(require("./ptz"));
 __export(require("./search"));

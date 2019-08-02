@@ -10,7 +10,6 @@ declare class PLAYER {
     hide(hPlayer: number): number;
     clear(hPlayer: number, r: number, g: number, b: number): number;
     forceClear(hPlayer: number, r: number, g: number, b: number): number;
-    update(hPlayer: number): number;
 }
 export declare const player: PLAYER;
 export {};

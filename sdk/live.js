@@ -104,6 +104,16 @@ class LIVE {
             resolve();
         });
     }
+    liveMute(handle, channel, mute) {
+        return new Promise((resolve, reject) => {
+            let ret = native_1.native.BCSDK_LiveMute(handle, channel, mute);
+            if (0 > ret) {
+                reject({ code: ret });
+                return;
+            }
+            resolve();
+        });
+    }
 }
 LIVE.singleton = new LIVE();
 LIVE.liveCallback = ffi_1.Callback('void', ['int', 'int', _T.P_DATA_FRAME_DESC, _T.pointer('void')], function (handle, channel, frameDes, userData) {

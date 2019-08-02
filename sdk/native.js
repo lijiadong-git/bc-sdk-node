@@ -2,7 +2,6 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const ffi = require("ffi");
 const path = require('path');
-const bindings = require('bindings');
 const _T = require("./_struct");
 exports.renderCallbackFunc = ffi.Function('void', ['int', 'int', _T.P_RENDER_FRAME_DESC, _T.pointer('void')]);
 exports.dataCallbackFunc = ffi.Function('void', ['int', 'int', _T.P_DATA_FRAME_DESC, _T.pointer('void')]);
@@ -260,8 +259,15 @@ const MFFI = ffi.Library(path.join(folder, 'libBCSDKWrapper'), {
     BCSDK_PlayerShow: ['int', ['int']],
     BCSDK_PlayerHide: ['int', ['int']],
     BCSDK_PlayerClear: ['int', ['int', 'float', 'float', 'float']],
-    BCSDK_PlayerForceClear: ['int', ['int', 'float', 'float', 'float']],
-    BCSDK_PlayerUpdate: ['int', ['int']]
+    BCSDK_PlayerForceClear: ['int', ['int', 'float', 'float', 'float']]
+    /************************************************************************
+     *
+     * Talk interfaces
+     *
+     ************************************************************************/
+    ,
+    BCSDK_AudioTalkOpen: ['int', ['int', 'int']],
+    BCSDK_AudioTalkClose: ['int', ['int', 'int']]
     /************************************************************************
      *
      * Local Reocrd interfaces
@@ -1172,7 +1178,13 @@ class NativeDelegate {
         this.BCSDK_PlayerHide = MFFI.BCSDK_PlayerHide;
         this.BCSDK_PlayerClear = MFFI.BCSDK_PlayerClear;
         this.BCSDK_PlayerForceClear = MFFI.BCSDK_PlayerForceClear;
-        this.BCSDK_PlayerUpdate = MFFI.BCSDK_PlayerUpdate;
+        /************************************************************************
+         *
+         * Talk interfaces
+         *
+         ************************************************************************/
+        this.BCSDK_AudioTalkOpen = MFFI.BCSDK_AudioTalkOpen;
+        this.BCSDK_AudioTalkClose = MFFI.BCSDK_AudioTalkClose;
         /************************************************************************
          *
          * Local Reocrd interfaces

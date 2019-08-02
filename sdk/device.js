@@ -265,7 +265,7 @@ const deviceCallback = ffi_1.Callback('void', ['int', _T.BC_CMD_DATA, _T.pointer
             const errStr = "------- no one handle this callback !!!!!!!!! {"
                 + "\n        handle: " + handle
                 + "\n        channel: " + cmdData.handleId
-                + "\n        cmd: " + T.BC_CMD_E[cmdData.bcCmd]
+                + "\n        cmd: " + cmdData.bcCmd
                 + "\n        cmd index: " + cmdData.cmdIdx
                 + "\n}";
             console.log(errStr);
