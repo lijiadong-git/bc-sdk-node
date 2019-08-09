@@ -266,8 +266,9 @@ const MFFI = ffi.Library(path.join(folder, 'libBCSDKWrapper'), {
      *
      ************************************************************************/
     ,
-    BCSDK_AudioTalkOpen: ['int', ['int', 'int']],
-    BCSDK_AudioTalkClose: ['int', ['int', 'int']]
+    BCSDK_AudioTalkOpen2: ['int', ['int', 'int']],
+    BCSDK_AudioTalkClose: ['int', ['int', 'int']],
+    BCSDK_GetAudioTalkState: ['int', ['int', 'int', _T.pointer('int')]]
     /************************************************************************
      *
      * Local Reocrd interfaces
@@ -1183,8 +1184,9 @@ class NativeDelegate {
          * Talk interfaces
          *
          ************************************************************************/
-        this.BCSDK_AudioTalkOpen = MFFI.BCSDK_AudioTalkOpen;
+        this.BCSDK_AudioTalkOpen = MFFI.BCSDK_AudioTalkOpen2;
         this.BCSDK_AudioTalkClose = MFFI.BCSDK_AudioTalkClose;
+        this.BCSDK_GetAudioTalkState = MFFI.BCSDK_GetAudioTalkState;
         /************************************************************************
          *
          * Local Reocrd interfaces

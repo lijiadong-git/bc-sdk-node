@@ -114,6 +114,7 @@ extern "C" {
     int _BCSDK_ BCSDK_GetSupportNasBindStatusInfo(H_BC_DEVICE hDevice, bool *support);
     int _BCSDK_ BCSDK_GetSupportExport(H_BC_DEVICE hDevice, bool *support);
     int _BCSDK_ BCSDK_GetSupportImport(H_BC_DEVICE hDevice, bool *support);
+	int _BCSDK_ BCSDK_GetSupportSyncUTCTime(H_BC_DEVICE hDevice, bool *support);
     
     
     

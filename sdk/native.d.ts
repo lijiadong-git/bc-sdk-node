@@ -252,6 +252,7 @@ export interface NativeMethods {
      ************************************************************************/
     BCSDK_AudioTalkOpen: (handle: number, channel: number) => number;
     BCSDK_AudioTalkClose: (handle: number, channel: number) => number;
+    BCSDK_GetAudioTalkState: (handle: number, channel: number, state: any) => number;
     /************************************************************************
      *
      * Local Reocrd interfaces

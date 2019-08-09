@@ -317,6 +317,13 @@ extern "C" {
     int _BCSDK_ BCSDK_RemoteSetCloudCfg(H_BC_DEVICE hDevice, BC_CLOUD_CFG *cloudCfg);
     int _BCSDK_ BCSDK_RemoteGetSignatureLoginCfg(H_BC_DEVICE hDevice);
     int _BCSDK_ BCSDK_RemoteSetSignatureLoginCfg(H_BC_DEVICE hDevice, BC_SIGNATURE_LOGIN_CFG *signatureLoginCfg);
+	
+	/* sync utc time
+	 *
+	 * callback with    E_BC_CMD_SYNC_UTC_TIME
+	 */
+	int _BCSDK_ BCSDK_RemoteSyncUtcTime(H_BC_DEVICE hDevice, BC_UTC_TIME *utcTime);
+	
     
     
     /* NAS

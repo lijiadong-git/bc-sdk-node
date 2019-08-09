@@ -34,15 +34,23 @@ extern "C" {
                                    float speedMultiple,
                                    OnRenderFrameCallback playbackFrameCallback,
                                    void *userData);
+    
+    /**
+     * use with BCSDK_PlaybackOpen2
+     */
+    int _BCSDK_ BCSDK_SetPlaybackPlayer(H_BC_DEVICE hDevice, int channel, H_BC_PLAYER hPlayer);
+    
     int _BCSDK_ BCSDK_PlaybackOpen2(H_BC_DEVICE hDevice,
-                                   int channel,
-                                   const char *uid,//for NAS
-                                   const char *fileNam,
-                                   const char *cacheFile,
-                                   bool subStream,
-                                   float speedMultiple,
-                                   OnDataFrameCallback playbackFrameCallback,
-                                   void *userData);
+                                    int channel,
+                                    const char *uid,//for NAS
+                                    const char *fileNam,
+                                    const char *cacheFile,
+                                    bool subStream,
+                                    float speedMultiple,
+                                    H_BC_PLAYER hPlayer,
+                                    OnCommonFrameCallback callback,
+                                    void *userData);
+    
     int _BCSDK_ BCSDK_PlaybackClose(H_BC_DEVICE hDevice, int channel);
    
     int _BCSDK_ BCSDK_PlaybackStart(H_BC_DEVICE hDevice, int channel);

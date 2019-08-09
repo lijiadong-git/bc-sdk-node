@@ -30,6 +30,9 @@ extern "C" {
     int _BCSDK_ BCSDK_Encrypt(BC_CRYPT_BUF *buf);
     int _BCSDK_ BCSDK_Decrypt(BC_CRYPT_BUF *buf);
     
+    int _BCSDK_ BCSDK_SetSpeakerVolume(int volume);
+    int _BCSDK_ BCSDK_GetSpeakerVolume(int *volume);
+    
 #ifdef __cplusplus
 }
 #endif//__cplusplus

@@ -344,6 +344,8 @@ typedef enum
     E_BC_CMD_NAS_GET_BIND_INFO              = 2226,
     E_BC_CMD_GET_SIGNATURE_LOGIN_CFG        = 2227,
     E_BC_CMD_SET_SIGNATURE_LOGIN_CFG        = 2228,
+	E_BC_CMD_SYNC_UTC_TIME					= 2229,
+	E_BC_CMD_WITHOUT_INTERATION_REPORT		= 2230,
     
     
     // sdk up layer callback use
@@ -415,6 +417,7 @@ typedef enum {
     E_BC_SWITCH_KEY_SNAP                        = 10,
     E_BC_SWITCH_KEY_REPORT_BATTERY_INFO_LIST    = 11,
     E_BC_SWITCH_KEY_REPORT_3G_4G_INFO           = 12,
+	E_BC_SWITCH_KEY_REPORT_WITHOUT_INTERATION   = 13,
     
     E_BC_SWITCH_KEY_INVALID             = 255
     
@@ -1286,6 +1289,7 @@ typedef struct tagBC_ABILITY_INFO{
     int      iShowQrcode; // bit0: show QRCode
     int      iLanguageVersion;// bit0: support chinese
     int      iCfgFileOperation;// bit0: 1-disable export, bit1: 1-disable import
+	int		 iSyncTime;// bit0: 1-need client send utc time to ipc when login in
     
     int      iSupportAutoFocus[BC_MAX_CHANNEL]; // 1: support auto focus  0:not
     int      iSupportCrop[BC_MAX_CHANNEL];      // 1: support crop live stream
@@ -3249,6 +3253,12 @@ typedef struct
 } BC_SIGNATURE_LOGIN_CFG;
 
 
+typedef struct
+{
+	unsigned int realTime;
+}BC_UTC_TIME;
+
+
 //
 typedef enum {
     
@@ -3521,6 +3531,12 @@ typedef struct
     int iSize;
     BC_NAS_BIND_INFO_ITEM infoList[BC_NAS_BIND_INFO_MAX_NUM];
 } BC_NAS_BIND_STATUS_INFO;
+
+//time without user interaction
+typedef struct
+{
+	int duration;//seconds
+}BC_TIME_WITHOUT_INTERACTION;
 
 
 //param by get or write config

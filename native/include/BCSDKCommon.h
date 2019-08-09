@@ -12,6 +12,9 @@
 typedef int H_BC_DEVICE;                    /*device handle*/
 #define H_BC_DEVICE_INVALID                 (-1)/*invalid device handle*/
 
+typedef int H_BC_PLAYER;                    /*player handle*/
+#define H_BC_PLAYER_INVALID                 (-1)/*invalid surface handle*/
+
 
 #ifdef _WIN32
 #   ifdef _DLL_
@@ -333,6 +336,18 @@ typedef struct {
 } DATA_FRAME_DESC;
 
 
+/// callback frame description
+typedef struct {
+    
+    int                         version;
+    
+    uint32_t                    type;
+    uint64_t                    pts;
+    uint64_t                    delay;/*ms*/
+    
+} COMMON_FRAME_DESC;
+
+
 /// sdk internal
 typedef void (*OnSDKRenderFrameCallback)(RENDER_FRAME_DESC *frameDesc, void *userData);
 typedef void (*OnSDKDataFrameCallback)(DATA_FRAME_DESC *frameDesc, void *userData);
@@ -396,6 +411,8 @@ typedef void (CALLBACK*OnDeviceStatusCallback)(H_BC_DEVICE hDevice, BC_CMD_DATA 
 typedef void (CALLBACK*OnRenderFrameCallback)(H_BC_DEVICE hDevice, int channel, RENDER_FRAME_DESC *frameDesc, void *userData);
 /// data frame callback function
 typedef void (CALLBACK*OnDataFrameCallback)(H_BC_DEVICE hDevice, int channel, DATA_FRAME_DESC *frameDesc, void *userData);
+/// data callback function
+typedef void (CALLBACK*OnCommonFrameCallback)(H_BC_DEVICE hDevice, int channel, COMMON_FRAME_DESC *frameDesc, void *userData);
 
 
 

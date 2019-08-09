@@ -10,6 +10,7 @@ extern "C" {
 #include "BCSDKWrapper+Ability.h"
 #include "BCSDKWrapper+Live.h"
 #include "BCSDKWrapper+Playback.h"
+#include "BCSDKWrapper+Player.h"
 #include "BCSDKWrapper+Record.h"
 #include "BCSDKWrapper+Download.h"
 #include "BCSDKWrapper+Talk.h"

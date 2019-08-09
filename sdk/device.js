@@ -10,6 +10,7 @@ const _callback_1 = require("./_callback");
 const config_1 = require("./config");
 const live_1 = require("./live");
 const playback_1 = require("./playback");
+const talk_1 = require("./talk");
 const deviceCallback = ffi_1.Callback('void', ['int', _T.BC_CMD_DATA, _T.pointer('void')], function (handle, cmdData, userData) {
     if (!cmdData /*_T.BC_CMD_DATA*/
         || 'undefined' === typeof cmdData.bcCmd
@@ -54,6 +55,14 @@ const deviceCallback = ffi_1.Callback('void', ['int', _T.BC_CMD_DATA, _T.pointer
         case T.BC_CMD_E.E_BC_CMD_STOPPLAYBACKBYTIME:
             {
                 playback_1.playback.handleSDKCallback(handle, cmdData);
+            }
+        //
+        case T.BC_CMD_E.E_BC_CMD_TALK_OPEN:
+        case T.BC_CMD_E.E_BC_CMD_TALK_CLOSE:
+        case T.BC_CMD_E.E_BC_CMD_GET_TALK_ABILITY:
+        case T.BC_CMD_E.E_BC_CMD_TALK_FDX_STREAM:
+            {
+                talk_1.talk.handleSDKCallback(handle, cmdData);
             }
         // remote config about
         case T.BC_CMD_E.E_BC_CMD_GET_OSD:
@@ -188,10 +197,6 @@ const deviceCallback = ffi_1.Callback('void', ['int', _T.BC_CMD_DATA, _T.pointer
         case T.BC_CMD_E.E_BC_CMD_SET_LED_STATE:
         case T.BC_CMD_E.E_BC_CMD_GET_PTOP_CFG:
         case T.BC_CMD_E.E_BC_CMD_SET_PTOP_CFG:
-        case T.BC_CMD_E.E_BC_CMD_TALK_OPEN:
-        case T.BC_CMD_E.E_BC_CMD_TALK_CLOSE:
-        case T.BC_CMD_E.E_BC_CMD_GET_TALK_ABILITY:
-        case T.BC_CMD_E.E_BC_CMD_TALK_FDX_STREAM:
         case T.BC_CMD_E.E_BC_CMD_SNAP:
         case T.BC_CMD_E.E_BC_CMD_GOTO_PRESET:
         case T.BC_CMD_E.E_BC_CMD_SET_USER_ALL_ABILITY:
@@ -251,6 +256,8 @@ const deviceCallback = ffi_1.Callback('void', ['int', _T.BC_CMD_DATA, _T.pointer
         case T.BC_CMD_E.E_BC_CMD_SET_RINGTONE_CFG:
         case T.BC_CMD_E.E_BC_CMD_MUTE_ALARM_AUDIO:
         case T.BC_CMD_E.E_BC_CMD_GET_RINGTONE_ABILITY:
+        case T.BC_CMD_E.E_BC_CMD_SYNC_UTC_TIME:
+        case T.BC_CMD_E.E_BC_CMD_WITHOUT_INTERATION_REPORT:
             {
                 config_1.config.handleSDKCallback(handle, cmdData);
                 break;

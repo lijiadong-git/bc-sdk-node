@@ -22,10 +22,15 @@ extern "C" {
                                OnRenderFrameCallback liveFrameCallback,
                                void *userData);
     
+    /**
+     * use with BCSDK_LiveOpen2
+     */
+    int _BCSDK_ BCSDK_SetLivePlayer(H_BC_DEVICE hDevice, int channel, H_BC_PLAYER hPlayer);
+    
     int _BCSDK_ BCSDK_LiveOpen2(H_BC_DEVICE hDevice,
                                 int channel,
                                 BC_STREAM_TYPE_E streamType,
-                                OnDataFrameCallback liveFrameCallback,
+                                OnCommonFrameCallback callback,
                                 void *userData);
     
     int _BCSDK_ BCSDK_LiveClose(H_BC_DEVICE hDevice, int channel);
