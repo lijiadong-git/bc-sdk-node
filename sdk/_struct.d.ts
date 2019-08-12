@@ -299,3 +299,5 @@ export declare const BC_ALARM_STATUS_REPORT: refStruct;
 export declare const P_BC_ALARM_STATUS_REPORT: ref.Type;
 export declare const BC_REC_SCHE_DEVICE_CFG: refStruct;
 export declare const P_BC_REC_SCHE_DEVICE_CFG: ref.Type;
+export declare const BC_DOWNLOAD_BY_NAME_INFO: refStruct;
+export declare const P_BC_DOWNLOAD_BY_NAME_INFO: ref.Type;

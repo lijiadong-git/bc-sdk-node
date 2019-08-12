@@ -104,3 +104,4 @@ export interface BC_DISK_WARNINIG_DESC {
 export interface DiskStatusCallback {
     (desc: BC_DISK_WARNINIG_DESC): void;
 }
+export declare type ProgressCallback = (progress: number) => void;

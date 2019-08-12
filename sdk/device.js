@@ -11,6 +11,7 @@ const config_1 = require("./config");
 const live_1 = require("./live");
 const playback_1 = require("./playback");
 const talk_1 = require("./talk");
+const download_1 = require("./download");
 const deviceCallback = ffi_1.Callback('void', ['int', _T.BC_CMD_DATA, _T.pointer('void')], function (handle, cmdData, userData) {
     if (!cmdData /*_T.BC_CMD_DATA*/
         || 'undefined' === typeof cmdData.bcCmd
@@ -187,10 +188,6 @@ const deviceCallback = ffi_1.Callback('void', ['int', _T.BC_CMD_DATA, _T.pointer
         case T.BC_CMD_E.E_BC_CMD_STOP_CONFIG_LIVE:
         case T.BC_CMD_E.E_BC_CMD_START_ALARM_REPORT:
         case T.BC_CMD_E.E_BC_CMD_STOP_ALARM_REPORT:
-        case T.BC_CMD_E.E_BC_CMD_DOWNLOAD_CUT:
-        case T.BC_CMD_E.E_BC_CMD_DOWNLOAD_CUT_STOP:
-        case T.BC_CMD_E.E_BC_CMD_DOWNLOAD_PROGRESS:
-        case T.BC_CMD_E.E_BC_CMD_DOWNLOAD_CUT_PROGRESS:
         case T.BC_CMD_E.E_BC_CMD_GET_CAMERA_CFG:
         case T.BC_CMD_E.E_BC_CMD_SET_CAMERA_CFG:
         case T.BC_CMD_E.E_BC_CMD_GET_LED_STATE:
@@ -265,7 +262,13 @@ const deviceCallback = ffi_1.Callback('void', ['int', _T.BC_CMD_DATA, _T.pointer
         // download about
         case T.BC_CMD_E.E_BC_CMD_DOWNLOAD:
         case T.BC_CMD_E.E_BC_CMD_DOWNLOAD_STOP:
+        case T.BC_CMD_E.E_BC_CMD_DOWNLOAD_CUT:
+        case T.BC_CMD_E.E_BC_CMD_DOWNLOAD_CUT_STOP:
+        case T.BC_CMD_E.E_BC_CMD_DOWNLOAD_PROGRESS:
+        case T.BC_CMD_E.E_BC_CMD_DOWNLOAD_CUT_PROGRESS:
             {
+                // console.log('sdk callback --- ' + T.BC_CMD_E[cmdData.bcCmd]);
+                download_1.download.handleSDKCallback(handle, cmdData);
                 break;
             }
         default:

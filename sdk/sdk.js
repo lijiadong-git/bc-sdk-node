@@ -15,6 +15,7 @@ __export(require("./talk"));
 __export(require("./player"));
 __export(require("./ptz"));
 __export(require("./search"));
+__export(require("./download"));
 __export(require("./record"));
 __export(require("./tools"));
 //# sourceMappingURL=sdk.js.map

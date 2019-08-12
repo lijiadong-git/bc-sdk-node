@@ -10,5 +10,6 @@ export * from './talk';
 export * from './player';
 export * from './ptz';
 export * from './search';
+export * from './download';
 export * from './record';
 export * from './tools';

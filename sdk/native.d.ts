@@ -276,6 +276,14 @@ export interface NativeMethods {
     BCSDK_GetLocalRecordState: (handle: number, channel: number, state: any) => number;
     /************************************************************************
      *
+     * Download interfaces
+     *
+     ************************************************************************/
+    BCSDK_GetIsDownloading: (handle: number, download: any) => number;
+    BCSDK_StartDownloadFile: (handle: number, uid: string, fileName: string, subStream: boolean, type: T.BC_FILE_TYPE_E, tempFolder: string, dstFile: string) => number;
+    BCSDK_StopDownload: (handle: number, fileName: any) => number;
+    /************************************************************************
+     *
      * Remote Config interfaces
      *
      ************************************************************************/

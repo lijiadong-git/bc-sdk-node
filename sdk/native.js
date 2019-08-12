@@ -313,6 +313,15 @@ const MFFI = ffi.Library(path.join(folder, 'libBCSDKWrapper'), {
     BCSDK_GetLocalRecordState: ['int', ['int', 'int', _T.pointer('int')]]
     /************************************************************************
      *
+     * Download interfaces
+     *
+     ************************************************************************/
+    ,
+    BCSDK_GetIsDownloading: ['int', ['int', _T.pointer('int')]],
+    BCSDK_StartDownloadFile: ['int', ['int', 'string', 'string', 'bool', 'int', 'string', 'string']],
+    BCSDK_StopDownload: ['int', ['int', 'long']]
+    /************************************************************************
+     *
      * Remote Config interfaces
      *
      ************************************************************************/
@@ -1222,6 +1231,14 @@ class NativeDelegate {
         this.BCSDK_OpenManualRecord = MFFI.BCSDK_OpenManualRecord;
         this.BCSDK_CloseManualRecord = MFFI.BCSDK_CloseManualRecord;
         this.BCSDK_GetLocalRecordState = MFFI.BCSDK_GetLocalRecordState;
+        /************************************************************************
+         *
+         * Remote Config interfaces
+         *
+         ************************************************************************/
+        this.BCSDK_GetIsDownloading = MFFI.BCSDK_GetIsDownloading;
+        this.BCSDK_StartDownloadFile = MFFI.BCSDK_StartDownloadFile;
+        this.BCSDK_StopDownload = MFFI.BCSDK_StopDownload;
         /************************************************************************
          *
          * Remote Config interfaces

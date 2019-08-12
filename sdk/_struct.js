@@ -1364,4 +1364,15 @@ exports.BC_REC_SCHE_DEVICE_CFG = refStruct({
     bAccept: refArray(ref.types.bool, types_1.DEFINDE.BC_MAX_CHANNEL)
 });
 exports.P_BC_REC_SCHE_DEVICE_CFG = exports.pointer(exports.BC_REC_SCHE_DEVICE_CFG);
+exports.BC_DOWNLOAD_BY_NAME_INFO = refStruct({
+    iChannel: ref.types.int,
+    cUID: refArray('byte', types_1.DEFINDE.BC_MAX_UID_LEN),
+    cSourceFileName: refArray('byte', types_1.DEFINDE.BC_MAX_FILE_LEN),
+    cSaveFileName: refArray('byte', types_1.DEFINDE.BC_MAX_FILE_LEN),
+    cTempFileName: refArray('byte', types_1.DEFINDE.BC_MAX_FILE_LEN),
+    fileSize: ref.types.longlong,
+    curSize: ref.types.longlong,
+    iUseSubStream: ref.types.int
+});
+exports.P_BC_DOWNLOAD_BY_NAME_INFO = exports.pointer(exports.BC_DOWNLOAD_BY_NAME_INFO);
 //# sourceMappingURL=_struct.js.map

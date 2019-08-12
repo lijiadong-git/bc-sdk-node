@@ -1577,3 +1577,13 @@ export interface BC_ALARM_STATUS_REPORT {
 export interface BC_REC_SCHE_DEVICE_CFG {
     bAccept: boolean[];
 }
+export interface BC_DOWNLOAD_BY_NAME_INFO {
+    iChannel: number;
+    cUID: string;
+    cSourceFileName: string;
+    cSaveFileName: string;
+    cTempFileName: string;
+    fileSize: number;
+    curSize: number;
+    iUseSubStream: number;
+}
