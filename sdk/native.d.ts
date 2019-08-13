@@ -482,5 +482,7 @@ export interface NativeMethods {
     BCSDK_GetDiagnoseLogs: (pList: any) => number;
     BCSDK_Encrypt: (pBuf: any) => number;
     BCSDK_Decrypt: (pBuf: any) => number;
+    BCSDK_GetSpeakerVolume: (volume: any) => number;
+    BCSDK_SetSpeakerVolume: (volume: number) => number;
 }
 export declare const native: NativeMethods;

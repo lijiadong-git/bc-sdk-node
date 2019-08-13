@@ -14,6 +14,8 @@ declare class TOOLS {
     getDiagnoseLogs(): Promise<T.BC_DIAGNOSE_LOGS_LIST>;
     encrypt(enc: string): Promise<string>;
     decrypt(dec: string): Promise<string>;
+    setSpeakerVolume(volume: number): Promise<void>;
+    getSpeakerVolume(): Promise<number>;
 }
 export declare const tools: TOOLS;
 export {};

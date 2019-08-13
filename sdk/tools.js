@@ -143,6 +143,28 @@ class TOOLS {
             resolve(value);
         });
     }
+    setSpeakerVolume(volume) {
+        return new Promise((resolve, reject) => {
+            let ret = native_1.native.BCSDK_SetSpeakerVolume(volume);
+            if (ret != T.ERROR.E_NONE) {
+                reject({ code: ret });
+                return;
+            }
+            resolve();
+        });
+    }
+    getSpeakerVolume() {
+        return new Promise((resolve, reject) => {
+            let buf = ref.alloc(ref.types.int, 100);
+            let ret = native_1.native.BCSDK_GetSpeakerVolume(buf);
+            if (T.ERROR.E_NONE != ret) {
+                reject({ code: ret });
+                return;
+            }
+            let value = ref.deref(buf);
+            resolve(value);
+        });
+    }
 }
 TOOLS.singleton = new TOOLS();
 exports.tools = TOOLS.instance();

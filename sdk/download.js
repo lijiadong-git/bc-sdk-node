@@ -33,13 +33,11 @@ class DOWNLOAD {
             default: {
                 _callback_1.PROMISE_CBS.handleCallback(handle, 0, cmdData.bcCmd, cmdData.cmdIdx, callback => {
                     if (T.BC_RSP_CODE_E.E_BC_RSP_OK == cmdData.bcRspCode) {
-                        console.log('download handleSDKCallback --- ' + T.BC_CMD_E[cmdData.bcCmd]);
                         if (callback.sdkResolve) {
                             callback.sdkResolve(cmdData.bcRspCode);
                         }
                     }
                     else {
-                        console.log('download handleSDKCallback --- failed ' + T.BC_CMD_E[cmdData.bcCmd]);
                         if (callback.sdkReject) {
                             callback.sdkReject({
                                 code: cmdData.bcRspCode,
