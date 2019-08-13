@@ -146,8 +146,7 @@ class PLAYBACK {
                         if (callback.sdkReject) {
                             callback.sdkReject({
                                 code: cmdData.bcRspCode,
-                                description: 'playback callback faild ...',
-                                data: cmdData
+                                description: 'playback callback faild ...'
                             });
                         }
                     }

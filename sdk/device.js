@@ -293,71 +293,67 @@ class DEVICE {
         return DEVICE.singleton;
     }
     handleSDKCallback(handle, cmdData) {
-        new Promise((resolve) => {
-            const channel = (cmdData.handleId & 0x000000ff) % T.DEFINDE.BC_MAX_CHANNEL;
-            switch (cmdData.bcCmd) {
-                case T.BC_CMD_E.E_BC_CMD_CONNECTION_STATE_CHANGE: {
-                    let callback = _callback_1.COMMON_CBS.getCallback(handle, channel, cmdData.bcCmd, cmdData.cmdIdx);
-                    if (_T.DEVICE_STATE_CHANGE_DESC.size == cmdData.dataLen) {
-                        let buf = ref.reinterpret(cmdData.pRspData, cmdData.dataLen);
-                        let des = ref.get(buf, 0, _T.DEVICE_STATE_CHANGE_DESC);
-                        if (callback && callback.sdkCallback) {
-                            callback.sdkCallback.stateCallback(handle, des.eStateFrom, des.eStateTo);
-                        }
-                    }
-                    break;
-                }
-                case T.BC_CMD_E.E_BC_CMD_RECONNECT:
-                case T.BC_CMD_E.E_BC_CMD_GET_ABILITY: {
-                    let callback = _callback_1.COMMON_CBS.getCallback(handle, channel, cmdData.bcCmd, cmdData.cmdIdx);
-                    if (T.BC_RSP_CODE_E.E_BC_RSP_OK == cmdData.bcRspCode) {
-                        if (callback && callback.sdkCallback) {
-                            callback.sdkCallback.abilityChangeCallback(handle);
-                        }
-                    }
-                    break;
-                }
-                case T.BC_CMD_E.E_BC_CMD_ALARM_REPORT: {
-                    let callback = _callback_1.COMMON_CBS.getCallback(handle, channel, cmdData.bcCmd, cmdData.cmdIdx);
-                    if (_T.BC_ALARM_STATUS_REPORT.size == cmdData.dataLen) {
-                        let buf = ref.reinterpret(cmdData.pRspData, cmdData.dataLen);
-                        let date = ref.get(buf, 0, _T.BC_ALARM_STATUS_REPORT);
-                        if (callback && callback.sdkCallback) {
-                            let param = _cast_1.derefCast(date, _T.BC_ALARM_STATUS_REPORT);
-                            callback.sdkCallback.alarmReportCallback(handle, param);
-                        }
-                    }
-                    break;
-                }
-                case T.BC_CMD_E.E_BC_CMD_CAMERA_STATE: {
-                    let callback = _callback_1.COMMON_CBS.getCallback(handle, channel, cmdData.bcCmd, cmdData.cmdIdx);
+        const channel = (cmdData.handleId & 0x000000ff) % T.DEFINDE.BC_MAX_CHANNEL;
+        switch (cmdData.bcCmd) {
+            case T.BC_CMD_E.E_BC_CMD_CONNECTION_STATE_CHANGE: {
+                let callback = _callback_1.COMMON_CBS.getCallback(handle, channel, cmdData.bcCmd, cmdData.cmdIdx);
+                if (_T.DEVICE_STATE_CHANGE_DESC.size == cmdData.dataLen) {
+                    let buf = ref.reinterpret(cmdData.pRspData, cmdData.dataLen);
+                    let des = ref.get(buf, 0, _T.DEVICE_STATE_CHANGE_DESC);
                     if (callback && callback.sdkCallback) {
-                        callback.sdkCallback.cameraStateCallback(handle);
+                        callback.sdkCallback.stateCallback(handle, des.eStateFrom, des.eStateTo);
                     }
-                    break;
                 }
-                default: {
-                    _callback_1.PROMISE_CBS.handleCallback(handle, channel, cmdData.bcCmd, cmdData.cmdIdx, callback => {
-                        if (T.BC_RSP_CODE_E.E_BC_RSP_OK == cmdData.bcRspCode) {
-                            if (callback.sdkResolve) {
-                                callback.sdkResolve(cmdData.bcRspCode);
-                            }
-                        }
-                        else {
-                            if (callback.sdkReject) {
-                                callback.sdkReject({
-                                    code: cmdData.bcRspCode,
-                                    description: "device sdk callback ...",
-                                    data: cmdData
-                                });
-                            }
-                        }
-                    });
-                    break;
-                }
+                break;
             }
-            resolve();
-        });
+            case T.BC_CMD_E.E_BC_CMD_RECONNECT:
+            case T.BC_CMD_E.E_BC_CMD_GET_ABILITY: {
+                let callback = _callback_1.COMMON_CBS.getCallback(handle, channel, cmdData.bcCmd, cmdData.cmdIdx);
+                if (T.BC_RSP_CODE_E.E_BC_RSP_OK == cmdData.bcRspCode) {
+                    if (callback && callback.sdkCallback) {
+                        callback.sdkCallback.abilityChangeCallback(handle);
+                    }
+                }
+                break;
+            }
+            case T.BC_CMD_E.E_BC_CMD_ALARM_REPORT: {
+                let callback = _callback_1.COMMON_CBS.getCallback(handle, channel, cmdData.bcCmd, cmdData.cmdIdx);
+                if (_T.BC_ALARM_STATUS_REPORT.size == cmdData.dataLen) {
+                    let buf = ref.reinterpret(cmdData.pRspData, cmdData.dataLen);
+                    let date = ref.get(buf, 0, _T.BC_ALARM_STATUS_REPORT);
+                    if (callback && callback.sdkCallback) {
+                        let param = _cast_1.derefCast(date, _T.BC_ALARM_STATUS_REPORT);
+                        callback.sdkCallback.alarmReportCallback(handle, param);
+                    }
+                }
+                break;
+            }
+            case T.BC_CMD_E.E_BC_CMD_CAMERA_STATE: {
+                let callback = _callback_1.COMMON_CBS.getCallback(handle, channel, cmdData.bcCmd, cmdData.cmdIdx);
+                if (callback && callback.sdkCallback) {
+                    callback.sdkCallback.cameraStateCallback(handle);
+                }
+                break;
+            }
+            default: {
+                _callback_1.PROMISE_CBS.handleCallback(handle, channel, cmdData.bcCmd, cmdData.cmdIdx, callback => {
+                    if (T.BC_RSP_CODE_E.E_BC_RSP_OK == cmdData.bcRspCode) {
+                        if (callback.sdkResolve) {
+                            callback.sdkResolve(cmdData.bcRspCode);
+                        }
+                    }
+                    else {
+                        if (callback.sdkReject) {
+                            callback.sdkReject({
+                                code: cmdData.bcRspCode,
+                                description: "device sdk callback ..."
+                            });
+                        }
+                    }
+                });
+                break;
+            }
+        }
     }
     add(loginDes, callback) {
         return new Promise((resolve, reject) => {

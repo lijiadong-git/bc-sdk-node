@@ -368,8 +368,7 @@ class CONFIG {
                         if (callback.sdkReject) {
                             callback.sdkReject({
                                 code: cmdData.bcRspCode,
-                                description: 'remote config faild ...',
-                                data: cmdData
+                                description: 'remote config faild ...'
                             });
                         }
                     }

@@ -41,8 +41,7 @@ class DOWNLOAD {
                         if (callback.sdkReject) {
                             callback.sdkReject({
                                 code: cmdData.bcRspCode,
-                                description: "download sdk callback ...",
-                                data: cmdData
+                                description: "download sdk callback ..."
                             });
                         }
                     }

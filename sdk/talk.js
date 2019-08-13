@@ -24,8 +24,7 @@ class TALK {
                         if (callback.sdkReject) {
                             callback.sdkReject({
                                 code: cmdData.bcRspCode,
-                                description: "talk sdk callback ...",
-                                data: cmdData
+                                description: "talk sdk callback ..."
                             });
                         }
                     }

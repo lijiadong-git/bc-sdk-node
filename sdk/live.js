@@ -26,8 +26,7 @@ class LIVE {
                         if (callback.sdkReject) {
                             callback.sdkReject({
                                 code: cmdData.bcRspCode,
-                                description: "live sdk callback ...",
-                                data: cmdData
+                                description: "live sdk callback ..."
                             });
                         }
                     }
