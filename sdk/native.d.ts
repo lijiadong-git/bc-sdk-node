@@ -245,6 +245,7 @@ export interface NativeMethods {
     BCSDK_PlayerHide: (hPlayer: number) => number;
     BCSDK_PlayerClear: (hPlayer: number, r: number, g: number, b: number) => number;
     BCSDK_PlayerForceClear: (hPlayer: number, r: number, g: number, b: number) => number;
+    BCSDK_PlayerCapture: (hPlayer: number, path: string) => number;
     /************************************************************************
      *
      * Talk interfaces

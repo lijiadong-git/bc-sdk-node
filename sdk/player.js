@@ -33,6 +33,9 @@ class PLAYER {
     forceClear(hPlayer, r, g, b) {
         return native_1.native.BCSDK_PlayerForceClear(hPlayer, r, g, b);
     }
+    capture(hPlayer, path) {
+        return native_1.native.BCSDK_PlayerCapture(hPlayer, path);
+    }
 }
 PLAYER.singleton = new PLAYER();
 exports.player = PLAYER.instance();

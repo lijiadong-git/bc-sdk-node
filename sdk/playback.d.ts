@@ -20,6 +20,7 @@ declare class PLAYBACK {
     pause(handle: number, channel: number): Promise<void>;
     stop(handle: number, channel: number): Promise<void>;
     nextStep(handle: number, channel: number): Promise<void>;
+    mute(handle: number, channel: number, mute: boolean): Promise<void>;
 }
 export declare const playback: PLAYBACK;
 export {};

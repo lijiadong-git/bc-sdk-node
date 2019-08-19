@@ -320,6 +320,16 @@ class PLAYBACK {
             resolve();
         });
     }
+    mute(handle, channel, mute) {
+        return new Promise((resolve, reject) => {
+            let ret = native_1.native.BCSDK_PlaybackMute(handle, channel, mute);
+            if (ret < 0) {
+                reject({ code: ret });
+                return;
+            }
+            resolve();
+        });
+    }
 }
 PLAYBACK.singleton = new PLAYBACK();
 PLAYBACK.playbackCallback = ffi_1.Callback('void', ['int', 'int', _T.P_DATA_FRAME_DESC, _T.pointer('void')], function (handle, channel, frameDes, userData) {

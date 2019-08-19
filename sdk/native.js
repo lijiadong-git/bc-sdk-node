@@ -259,7 +259,8 @@ const MFFI = ffi.Library(path.join(folder, 'libBCSDKWrapper'), {
     BCSDK_PlayerShow: ['int', ['int']],
     BCSDK_PlayerHide: ['int', ['int']],
     BCSDK_PlayerClear: ['int', ['int', 'float', 'float', 'float']],
-    BCSDK_PlayerForceClear: ['int', ['int', 'float', 'float', 'float']]
+    BCSDK_PlayerForceClear: ['int', ['int', 'float', 'float', 'float']],
+    BCSDK_PlayerCapture: ['int', ['int', 'string']]
     /************************************************************************
      *
      * Talk interfaces
@@ -1190,6 +1191,7 @@ class NativeDelegate {
         this.BCSDK_PlayerHide = MFFI.BCSDK_PlayerHide;
         this.BCSDK_PlayerClear = MFFI.BCSDK_PlayerClear;
         this.BCSDK_PlayerForceClear = MFFI.BCSDK_PlayerForceClear;
+        this.BCSDK_PlayerCapture = MFFI.BCSDK_PlayerCapture;
         /************************************************************************
          *
          * Talk interfaces
