@@ -312,6 +312,20 @@ const MFFI = ffi.Library(path.join(folder, 'libBCSDKWrapper'), {
     BCSDK_OpenManualRecord: ['int', ['int', 'int']],
     BCSDK_CloseManualRecord: ['int', ['int', 'int']],
     BCSDK_GetLocalRecordState: ['int', ['int', 'int', _T.pointer('int')]]
+    // -----------------------------------------------------------------------------------------------------------------
+    // Live Record
+    ,
+    BCSDK_StartLiveRecord: ['int', ['int', 'int']],
+    BCSDK_GetLiveRecordState: ['int', ['int', 'int', _T.pointer('int')]],
+    BCSDK_CutLiveRecord: ['int', ['int', 'int']],
+    BCSDK_StopLiveRecord: ['int', ['int', 'int']]
+    // ------------------------------------------------------------------------------------------------------------
+    // Playback Record (IOS/Android Use)
+    ,
+    BCSDK_StartPlaybackRecord: ['int', ['int', 'int']],
+    BCSDK_GetPlaybackRecordState: ['int', ['int', 'int', _T.pointer('int')]],
+    BCSDK_CutPlaybackRecord: ['int', ['int', 'int']],
+    BCSDK_StopPlaybackRecord: ['int', ['int', 'int']]
     /************************************************************************
      *
      * Download interfaces
@@ -1235,6 +1249,18 @@ class NativeDelegate {
         this.BCSDK_OpenManualRecord = MFFI.BCSDK_OpenManualRecord;
         this.BCSDK_CloseManualRecord = MFFI.BCSDK_CloseManualRecord;
         this.BCSDK_GetLocalRecordState = MFFI.BCSDK_GetLocalRecordState;
+        // -----------------------------------------------------------------------------------------------------------------
+        // Live Record
+        this.BCSDK_StartLiveRecord = MFFI.BCSDK_StartLiveRecord;
+        this.BCSDK_GetLiveRecordState = MFFI.BCSDK_GetLiveRecordState;
+        this.BCSDK_CutLiveRecord = MFFI.BCSDK_CutLiveRecord;
+        this.BCSDK_StopLiveRecord = MFFI.BCSDK_StopLiveRecord;
+        // -----------------------------------------------------------------------------------------------------------------
+        // Playback Record
+        this.BCSDK_StartPlaybackRecord = MFFI.BCSDK_StartPlaybackRecord;
+        this.BCSDK_GetPlaybackRecordState = MFFI.BCSDK_GetPlaybackRecordState;
+        this.BCSDK_CutPlaybackRecord = MFFI.BCSDK_CutPlaybackRecord;
+        this.BCSDK_StopPlaybackRecord = MFFI.BCSDK_StopPlaybackRecord;
         /************************************************************************
          *
          * Remote Config interfaces

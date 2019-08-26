@@ -22,6 +22,14 @@ declare class RECORD {
     openManualRecord(hDevice: number, channel: number): Promise<void>;
     closeManualRecord(hDevice: number, channel: number): Promise<void>;
     getLocalRecordState(hDevice: number, channel: number): Promise<T.BCSDK_RECORD_STATE_E>;
+    startLiveRecord(hDevice: number, channel: number): Promise<void>;
+    getLiveRecordState(hDevice: number, channel: number): Promise<T.BCSDK_RECORD_STATE_E>;
+    cutLiveRecord(hDevice: number, channel: number): Promise<void>;
+    stopLiveRecord(hDevice: number, channel: number): Promise<void>;
+    startPlaybackRecord(hDevice: number, channel: number): Promise<void>;
+    getPlaybackRecordState(hDevice: number, channel: number): Promise<T.BCSDK_RECORD_STATE_E>;
+    cutPlaybackRecord(hDevice: number, channel: number): Promise<void>;
+    stopPlaybackRecord(hDevice: number, channel: number): Promise<void>;
 }
 export declare const record: RECORD;
 export {};

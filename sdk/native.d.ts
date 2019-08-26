@@ -275,6 +275,14 @@ export interface NativeMethods {
     BCSDK_OpenManualRecord: (handle: number, channel: number) => number;
     BCSDK_CloseManualRecord: (handle: number, channel: number) => number;
     BCSDK_GetLocalRecordState: (handle: number, channel: number, state: any) => number;
+    BCSDK_StartLiveRecord: (handle: number, channel: number) => number;
+    BCSDK_GetLiveRecordState: (handle: number, channel: number, state: any) => number;
+    BCSDK_CutLiveRecord: (handle: number, channel: number) => number;
+    BCSDK_StopLiveRecord: (handle: number, channel: number) => number;
+    BCSDK_StartPlaybackRecord: (handle: number, channel: number) => number;
+    BCSDK_GetPlaybackRecordState: (handle: number, channel: number, state: any) => number;
+    BCSDK_CutPlaybackRecord: (handle: number, channel: number) => number;
+    BCSDK_StopPlaybackRecord: (handle: number, channel: number) => number;
     /************************************************************************
      *
      * Download interfaces

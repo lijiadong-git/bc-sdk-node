@@ -198,6 +198,102 @@ class RECORD {
             resolve(value);
         });
     }
+    // -----------------------------------------------------------------------------------------------------------------
+    // Live Record
+    startLiveRecord(hDevice, channel) {
+        return new Promise((resolve, reject) => {
+            let ret = native_1.native.BCSDK_StartLiveRecord(hDevice, channel);
+            if (T.ERROR.E_NONE != ret) {
+                reject({ code: ret });
+                return;
+            }
+            resolve();
+        });
+    }
+    getLiveRecordState(hDevice, channel) {
+        return new Promise((resolve, reject) => {
+            let buf = ref.alloc(ref.types.int, 0);
+            if (!buf) {
+                reject(Error('alloc buffer error !!!'));
+                return;
+            }
+            let ret = native_1.native.BCSDK_GetLiveRecordState(hDevice, channel, buf);
+            if (0 > ret) {
+                reject({ code: ret });
+                return;
+            }
+            let value = ref.deref(buf);
+            resolve(value);
+        });
+    }
+    cutLiveRecord(hDevice, channel) {
+        return new Promise((resolve, reject) => {
+            let ret = native_1.native.BCSDK_CutLiveRecord(hDevice, channel);
+            if (T.ERROR.E_NONE != ret) {
+                reject({ code: ret });
+                return;
+            }
+            resolve();
+        });
+    }
+    stopLiveRecord(hDevice, channel) {
+        return new Promise((resolve, reject) => {
+            let ret = native_1.native.BCSDK_StopLiveRecord(hDevice, channel);
+            if (T.ERROR.E_NONE != ret) {
+                reject({ code: ret });
+                return;
+            }
+            resolve();
+        });
+    }
+    // -----------------------------------------------------------------------------------------------------------------
+    // Playback Record
+    startPlaybackRecord(hDevice, channel) {
+        return new Promise((resolve, reject) => {
+            let ret = native_1.native.BCSDK_StartPlaybackRecord(hDevice, channel);
+            if (T.ERROR.E_NONE != ret) {
+                reject({ code: ret });
+                return;
+            }
+            resolve();
+        });
+    }
+    getPlaybackRecordState(hDevice, channel) {
+        return new Promise((resolve, reject) => {
+            let buf = ref.alloc(ref.types.int, 0);
+            if (!buf) {
+                reject(Error('alloc buffer error !!!'));
+                return;
+            }
+            let ret = native_1.native.BCSDK_GetPlaybackRecordState(hDevice, channel, buf);
+            if (0 > ret) {
+                reject({ code: ret });
+                return;
+            }
+            let value = ref.deref(buf);
+            resolve(value);
+        });
+    }
+    cutPlaybackRecord(hDevice, channel) {
+        return new Promise((resolve, reject) => {
+            let ret = native_1.native.BCSDK_CutPlaybackRecord(hDevice, channel);
+            if (T.ERROR.E_NONE != ret) {
+                reject({ code: ret });
+                return;
+            }
+            resolve();
+        });
+    }
+    stopPlaybackRecord(hDevice, channel) {
+        return new Promise((resolve, reject) => {
+            let ret = native_1.native.BCSDK_StopPlaybackRecord(hDevice, channel);
+            if (T.ERROR.E_NONE != ret) {
+                reject({ code: ret });
+                return;
+            }
+            resolve();
+        });
+    }
 }
 RECORD.singleton = new RECORD();
 RECORD.diskCallbacks = [];
