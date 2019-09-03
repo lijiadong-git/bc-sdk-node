@@ -36,6 +36,7 @@ const deviceCallback = ffi_1.Callback('void', ['int', _T.BC_CMD_DATA, _T.pointer
         case T.BC_CMD_E.E_BC_CMD_CONNECTION_STATE_CHANGE:
         case T.BC_CMD_E.E_BC_CMD_LOGIN_INFO_CHANGE:
         case T.BC_CMD_E.E_BC_CMD_ALARM_REPORT:
+        case T.BC_CMD_E.E_BC_CMD_WITHOUT_INTERATION_REPORT:
             {
                 exports.device.handleSDKCallback(handle, cmdData);
                 break;
@@ -254,7 +255,6 @@ const deviceCallback = ffi_1.Callback('void', ['int', _T.BC_CMD_DATA, _T.pointer
         case T.BC_CMD_E.E_BC_CMD_MUTE_ALARM_AUDIO:
         case T.BC_CMD_E.E_BC_CMD_GET_RINGTONE_ABILITY:
         case T.BC_CMD_E.E_BC_CMD_SYNC_UTC_TIME:
-        case T.BC_CMD_E.E_BC_CMD_WITHOUT_INTERATION_REPORT:
             {
                 config_1.config.handleSDKCallback(handle, cmdData);
                 break;
@@ -320,9 +320,9 @@ class DEVICE {
                 let callback = _callback_1.COMMON_CBS.getCallback(handle, channel, cmdData.bcCmd, cmdData.cmdIdx);
                 if (_T.BC_ALARM_STATUS_REPORT.size == cmdData.dataLen) {
                     let buf = ref.reinterpret(cmdData.pRspData, cmdData.dataLen);
-                    let date = ref.get(buf, 0, _T.BC_ALARM_STATUS_REPORT);
+                    let data = ref.get(buf, 0, _T.BC_ALARM_STATUS_REPORT);
                     if (callback && callback.sdkCallback) {
-                        let param = _cast_1.derefCast(date, _T.BC_ALARM_STATUS_REPORT);
+                        let param = _cast_1.derefCast(data, _T.BC_ALARM_STATUS_REPORT);
                         callback.sdkCallback.alarmReportCallback(handle, param);
                     }
                 }
@@ -332,6 +332,18 @@ class DEVICE {
                 let callback = _callback_1.COMMON_CBS.getCallback(handle, channel, cmdData.bcCmd, cmdData.cmdIdx);
                 if (callback && callback.sdkCallback) {
                     callback.sdkCallback.cameraStateCallback(handle);
+                }
+                break;
+            }
+            case T.BC_CMD_E.E_BC_CMD_WITHOUT_INTERATION_REPORT: {
+                let callback = _callback_1.COMMON_CBS.getCallback(handle, channel, cmdData.bcCmd, cmdData.cmdIdx);
+                if (callback && callback.sdkCallback) {
+                    if (_T.BC_TIME_WITHOUT_INTERACTION.size === cmdData.dataLen) {
+                        let buf = ref.reinterpret(cmdData.pRspData, cmdData.dataLen);
+                        let data = ref.get(buf, 0, _T.BC_TIME_WITHOUT_INTERACTION);
+                        let param = _cast_1.derefCast(data, _T.BC_ALARM_STATUS_REPORT);
+                        callback.sdkCallback.noInteractionCallback(handle, param);
+                    }
                 }
                 break;
             }
@@ -370,6 +382,7 @@ class DEVICE {
                 _callback_1.COMMON_CBS.setCallback(handle, 0, T.BC_CMD_E.E_BC_CMD_GET_ABILITY, 0, { sdkCallback: callback });
                 _callback_1.COMMON_CBS.setCallback(handle, 0, T.BC_CMD_E.E_BC_CMD_RECONNECT, 0, { sdkCallback: callback });
                 _callback_1.COMMON_CBS.setCallback(handle, 0, T.BC_CMD_E.E_BC_CMD_ALARM_REPORT, 0, { sdkCallback: callback });
+                _callback_1.COMMON_CBS.setCallback(handle, 0, T.BC_CMD_E.E_BC_CMD_CAMERA_STATE, 0, { sdkCallback: callback });
                 _callback_1.COMMON_CBS.setCallback(handle, 0, T.BC_CMD_E.E_BC_CMD_CAMERA_STATE, 0, { sdkCallback: callback });
                 resolve(handle);
             }

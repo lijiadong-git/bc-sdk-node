@@ -95,6 +95,7 @@ declare class CONFIG {
     forceUserPassword(handle: number, param: T.BC_FORCE_PWD): Promise<void>;
     getBootPwdState(handle: number): Promise<T.BC_BOOT_PWD_STATE>;
     setBootPwdState(handle: number, param: T.BC_BOOT_PWD_STATE): Promise<void>;
+    upgradeFirmware(handle: number, param: T.BC_UPGRADE_FILE_INFO, callback: T.ProgressCallback): Promise<void>;
     getFtpCfg(handle: number): Promise<T.BC_FTP_CFG>;
     setFtpCfg(handle: number, param: T.BC_FTP_CFG): Promise<void>;
     setFtpTest(handle: number, param: T.BC_FTP_CFG): Promise<void>;
@@ -102,6 +103,8 @@ declare class CONFIG {
     setIFrameReplay(handle: number, iFrame: boolean): Promise<void>;
     reboot(handle: number): Promise<void>;
     deviceSleep(handle: number): Promise<void>;
+    exportConfig(handle: number, param: T.BC_CONFIG_FILE_INFO, callback: T.ProgressCallback): Promise<void>;
+    importConfig(handle: number, param: T.BC_CONFIG_FILE_INFO, callback: T.ProgressCallback): Promise<void>;
     getLogFile(handle: number, param: T.BC_CONFIG_FILE_INFO): Promise<void>;
     startAlarmReport(handle: number): Promise<void>;
     stopAlarmReport(handle: number): Promise<void>;

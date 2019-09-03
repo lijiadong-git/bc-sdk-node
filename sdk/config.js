@@ -285,6 +285,47 @@ class CONFIG {
                 CONFIG.handleSDKGetCallback(_T.BC_RINGTONE_ABILITY, handle, cmdData);
                 break;
             }
+            case T.BC_CMD_E.E_BC_CMD_UPGRADE_PROGRESS: {
+                let callback = _callback_1.COMMON_CBS.getCallback(handle, channel, cmdData.bcCmd, cmdData.cmdIdx);
+                if (callback && callback.sdkCallback) {
+                    if (T.BC_RSP_CODE_E.E_BC_RSP_OK == cmdData.bcRspCode
+                        && _T.BC_UPGRADE_FILE_INFO.size === cmdData.dataLen) {
+                        let buf = ref.reinterpret(cmdData.pRspData, cmdData.dataLen);
+                        let data = ref.get(buf, 0, _T.BC_UPGRADE_FILE_INFO);
+                        let info = _cast_1.derefCast(data, _T.BC_UPGRADE_FILE_INFO);
+                        if (info.uCurSize > 0 && info.uCurSize < info.uFileSize) {
+                            callback.sdkCallback(info.uCurSize / info.uFileSize);
+                        }
+                        else if (info.uCurSize >= info.uFileSize) {
+                            callback.sdkCallback(1.0);
+                        }
+                    }
+                }
+                break;
+            }
+            case T.BC_CMD_E.E_BC_CMD_EXPORT_PROGRESS:
+            case T.BC_CMD_E.E_BC_CMD_IMPORT_PROGRESS:
+                {
+                    let callback = _callback_1.COMMON_CBS.getCallback(handle, channel, cmdData.bcCmd, cmdData.cmdIdx);
+                    if (callback && callback.sdkCallback) {
+                        if (T.BC_RSP_CODE_E.E_BC_RSP_OK == cmdData.bcRspCode
+                            && _T.BC_CONFIG_FILE_INFO.size === cmdData.dataLen) {
+                            let buf = ref.reinterpret(cmdData.pRspData, cmdData.dataLen);
+                            let data = ref.get(buf, 0, _T.BC_CONFIG_FILE_INFO);
+                            let info = _cast_1.derefCast(data, _T.BC_CONFIG_FILE_INFO);
+                            if (info.uCurSize > 0 && info.uCurSize < info.uFileSize) {
+                                callback.sdkCallback(info.uCurSize / info.uFileSize);
+                            }
+                            else if (info.uCurSize >= info.uFileSize) {
+                                callback.sdkCallback(1.0);
+                            }
+                        }
+                    }
+                    break;
+                }
+            case T.BC_CMD_E.E_BC_CMD_UPGRADE:
+            case T.BC_CMD_E.E_BC_CMD_EXPORT:
+            case T.BC_CMD_E.E_BC_CMD_IMPORT:
             case T.BC_CMD_E.E_BC_CMD_SET_SYS:
             case T.BC_CMD_E.E_BC_CMD_SET_DEVICE_NAME:
             case T.BC_CMD_E.E_BC_CMD_SET_AUTOREBOOT_CFG:
@@ -908,7 +949,20 @@ class CONFIG {
      *
      * callback with E_BC_CMD_UPGRADE, E_BC_CMD_UPGRADE_PROGRESS
      */
-    //public upgradeFirmware(handle: number, param: T.BC_UPGRADE_FILE_INFO): Promise<void> {         return new Promise((resolve, reject) => {          });     }
+    upgradeFirmware(handle, param, callback) {
+        return new Promise((resolve, reject) => {
+            let castParam = _cast_1.refCast(param);
+            let tFileInfo = new _T.BC_UPGRADE_FILE_INFO(castParam);
+            let ret = native_1.native.BCSDK_RemoteUpgradeFirmware(handle, tFileInfo.ref());
+            if (ret >= 0) {
+                _callback_1.COMMON_CBS.setCallback(handle, 0, T.BC_CMD_E.E_BC_CMD_UPGRADE_PROGRESS, 0, { sdkCallback: callback });
+                resolve();
+            }
+            else {
+                reject({ code: ret });
+            }
+        });
+    }
     /* Ftp Cfg
      *
      * callback with E_BC_CMD_GET_FTPCFG, E_BC_CMD_SET_FTPCFG, E_BC_CMD_FTP_TEST
@@ -950,8 +1004,34 @@ class CONFIG {
      *
      * callback with E_BC_CMD_EXPORT, E_BC_CMD_EXPORT_PROGRESS, E_BC_CMD_IMPORT, E_BC_CMD_IMPORT_PROGRESS
      */
-    // public exportConfig(handle: number, BC_CONFIG_FILE_INFO *fileInfo): Promise<void> {         return new Promise((resolve, reject) => {          });     }
-    // public importConfig(handle: number, BC_CONFIG_FILE_INFO *fileInfo): Promise<void> {         return new Promise((resolve, reject) => {          });     }
+    exportConfig(handle, param, callback) {
+        return new Promise((resolve, reject) => {
+            let castParam = _cast_1.refCast(param);
+            let tFileInfo = new _T.BC_CONFIG_FILE_INFO(castParam);
+            let ret = native_1.native.BCSDK_RemoteExportConfig(handle, tFileInfo.ref());
+            if (ret >= 0) {
+                _callback_1.COMMON_CBS.setCallback(handle, 0, T.BC_CMD_E.E_BC_CMD_EXPORT_PROGRESS, 0, { sdkCallback: callback });
+                resolve();
+            }
+            else {
+                reject({ code: ret });
+            }
+        });
+    }
+    importConfig(handle, param, callback) {
+        return new Promise((resolve, reject) => {
+            let castParam = _cast_1.refCast(param);
+            let tFileInfo = new _T.BC_CONFIG_FILE_INFO(castParam);
+            let ret = native_1.native.BCSDK_RemoteImportConfig(handle, tFileInfo.ref());
+            if (ret >= 0) {
+                _callback_1.COMMON_CBS.setCallback(handle, 0, T.BC_CMD_E.E_BC_CMD_IMPORT_PROGRESS, 0, { sdkCallback: callback });
+                resolve();
+            }
+            else {
+                reject({ code: ret });
+            }
+        });
+    }
     /* get log file
      *
      * callback with E_BC_CMD_GETLOG

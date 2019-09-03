@@ -5,6 +5,7 @@ export interface DeviceCallback {
     disconnectCallback: (handle: number) => void;
     alarmReportCallback: (handle: number, status: T.BC_ALARM_STATUS_REPORT) => void;
     cameraStateCallback: (handle: number) => void;
+    noInteractionCallback: (handle: number, report: T.BC_TIME_WITHOUT_INTERACTION) => void;
 }
 export interface IYUVPlane {
     width: number;

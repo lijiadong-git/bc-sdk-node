@@ -872,7 +872,7 @@ export interface BC_UPGRADE_FILE_INFO {
      * max length: BC_MAX_FILE_LEN - 1
      */
     cSourceFileName: string;
-    iUpgradeConfig: string;
+    iUpgradeConfig: number;
     uFileSize: number;
     uCurSize: number;
 }
@@ -1586,4 +1586,7 @@ export interface BC_DOWNLOAD_BY_NAME_INFO {
     fileSize: number;
     curSize: number;
     iUseSubStream: number;
+}
+export interface BC_TIME_WITHOUT_INTERACTION {
+    duration: number;
 }

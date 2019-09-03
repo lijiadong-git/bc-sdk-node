@@ -1375,4 +1375,8 @@ exports.BC_DOWNLOAD_BY_NAME_INFO = refStruct({
     iUseSubStream: ref.types.int
 });
 exports.P_BC_DOWNLOAD_BY_NAME_INFO = exports.pointer(exports.BC_DOWNLOAD_BY_NAME_INFO);
+exports.BC_TIME_WITHOUT_INTERACTION = refStruct({
+    duration: ref.types.int // seconds
+});
+exports.P_BC_TIME_WITHOUT_INTERACTION = exports.pointer(exports.BC_TIME_WITHOUT_INTERACTION);
 //# sourceMappingURL=_struct.js.map
