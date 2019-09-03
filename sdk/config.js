@@ -287,19 +287,20 @@ class CONFIG {
             }
             case T.BC_CMD_E.E_BC_CMD_UPGRADE_PROGRESS: {
                 let callback = _callback_1.COMMON_CBS.getCallback(handle, channel, cmdData.bcCmd, cmdData.cmdIdx);
-                if (callback && callback.sdkCallback) {
-                    if (T.BC_RSP_CODE_E.E_BC_RSP_OK == cmdData.bcRspCode
-                        && _T.BC_UPGRADE_FILE_INFO.size === cmdData.dataLen) {
-                        let buf = ref.reinterpret(cmdData.pRspData, cmdData.dataLen);
-                        let data = ref.get(buf, 0, _T.BC_UPGRADE_FILE_INFO);
-                        let info = _cast_1.derefCast(data, _T.BC_UPGRADE_FILE_INFO);
-                        if (info.uCurSize > 0 && info.uCurSize < info.uFileSize) {
-                            callback.sdkCallback(info.uCurSize / info.uFileSize);
-                        }
-                        else if (info.uCurSize >= info.uFileSize) {
-                            callback.sdkCallback(1.0);
-                        }
-                    }
+                if (!callback || !callback.sdkCallback) {
+                    break;
+                }
+                if (_T.BC_UPGRADE_FILE_INFO.size !== cmdData.dataLen) {
+                    break;
+                }
+                let buf = ref.reinterpret(cmdData.pRspData, cmdData.dataLen);
+                let data = ref.get(buf, 0, _T.BC_UPGRADE_FILE_INFO);
+                let info = _cast_1.derefCast(data, _T.BC_UPGRADE_FILE_INFO);
+                if (info.uCurSize > 0 && info.uCurSize < info.uFileSize) {
+                    callback.sdkCallback(cmdData.bcRspCode, info.uCurSize / info.uFileSize);
+                }
+                else if (info.uCurSize >= info.uFileSize) {
+                    callback.sdkCallback(cmdData.bcRspCode, 1.0);
                 }
                 break;
             }
@@ -307,19 +308,20 @@ class CONFIG {
             case T.BC_CMD_E.E_BC_CMD_IMPORT_PROGRESS:
                 {
                     let callback = _callback_1.COMMON_CBS.getCallback(handle, channel, cmdData.bcCmd, cmdData.cmdIdx);
-                    if (callback && callback.sdkCallback) {
-                        if (T.BC_RSP_CODE_E.E_BC_RSP_OK == cmdData.bcRspCode
-                            && _T.BC_CONFIG_FILE_INFO.size === cmdData.dataLen) {
-                            let buf = ref.reinterpret(cmdData.pRspData, cmdData.dataLen);
-                            let data = ref.get(buf, 0, _T.BC_CONFIG_FILE_INFO);
-                            let info = _cast_1.derefCast(data, _T.BC_CONFIG_FILE_INFO);
-                            if (info.uCurSize > 0 && info.uCurSize < info.uFileSize) {
-                                callback.sdkCallback(info.uCurSize / info.uFileSize);
-                            }
-                            else if (info.uCurSize >= info.uFileSize) {
-                                callback.sdkCallback(1.0);
-                            }
-                        }
+                    if (!callback || !callback.sdkCallback) {
+                        break;
+                    }
+                    if (_T.BC_CONFIG_FILE_INFO.size !== cmdData.dataLen) {
+                        break;
+                    }
+                    let buf = ref.reinterpret(cmdData.pRspData, cmdData.dataLen);
+                    let data = ref.get(buf, 0, _T.BC_CONFIG_FILE_INFO);
+                    let info = _cast_1.derefCast(data, _T.BC_CONFIG_FILE_INFO);
+                    if (info.uCurSize > 0 && info.uCurSize < info.uFileSize) {
+                        callback.sdkCallback(cmdData.bcRspCode, info.uCurSize / info.uFileSize);
+                    }
+                    else if (info.uCurSize >= info.uFileSize) {
+                        callback.sdkCallback(cmdData.bcRspCode, 1.0);
                     }
                     break;
                 }

@@ -105,4 +105,4 @@ export interface BC_DISK_WARNINIG_DESC {
 export interface DiskStatusCallback {
     (desc: BC_DISK_WARNINIG_DESC): void;
 }
-export declare type ProgressCallback = (progress: number) => void;
+export declare type ProgressCallback = (status: T.BC_RSP_CODE_E, progress: number) => void;

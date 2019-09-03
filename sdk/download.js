@@ -15,19 +15,22 @@ class DOWNLOAD {
         const channel = (cmdData.handleId & 0x000000ff) % T.DEFINDE.BC_MAX_CHANNEL;
         switch (cmdData.bcCmd) {
             case T.BC_CMD_E.E_BC_CMD_DOWNLOAD_PROGRESS: {
-                var buf = ref.reinterpret(cmdData.pRspData, _T.BC_DOWNLOAD_BY_NAME_INFO.size);
-                var info = ref.get(buf, 0, _T.BC_DOWNLOAD_BY_NAME_INFO);
-                if (!info.fileSize || !info.curSize) {
-                    return;
-                }
                 // find the callback function
                 let callback = _callback_1.COMMON_CBS.getCallback(handle, 0, T.BC_CMD_E.E_BC_CMD_DOWNLOAD_PROGRESS, 0);
                 if (!callback || !callback.sdkCallback) {
-                    return;
+                    break;
+                }
+                if (_T.BC_DOWNLOAD_BY_NAME_INFO.size !== cmdData.dataLen) {
+                    break;
+                }
+                var buf = ref.reinterpret(cmdData.pRspData, cmdData.dataLen);
+                var info = ref.get(buf, 0, _T.BC_DOWNLOAD_BY_NAME_INFO);
+                if (!info.fileSize || !info.curSize) {
+                    break;
                 }
                 // callback
                 let progress = info.curSize / info.fileSize;
-                callback.sdkCallback(progress);
+                callback.sdkCallback(cmdData.bcRspCode, progress);
                 break;
             }
             default: {
