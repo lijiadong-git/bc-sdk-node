@@ -72,7 +72,7 @@ class PLAYBACK {
                     }
                     else {
                         if (callback.sdkReject) {
-                            callback.sdkReject({ code: cmdData.bcRspCode });
+                            callback.sdkReject({ code: cmdData.bcRspCode, description: T.BC_CMD_E[cmdData.bcCmd] });
                         }
                     }
                 });
@@ -129,7 +129,7 @@ class PLAYBACK {
                     }
                     else {
                         if (callback.sdkReject) {
-                            callback.sdkReject({ code: cmdData.bcRspCode });
+                            callback.sdkReject({ code: cmdData.bcRspCode, description: T.BC_CMD_E[cmdData.bcCmd] });
                         }
                     }
                 });

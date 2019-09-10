@@ -365,7 +365,7 @@ class DEVICE {
                     if (_T.BC_BATTERY_INFO_LIST.size === cmdData.dataLen) {
                         let buf = ref.reinterpret(cmdData.pRspData, cmdData.dataLen);
                         let data = ref.get(buf, 0, _T.BC_BATTERY_INFO_LIST);
-                        let param = _cast_1.derefCast(data, _T.BC_DEVICE_EXCEPTION);
+                        let param = _cast_1.derefCast(data, _T.BC_BATTERY_INFO_LIST);
                         if (param.size > 0) {
                             callback.sdkCallback.batteryInfoCallback(handle, param.infoList[0]);
                         }
@@ -411,6 +411,7 @@ class DEVICE {
                 _callback_1.COMMON_CBS.setCallback(handle, 0, T.BC_CMD_E.E_BC_CMD_CAMERA_STATE, 0, { sdkCallback: callback });
                 _callback_1.COMMON_CBS.setCallback(handle, 0, T.BC_CMD_E.E_BC_CMD_WITHOUT_INTERATION_REPORT, 0, { sdkCallback: callback });
                 _callback_1.COMMON_CBS.setCallback(handle, 0, T.BC_CMD_E.E_BC_CMD_REPORT_DEVICE_EXCEPTION, 0, { sdkCallback: callback });
+                _callback_1.COMMON_CBS.setCallback(handle, 0, T.BC_CMD_E.E_BC_CMD_REPORT_BATTERY_INFO_LIST, 0, { sdkCallback: callback });
                 resolve(handle);
             }
             else {

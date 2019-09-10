@@ -1216,7 +1216,7 @@ exports.BC_BATTERY_INFO = refStruct({
     iBatteryPercent: ref.types.int,
     iLowPowerFlag: ref.types.int // 0:not, 1:low power
     ,
-    ebytegeStatus: ref.types.int // BC_byteGE_STATUS_E
+    eChargeStatus: ref.types.int // BC_CHARGE_STATUS_E
     ,
     eAdapterStatus: ref.types.int // BC_ADAPTER_STATUS_E
     ,
@@ -1302,7 +1302,7 @@ exports.P_BC_CRYPT_BUF = exports.pointer(exports.BC_CRYPT_BUF);
 exports.BC_P2P_DEVICE_INFO = refStruct({
     uid: refArray('byte', types_1.DEFINDE.BC_MAX_UID_LEN),
     fm_ver: refArray('byte', 16),
-    batteryType: ref.types.int // 0: not support. 1:dry battery, 2:bytege battery
+    batteryType: ref.types.int // 0: not support. 1:dry battery, 2:charge battery
     ,
     QRCodeType: ref.types.int // 0: not support. 1: support qr code
     ,
