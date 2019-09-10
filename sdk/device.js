@@ -296,7 +296,7 @@ class DEVICE {
         const channel = (cmdData.handleId & 0x000000ff) % T.DEFINDE.BC_MAX_CHANNEL;
         switch (cmdData.bcCmd) {
             case T.BC_CMD_E.E_BC_CMD_CONNECTION_STATE_CHANGE: {
-                let callback = _callback_1.COMMON_CBS.getCallback(handle, channel, cmdData.bcCmd, cmdData.cmdIdx);
+                let callback = _callback_1.COMMON_CBS.getCallback(handle, 0, cmdData.bcCmd, cmdData.cmdIdx);
                 if (_T.DEVICE_STATE_CHANGE_DESC.size == cmdData.dataLen) {
                     let buf = ref.reinterpret(cmdData.pRspData, cmdData.dataLen);
                     let des = ref.get(buf, 0, _T.DEVICE_STATE_CHANGE_DESC);
@@ -306,9 +306,15 @@ class DEVICE {
                 }
                 break;
             }
-            case T.BC_CMD_E.E_BC_CMD_RECONNECT:
+            case T.BC_CMD_E.E_BC_CMD_RECONNECT: {
+                let callback = _callback_1.COMMON_CBS.getCallback(handle, 0, cmdData.bcCmd, cmdData.cmdIdx);
+                if (callback && callback.sdkCallback) {
+                    callback.sdkCallback.disconnectCallback(handle);
+                }
+                break;
+            }
             case T.BC_CMD_E.E_BC_CMD_GET_ABILITY: {
-                let callback = _callback_1.COMMON_CBS.getCallback(handle, channel, cmdData.bcCmd, cmdData.cmdIdx);
+                let callback = _callback_1.COMMON_CBS.getCallback(handle, 0, cmdData.bcCmd, cmdData.cmdIdx);
                 if (T.BC_RSP_CODE_E.E_BC_RSP_OK == cmdData.bcRspCode) {
                     if (callback && callback.sdkCallback) {
                         callback.sdkCallback.abilityChangeCallback(handle);
@@ -317,7 +323,7 @@ class DEVICE {
                 break;
             }
             case T.BC_CMD_E.E_BC_CMD_ALARM_REPORT: {
-                let callback = _callback_1.COMMON_CBS.getCallback(handle, channel, cmdData.bcCmd, cmdData.cmdIdx);
+                let callback = _callback_1.COMMON_CBS.getCallback(handle, 0, cmdData.bcCmd, cmdData.cmdIdx);
                 if (_T.BC_ALARM_STATUS_REPORT.size == cmdData.dataLen) {
                     let buf = ref.reinterpret(cmdData.pRspData, cmdData.dataLen);
                     let data = ref.get(buf, 0, _T.BC_ALARM_STATUS_REPORT);
@@ -329,14 +335,14 @@ class DEVICE {
                 break;
             }
             case T.BC_CMD_E.E_BC_CMD_CAMERA_STATE: {
-                let callback = _callback_1.COMMON_CBS.getCallback(handle, channel, cmdData.bcCmd, cmdData.cmdIdx);
+                let callback = _callback_1.COMMON_CBS.getCallback(handle, 0, cmdData.bcCmd, cmdData.cmdIdx);
                 if (callback && callback.sdkCallback) {
                     callback.sdkCallback.cameraStateCallback(handle);
                 }
                 break;
             }
             case T.BC_CMD_E.E_BC_CMD_WITHOUT_INTERATION_REPORT: {
-                let callback = _callback_1.COMMON_CBS.getCallback(handle, channel, cmdData.bcCmd, cmdData.cmdIdx);
+                let callback = _callback_1.COMMON_CBS.getCallback(handle, 0, cmdData.bcCmd, cmdData.cmdIdx);
                 if (callback && callback.sdkCallback) {
                     if (_T.BC_TIME_WITHOUT_INTERACTION.size === cmdData.dataLen) {
                         let buf = ref.reinterpret(cmdData.pRspData, cmdData.dataLen);
@@ -348,7 +354,7 @@ class DEVICE {
                 break;
             }
             case T.BC_CMD_E.E_BC_CMD_REPORT_DEVICE_EXCEPTION: {
-                let callback = _callback_1.COMMON_CBS.getCallback(handle, channel, cmdData.bcCmd, cmdData.cmdIdx);
+                let callback = _callback_1.COMMON_CBS.getCallback(handle, 0, cmdData.bcCmd, cmdData.cmdIdx);
                 if (callback && callback.sdkCallback) {
                     if (_T.BC_DEVICE_EXCEPTION.size === cmdData.dataLen) {
                         let buf = ref.reinterpret(cmdData.pRspData, cmdData.dataLen);
@@ -360,7 +366,7 @@ class DEVICE {
                 break;
             }
             case T.BC_CMD_E.E_BC_CMD_REPORT_BATTERY_INFO_LIST: {
-                let callback = _callback_1.COMMON_CBS.getCallback(handle, channel, cmdData.bcCmd, cmdData.cmdIdx);
+                let callback = _callback_1.COMMON_CBS.getCallback(handle, 0, cmdData.bcCmd, cmdData.cmdIdx);
                 if (callback && callback.sdkCallback) {
                     if (_T.BC_BATTERY_INFO_LIST.size === cmdData.dataLen) {
                         let buf = ref.reinterpret(cmdData.pRspData, cmdData.dataLen);
