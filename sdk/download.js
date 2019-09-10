@@ -57,7 +57,7 @@ class DOWNLOAD {
         return new Promise((resolve, reject) => {
             let ret = native_1.native.BCSDK_StartDownloadFile(handle, '', fileName, subStream, type, tempFolder, dstFile);
             if (ret != T.ERROR.E_NONE) {
-                reject({ code: ret });
+                reject({ code: ret, description: 'start download file' });
                 return;
             }
             let cb = {
@@ -72,7 +72,7 @@ class DOWNLOAD {
         return new Promise((resolve, reject) => {
             let ret = native_1.native.BCSDK_StopDownload(handle, 0);
             if (ret != T.ERROR.E_NONE) {
-                reject({ code: ret });
+                reject({ code: ret, description: 'stop download' });
                 return;
             }
             let cb = {

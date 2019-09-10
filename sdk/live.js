@@ -44,7 +44,7 @@ class LIVE {
             }
             let ret = native_1.native.BCSDK_GetLiveStreamType(handle, channel, buf);
             if (0 > ret) {
-                reject({ code: ret });
+                reject({ code: ret, description: 'get live stream type' });
                 return;
             }
             let value = ref.deref(buf);
@@ -55,7 +55,7 @@ class LIVE {
         return new Promise((resolve, reject) => {
             let ret = native_1.native.BCSDK_SetLivePlayer(handle, channel, hPlayer);
             if (0 > ret) {
-                reject({ code: ret });
+                reject({ code: ret, description: 'set live player' });
                 return;
             }
             resolve();
@@ -70,7 +70,7 @@ class LIVE {
             }
             let ret = native_1.native.BCSDK_GetIsLiveOpen(handle, channel, buf);
             if (0 > ret) {
-                reject({ code: ret });
+                reject({ code: ret, description: 'get is live open' });
                 return;
             }
             let value = ref.deref(buf);
@@ -89,7 +89,7 @@ class LIVE {
                 _callback_1.COMMON_CBS.setCallback(handle, channel, T.BC_CMD_E.E_BC_CMD_REALPLAY, 0, { sdkCallback: callback });
             }
             else {
-                reject({ code: ret, description: 'live open error ...' });
+                reject({ code: ret, description: 'live open' });
             }
         });
     }
@@ -97,7 +97,7 @@ class LIVE {
         return new Promise((resolve, reject) => {
             let ret = native_1.native.BCSDK_LiveClose(handle, channel);
             if (0 > ret) {
-                reject({ code: ret });
+                reject({ code: ret, description: 'live close' });
                 return;
             }
             resolve();
@@ -107,7 +107,7 @@ class LIVE {
         return new Promise((resolve, reject) => {
             let ret = native_1.native.BCSDK_LiveMute(handle, channel, mute);
             if (0 > ret) {
-                reject({ code: ret });
+                reject({ code: ret, description: 'live mute' });
                 return;
             }
             resolve();

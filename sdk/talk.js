@@ -37,7 +37,7 @@ class TALK {
         return new Promise((resolve, reject) => {
             let ret = native_1.native.BCSDK_AudioTalkOpen(handle, channel);
             if (ret != T.ERROR.E_NONE) {
-                reject({ code: ret });
+                reject({ code: ret, description: 'talk open' });
                 return;
             }
             let cb = {
@@ -51,7 +51,7 @@ class TALK {
         return new Promise((resolve, reject) => {
             let ret = native_1.native.BCSDK_AudioTalkClose(handle, channel);
             if (ret != T.ERROR.E_NONE) {
-                reject({ code: ret });
+                reject({ code: ret, description: 'talk close' });
                 return;
             }
             resolve();
@@ -63,7 +63,7 @@ class TALK {
             let buf = ref.alloc(ref.types.int, value);
             let ret = native_1.native.BCSDK_GetAudioTalkState(handle, channel, buf);
             if (ret != T.ERROR.E_NONE) {
-                reject({ code: ret });
+                reject({ code: ret, description: 'talk state' });
                 return;
             }
             value = ref.deref(buf);

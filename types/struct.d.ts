@@ -1415,6 +1415,10 @@ export interface BC_BATTERY_INFO {
     adcOfPartA: number;
     adcOfPartB: number;
 }
+export interface BC_BATTERY_INFO_LIST {
+    size: number;
+    infoList: BC_BATTERY_INFO[];
+}
 export interface BC_BATTERY_ANALYSIS {
     iChannel: number;
     iDays: number;
@@ -1589,4 +1593,9 @@ export interface BC_DOWNLOAD_BY_NAME_INFO {
 }
 export interface BC_TIME_WITHOUT_INTERACTION {
     duration: number;
+}
+export interface BC_DEVICE_EXCEPTION {
+    iExceptionCode: number;
+    adcOfPartA: number;
+    adcOfPartB: number;
 }

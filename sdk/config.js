@@ -437,7 +437,7 @@ class CONFIG {
                 ret = func(handle);
             }
             if (ret != T.ERROR.E_NONE && ret != T.ERROR.E_BUSY) {
-                reject({ code: ret });
+                reject({ code: ret, description: func.name });
                 return;
             }
             let cb = {
@@ -464,7 +464,7 @@ class CONFIG {
                 ret = func(handle, channel);
             }
             if (ret != T.ERROR.E_NONE && ret != T.ERROR.E_BUSY) {
-                reject({ code: ret });
+                reject({ code: ret, description: func.name });
                 return;
             }
             let cb = {
@@ -491,7 +491,7 @@ class CONFIG {
             let buf = ref.alloc(ref.types.int, T.BCSDK_CONFIG_STATE_E.BCSDK_CONFIG_STATE_NOTREADY);
             let ret = native_1.native.BCSDK_RemoteConfigState(handle, channel, cmd, buf);
             if (ret != T.ERROR.E_NONE) {
-                reject({ code: ret });
+                reject({ code: ret, description: 'config get state' });
                 return;
             }
             let value = ref.deref(buf);
@@ -503,7 +503,7 @@ class CONFIG {
             let buf = ref.alloc(ref.types.int, T.BCSDK_CONFIG_STATE_E.BCSDK_CONFIG_STATE_NOTREADY);
             let ret = native_1.native.BCSDK_RemoteConfigState2(handle, channel, cmd, cmdIdx, buf);
             if (ret != T.ERROR.E_NONE) {
-                reject({ code: ret });
+                reject({ code: ret, description: 'config get state 2' });
                 return;
             }
             let value = ref.deref(buf);

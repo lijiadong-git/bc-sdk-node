@@ -19,7 +19,7 @@ class SEARCH {
                 if (1 == SEARCH.callbacks.length) {
                     let ret = native_1.native.BCSDK_AddSearchCallback(SEARCH.deviceFoundCallback, null);
                     if (ret != T.ERROR.E_NONE) {
-                        reject({ code: ret });
+                        reject({ code: ret, description: 'search add callback' });
                         return;
                     }
                 }
@@ -52,7 +52,7 @@ class SEARCH {
         return new Promise((resolve, reject) => {
             let ret = native_1.native.BCSDK_StartDeviceSearchLoop(time);
             if (ret != T.ERROR.E_NONE) {
-                reject({ code: ret });
+                reject({ code: ret, description: 'search start loop' });
                 return;
             }
             resolve();
@@ -65,7 +65,7 @@ class SEARCH {
         return new Promise((resolve, reject) => {
             let ret = native_1.native.BCSDK_StopDeviceSearchLoop();
             if (ret != T.ERROR.E_NONE) {
-                reject({ code: ret });
+                reject({ code: ret, description: 'search stop loop' });
                 return;
             }
             resolve();
@@ -80,7 +80,7 @@ class SEARCH {
         return new Promise((resolve, reject) => {
             let ret = native_1.native.BCSDK_DeviceSearchOnce();
             if (ret != T.ERROR.E_NONE) {
-                reject({ code: ret });
+                reject({ code: ret, description: 'search once' });
                 return;
             }
             resolve();
@@ -95,7 +95,7 @@ class SEARCH {
         return new Promise((resolve, reject) => {
             let ret = native_1.native.BCSDK_SongP2PDeviceSearchOnce();
             if (ret != T.ERROR.E_NONE) {
-                reject({ code: ret });
+                reject({ code: ret, description: 'song search once' });
                 return;
             }
             resolve();

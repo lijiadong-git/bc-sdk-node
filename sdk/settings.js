@@ -14,7 +14,7 @@ class SETTINGS {
         return new Promise((resolve, reject) => {
             let ret = native_1.native.BCSDK_SetIsInBackground(background);
             if (ret < 0) {
-                reject({ code: ret });
+                reject({ code: ret, description: 'set is in background' });
                 return;
             }
             resolve();
@@ -24,7 +24,7 @@ class SETTINGS {
         return new Promise((resolve, reject) => {
             let ret = native_1.native.BCSDK_SetNetworkType(type);
             if (ret < 0) {
-                reject({ code: ret });
+                reject({ code: ret, description: 'set network type' });
                 return;
             }
             resolve();
@@ -34,7 +34,7 @@ class SETTINGS {
         return new Promise((resolve, reject) => {
             let ret = native_1.native.BCSDK_StartDevicesAutoOpen(time);
             if (ret < 0) {
-                reject({ code: ret });
+                reject({ code: ret, description: 'start devices auto open' });
                 return;
             }
             resolve();
@@ -44,7 +44,7 @@ class SETTINGS {
         return new Promise((resolve, reject) => {
             let ret = native_1.native.BCSDK_StopDevicesAutoOpen(logout);
             if (ret < 0) {
-                reject({ code: ret });
+                reject({ code: ret, description: 'stop devices auto open' });
                 return;
             }
             resolve();

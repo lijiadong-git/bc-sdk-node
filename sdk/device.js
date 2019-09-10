@@ -37,6 +37,8 @@ const deviceCallback = ffi_1.Callback('void', ['int', _T.BC_CMD_DATA, _T.pointer
         case T.BC_CMD_E.E_BC_CMD_LOGIN_INFO_CHANGE:
         case T.BC_CMD_E.E_BC_CMD_ALARM_REPORT:
         case T.BC_CMD_E.E_BC_CMD_WITHOUT_INTERATION_REPORT:
+        case T.BC_CMD_E.E_BC_CMD_REPORT_DEVICE_EXCEPTION:
+        case T.BC_CMD_E.E_BC_CMD_REPORT_BATTERY_INFO_LIST:
             {
                 exports.device.handleSDKCallback(handle, cmdData);
                 break;
@@ -223,7 +225,6 @@ const deviceCallback = ffi_1.Callback('void', ['int', _T.BC_CMD_DATA, _T.pointer
         case T.BC_CMD_E.E_BC_CMD_SET_AUDIO_TASK:
         case T.BC_CMD_E.E_BC_CMD_BATTERY_HEARTBEAT_RSP:
         case T.BC_CMD_E.E_BC_CMD_GET_AP_MODE_INFO:
-        case T.BC_CMD_E.E_BC_CMD_REPORT_DEVICE_EXCEPTION:
         case T.BC_CMD_E.E_BC_CMD_BASE_REPORT_ONLINE_DEVICE:
         case T.BC_CMD_E.E_BC_CMD_BASE_DELETE_ONLINE_DEVICE:
         case T.BC_CMD_E.E_BC_CMD_BASE_GET_RF_CFG:
@@ -231,7 +232,6 @@ const deviceCallback = ffi_1.Callback('void', ['int', _T.BC_CMD_DATA, _T.pointer
         case T.BC_CMD_E.E_BC_CMD_BASE_GET_WIFI_QRCODE:
         case T.BC_CMD_E.E_BC_CMD_BASE_RESPONSE_LIVE_TIME:
         case T.BC_CMD_E.E_BC_CMD_BASE_SET_RF_ALARM_STATUS:
-        case T.BC_CMD_E.E_BC_CMD_REPORT_BATTERY_INFO_LIST:
         case T.BC_CMD_E.E_BC_CMD_GET_BATTERY_INFO:
         case T.BC_CMD_E.E_BC_CMD_SET_DEVICE_NAME:
         case T.BC_CMD_E.E_BC_CMD_SET_ISP_DAY_NIGHT_MODE:
@@ -341,8 +341,34 @@ class DEVICE {
                     if (_T.BC_TIME_WITHOUT_INTERACTION.size === cmdData.dataLen) {
                         let buf = ref.reinterpret(cmdData.pRspData, cmdData.dataLen);
                         let data = ref.get(buf, 0, _T.BC_TIME_WITHOUT_INTERACTION);
-                        let param = _cast_1.derefCast(data, _T.BC_ALARM_STATUS_REPORT);
+                        let param = _cast_1.derefCast(data, _T.BC_TIME_WITHOUT_INTERACTION);
                         callback.sdkCallback.noInteractionCallback(handle, param);
+                    }
+                }
+                break;
+            }
+            case T.BC_CMD_E.E_BC_CMD_REPORT_DEVICE_EXCEPTION: {
+                let callback = _callback_1.COMMON_CBS.getCallback(handle, channel, cmdData.bcCmd, cmdData.cmdIdx);
+                if (callback && callback.sdkCallback) {
+                    if (_T.BC_DEVICE_EXCEPTION.size === cmdData.dataLen) {
+                        let buf = ref.reinterpret(cmdData.pRspData, cmdData.dataLen);
+                        let data = ref.get(buf, 0, _T.BC_DEVICE_EXCEPTION);
+                        let param = _cast_1.derefCast(data, _T.BC_DEVICE_EXCEPTION);
+                        callback.sdkCallback.batteryExceptionCallback(handle, param.iExceptionCode !== 0);
+                    }
+                }
+                break;
+            }
+            case T.BC_CMD_E.E_BC_CMD_REPORT_BATTERY_INFO_LIST: {
+                let callback = _callback_1.COMMON_CBS.getCallback(handle, channel, cmdData.bcCmd, cmdData.cmdIdx);
+                if (callback && callback.sdkCallback) {
+                    if (_T.BC_BATTERY_INFO_LIST.size === cmdData.dataLen) {
+                        let buf = ref.reinterpret(cmdData.pRspData, cmdData.dataLen);
+                        let data = ref.get(buf, 0, _T.BC_BATTERY_INFO_LIST);
+                        let param = _cast_1.derefCast(data, _T.BC_DEVICE_EXCEPTION);
+                        if (param.size > 0) {
+                            callback.sdkCallback.batteryInfoCallback(handle, param.infoList[0]);
+                        }
                     }
                 }
                 break;
@@ -383,7 +409,8 @@ class DEVICE {
                 _callback_1.COMMON_CBS.setCallback(handle, 0, T.BC_CMD_E.E_BC_CMD_RECONNECT, 0, { sdkCallback: callback });
                 _callback_1.COMMON_CBS.setCallback(handle, 0, T.BC_CMD_E.E_BC_CMD_ALARM_REPORT, 0, { sdkCallback: callback });
                 _callback_1.COMMON_CBS.setCallback(handle, 0, T.BC_CMD_E.E_BC_CMD_CAMERA_STATE, 0, { sdkCallback: callback });
-                _callback_1.COMMON_CBS.setCallback(handle, 0, T.BC_CMD_E.E_BC_CMD_CAMERA_STATE, 0, { sdkCallback: callback });
+                _callback_1.COMMON_CBS.setCallback(handle, 0, T.BC_CMD_E.E_BC_CMD_WITHOUT_INTERATION_REPORT, 0, { sdkCallback: callback });
+                _callback_1.COMMON_CBS.setCallback(handle, 0, T.BC_CMD_E.E_BC_CMD_REPORT_DEVICE_EXCEPTION, 0, { sdkCallback: callback });
                 resolve(handle);
             }
             else {
@@ -395,7 +422,7 @@ class DEVICE {
         return new Promise((resolve, reject) => {
             let ret = native_1.native.BCSDK_RemoveDevice(handle);
             if (ret != T.ERROR.E_NONE) {
-                reject({ code: ret });
+                reject({ code: ret, description: 'device remove' });
                 return;
             }
             _callback_1.PROMISE_CBS.clearCallbackForHandle(handle);
@@ -407,7 +434,7 @@ class DEVICE {
         return new Promise((resolve, reject) => {
             let ret = native_1.native.BCSDK_RemoveAllDevices();
             if (ret != T.ERROR.E_NONE) {
-                reject({ code: ret });
+                reject({ code: ret, description: 'device remove all' });
                 return;
             }
             _callback_1.PROMISE_CBS.clearAll();
@@ -470,7 +497,7 @@ class DEVICE {
                     _callback_1.PROMISE_CBS.addCallback(handle, 0, T.BC_CMD_E.E_BC_CMD_LOGIN, 0, tcallback);
                 }
                 else {
-                    reject({ code: ret });
+                    reject({ code: ret, description: 'device open' });
                 }
             })
                 .catch(reason => {
@@ -482,7 +509,7 @@ class DEVICE {
         return new Promise((resolve, reject) => {
             let ret = native_1.native.BCSDK_DeviceForceClose(handle, true);
             if (ret != T.ERROR.E_NONE) {
-                reject({ code: ret });
+                reject({ code: ret, description: 'device close' });
                 return;
             }
             resolve();
@@ -492,7 +519,7 @@ class DEVICE {
         return new Promise((resolve, reject) => {
             let ret = native_1.native.BCSDK_SetDeviceNeedAutoOpen(handle, need);
             if (ret != T.ERROR.E_NONE) {
-                reject({ code: ret });
+                reject({ code: ret, description: 'set need auto open' });
                 return;
             }
             resolve();
@@ -502,7 +529,7 @@ class DEVICE {
         return new Promise((resolve, reject) => {
             let ret = native_1.native.BCSDK_SetDeviceMaxReconnectCount(handle, count);
             if (ret != T.ERROR.E_NONE) {
-                reject({ code: ret });
+                reject({ code: ret, description: 'set max reconnect count' });
                 return;
             }
             resolve();
@@ -513,7 +540,7 @@ class DEVICE {
             let des = new _T.DEVICE_LOGIN_DESC();
             let ret = native_1.native.BCSDK_GetDeviceLoginMessage(handle, des.ref());
             if (ret != T.ERROR.E_NONE) {
-                reject({ code: ret });
+                reject({ code: ret, description: 'get login description' });
                 return;
             }
             let param = _cast_1.derefCast(des, _T.DEVICE_LOGIN_DESC);
@@ -525,7 +552,7 @@ class DEVICE {
             let buf = ref.alloc(ref.types.int, 0);
             let ret = native_1.native.BCSDK_GetDeviceChannelCount(handle, buf);
             if (ret != T.ERROR.E_NONE) {
-                reject({ code: ret });
+                reject({ code: ret, description: 'get channel count' });
                 return;
             }
             let value = ref.deref(buf);
@@ -537,7 +564,7 @@ class DEVICE {
             let buf = ref.alloc(ref.types.int, T.BCSDK_DEVICE_STATE_E.BCSDK_DEVICE_STATE_NOTREADY);
             let ret = native_1.native.BCSDK_GetDeviceState(handle, buf);
             if (ret != T.ERROR.E_NONE) {
-                reject({ code: ret });
+                reject({ code: ret, description: 'get device status' });
                 return;
             }
             let value = ref.deref(buf);

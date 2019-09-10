@@ -6,6 +6,8 @@ export interface DeviceCallback {
     alarmReportCallback: (handle: number, status: T.BC_ALARM_STATUS_REPORT) => void;
     cameraStateCallback: (handle: number) => void;
     noInteractionCallback: (handle: number, report: T.BC_TIME_WITHOUT_INTERACTION) => void;
+    batteryExceptionCallback: (handle: number, exception: boolean) => void;
+    batteryInfoCallback: (handle: number, info: T.BC_BATTERY_INFO) => void;
 }
 export interface IYUVPlane {
     width: number;

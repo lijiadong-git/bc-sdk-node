@@ -840,11 +840,11 @@ exports.BC_MOTION_CFG = refStruct({
     isCopyTo: ref.types.bool,
     bEnable: ref.types.bool // FALSE: disable, TRUE:enable
     ,
-    iWidth: ref.types.int // video image width, max:96
+    iWidth: ref.types.int // video image width, max:120
     ,
-    iHeight: ref.types.int // video image hight, max:64
+    iHeight: ref.types.int // video image hight, max:68
     ,
-    bMotionScope: refArray(ref.types.bool, 64 * 96) // 1: set to motion, 0: not set
+    bMotionScope: refArray(ref.types.bool, types_1.DEFINDE.BC_MD_AREA_MAX_HEIGHT * types_1.DEFINDE.BC_MD_AREA_MAX_WIDTH) // 1: set to motion, 0: not set
     ,
     sensitivityInfo: refArray(exports.BC_SENSITIVITY_INFO, types_1.DEFINDE.BC_MAX_MOTION_SENS_NUM),
     alarmOut: exports.BC_ALARM_OUT,
@@ -1225,6 +1225,11 @@ exports.BC_BATTERY_INFO = refStruct({
     adcOfPartB: ref.types.int
 });
 exports.P_BC_BATTERY_INFO = exports.pointer(exports.BC_BATTERY_INFO);
+exports.BC_BATTERY_INFO_LIST = refStruct({
+    size: ref.types.int,
+    infoList: refArray(exports.BC_BATTERY_INFO, types_1.DEFINDE.BC_MAX_CHANNEL)
+});
+exports.P_BC_BATTERY_INFO_LIST = exports.pointer(exports.BC_BATTERY_INFO_LIST);
 exports.BC_BATTERY_ANALYSIS = refStruct({
     iChannel: ref.types.int,
     iDays: ref.types.int,
@@ -1379,4 +1384,10 @@ exports.BC_TIME_WITHOUT_INTERACTION = refStruct({
     duration: ref.types.int // seconds
 });
 exports.P_BC_TIME_WITHOUT_INTERACTION = exports.pointer(exports.BC_TIME_WITHOUT_INTERACTION);
+exports.BC_DEVICE_EXCEPTION = refStruct({
+    iExceptionCode: ref.types.int,
+    adcOfPartA: ref.types.int,
+    adcOfPartB: ref.types.int
+});
+exports.P_BC_DEVICE_EXCEPTION = exports.pointer(exports.BC_DEVICE_EXCEPTION);
 //# sourceMappingURL=_struct.js.map
