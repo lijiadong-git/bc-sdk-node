@@ -1599,3 +1599,11 @@ export interface BC_DEVICE_EXCEPTION {
     adcOfPartA: number;
     adcOfPartB: number;
 }
+export interface BC_TRANSFORM {
+    a: number;
+    b: number;
+    c: number;
+    d: number;
+    tx: number;
+    ty: number;
+}

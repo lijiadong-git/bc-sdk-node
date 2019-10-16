@@ -1,4 +1,5 @@
 /// <reference types="node" />
+import * as T from '../types';
 declare class PLAYER {
     private static singleton;
     private constructor();
@@ -8,6 +9,8 @@ declare class PLAYER {
     resize(hPlayer: number, x: number, y: number, w: number, h: number): number;
     show(hPlayer: number): number;
     hide(hPlayer: number): number;
+    setTransform(hPlayer: number, transform: T.BC_TRANSFORM): number;
+    getTransform(hPlayer: number): T.BC_TRANSFORM;
     clear(hPlayer: number, r: number, g: number, b: number): number;
     forceClear(hPlayer: number, r: number, g: number, b: number): number;
     capture(hPlayer: number, path: string): number;

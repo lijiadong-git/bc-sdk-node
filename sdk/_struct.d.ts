@@ -307,3 +307,5 @@ export declare const BC_TIME_WITHOUT_INTERACTION: refStruct;
 export declare const P_BC_TIME_WITHOUT_INTERACTION: ref.Type;
 export declare const BC_DEVICE_EXCEPTION: refStruct;
 export declare const P_BC_DEVICE_EXCEPTION: ref.Type;
+export declare const BC_TRANSFORM: refStruct;
+export declare const P_BC_TRANSFORM: ref.Type;

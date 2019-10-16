@@ -1390,4 +1390,13 @@ exports.BC_DEVICE_EXCEPTION = refStruct({
     adcOfPartB: ref.types.int
 });
 exports.P_BC_DEVICE_EXCEPTION = exports.pointer(exports.BC_DEVICE_EXCEPTION);
+exports.BC_TRANSFORM = refStruct({
+    a: ref.types.float,
+    b: ref.types.float,
+    c: ref.types.float,
+    d: ref.types.float,
+    tx: ref.types.float,
+    ty: ref.types.float
+});
+exports.P_BC_TRANSFORM = exports.pointer(exports.BC_TRANSFORM);
 //# sourceMappingURL=_struct.js.map

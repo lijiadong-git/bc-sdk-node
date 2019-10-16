@@ -243,6 +243,8 @@ export interface NativeMethods {
     BCSDK_PlayerResize: (hPlayer: number, x: number, y: number, w: number, h: number) => number;
     BCSDK_PlayerShow: (hPlayer: number) => number;
     BCSDK_PlayerHide: (hPlayer: number) => number;
+    BCSDK_PlayerSetTransform: (hPlayer: number, pTransfrom: any) => number;
+    BCSDK_PlayerGetTransform: (hPlayer: number, pTransfrom: any) => number;
     BCSDK_PlayerClear: (hPlayer: number, r: number, g: number, b: number) => number;
     BCSDK_PlayerForceClear: (hPlayer: number, r: number, g: number, b: number) => number;
     BCSDK_PlayerCapture: (hPlayer: number, path: string) => number;
