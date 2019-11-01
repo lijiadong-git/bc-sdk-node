@@ -441,7 +441,7 @@ exports.BC_RF_ALARM_CFG = refStruct({
     ,
     iInvalid: ref.types.int,
     channelNum: ref.types.int,
-    triggeredHandleType: refArray(ref.types.int, types_1.DEFINDE.BC_MAX_DAYS * types_1.DEFINDE.BC_MAX_CHANNEL),
+    triggeredHandleType: refArray(ref.types.int, types_1.DEFINDE.BC_MAX_CHANNEL),
     iTimeTable: refArray(ref.types.int, types_1.DEFINDE.BC_MAX_DAYS * types_1.DEFINDE.BC_MAX_TIMESEGMENT)
 });
 exports.P_BC_RF_ALARM_CFG = exports.pointer(exports.BC_RF_ALARM_CFG);
