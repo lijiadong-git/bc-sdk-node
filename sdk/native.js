@@ -27,6 +27,7 @@ const MFFI = ffi.Library(path.join(folder, 'libBCSDKWrapper'), {
      * Device interfaces
      *
      ************************************************************************/
+    BCSDK_Open: ['int', ['int', 'int']],
     BCSDK_AddDevice: ['int', [_T.P_DEVICE_LOGIN_DESC, _T.P_DEVICE_CALLBACK_DESC, _T.pointer('int')]],
     BCSDK_RemoveDevice: ['int', ['int']],
     BCSDK_RemoveAllDevices: ['int', ['void']],
@@ -981,6 +982,7 @@ class NativeDelegate {
          *  Methods for Device
          *
          ****************************************************************/
+        this.BCSDK_Open = MFFI.BCSDK_Open;
         this.BCSDK_AddDevice = MFFI.BCSDK_AddDevice;
         this.BCSDK_RemoveDevice = MFFI.BCSDK_RemoveDevice;
         this.BCSDK_RemoveAllDevices = MFFI.BCSDK_RemoveAllDevices;

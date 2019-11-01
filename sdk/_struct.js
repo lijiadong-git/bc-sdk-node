@@ -434,7 +434,7 @@ exports.BC_RF_ALARM_CFG = refStruct({
     iRfId: ref.types.int,
     bEnable: ref.types.bool,
     iSupportSensitivity: ref.types.bool,
-    eSensitivity: ref.types.bool,
+    eSensitivity: ref.types.int,
     iSensitivityValue: ref.types.int // 1 ~ 100
     ,
     iReduceFalseAlarm: ref.types.int // 0:disable 1:enable

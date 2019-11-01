@@ -12,6 +12,7 @@ export interface NativeMethods {
      *  Methods for Device
      *
      ****************************************************************/
+    BCSDK_Open: (exceptCNServer: number, exceptRUServer: number) => number;
     BCSDK_AddDevice: (loginDes: any, callbackDes: any, pError: any) => number;
     BCSDK_RemoveDevice: (handle: number) => number;
     BCSDK_RemoveAllDevices: () => number;

@@ -288,6 +288,7 @@ const deviceCallback = ffi_1.Callback('void', ['int', _T.BC_CMD_DATA, _T.pointer
 // -----------------------------------------------------------------------------
 class DEVICE {
     constructor() {
+        native_1.native.BCSDK_Open(0, 0);
     }
     static instance() {
         return DEVICE.singleton;
