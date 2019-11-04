@@ -39,6 +39,7 @@ const deviceCallback = ffi_1.Callback('void', ['int', _T.BC_CMD_DATA, _T.pointer
         case T.BC_CMD_E.E_BC_CMD_WITHOUT_INTERATION_REPORT:
         case T.BC_CMD_E.E_BC_CMD_REPORT_DEVICE_EXCEPTION:
         case T.BC_CMD_E.E_BC_CMD_REPORT_BATTERY_INFO_LIST:
+        case T.BC_CMD_E.E_BC_CMD_REPORT_3G_4G_INFO:
             {
                 exports.device.handleSDKCallback(handle, cmdData);
                 break;
@@ -237,7 +238,6 @@ const deviceCallback = ffi_1.Callback('void', ['int', _T.BC_CMD_DATA, _T.pointer
         case T.BC_CMD_E.E_BC_CMD_SET_ISP_DAY_NIGHT_MODE:
         case T.BC_CMD_E.E_BC_CMD_BASE_SET_WIFI_QRCODE:
         case T.BC_CMD_E.E_BC_CMD_GET_3G_4G_INFO:
-        case T.BC_CMD_E.E_BC_CMD_REPORT_3G_4G_INFO:
         case T.BC_CMD_E.E_BC_CMD_GET_SIM_MODULE_INFO:
         case T.BC_CMD_E.E_BC_CMD_SET_SIM_MODULE_INFO:
         case T.BC_CMD_E.E_BC_CMD_GET_BATTERY_ANALYSIS:
@@ -376,6 +376,18 @@ class DEVICE {
                         if (param.size > 0) {
                             callback.sdkCallback.batteryInfoCallback(handle, param.infoList[0]);
                         }
+                    }
+                }
+                break;
+            }
+            case T.BC_CMD_E.E_BC_CMD_REPORT_3G_4G_INFO: {
+                let callback = _callback_1.COMMON_CBS.getCallback(handle, 0, cmdData.bcCmd, cmdData.cmdIdx);
+                if (callback && callback.sdkCallback) {
+                    if (_T.BC_3G_4G_INFO.size === cmdData.dataLen) {
+                        let buf = ref.reinterpret(cmdData.pRspData, cmdData.dataLen);
+                        let data = ref.get(buf, 0, _T.BC_3G_4G_INFO);
+                        let param = _cast_1.derefCast(data, _T.BC_3G_4G_INFO);
+                        callback.sdkCallback.info3G4GCallback(handle, param);
                     }
                 }
                 break;

@@ -8,6 +8,7 @@ export interface DeviceCallback {
     noInteractionCallback: (handle: number, report: T.BC_TIME_WITHOUT_INTERACTION) => void;
     batteryExceptionCallback: (handle: number, exception: boolean) => void;
     batteryInfoCallback: (handle: number, info: T.BC_BATTERY_INFO) => void;
+    info3G4GCallback: (handle: number, info: T.BC_3G_4G_INFO) => void;
 }
 export interface IYUVPlane {
     width: number;

@@ -1,6 +1,6 @@
 {
   "name": "bc-sdk",
-  "version": "0.0.53",
+  "version": "0.0.54",
   "description": "sdk for baichuan shenzhen",
   "main": "index.js",
   "typings": "index.d.ts",
