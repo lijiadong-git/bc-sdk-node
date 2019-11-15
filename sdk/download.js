@@ -33,6 +33,17 @@ class DOWNLOAD {
                 callback.sdkCallback(cmdData.bcRspCode, progress);
                 break;
             }
+            case T.BC_CMD_E.E_BC_CMD_DOWNLOAD_STOP: {
+                _callback_1.PROMISE_CBS.handleCallback(handle, 0, T.BC_CMD_E.E_BC_CMD_DOWNLOAD, cmdData.cmdIdx, callback => {
+                    if (callback.sdkReject) {
+                        callback.sdkReject({
+                            code: T.BC_RSP_CODE_E.E_BC_RSP_CONNECT_FAILED,
+                            description: "download stoped ..."
+                        });
+                    }
+                });
+                // no break
+            }
             default: {
                 _callback_1.PROMISE_CBS.handleCallback(handle, 0, cmdData.bcCmd, cmdData.cmdIdx, callback => {
                     if (T.BC_RSP_CODE_E.E_BC_RSP_OK == cmdData.bcRspCode) {
@@ -70,6 +81,7 @@ class DOWNLOAD {
     }
     stopDownload(handle) {
         return new Promise((resolve, reject) => {
+            _callback_1.COMMON_CBS.clearCallback(handle, 0, T.BC_CMD_E.E_BC_CMD_DOWNLOAD_PROGRESS, 0);
             let ret = native_1.native.BCSDK_StopDownload(handle, 0);
             if (ret != T.ERROR.E_NONE) {
                 reject({ code: ret, description: 'stop download' });
@@ -80,7 +92,6 @@ class DOWNLOAD {
                 sdkReject: reject
             };
             _callback_1.PROMISE_CBS.addCallback(handle, 0, T.BC_CMD_E.E_BC_CMD_DOWNLOAD_STOP, 0, cb);
-            _callback_1.COMMON_CBS.clearCallback(handle, 0, T.BC_CMD_E.E_BC_CMD_DOWNLOAD_PROGRESS, 0);
         });
     }
 }

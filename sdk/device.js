@@ -440,13 +440,13 @@ class DEVICE {
     }
     remove(handle) {
         return new Promise((resolve, reject) => {
+            _callback_1.COMMON_CBS.clearCallbackForHandle(handle);
             let ret = native_1.native.BCSDK_RemoveDevice(handle);
             if (ret != T.ERROR.E_NONE) {
                 reject({ code: ret, description: 'device remove' });
                 return;
             }
             _callback_1.PROMISE_CBS.clearCallbackForHandle(handle);
-            _callback_1.COMMON_CBS.clearCallbackForHandle(handle);
             resolve();
         });
     }
