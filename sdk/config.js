@@ -15,6 +15,9 @@ class CONFIG {
     static instance() {
         return CONFIG.singleton;
     }
+    static getCmdIndex() {
+        return (++CONFIG.CMDIDX) % 32786;
+    }
     static handleSDKGetCallback(type, handle, cmdData) {
         const channel = (cmdData.handleId & 0x000000ff) % T.DEFINDE.BC_MAX_CHANNEL;
         _callback_1.PROMISE_CBS.handleCallback(handle, channel, cmdData.bcCmd, cmdData.cmdIdx, callback => {
@@ -525,7 +528,7 @@ class CONFIG {
         return this.deviceCmd(handle, T.BC_CMD_E.E_BC_CMD_GET_SYS, native_1.native.BCSDK_RemoteGetSysGeneralCfg);
     }
     setSysGeneralCfg(handle, param) {
-        return this.deviceCmd(handle, T.BC_CMD_E.E_BC_CMD_SET_SYS, native_1.native.BCSDK_RemoteSetSysGeneralCfg, param, _T.BC_SYS_GENERAL_CFG, 0);
+        return this.deviceCmd(handle, T.BC_CMD_E.E_BC_CMD_SET_SYS, native_1.native.BCSDK_RemoteSetSysGeneralCfg, param, _T.BC_SYS_GENERAL_CFG, CONFIG.getCmdIndex());
     }
     setDeviceName(handle, param) {
         return this.deviceCmd(handle, T.BC_CMD_E.E_BC_CMD_SET_DEVICE_NAME, native_1.native.BCSDK_RemoteSetDeviceName, param, _T.BC_DEVICE_NAME_CFG);
@@ -555,7 +558,7 @@ class CONFIG {
         return this.deviceCmd(handle, T.BC_CMD_E.E_BC_CMD_GET_ADVRECORD, native_1.native.BCSDK_RemoteGetRecordGenCfg);
     }
     setRecordGenCfg(handle, param) {
-        return this.deviceCmd(handle, T.BC_CMD_E.E_BC_CMD_SET_ADVRECORD, native_1.native.BCSDK_RemoteSetRecordGenCfg, param, _T.BC_RECORD_GENERAL_CFG, 0);
+        return this.deviceCmd(handle, T.BC_CMD_E.E_BC_CMD_SET_ADVRECORD, native_1.native.BCSDK_RemoteSetRecordGenCfg, param, _T.BC_RECORD_GENERAL_CFG, CONFIG.getCmdIndex());
     }
     /* email
      *
@@ -741,7 +744,7 @@ class CONFIG {
         return this.channelCmd(handle, rfId, T.BC_CMD_E.E_BC_CMD_GET_RF_CFG, native_1.native.BCSDK_RemoteGetRfAlarmCfg);
     }
     setRfAlarmCfg(handle, param) {
-        return this.deviceCmd(handle, T.BC_CMD_E.E_BC_CMD_SET_RF_CFG, native_1.native.BCSDK_RemoteSetRfAlarmCfg, param, _T.BC_RF_ALARM_CFG, 0);
+        return this.deviceCmd(handle, T.BC_CMD_E.E_BC_CMD_SET_RF_CFG, native_1.native.BCSDK_RemoteSetRfAlarmCfg, param, _T.BC_RF_ALARM_CFG, CONFIG.getCmdIndex());
     }
     setRfAlarmStatus(handle, param) {
         return this.deviceCmd(handle, T.BC_CMD_E.E_BC_CMD_SET_RF_ALARM_STATUS, native_1.native.BCSDK_RemoteSetRfAlarmStatus, param, _T.BC_RF_ALARM_STATUS);
@@ -754,7 +757,7 @@ class CONFIG {
         return this.deviceCmd(handle, T.BC_CMD_E.E_BC_CMD_GET_DST, native_1.native.BCSDK_RemoteGetDst);
     }
     setDst(handle, param) {
-        return this.deviceCmd(handle, T.BC_CMD_E.E_BC_CMD_SET_DST, native_1.native.BCSDK_RemoteSetDst, param, _T.BC_DST_CFG, 0);
+        return this.deviceCmd(handle, T.BC_CMD_E.E_BC_CMD_SET_DST, native_1.native.BCSDK_RemoteSetDst, param, _T.BC_DST_CFG, CONFIG.getCmdIndex());
     }
     /* DDNS
      *
@@ -1089,7 +1092,7 @@ class CONFIG {
         return this.channelCmd(handle, channel, T.BC_CMD_E.E_BC_CMD_GET_OSD, native_1.native.BCSDK_RemoteGetOsdCfg);
     }
     setOsdCfg(handle, channel, param) {
-        return this.channelCmd(handle, channel, T.BC_CMD_E.E_BC_CMD_SET_OSD, native_1.native.BCSDK_RemoteSetOsdCfg, param, _T.BC_OSD_CFG, 0);
+        return this.channelCmd(handle, channel, T.BC_CMD_E.E_BC_CMD_SET_OSD, native_1.native.BCSDK_RemoteSetOsdCfg, param, _T.BC_OSD_CFG, CONFIG.getCmdIndex());
     }
     /* cameraCfg
      *
@@ -1139,7 +1142,7 @@ class CONFIG {
         return this.channelCmd(handle, channel, T.BC_CMD_E.E_BC_CMD_GET_MOTION, native_1.native.BCSDK_RemoteGetMotionCfg);
     }
     setMotionCfg(handle, channel, param) {
-        return this.channelCmd(handle, channel, T.BC_CMD_E.E_BC_CMD_SET_MOTION, native_1.native.BCSDK_RemoteSetMotionCfg, param, _T.BC_MOTION_CFG, 0);
+        return this.channelCmd(handle, channel, T.BC_CMD_E.E_BC_CMD_SET_MOTION, native_1.native.BCSDK_RemoteSetMotionCfg, param, _T.BC_MOTION_CFG, CONFIG.getCmdIndex());
     }
     /* Video Loss
      *
@@ -1175,11 +1178,11 @@ class CONFIG {
         return this.channelCmd(handle, channel, T.BC_CMD_E.E_BC_CMD_SET_CRUISE, native_1.native.BCSDK_RemoteSetCruise, param, _T.BC_PTZ_CRUISES);
     }
     cruiseInvoke(handle, channel) {
-        return this.channelCmd(handle, channel, T.BC_CMD_E.E_BC_CMD_PTZ_CONTROL, native_1.native.BCSDK_RemoteCruiseInvoke, 0);
+        return this.channelCmd(handle, channel, T.BC_CMD_E.E_BC_CMD_PTZ_CONTROL, native_1.native.BCSDK_RemoteCruiseInvoke, CONFIG.getCmdIndex());
     }
     cruiseStop(handle, channel) {
         // TODO: same cmd with cruise Invoke
-        return this.channelCmd(handle, channel, T.BC_CMD_E.E_BC_CMD_PTZ_CONTROL, native_1.native.BCSDK_RemoteCruiseStop, 0);
+        return this.channelCmd(handle, channel, T.BC_CMD_E.E_BC_CMD_PTZ_CONTROL, native_1.native.BCSDK_RemoteCruiseStop, CONFIG.getCmdIndex());
     }
     /* isp
      *
@@ -1192,7 +1195,7 @@ class CONFIG {
         return this.channelCmd(handle, channel, T.BC_CMD_E.E_BC_CMD_GET_DEFAULT_CAMERA, native_1.native.BCSDK_RemoteGetDefaultIspCfg);
     }
     setIspCfg(handle, channel, param) {
-        return this.channelCmd(handle, channel, T.BC_CMD_E.E_BC_CMD_SET_CAMERA, native_1.native.BCSDK_RemoteSetIspCfg, param, _T.BC_ISP_CFG, 0);
+        return this.channelCmd(handle, channel, T.BC_CMD_E.E_BC_CMD_SET_CAMERA, native_1.native.BCSDK_RemoteSetIspCfg, param, _T.BC_ISP_CFG, CONFIG.getCmdIndex());
     }
     setIspDayNightMode(handle, channel, param) {
         return this.channelCmd(handle, channel, T.BC_CMD_E.E_BC_CMD_SET_ISP_DAY_NIGHT_MODE, native_1.native.BCSDK_RemoteSetIspDayNightMode, param, _T.BC_DAY_NIGHT_MODE_CFG);
@@ -1205,7 +1208,7 @@ class CONFIG {
         return this.channelCmd(handle, channel, T.BC_CMD_E.E_BC_CMD_GET_LED_STATE, native_1.native.BCSDK_RemoteGetLedState);
     }
     setLedState(handle, channel, param) {
-        return this.channelCmd(handle, channel, T.BC_CMD_E.E_BC_CMD_SET_LED_STATE, native_1.native.BCSDK_RemoteSetLedState, param, _T.BC_LED_LIGHT_STATE, 0);
+        return this.channelCmd(handle, channel, T.BC_CMD_E.E_BC_CMD_SET_LED_STATE, native_1.native.BCSDK_RemoteSetLedState, param, _T.BC_LED_LIGHT_STATE, CONFIG.getCmdIndex());
     }
     /* Ftp Task
      *
@@ -1340,5 +1343,6 @@ class CONFIG {
     }
 }
 CONFIG.singleton = new CONFIG();
+CONFIG.CMDIDX = 0;
 exports.config = CONFIG.instance();
 //# sourceMappingURL=config.js.map

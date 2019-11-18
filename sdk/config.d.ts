@@ -3,6 +3,8 @@ declare class CONFIG {
     private static singleton;
     private constructor();
     static instance(): CONFIG;
+    private static CMDIDX;
+    private static getCmdIndex;
     private static handleSDKGetCallback;
     handleSDKCallback(handle: number, cmdData: any): void;
     private deviceCmd;
