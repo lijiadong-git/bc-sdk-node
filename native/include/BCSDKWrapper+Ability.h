@@ -129,12 +129,14 @@ extern "C" {
     int _BCSDK_ BCSDK_GetSupportExtenStreamCfg(H_BC_DEVICE hDevice, int channel, bool *support);
     int _BCSDK_ BCSDK_GetSupportLEDControl(H_BC_DEVICE hDevice, int channel, bool *support);
     int _BCSDK_ BCSDK_GetSupportIndicatorLight(H_BC_DEVICE hDevice, int channel, bool *support);
+	int _BCSDK_ BCSDK_GetSupportFloodlight(H_BC_DEVICE hDevice, int channel, bool *support);
     int _BCSDK_ BCSDK_GetSupportPtzSpeed(H_BC_DEVICE hDevice, int channel, bool *support);
     int _BCSDK_ BCSDK_GetSupportPtzCruise(H_BC_DEVICE hDevice, int channel, bool *support);
     int _BCSDK_ BCSDK_GetSupportPtzPreset(H_BC_DEVICE hDevice, int channel, bool *support);
     int _BCSDK_ BCSDK_GetSupportPt(H_BC_DEVICE hDevice, int channel, bool *support);
     int _BCSDK_ BCSDK_GetSupportAutoPt(H_BC_DEVICE hDevice, int channel, bool *support);
     int _BCSDK_ BCSDK_GetSupportZoomAndFocus(H_BC_DEVICE hDevice, int channel, bool *support);
+	int _BCSDK_ BCSDK_GetSupportZoomAndFocusSliderCfg(H_BC_DEVICE hDevice, int channel, bool *support);
     int _BCSDK_ BCSDK_GetSupportAudio(H_BC_DEVICE hDevice, int channel, bool *support);
     int _BCSDK_ BCSDK_GetSupportAutoFocus(H_BC_DEVICE hDevice, int channel, bool *support);
     int _BCSDK_ BCSDK_GetSupportCropSnap(H_BC_DEVICE hDevice, int channel, bool *support);
@@ -168,6 +170,7 @@ extern "C" {
     int _BCSDK_ BCSDK_GetSupportIspSatruation(H_BC_DEVICE hDevice, int channel, bool *support);
     int _BCSDK_ BCSDK_GetSupportIspHue(H_BC_DEVICE hDevice, int channel, bool *support);
     int _BCSDK_ BCSDK_GetSupportIspSharpen(H_BC_DEVICE hDevice, int channel, bool *support);
+	int _BCSDK_ BCSDK_GetSupportIspDayNightThreshold(H_BC_DEVICE hDevice, int channel, bool *support);
     
     //
     // base version: base device version, 0: not base device

@@ -8,7 +8,25 @@ extern "C" {
 #include <stdio.h>    
 #include "BCSDKCommon.h"
     
+    /*******************************************************************************
+    *
+    * MARK: SDK init
+    *
+    ******************************************************************************/
     
+    /* sdk open
+     *
+     * this method must be called before add devies
+     *
+     * @param bexcept_server_cn     except p2p server in china
+     *        bexcept_server_ru     except p2p server in russia
+     *
+     */
+    int _BCSDK_ BCSDK_Open(int bexcept_server_cn, int bexcept_server_ru);
+
+
+
+
     /*******************************************************************************
      *
      * MARK: Device Manager
@@ -46,7 +64,7 @@ extern "C" {
     
     /* remove an device
      *
-     * @@return                 E_NONE, success
+     * @return                 E_NONE, success
      *                          E_NOT_FOUND, error handle
      */
     int _BCSDK_ BCSDK_RemoveDevice(H_BC_DEVICE hDevice);
@@ -54,7 +72,7 @@ extern "C" {
     
     /* remove all devices
      *
-     * @@return                 E_NONE, success
+     * @return                 E_NONE, success
      */
     int _BCSDK_ BCSDK_RemoveAllDevices();
     

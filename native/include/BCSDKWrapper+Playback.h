@@ -12,7 +12,7 @@ extern "C" {
      * MARK: Channel
      ******************************************************************************/
     
-    // ------------------------------------------------------------------------------------------------------------
+    // -------------------------------------------------------------------------------
     // playback
     int _BCSDK_ BCSDK_RecordFilesSearch(H_BC_DEVICE hDevice, int channel, const char *uid/*for NAS*/, BC_TIME start, BC_TIME end, RECORD_TYPE type, BC_STREAM_TYPE_E streamType, int seq);
     int _BCSDK_ BCSDK_AlarmVideosSearch(H_BC_DEVICE hDevice, int channel, BC_TIME start, BC_TIME end, BC_STREAM_TYPE_E streamType, int seq);
@@ -35,23 +35,9 @@ extern "C" {
                                    OnRenderFrameCallback playbackFrameCallback,
                                    void *userData);
     
-    /**
-     * use with BCSDK_PlaybackOpen2
-     */
-    int _BCSDK_ BCSDK_SetPlaybackPlayer(H_BC_DEVICE hDevice, int channel, H_BC_PLAYER hPlayer);
-    
-    int _BCSDK_ BCSDK_PlaybackOpen2(H_BC_DEVICE hDevice,
-                                    int channel,
-                                    const char *uid,//for NAS
-                                    const char *fileNam,
-                                    const char *cacheFile,
-                                    bool subStream,
-                                    float speedMultiple,
-                                    H_BC_PLAYER hPlayer,
-                                    OnCommonFrameCallback callback,
-                                    void *userData);
-    
     int _BCSDK_ BCSDK_PlaybackClose(H_BC_DEVICE hDevice, int channel);
+
+    int _BCSDK_ BCSDK_PlaybackClose2(H_BC_DEVICE hDevice, int channel);
    
     int _BCSDK_ BCSDK_PlaybackStart(H_BC_DEVICE hDevice, int channel);
     

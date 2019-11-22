@@ -7,7 +7,6 @@ export * from './ability';
 export * from './live';
 export * from './playback';
 export * from './talk';
-export * from './player';
 export * from './ptz';
 export * from './search';
 export * from './download';

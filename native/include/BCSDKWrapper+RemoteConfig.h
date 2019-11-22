@@ -210,6 +210,14 @@ extern "C" {
     int _BCSDK_ BCSDK_RemoteGetRfAlarmCfg(H_BC_DEVICE hDevice, int rfId);
     int _BCSDK_ BCSDK_RemoteSetRfAlarmCfg(H_BC_DEVICE hDevice, BC_RF_ALARM_CFG *rfAlarmCfg, int cmdIdx);
     int _BCSDK_ BCSDK_RemoteSetRfAlarmStatus(H_BC_DEVICE hDevice, BC_RF_ALARM_STATUS *rfAlarmStatus);
+
+
+	/* RF Test
+     *
+     * callback with E_BC_CMD_RF_TEST_START, E_BC_CMD_RF_TEST_STOP
+     */
+	int _BCSDK_ BCSDK_RemoteRfTestStart(H_BC_DEVICE hDevice, BC_RF_TEST_START *rfTestStart);
+	int _BCSDK_ BCSDK_RemoteRfTestStop(H_BC_DEVICE hDevice, BC_RF_TEST_STOP *rfTestStop);
     
     
     /* DST
@@ -565,7 +573,21 @@ extern "C" {
      */
     int _BCSDK_ BCSDK_RemoteGetLedState(H_BC_DEVICE hDevice, int channel);
     int _BCSDK_ BCSDK_RemoteSetLedState(H_BC_DEVICE hDevice, int channel, BC_LED_LIGHT_STATE *ledState, int cmdIdx);
-    
+
+	/* Floodlight
+    *
+    * callback with E_BC_CMD_FLOODLIGHT_MANUAL, E_BC_CMD_GET_FLOODLIGHT_TASK, E_BC_CMD_SET_FLOODLIGHT_TASK
+    */
+    int _BCSDK_ BCSDK_RemoteFloodlightManual(H_BC_DEVICE hDevice, int channel, BC_FLOODLIGHT_MANUAL *param, int cmdIdx);
+    int _BCSDK_ BCSDK_RemoteGetFloodlightTask(H_BC_DEVICE hDevice, int channel);
+    int _BCSDK_ BCSDK_RemoteSetFloodlightTask(H_BC_DEVICE hDevice, int channel, BC_FLOODLIGHT_TASK *param, int cmdIdx);
+	
+	/* day night threshold
+	 *
+	 * callback with NET_GET_DAY_NIGHT_THRESHOLD_V20, NET_SET_DAY_NIGHT_THRESHOLD_V20
+	 */
+	int _BCSDK_ BCSDK_RemoteGetDayNightThreshold(H_BC_DEVICE hDevice, int channel);
+	int _BCSDK_ BCSDK_RemoteSetDayNightThreshold(H_BC_DEVICE hDevice, int channel, BC_DAY_NIGHT_THRESHOLD_CFG *dnThreshold, int cmdIdx);
     
     /* Ftp Task
      *
@@ -623,6 +645,13 @@ extern "C" {
      */
     int _BCSDK_ BCSDK_RemoteGetAutoFocus(H_BC_DEVICE hDevice, int channel);
     int _BCSDK_ BCSDK_RemoteSetAutoFocus(H_BC_DEVICE hDevice, int channel, BC_PTZ_AUTO_FOCUS *autoFocus);
+	
+	/* Zoom Focus
+	 *
+	 * callback with E_BC_CMD_GET_ZOOM_FOCUS_INFO, E_BC_CMD_START_ZOOM_FOCUS
+	 */
+	int _BCSDK_ BCSDK_RemoteGetZoomFocusInfo(H_BC_DEVICE hDevice, int channel);
+	int _BCSDK_ BCSDK_RemoteStartZoomFocus(H_BC_DEVICE hDevice, int channel, BC_START_ZOOM_FOCUS *startZf);
     
     
     /* Crop Cfg
