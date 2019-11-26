@@ -165,6 +165,18 @@ class TOOLS {
             resolve(value);
         });
     }
+    getDiskFree(path) {
+        return new Promise((resolve, reject) => {
+            let buf = ref.alloc(ref.types.ulonglong, 0);
+            let ret = native_1.native.BCSDK_GetDiskFreeSize(path, buf);
+            if (T.ERROR.E_NONE != ret) {
+                reject({ code: ret });
+                return;
+            }
+            let value = ref.deref(buf);
+            resolve(value);
+        });
+    }
 }
 TOOLS.singleton = new TOOLS();
 exports.tools = TOOLS.instance();

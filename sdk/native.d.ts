@@ -477,5 +477,6 @@ export interface NativeMethods {
     BCSDK_Decrypt: (pBuf: any) => number;
     BCSDK_GetSpeakerVolume: (volume: any) => number;
     BCSDK_SetSpeakerVolume: (volume: number) => number;
+    BCSDK_GetDiskFreeSize: (path: string, size: any) => number;
 }
 export declare const native: NativeMethods;

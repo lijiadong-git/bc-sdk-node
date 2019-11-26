@@ -16,6 +16,7 @@ declare class TOOLS {
     decrypt(dec: string): Promise<string>;
     setSpeakerVolume(volume: number): Promise<void>;
     getSpeakerVolume(): Promise<number>;
+    getDiskFree(path: string): Promise<number>;
 }
 export declare const tools: TOOLS;
 export {};

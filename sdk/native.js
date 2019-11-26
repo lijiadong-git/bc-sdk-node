@@ -953,7 +953,8 @@ const MFFI = ffi.Library(path.join(folder, 'libBCSDKWrapper'), {
     BCSDK_Encrypt: ['int', [_T.P_BC_CRYPT_BUF]],
     BCSDK_Decrypt: ['int', [_T.P_BC_CRYPT_BUF]],
     BCSDK_GetSpeakerVolume: ['int', [_T.pointer('int')]],
-    BCSDK_SetSpeakerVolume: ['int', ['int']]
+    BCSDK_SetSpeakerVolume: ['int', ['int']],
+    BCSDK_GetDiskFreeSize: ['int', ['string', _T.pointer('ulonglong')]]
 });
 class NativeDelegate {
     constructor() {
@@ -1787,6 +1788,7 @@ class NativeDelegate {
         this.BCSDK_Decrypt = MFFI.BCSDK_Decrypt;
         this.BCSDK_GetSpeakerVolume = MFFI.BCSDK_GetSpeakerVolume;
         this.BCSDK_SetSpeakerVolume = MFFI.BCSDK_SetSpeakerVolume;
+        this.BCSDK_GetDiskFreeSize = MFFI.BCSDK_GetDiskFreeSize;
     }
     static instance() {
         return NativeDelegate.singleton;

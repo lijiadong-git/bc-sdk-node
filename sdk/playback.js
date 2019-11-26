@@ -343,11 +343,6 @@ class PLAYBACK {
     }
     close(handle, channel) {
         return new Promise((resolve, reject) => {
-            let ret = native_1.native.BCSDK_PlaybackClose(handle, channel);
-            if (ret < 0) {
-                reject({ code: ret });
-                return;
-            }
             // clean frame callback
             let key = 'handle:' + handle + 'channel' + channel;
             let cb = PLAYBACK.frameCallbcks.get(key);
@@ -359,6 +354,12 @@ class PLAYBACK {
                         PLAYBACK.frameCallbcks.delete(key);
                     }
                 }, 10000);
+            }
+            //
+            let ret = native_1.native.BCSDK_PlaybackClose(handle, channel);
+            if (ret < 0) {
+                reject({ code: ret });
+                return;
             }
             resolve();
         });

@@ -166,11 +166,6 @@ class LIVE {
     }
     liveClose(handle, channel) {
         return new Promise((resolve, reject) => {
-            let ret = native_1.native.BCSDK_LiveClose(handle, channel);
-            if (0 > ret) {
-                reject({ code: ret, description: 'live close' });
-                return;
-            }
             // clean frame callback
             let key = 'handle:' + handle + 'channel' + channel;
             let cb = LIVE.frameCallbcks.get(key);
@@ -182,6 +177,12 @@ class LIVE {
                         LIVE.frameCallbcks.delete(key);
                     }
                 }, 10000);
+            }
+            //
+            let ret = native_1.native.BCSDK_LiveClose(handle, channel);
+            if (0 > ret) {
+                reject({ code: ret, description: 'live close' });
+                return;
             }
             resolve();
         });
