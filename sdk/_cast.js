@@ -37,7 +37,7 @@ function refCast(data) {
         return obj;
     }
     if (type === 'string') {
-        let buf = new Buffer(data);
+        let buf = Buffer.from(data);
         return Array.prototype.slice.call(buf);
     }
     return data;

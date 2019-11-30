@@ -403,7 +403,7 @@ class DEVICE {
                         if (callback.sdkReject) {
                             callback.sdkReject({
                                 code: cmdData.bcRspCode,
-                                description: "device sdk callback ..."
+                                description: "device sdk callback ... " + T.BC_CMD_E[cmdData.bcCmd]
                             });
                         }
                     }
