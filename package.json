@@ -1,6 +1,6 @@
 {
   "name": "bc-sdk",
-  "version": "0.0.58",
+  "version": "0.0.60",
   "description": "sdk for baichuan shenzhen",
   "main": "index.js",
   "typings": "index.d.ts",
@@ -9,9 +9,7 @@
   },
   "dependencies": {
     "bindings": "~1.2.1",
-    "ffi": "git+https://github.com/node-ffi/node-ffi.git",
-    "nan": "^2.0.0",
-    "ref-array": "^1.2.0"
+    "ffi": "git+https://github.com/lijiadong-git/node-ffi.git"  
   },
   "devDependencies": {
     "@types/ffi": "^0.2.0",
