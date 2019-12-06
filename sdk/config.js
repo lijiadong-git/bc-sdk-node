@@ -447,7 +447,7 @@ class CONFIG {
                 sdkResolve: resolve,
                 sdkReject: reject
             };
-            _callback_1.PROMISE_CBS.addCallback(handle, 0, cmd, 0, cb);
+            _callback_1.PROMISE_CBS.addCallback(handle, 0, cmd, (cmdIdx ? cmdIdx : 0), cb);
         });
     }
     channelCmd(handle, channel, cmd, func, param, type, cmdIdx) {
