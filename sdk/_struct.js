@@ -45,6 +45,20 @@ exports.DEVICE_ABILITY_ABOUT = refStruct({
 });
 exports.P_DEVICE_ABILITY_ABOUT = exports.pointer(exports.DEVICE_ABILITY_ABOUT);
 // callback frame data
+exports.BC_AI_AREA = refStruct({
+    x: ref.types.uint16,
+    y: ref.types.uint16,
+    w: ref.types.uint16,
+    h: ref.types.uint16,
+    score: ref.types.uint8
+});
+exports.BC_AI_AREA.alignment = 1;
+exports.P_BC_AI_AREA = exports.pointer(exports.BC_AI_AREA);
+exports.BC_AI_DATA = refStruct({
+    length: ref.types.uint16,
+    areas: refArray(exports.BC_AI_AREA, types_1.DEFINDE.BC_MAX_AI_AREA_LEN)
+});
+exports.P_BC_AI_DATA = exports.pointer(exports.BC_AI_DATA);
 exports.RENDER_VIDEO_PLANE_DESC = refStruct({
     address: exports.pointer(ref.types.uint8) // plane base address of the picture
     ,
@@ -81,7 +95,9 @@ exports.RENDER_FRAME_DESC = refStruct({
     pts: ref.types.uint64,
     delay: ref.types.uint64 /*ms*/,
     video: exports.RENDER_VIDEO_FRAME_DESC,
-    audio: exports.RENDER_AUDIO_FRAME_DESC
+    audio: exports.RENDER_AUDIO_FRAME_DESC,
+    faceSet: exports.BC_AI_DATA,
+    peopleSet: exports.BC_AI_DATA
 });
 exports.P_RENDER_FRAME_DESC = exports.pointer(exports.RENDER_FRAME_DESC);
 exports.DATA_VIDEO_FRAME_DESC = refStruct({
@@ -90,13 +106,6 @@ exports.DATA_VIDEO_FRAME_DESC = refStruct({
     frameRate: ref.types.uint32
 });
 exports.P_DATA_VIDEO_FRAME_DESC = exports.pointer(exports.DATA_VIDEO_FRAME_DESC);
-exports.COMMON_FRAME_DESC = refStruct({
-    version: ref.types.int,
-    type: ref.types.uint32,
-    pts: ref.types.uint64,
-    delay: ref.types.uint64 /*ms*/
-});
-exports.P_COMMON_FRAME_DESC = exports.pointer(exports.COMMON_FRAME_DESC);
 exports.DATA_AUDIO_FRAME_DESC = refStruct({
     hasAAC: ref.types.uint8,
     sampleRate: ref.types.uint32,

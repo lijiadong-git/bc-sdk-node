@@ -1178,11 +1178,11 @@ class CONFIG {
         return this.channelCmd(handle, channel, T.BC_CMD_E.E_BC_CMD_SET_CRUISE, native_1.native.BCSDK_RemoteSetCruise, param, _T.BC_PTZ_CRUISES);
     }
     cruiseInvoke(handle, channel) {
-        return this.channelCmd(handle, channel, T.BC_CMD_E.E_BC_CMD_PTZ_CONTROL, native_1.native.BCSDK_RemoteCruiseInvoke, CONFIG.getCmdIndex());
+        return this.channelCmd(handle, channel, T.BC_CMD_E.E_BC_CMD_PTZ_CONTROL, native_1.native.BCSDK_RemoteCruiseInvoke, 0);
     }
     cruiseStop(handle, channel) {
         // TODO: same cmd with cruise Invoke
-        return this.channelCmd(handle, channel, T.BC_CMD_E.E_BC_CMD_PTZ_CONTROL, native_1.native.BCSDK_RemoteCruiseStop, CONFIG.getCmdIndex());
+        return this.channelCmd(handle, channel, T.BC_CMD_E.E_BC_CMD_PTZ_CONTROL, native_1.native.BCSDK_RemoteCruiseStop, 0);
     }
     /* isp
      *

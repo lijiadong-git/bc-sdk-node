@@ -2,7 +2,6 @@ import * as ffi from 'ffi';
 import * as T from '../types';
 export declare const renderCallbackFunc: ffi.Function;
 export declare const dataCallbackFunc: ffi.Function;
-export declare const commonCallbackFunc: ffi.Function;
 export declare const diskStatusCallback: ffi.Function;
 export declare const recordStatusCallback: ffi.Function;
 export declare const deviceFoundCallback: ffi.Function;

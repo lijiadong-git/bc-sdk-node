@@ -29,6 +29,8 @@ export declare namespace DEFINDE {
     const BC_MAX_RF_NUM_V20: number;
     const BC_MAX_DISKNUM: number;
     const BC_MAX_ENC_PROFILE_NUM: number;
+    const BC_MAX_AI_AREA_LEN: number;
+    const BC_MAX_COV_PRE_LEN: number;
     const BC_LOG_INFO_LEN: number;
     const BC_MAX_FRAME_SIZE: number;
     const BC_MAX_CONFIG_BUF_SIZE: number;
