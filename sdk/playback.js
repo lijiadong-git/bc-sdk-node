@@ -9,14 +9,14 @@ const _callback_1 = require("./_callback");
 class LengthBuf {
     constructor(len) {
         this.len = len;
-        this.buf = new Uint8Array(len);
+        this.buf = Buffer.alloc(len);
     }
     get buffer() { return this.buf; }
     get length() { return this.len; }
     set(buffer, length) {
         if (length > this.len) {
             this.len = length;
-            this.buf = new Uint8Array(length);
+            this.buf = Buffer.alloc(length);
         }
         this.buf.set(buffer);
     }

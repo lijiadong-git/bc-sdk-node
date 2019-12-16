@@ -1,3 +1,4 @@
+/// <reference types="node" />
 import * as T from './types';
 export interface DeviceCallback {
     stateCallback: (handle: number, from: T.BCSDK_DEVICE_STATE_E, to: T.BCSDK_DEVICE_STATE_E) => void;
@@ -14,7 +15,7 @@ export interface IYUVPlane {
     width: number;
     height: number;
     stride: number;
-    data: Uint8Array | null;
+    data: Buffer | null;
 }
 export interface IYUVData {
     pts: number;
@@ -28,7 +29,7 @@ export interface IYUVData {
 export declare type IFramePlane = IYUVPlane;
 export declare type IFrameCallbackData = IYUVData;
 export interface IAudioCallbackData {
-    media: Uint8Array | null;
+    media: Buffer | null;
     length: number;
     hasAAC: number;
     sampleRate: number;

@@ -177,6 +177,34 @@ class TOOLS {
             resolve(value);
         });
     }
+    saveYUVToDisk(path, yuv) {
+        return new Promise((resolve, reject) => {
+            let plane0 = new _T.RENDER_VIDEO_PLANE_DESC({
+                address: yuv.plane0.data,
+                width: yuv.plane0.width,
+                height: yuv.plane0.height,
+                stride: yuv.plane0.stride
+            });
+            let plane1 = new _T.RENDER_VIDEO_PLANE_DESC({
+                address: yuv.plane1.data,
+                width: yuv.plane1.width,
+                height: yuv.plane1.height,
+                stride: yuv.plane1.stride
+            });
+            let plane2 = new _T.RENDER_VIDEO_PLANE_DESC({
+                address: yuv.plane2.data,
+                width: yuv.plane2.width,
+                height: yuv.plane2.height,
+                stride: yuv.plane2.stride
+            });
+            let ret = native_1.native.BCSDK_SaveYUVToDisk(path, yuv.width, yuv.height, yuv.format, plane0.ref(), plane1.ref(), plane2.ref());
+            if (T.ERROR.E_NONE != ret) {
+                reject({ code: ret });
+                return;
+            }
+            resolve();
+        });
+    }
 }
 TOOLS.singleton = new TOOLS();
 exports.tools = TOOLS.instance();
