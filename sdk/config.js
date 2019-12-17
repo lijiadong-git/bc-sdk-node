@@ -1161,8 +1161,8 @@ class CONFIG {
     getPresets(handle, channel) {
         return this.channelCmd(handle, channel, T.BC_CMD_E.E_BC_CMD_GET_PRESET, native_1.native.BCSDK_RemoteGetPresets);
     }
-    setPresets(handle, channel, param, cmdIdx) {
-        return this.channelCmd(handle, channel, T.BC_CMD_E.E_BC_CMD_SET_PRESET, native_1.native.BCSDK_RemoteSetPresets, param, _T.BC_PTZ_PRESETS, cmdIdx);
+    setPresets(handle, channel, param) {
+        return this.channelCmd(handle, channel, T.BC_CMD_E.E_BC_CMD_SET_PRESET, native_1.native.BCSDK_RemoteSetPresets, param, _T.BC_PTZ_PRESETS, CONFIG.getCmdIndex());
     }
     presetInvoke(handle, channel, preset) {
         return this.channelCmd(handle, channel, T.BC_CMD_E.E_BC_CMD_GOTO_PRESET, native_1.native.BCSDK_RemotePresetInvoke, preset);

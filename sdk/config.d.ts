@@ -133,7 +133,7 @@ declare class CONFIG {
     getVideoLoss(handle: number, channel: number): Promise<T.BC_VILOST_CFG>;
     setVideoLoss(handle: number, channel: number, param: T.BC_VILOST_CFG): Promise<void>;
     getPresets(handle: number, channel: number): Promise<T.BC_PTZ_PRESETS>;
-    setPresets(handle: number, channel: number, param: T.BC_PTZ_PRESETS, cmdIdx: number): Promise<void>;
+    setPresets(handle: number, channel: number, param: T.BC_PTZ_PRESETS): Promise<void>;
     presetInvoke(handle: number, channel: number, preset: number): Promise<void>;
     getCruises(handle: number, channel: number): Promise<T.BC_PTZ_CRUISES>;
     setCruise(handle: number, channel: number, param: T.BC_PTZ_CRUISES): Promise<void>;
