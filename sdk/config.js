@@ -960,8 +960,8 @@ class CONFIG {
             let tFileInfo = new _T.BC_UPGRADE_FILE_INFO(castParam);
             let ret = native_1.native.BCSDK_RemoteUpgradeFirmware(handle, tFileInfo.ref());
             if (ret >= 0) {
+                _callback_1.PROMISE_CBS.addCallback(handle, 0, T.BC_CMD_E.E_BC_CMD_UPGRADE, 0, { sdkResolve: resolve, sdkReject: reject });
                 _callback_1.COMMON_CBS.setCallback(handle, 0, T.BC_CMD_E.E_BC_CMD_UPGRADE_PROGRESS, 0, { sdkCallback: callback });
-                resolve();
             }
             else {
                 reject({ code: ret });
@@ -1015,8 +1015,8 @@ class CONFIG {
             let tFileInfo = new _T.BC_CONFIG_FILE_INFO(castParam);
             let ret = native_1.native.BCSDK_RemoteExportConfig(handle, tFileInfo.ref());
             if (ret >= 0) {
+                _callback_1.PROMISE_CBS.addCallback(handle, 0, T.BC_CMD_E.E_BC_CMD_EXPORT, 0, { sdkResolve: resolve, sdkReject: reject });
                 _callback_1.COMMON_CBS.setCallback(handle, 0, T.BC_CMD_E.E_BC_CMD_EXPORT_PROGRESS, 0, { sdkCallback: callback });
-                resolve();
             }
             else {
                 reject({ code: ret });
@@ -1029,8 +1029,8 @@ class CONFIG {
             let tFileInfo = new _T.BC_CONFIG_FILE_INFO(castParam);
             let ret = native_1.native.BCSDK_RemoteImportConfig(handle, tFileInfo.ref());
             if (ret >= 0) {
+                _callback_1.PROMISE_CBS.addCallback(handle, 0, T.BC_CMD_E.E_BC_CMD_IMPORT, 0, { sdkResolve: resolve, sdkReject: reject });
                 _callback_1.COMMON_CBS.setCallback(handle, 0, T.BC_CMD_E.E_BC_CMD_IMPORT_PROGRESS, 0, { sdkCallback: callback });
-                resolve();
             }
             else {
                 reject({ code: ret });
