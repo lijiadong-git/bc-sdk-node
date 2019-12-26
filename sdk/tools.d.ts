@@ -17,6 +17,7 @@ declare class TOOLS {
     setSpeakerVolume(volume: number): Promise<void>;
     getSpeakerVolume(): Promise<number>;
     getDiskFree(path: string): Promise<number>;
+    hasWritePermission(path: string): Promise<boolean>;
     saveYUVToDisk(path: string, yuv: T.IYUVData): Promise<void>;
 }
 export declare const tools: TOOLS;

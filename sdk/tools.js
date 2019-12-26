@@ -177,6 +177,18 @@ class TOOLS {
             resolve(value);
         });
     }
+    hasWritePermission(path) {
+        return new Promise((resolve, reject) => {
+            let buf = ref.alloc(ref.types.bool, false);
+            let ret = native_1.native.BCSDK_GetHasWritePermission(path, buf);
+            if (T.ERROR.E_NONE != ret) {
+                reject({ code: ret });
+                return;
+            }
+            let value = ref.deref(buf);
+            resolve(value);
+        });
+    }
     saveYUVToDisk(path, yuv) {
         return new Promise((resolve, reject) => {
             let plane0 = new _T.RENDER_VIDEO_PLANE_DESC({
