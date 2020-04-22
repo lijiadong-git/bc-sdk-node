@@ -305,15 +305,16 @@ class CONFIG {
                 if (_T.BC_UPGRADE_FILE_INFO.size !== cmdData.dataLen) {
                     break;
                 }
+                let bcRspCode = cmdData.bcRspCode;
                 let buf = ref.reinterpret(cmdData.pRspData, cmdData.dataLen);
                 let data = ref.get(buf, 0, _T.BC_UPGRADE_FILE_INFO);
                 let info = _cast_1.derefCast(data, _T.BC_UPGRADE_FILE_INFO);
                 setImmediate(() => {
                     if (info.uCurSize > 0 && info.uCurSize < info.uFileSize) {
-                        callback.sdkCallback(cmdData.bcRspCode, info.uCurSize / info.uFileSize);
+                        callback.sdkCallback(bcRspCode, info.uCurSize / info.uFileSize);
                     }
                     else if (info.uCurSize >= info.uFileSize) {
-                        callback.sdkCallback(cmdData.bcRspCode, 1.0);
+                        callback.sdkCallback(bcRspCode, 1.0);
                     }
                 });
                 break;
@@ -328,15 +329,16 @@ class CONFIG {
                     if (_T.BC_CONFIG_FILE_INFO.size !== cmdData.dataLen) {
                         break;
                     }
+                    let bcRspCode = cmdData.bcRspCode;
                     let buf = ref.reinterpret(cmdData.pRspData, cmdData.dataLen);
                     let data = ref.get(buf, 0, _T.BC_CONFIG_FILE_INFO);
                     let info = _cast_1.derefCast(data, _T.BC_CONFIG_FILE_INFO);
                     setImmediate(() => {
                         if (info.uCurSize > 0 && info.uCurSize < info.uFileSize) {
-                            callback.sdkCallback(cmdData.bcRspCode, info.uCurSize / info.uFileSize);
+                            callback.sdkCallback(bcRspCode, info.uCurSize / info.uFileSize);
                         }
                         else if (info.uCurSize >= info.uFileSize) {
-                            callback.sdkCallback(cmdData.bcRspCode, 1.0);
+                            callback.sdkCallback(bcRspCode, 1.0);
                         }
                     });
                     break;

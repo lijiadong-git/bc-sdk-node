@@ -41,41 +41,41 @@ class PLAYBACK {
                     if (filesCallback && filesCallback.sdkCallback) {
                         let buf = ref.reinterpret(pRspData, dataLen);
                         let des = ref.get(buf, 0, _T.BC_FIND_REC_FILES);
+                        let files = {
+                            seq: des.seq,
+                            fileNum: des.fileNum,
+                            recFile: []
+                        };
+                        for (let i = 0; i < des.fileNum; i++) {
+                            const file = des.recFile[i];
+                            files.recFile.push({
+                                iChannel: file.iChannel,
+                                cFileName: ref.readCString(file.cFileName.buffer, 0),
+                                startTime: {
+                                    iYear: file.struStartTime.iYear,
+                                    iMonth: file.struStartTime.iMonth,
+                                    iDay: file.struStartTime.iDay,
+                                    iHour: file.struStartTime.iHour,
+                                    iMinute: file.struStartTime.iMinute,
+                                    iSecond: file.struStartTime.iSecond
+                                },
+                                stopTime: {
+                                    iYear: file.struStopTime.iYear,
+                                    iMonth: file.struStopTime.iMonth,
+                                    iDay: file.struStopTime.iDay,
+                                    iHour: file.struStopTime.iHour,
+                                    iMinute: file.struStopTime.iMinute,
+                                    iSecond: file.struStopTime.iSecond
+                                },
+                                iFileSize: file.iFileSize,
+                                iFileSizeH: file.iFileSizeH,
+                                recordType: file.recordType,
+                                eStreamType: file.eStreamType,
+                                eFileType: file.eFileType,
+                                iContainsAudio: file.iContainsAudio
+                            });
+                        }
                         setImmediate(() => {
-                            let files = {
-                                seq: des.seq,
-                                fileNum: des.fileNum,
-                                recFile: []
-                            };
-                            for (let i = 0; i < des.fileNum; i++) {
-                                const file = des.recFile[i];
-                                files.recFile.push({
-                                    iChannel: file.iChannel,
-                                    cFileName: ref.readCString(file.cFileName.buffer, 0),
-                                    startTime: {
-                                        iYear: file.struStartTime.iYear,
-                                        iMonth: file.struStartTime.iMonth,
-                                        iDay: file.struStartTime.iDay,
-                                        iHour: file.struStartTime.iHour,
-                                        iMinute: file.struStartTime.iMinute,
-                                        iSecond: file.struStartTime.iSecond
-                                    },
-                                    stopTime: {
-                                        iYear: file.struStopTime.iYear,
-                                        iMonth: file.struStopTime.iMonth,
-                                        iDay: file.struStopTime.iDay,
-                                        iHour: file.struStopTime.iHour,
-                                        iMinute: file.struStopTime.iMinute,
-                                        iSecond: file.struStopTime.iSecond
-                                    },
-                                    iFileSize: file.iFileSize,
-                                    iFileSizeH: file.iFileSizeH,
-                                    recordType: file.recordType,
-                                    eStreamType: file.eStreamType,
-                                    eFileType: file.eFileType,
-                                    iContainsAudio: file.iContainsAudio
-                                });
-                            }
                             filesCallback.sdkCallback(des.seq, files);
                             if (des.fileNum < 40) {
                                 _callback_1.PROMISE_CBS.handleCallback(handle, channel, bcCmd, cmdIdx, callback => {
@@ -108,35 +108,35 @@ class PLAYBACK {
                     if (filesCallback && filesCallback.sdkCallback) {
                         let buf = ref.reinterpret(pRspData, dataLen);
                         let des = ref.get(buf, 0, _T.BC_ALARM_VIDEOS_INFO);
+                        let files = {
+                            seq: des.seq,
+                            iFinished: des.iFinished,
+                            iItemSize: des.iItemSize,
+                            alarmItems: []
+                        };
+                        for (let i = 0; i < des.iItemSize; i++) {
+                            const file = des.alarmItems[i];
+                            files.alarmItems.push({
+                                cFileName: ref.readCString(file.cFileName.buffer, 0),
+                                startTime: {
+                                    iYear: file.startTime.iYear,
+                                    iMonth: file.startTime.iMonth,
+                                    iDay: file.startTime.iDay,
+                                    iHour: file.startTime.iHour,
+                                    iMinute: file.startTime.iMinute,
+                                    iSecond: file.startTime.iSecond
+                                },
+                                endTime: {
+                                    iYear: file.endTime.iYear,
+                                    iMonth: file.endTime.iMonth,
+                                    iDay: file.endTime.iDay,
+                                    iHour: file.endTime.iHour,
+                                    iMinute: file.endTime.iMinute,
+                                    iSecond: file.endTime.iSecond
+                                }
+                            });
+                        }
                         setImmediate(() => {
-                            let files = {
-                                seq: des.seq,
-                                iFinished: des.iFinished,
-                                iItemSize: des.iItemSize,
-                                alarmItems: []
-                            };
-                            for (let i = 0; i < des.iItemSize; i++) {
-                                const file = des.alarmItems[i];
-                                files.alarmItems.push({
-                                    cFileName: ref.readCString(file.cFileName.buffer, 0),
-                                    startTime: {
-                                        iYear: file.startTime.iYear,
-                                        iMonth: file.startTime.iMonth,
-                                        iDay: file.startTime.iDay,
-                                        iHour: file.startTime.iHour,
-                                        iMinute: file.startTime.iMinute,
-                                        iSecond: file.startTime.iSecond
-                                    },
-                                    endTime: {
-                                        iYear: file.endTime.iYear,
-                                        iMonth: file.endTime.iMonth,
-                                        iDay: file.endTime.iDay,
-                                        iHour: file.endTime.iHour,
-                                        iMinute: file.endTime.iMinute,
-                                        iSecond: file.endTime.iSecond
-                                    }
-                                });
-                            }
                             filesCallback.sdkCallback(des.seq, files);
                             if (files.iFinished) {
                                 _callback_1.PROMISE_CBS.handleCallback(handle, channel, bcCmd, cmdIdx, callback => {
