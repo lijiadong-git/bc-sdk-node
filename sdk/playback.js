@@ -28,143 +28,158 @@ class PLAYBACK {
         return PLAYBACK.singleton;
     }
     handleSDKCallback(handle, cmdData) {
+        const bcCmd = cmdData.bcCmd;
+        const cmdIdx = cmdData.cmdIdx;
+        const bcRspCode = cmdData.bcRspCode;
+        const pRspData = cmdData.pRspData;
+        const dataLen = cmdData.dataLen;
         const channel = (cmdData.handleId & 0x000000ff) % T.DEFINDE.BC_MAX_CHANNEL;
-        switch (cmdData.bcCmd) {
+        switch (bcCmd) {
             case T.BC_CMD_E.E_BC_CMD_SEARCH_RECFILES: {
-                if (T.BC_RSP_CODE_E.E_BC_RSP_OK == cmdData.bcRspCode) {
-                    const filesCallback = _callback_1.COMMON_CBS.getCallback(handle, cmdData.handleId, cmdData.bcCmd, cmdData.cmdIdx);
+                if (T.BC_RSP_CODE_E.E_BC_RSP_OK == bcRspCode) {
+                    const filesCallback = _callback_1.COMMON_CBS.getCallback(handle, channel, bcCmd, cmdIdx);
                     if (filesCallback && filesCallback.sdkCallback) {
-                        let buf = ref.reinterpret(cmdData.pRspData, cmdData.dataLen);
+                        let buf = ref.reinterpret(pRspData, dataLen);
                         let des = ref.get(buf, 0, _T.BC_FIND_REC_FILES);
-                        let files = {
-                            seq: des.seq,
-                            fileNum: des.fileNum,
-                            recFile: []
-                        };
-                        for (let i = 0; i < des.fileNum; i++) {
-                            const file = des.recFile[i];
-                            files.recFile.push({
-                                iChannel: file.iChannel,
-                                cFileName: ref.readCString(file.cFileName.buffer, 0),
-                                startTime: {
-                                    iYear: file.struStartTime.iYear,
-                                    iMonth: file.struStartTime.iMonth,
-                                    iDay: file.struStartTime.iDay,
-                                    iHour: file.struStartTime.iHour,
-                                    iMinute: file.struStartTime.iMinute,
-                                    iSecond: file.struStartTime.iSecond
-                                },
-                                stopTime: {
-                                    iYear: file.struStopTime.iYear,
-                                    iMonth: file.struStopTime.iMonth,
-                                    iDay: file.struStopTime.iDay,
-                                    iHour: file.struStopTime.iHour,
-                                    iMinute: file.struStopTime.iMinute,
-                                    iSecond: file.struStopTime.iSecond
-                                },
-                                iFileSize: file.iFileSize,
-                                iFileSizeH: file.iFileSizeH,
-                                recordType: file.recordType,
-                                eStreamType: file.eStreamType,
-                                eFileType: file.eFileType,
-                                iContainsAudio: file.iContainsAudio
-                            });
-                        }
-                        filesCallback.sdkCallback(des.seq, files);
-                        if (des.fileNum < 40) {
-                            delete filesCallback.sdkCallback;
-                            if (0 === Object.keys(filesCallback).length) {
-                                _callback_1.PROMISE_CBS.clearCallback(handle, cmdData.handleId, -cmdData.bcCmd, cmdData.cmdIdx);
+                        setImmediate(() => {
+                            let files = {
+                                seq: des.seq,
+                                fileNum: des.fileNum,
+                                recFile: []
+                            };
+                            for (let i = 0; i < des.fileNum; i++) {
+                                const file = des.recFile[i];
+                                files.recFile.push({
+                                    iChannel: file.iChannel,
+                                    cFileName: ref.readCString(file.cFileName.buffer, 0),
+                                    startTime: {
+                                        iYear: file.struStartTime.iYear,
+                                        iMonth: file.struStartTime.iMonth,
+                                        iDay: file.struStartTime.iDay,
+                                        iHour: file.struStartTime.iHour,
+                                        iMinute: file.struStartTime.iMinute,
+                                        iSecond: file.struStartTime.iSecond
+                                    },
+                                    stopTime: {
+                                        iYear: file.struStopTime.iYear,
+                                        iMonth: file.struStopTime.iMonth,
+                                        iDay: file.struStopTime.iDay,
+                                        iHour: file.struStopTime.iHour,
+                                        iMinute: file.struStopTime.iMinute,
+                                        iSecond: file.struStopTime.iSecond
+                                    },
+                                    iFileSize: file.iFileSize,
+                                    iFileSizeH: file.iFileSizeH,
+                                    recordType: file.recordType,
+                                    eStreamType: file.eStreamType,
+                                    eFileType: file.eFileType,
+                                    iContainsAudio: file.iContainsAudio
+                                });
                             }
-                        }
+                            filesCallback.sdkCallback(des.seq, files);
+                            if (des.fileNum < 40) {
+                                _callback_1.PROMISE_CBS.handleCallback(handle, channel, bcCmd, cmdIdx, callback => {
+                                    if (callback.sdkResolve) {
+                                        callback.sdkResolve(bcRspCode);
+                                    }
+                                    delete filesCallback.sdkCallback;
+                                    if (0 === Object.keys(filesCallback).length) {
+                                        _callback_1.PROMISE_CBS.clearCallback(handle, channel, bcCmd, cmdIdx);
+                                    }
+                                });
+                            }
+                        });
                     }
                 }
-                _callback_1.PROMISE_CBS.handleCallback(handle, channel, cmdData.bcCmd, cmdData.cmdIdx, callback => {
-                    if (T.BC_RSP_CODE_E.E_BC_RSP_OK == cmdData.bcRspCode) {
-                        if (callback.sdkResolve) {
-                            callback.sdkResolve(cmdData.bcRspCode);
-                        }
-                    }
-                    else {
-                        if (callback.sdkReject) {
-                            callback.sdkReject({ code: cmdData.bcRspCode, description: T.BC_CMD_E[cmdData.bcCmd] });
-                        }
-                    }
-                });
+                else {
+                    setImmediate(() => {
+                        _callback_1.PROMISE_CBS.handleCallback(handle, channel, bcCmd, cmdIdx, callback => {
+                            if (callback.sdkReject) {
+                                callback.sdkReject({ code: bcRspCode, description: T.BC_CMD_E[bcCmd] });
+                            }
+                        });
+                    });
+                }
                 break;
             }
             case T.BC_CMD_E.E_BC_CMD_SEARCH_ALARM_VIDEOS: {
-                if (T.BC_RSP_CODE_E.E_BC_RSP_OK == cmdData.bcRspCode) {
-                    const filesCallback = _callback_1.COMMON_CBS.getCallback(handle, cmdData.handleId, cmdData.bcCmd, cmdData.cmdIdx);
+                if (T.BC_RSP_CODE_E.E_BC_RSP_OK == bcRspCode) {
+                    const filesCallback = _callback_1.COMMON_CBS.getCallback(handle, channel, bcCmd, cmdIdx);
                     if (filesCallback && filesCallback.sdkCallback) {
-                        let buf = ref.reinterpret(cmdData.pRspData, cmdData.dataLen);
+                        let buf = ref.reinterpret(pRspData, dataLen);
                         let des = ref.get(buf, 0, _T.BC_ALARM_VIDEOS_INFO);
-                        let files = {
-                            seq: des.seq,
-                            iFinished: des.iFinished,
-                            iItemSize: des.iItemSize,
-                            alarmItems: []
-                        };
-                        for (let i = 0; i < des.iItemSize; i++) {
-                            const file = des.alarmItems[i];
-                            files.alarmItems.push({
-                                cFileName: ref.readCString(file.cFileName.buffer, 0),
-                                startTime: {
-                                    iYear: file.startTime.iYear,
-                                    iMonth: file.startTime.iMonth,
-                                    iDay: file.startTime.iDay,
-                                    iHour: file.startTime.iHour,
-                                    iMinute: file.startTime.iMinute,
-                                    iSecond: file.startTime.iSecond
-                                },
-                                endTime: {
-                                    iYear: file.endTime.iYear,
-                                    iMonth: file.endTime.iMonth,
-                                    iDay: file.endTime.iDay,
-                                    iHour: file.endTime.iHour,
-                                    iMinute: file.endTime.iMinute,
-                                    iSecond: file.endTime.iSecond
-                                }
-                            });
-                        }
-                        filesCallback.sdkCallback(des.seq, files);
-                        if (files.iFinished) {
-                            delete filesCallback.sdkCallback;
-                            if (0 === Object.keys(filesCallback).length) {
-                                _callback_1.PROMISE_CBS.clearCallback(handle, cmdData.handleId, -cmdData.bcCmd, cmdData.cmdIdx);
+                        setImmediate(() => {
+                            let files = {
+                                seq: des.seq,
+                                iFinished: des.iFinished,
+                                iItemSize: des.iItemSize,
+                                alarmItems: []
+                            };
+                            for (let i = 0; i < des.iItemSize; i++) {
+                                const file = des.alarmItems[i];
+                                files.alarmItems.push({
+                                    cFileName: ref.readCString(file.cFileName.buffer, 0),
+                                    startTime: {
+                                        iYear: file.startTime.iYear,
+                                        iMonth: file.startTime.iMonth,
+                                        iDay: file.startTime.iDay,
+                                        iHour: file.startTime.iHour,
+                                        iMinute: file.startTime.iMinute,
+                                        iSecond: file.startTime.iSecond
+                                    },
+                                    endTime: {
+                                        iYear: file.endTime.iYear,
+                                        iMonth: file.endTime.iMonth,
+                                        iDay: file.endTime.iDay,
+                                        iHour: file.endTime.iHour,
+                                        iMinute: file.endTime.iMinute,
+                                        iSecond: file.endTime.iSecond
+                                    }
+                                });
                             }
-                        }
+                            filesCallback.sdkCallback(des.seq, files);
+                            if (files.iFinished) {
+                                _callback_1.PROMISE_CBS.handleCallback(handle, channel, bcCmd, cmdIdx, callback => {
+                                    if (callback.sdkResolve) {
+                                        callback.sdkResolve(bcRspCode);
+                                    }
+                                    delete filesCallback.sdkCallback;
+                                    if (0 === Object.keys(filesCallback).length) {
+                                        _callback_1.PROMISE_CBS.clearCallback(handle, channel, bcCmd, cmdIdx);
+                                    }
+                                });
+                            }
+                        });
                     }
                 }
-                _callback_1.PROMISE_CBS.handleCallback(handle, channel, cmdData.bcCmd, cmdData.cmdIdx, callback => {
-                    if (T.BC_RSP_CODE_E.E_BC_RSP_OK == cmdData.bcRspCode) {
-                        if (callback.sdkResolve) {
-                            callback.sdkResolve(cmdData.bcRspCode);
-                        }
-                    }
-                    else {
-                        if (callback.sdkReject) {
-                            callback.sdkReject({ code: cmdData.bcRspCode, description: T.BC_CMD_E[cmdData.bcCmd] });
-                        }
-                    }
-                });
+                else {
+                    setImmediate(() => {
+                        _callback_1.PROMISE_CBS.handleCallback(handle, channel, bcCmd, cmdIdx, callback => {
+                            if (callback.sdkReject) {
+                                callback.sdkReject({ code: bcRspCode, description: T.BC_CMD_E[bcCmd] });
+                            }
+                        });
+                    });
+                }
                 break;
             }
             default: {
-                _callback_1.PROMISE_CBS.handleCallback(handle, channel, cmdData.bcCmd, cmdData.cmdIdx, callback => {
-                    if (T.BC_RSP_CODE_E.E_BC_RSP_OK == cmdData.bcRspCode) {
-                        if (callback.sdkResolve) {
-                            callback.sdkResolve(cmdData.bcRspCode);
+                setImmediate(() => {
+                    _callback_1.PROMISE_CBS.handleCallback(handle, channel, bcCmd, cmdIdx, callback => {
+                        if (T.BC_RSP_CODE_E.E_BC_RSP_OK == bcRspCode) {
+                            if (callback.sdkResolve) {
+                                callback.sdkResolve(bcRspCode);
+                            }
                         }
-                    }
-                    else {
-                        if (callback.sdkReject) {
-                            callback.sdkReject({
-                                code: cmdData.bcRspCode,
-                                description: 'playback callback faild ...'
-                            });
+                        else {
+                            if (callback.sdkReject) {
+                                callback.sdkReject({
+                                    code: bcRspCode,
+                                    description: 'playback callback faild ...'
+                                });
+                            }
                         }
-                    }
+                    });
                 });
                 break;
             }
@@ -207,7 +222,9 @@ class PLAYBACK {
                     plane2: planes[2]
                 };
                 if (func) {
-                    func.onVieoData(callbackData);
+                    setImmediate(() => {
+                        func.onVieoData(callbackData);
+                    });
                 }
             }
             else if (des.type & T.DEFINDE.MEDIA_FRAME_TYPE_AUDIO) {
@@ -222,7 +239,9 @@ class PLAYBACK {
                     channels: des.audio.channels
                 };
                 if (func) {
-                    func.onAudioData(callbackData);
+                    setImmediate(() => {
+                        func.onAudioData(callbackData);
+                    });
                 }
             }
         });

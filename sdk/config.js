@@ -19,21 +19,30 @@ class CONFIG {
         return (++CONFIG.CMDIDX) % 32786;
     }
     static handleSDKGetCallback(type, handle, cmdData) {
+        const bcCmd = cmdData.bcCmd;
+        const cmdIdx = cmdData.cmdIdx;
+        const bcRspCode = cmdData.bcRspCode;
+        const pRspData = cmdData.pRspData;
+        const dataLen = cmdData.dataLen;
         const channel = (cmdData.handleId & 0x000000ff) % T.DEFINDE.BC_MAX_CHANNEL;
-        _callback_1.PROMISE_CBS.handleCallback(handle, channel, cmdData.bcCmd, cmdData.cmdIdx, callback => {
-            if (T.BC_RSP_CODE_E.E_BC_RSP_OK == cmdData.bcRspCode
-                && type.size === cmdData.dataLen) {
-                let buf = ref.reinterpret(cmdData.pRspData, cmdData.dataLen);
+        _callback_1.PROMISE_CBS.handleCallback(handle, channel, bcCmd, cmdIdx, callback => {
+            if (T.BC_RSP_CODE_E.E_BC_RSP_OK == bcRspCode
+                && type.size === dataLen) {
+                let buf = ref.reinterpret(pRspData, dataLen);
                 let data = ref.get(buf, 0, type);
-                if (callback.sdkResolve) {
-                    let param = _cast_1.derefCast(data, type);
-                    callback.sdkResolve(param);
-                }
+                let param = _cast_1.derefCast(data, type);
+                setImmediate(() => {
+                    if (callback.sdkResolve) {
+                        callback.sdkResolve(param);
+                    }
+                });
             }
             else {
-                if (callback.sdkReject) {
-                    callback.sdkReject({ code: cmdData.bcRspCode, description: T.BC_CMD_E[cmdData.bcCmd] });
-                }
+                setImmediate(() => {
+                    if (callback.sdkReject) {
+                        callback.sdkReject({ code: bcRspCode, description: T.BC_CMD_E[bcCmd] });
+                    }
+                });
             }
         });
     }
@@ -299,12 +308,14 @@ class CONFIG {
                 let buf = ref.reinterpret(cmdData.pRspData, cmdData.dataLen);
                 let data = ref.get(buf, 0, _T.BC_UPGRADE_FILE_INFO);
                 let info = _cast_1.derefCast(data, _T.BC_UPGRADE_FILE_INFO);
-                if (info.uCurSize > 0 && info.uCurSize < info.uFileSize) {
-                    callback.sdkCallback(cmdData.bcRspCode, info.uCurSize / info.uFileSize);
-                }
-                else if (info.uCurSize >= info.uFileSize) {
-                    callback.sdkCallback(cmdData.bcRspCode, 1.0);
-                }
+                setImmediate(() => {
+                    if (info.uCurSize > 0 && info.uCurSize < info.uFileSize) {
+                        callback.sdkCallback(cmdData.bcRspCode, info.uCurSize / info.uFileSize);
+                    }
+                    else if (info.uCurSize >= info.uFileSize) {
+                        callback.sdkCallback(cmdData.bcRspCode, 1.0);
+                    }
+                });
                 break;
             }
             case T.BC_CMD_E.E_BC_CMD_EXPORT_PROGRESS:
@@ -320,12 +331,14 @@ class CONFIG {
                     let buf = ref.reinterpret(cmdData.pRspData, cmdData.dataLen);
                     let data = ref.get(buf, 0, _T.BC_CONFIG_FILE_INFO);
                     let info = _cast_1.derefCast(data, _T.BC_CONFIG_FILE_INFO);
-                    if (info.uCurSize > 0 && info.uCurSize < info.uFileSize) {
-                        callback.sdkCallback(cmdData.bcRspCode, info.uCurSize / info.uFileSize);
-                    }
-                    else if (info.uCurSize >= info.uFileSize) {
-                        callback.sdkCallback(cmdData.bcRspCode, 1.0);
-                    }
+                    setImmediate(() => {
+                        if (info.uCurSize > 0 && info.uCurSize < info.uFileSize) {
+                            callback.sdkCallback(cmdData.bcRspCode, info.uCurSize / info.uFileSize);
+                        }
+                        else if (info.uCurSize >= info.uFileSize) {
+                            callback.sdkCallback(cmdData.bcRspCode, 1.0);
+                        }
+                    });
                     break;
                 }
             case T.BC_CMD_E.E_BC_CMD_UPGRADE:

@@ -305,8 +305,10 @@ RECORD.diskStatusCallback = ffi_1.Callback('void', [_T.P_BC_DISK_WARNINIG_DESC, 
     let buf = ref.reinterpret(pdesc, _T.BC_DISK_WARNINIG_DESC.size);
     let desc = ref.get(buf, 0, _T.BC_DISK_WARNINIG_DESC);
     let param = _cast_1.derefCast(desc, _T.BC_DISK_WARNINIG_DESC);
-    RECORD.diskCallbacks.forEach(callback => {
-        callback(param);
+    setImmediate(() => {
+        RECORD.diskCallbacks.forEach(callback => {
+            callback(param);
+        });
     });
 });
 RECORD.recordCallbacks = [];
@@ -318,8 +320,10 @@ RECORD.recordStatusCallback = ffi_1.Callback('void', [_T.P_BC_REC_EVENT_DESC, _T
     let buf = ref.reinterpret(pdesc, _T.BC_REC_EVENT_DESC.size);
     let desc = ref.get(buf, 0, _T.BC_REC_EVENT_DESC);
     let param = _cast_1.derefCast(desc, _T.BC_REC_EVENT_DESC);
-    RECORD.recordCallbacks.forEach(callback => {
-        callback(param);
+    setImmediate(() => {
+        RECORD.recordCallbacks.forEach(callback => {
+            callback(param);
+        });
     });
 });
 exports.record = RECORD.instance();

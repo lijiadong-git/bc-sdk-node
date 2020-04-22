@@ -301,119 +301,142 @@ class DEVICE {
         return DEVICE.singleton;
     }
     handleSDKCallback(handle, cmdData) {
+        const bcCmd = cmdData.bcCmd;
+        const cmdIdx = cmdData.cmdIdx;
+        const bcRspCode = cmdData.bcRspCode;
+        const pRspData = cmdData.pRspData;
+        const dataLen = cmdData.dataLen;
         const channel = (cmdData.handleId & 0x000000ff) % T.DEFINDE.BC_MAX_CHANNEL;
-        switch (cmdData.bcCmd) {
+        switch (bcCmd) {
             case T.BC_CMD_E.E_BC_CMD_CONNECTION_STATE_CHANGE: {
-                let callback = _callback_1.COMMON_CBS.getCallback(handle, 0, cmdData.bcCmd, cmdData.cmdIdx);
-                if (_T.DEVICE_STATE_CHANGE_DESC.size == cmdData.dataLen) {
-                    let buf = ref.reinterpret(cmdData.pRspData, cmdData.dataLen);
+                let callback = _callback_1.COMMON_CBS.getCallback(handle, 0, bcCmd, cmdIdx);
+                if (_T.DEVICE_STATE_CHANGE_DESC.size == dataLen) {
+                    let buf = ref.reinterpret(pRspData, dataLen);
                     let des = ref.get(buf, 0, _T.DEVICE_STATE_CHANGE_DESC);
-                    if (callback && callback.sdkCallback) {
-                        callback.sdkCallback.stateCallback(handle, des.eStateFrom, des.eStateTo);
-                    }
+                    setImmediate(() => {
+                        if (callback && callback.sdkCallback) {
+                            callback.sdkCallback.stateCallback(handle, des.eStateFrom, des.eStateTo);
+                        }
+                    });
                 }
                 break;
             }
             case T.BC_CMD_E.E_BC_CMD_RECONNECT: {
-                let callback = _callback_1.COMMON_CBS.getCallback(handle, 0, cmdData.bcCmd, cmdData.cmdIdx);
-                if (callback && callback.sdkCallback) {
-                    callback.sdkCallback.disconnectCallback(handle);
-                }
+                let callback = _callback_1.COMMON_CBS.getCallback(handle, 0, bcCmd, cmdIdx);
+                setImmediate(() => {
+                    if (callback && callback.sdkCallback) {
+                        callback.sdkCallback.disconnectCallback(handle);
+                    }
+                });
                 break;
             }
             case T.BC_CMD_E.E_BC_CMD_GET_ABILITY: {
-                let callback = _callback_1.COMMON_CBS.getCallback(handle, 0, cmdData.bcCmd, cmdData.cmdIdx);
-                if (T.BC_RSP_CODE_E.E_BC_RSP_OK == cmdData.bcRspCode) {
-                    if (callback && callback.sdkCallback) {
-                        callback.sdkCallback.abilityChangeCallback(handle);
-                    }
+                let callback = _callback_1.COMMON_CBS.getCallback(handle, 0, bcCmd, cmdIdx);
+                if (T.BC_RSP_CODE_E.E_BC_RSP_OK == bcRspCode) {
+                    setImmediate(() => {
+                        if (callback && callback.sdkCallback) {
+                            callback.sdkCallback.abilityChangeCallback(handle);
+                        }
+                    });
                 }
                 break;
             }
             case T.BC_CMD_E.E_BC_CMD_ALARM_REPORT: {
-                let callback = _callback_1.COMMON_CBS.getCallback(handle, 0, cmdData.bcCmd, cmdData.cmdIdx);
-                if (_T.BC_ALARM_STATUS_REPORT.size == cmdData.dataLen) {
-                    let buf = ref.reinterpret(cmdData.pRspData, cmdData.dataLen);
+                let callback = _callback_1.COMMON_CBS.getCallback(handle, 0, bcCmd, cmdIdx);
+                if (_T.BC_ALARM_STATUS_REPORT.size == dataLen) {
+                    let buf = ref.reinterpret(pRspData, dataLen);
                     let data = ref.get(buf, 0, _T.BC_ALARM_STATUS_REPORT);
-                    if (callback && callback.sdkCallback) {
-                        let param = _cast_1.derefCast(data, _T.BC_ALARM_STATUS_REPORT);
-                        callback.sdkCallback.alarmReportCallback(handle, param);
-                    }
+                    let param = _cast_1.derefCast(data, _T.BC_ALARM_STATUS_REPORT);
+                    setImmediate(() => {
+                        if (callback && callback.sdkCallback) {
+                            callback.sdkCallback.alarmReportCallback(handle, param);
+                        }
+                    });
                 }
                 break;
             }
             case T.BC_CMD_E.E_BC_CMD_CAMERA_STATE: {
-                let callback = _callback_1.COMMON_CBS.getCallback(handle, 0, cmdData.bcCmd, cmdData.cmdIdx);
-                if (callback && callback.sdkCallback) {
-                    callback.sdkCallback.cameraStateCallback(handle);
-                }
+                let callback = _callback_1.COMMON_CBS.getCallback(handle, 0, bcCmd, cmdIdx);
+                setImmediate(() => {
+                    if (callback && callback.sdkCallback) {
+                        callback.sdkCallback.cameraStateCallback(handle);
+                    }
+                });
                 break;
             }
             case T.BC_CMD_E.E_BC_CMD_WITHOUT_INTERATION_REPORT: {
-                let callback = _callback_1.COMMON_CBS.getCallback(handle, 0, cmdData.bcCmd, cmdData.cmdIdx);
-                if (callback && callback.sdkCallback) {
-                    if (_T.BC_TIME_WITHOUT_INTERACTION.size === cmdData.dataLen) {
-                        let buf = ref.reinterpret(cmdData.pRspData, cmdData.dataLen);
-                        let data = ref.get(buf, 0, _T.BC_TIME_WITHOUT_INTERACTION);
-                        let param = _cast_1.derefCast(data, _T.BC_TIME_WITHOUT_INTERACTION);
-                        callback.sdkCallback.noInteractionCallback(handle, param);
-                    }
+                let callback = _callback_1.COMMON_CBS.getCallback(handle, 0, bcCmd, cmdIdx);
+                if (_T.BC_TIME_WITHOUT_INTERACTION.size === dataLen) {
+                    let buf = ref.reinterpret(pRspData, dataLen);
+                    let data = ref.get(buf, 0, _T.BC_TIME_WITHOUT_INTERACTION);
+                    let param = _cast_1.derefCast(data, _T.BC_TIME_WITHOUT_INTERACTION);
+                    setImmediate(() => {
+                        if (callback && callback.sdkCallback) {
+                            callback.sdkCallback.noInteractionCallback(handle, param);
+                        }
+                    });
                 }
                 break;
             }
             case T.BC_CMD_E.E_BC_CMD_REPORT_DEVICE_EXCEPTION: {
-                let callback = _callback_1.COMMON_CBS.getCallback(handle, 0, cmdData.bcCmd, cmdData.cmdIdx);
-                if (callback && callback.sdkCallback) {
-                    if (_T.BC_DEVICE_EXCEPTION.size === cmdData.dataLen) {
-                        let buf = ref.reinterpret(cmdData.pRspData, cmdData.dataLen);
-                        let data = ref.get(buf, 0, _T.BC_DEVICE_EXCEPTION);
-                        let param = _cast_1.derefCast(data, _T.BC_DEVICE_EXCEPTION);
-                        callback.sdkCallback.batteryExceptionCallback(handle, param.iExceptionCode !== 0);
-                    }
+                let callback = _callback_1.COMMON_CBS.getCallback(handle, 0, bcCmd, cmdIdx);
+                if (_T.BC_DEVICE_EXCEPTION.size === dataLen) {
+                    let buf = ref.reinterpret(pRspData, dataLen);
+                    let data = ref.get(buf, 0, _T.BC_DEVICE_EXCEPTION);
+                    let param = _cast_1.derefCast(data, _T.BC_DEVICE_EXCEPTION);
+                    setImmediate(() => {
+                        if (callback && callback.sdkCallback) {
+                            callback.sdkCallback.batteryExceptionCallback(handle, param.iExceptionCode !== 0);
+                        }
+                    });
                 }
                 break;
             }
             case T.BC_CMD_E.E_BC_CMD_REPORT_BATTERY_INFO_LIST: {
-                let callback = _callback_1.COMMON_CBS.getCallback(handle, 0, cmdData.bcCmd, cmdData.cmdIdx);
-                if (callback && callback.sdkCallback) {
-                    if (_T.BC_BATTERY_INFO_LIST.size === cmdData.dataLen) {
-                        let buf = ref.reinterpret(cmdData.pRspData, cmdData.dataLen);
-                        let data = ref.get(buf, 0, _T.BC_BATTERY_INFO_LIST);
-                        let param = _cast_1.derefCast(data, _T.BC_BATTERY_INFO_LIST);
-                        if (param.size > 0) {
+                let callback = _callback_1.COMMON_CBS.getCallback(handle, 0, bcCmd, cmdIdx);
+                if (_T.BC_BATTERY_INFO_LIST.size === dataLen) {
+                    let buf = ref.reinterpret(pRspData, dataLen);
+                    let data = ref.get(buf, 0, _T.BC_BATTERY_INFO_LIST);
+                    let param = _cast_1.derefCast(data, _T.BC_BATTERY_INFO_LIST);
+                    setImmediate(() => {
+                        if (param.size > 0 && callback && callback.sdkCallback) {
                             callback.sdkCallback.batteryInfoCallback(handle, param.infoList[0]);
                         }
-                    }
+                    });
                 }
                 break;
             }
             case T.BC_CMD_E.E_BC_CMD_REPORT_3G_4G_INFO: {
-                let callback = _callback_1.COMMON_CBS.getCallback(handle, 0, cmdData.bcCmd, cmdData.cmdIdx);
-                if (callback && callback.sdkCallback) {
-                    if (_T.BC_3G_4G_INFO.size === cmdData.dataLen) {
-                        let buf = ref.reinterpret(cmdData.pRspData, cmdData.dataLen);
-                        let data = ref.get(buf, 0, _T.BC_3G_4G_INFO);
-                        let param = _cast_1.derefCast(data, _T.BC_3G_4G_INFO);
-                        callback.sdkCallback.info3G4GCallback(handle, param);
-                    }
+                let callback = _callback_1.COMMON_CBS.getCallback(handle, 0, bcCmd, cmdIdx);
+                if (_T.BC_3G_4G_INFO.size === dataLen) {
+                    let buf = ref.reinterpret(pRspData, dataLen);
+                    let data = ref.get(buf, 0, _T.BC_3G_4G_INFO);
+                    let param = _cast_1.derefCast(data, _T.BC_3G_4G_INFO);
+                    setImmediate(() => {
+                        if (callback && callback.sdkCallback) {
+                            callback.sdkCallback.info3G4GCallback(handle, param);
+                        }
+                    });
                 }
                 break;
             }
             default: {
-                _callback_1.PROMISE_CBS.handleCallback(handle, channel, cmdData.bcCmd, cmdData.cmdIdx, callback => {
-                    if (T.BC_RSP_CODE_E.E_BC_RSP_OK == cmdData.bcRspCode) {
-                        if (callback.sdkResolve) {
-                            callback.sdkResolve(cmdData.bcRspCode);
+                setImmediate(() => {
+                    _callback_1.PROMISE_CBS.handleCallback(handle, channel, bcCmd, cmdIdx, callback => {
+                        if (T.BC_RSP_CODE_E.E_BC_RSP_OK == bcRspCode) {
+                            if (callback.sdkResolve) {
+                                callback.sdkResolve(bcRspCode);
+                            }
                         }
-                    }
-                    else {
-                        if (callback.sdkReject) {
-                            callback.sdkReject({
-                                code: cmdData.bcRspCode,
-                                description: "device sdk callback ... " + T.BC_CMD_E[cmdData.bcCmd]
-                            });
+                        else {
+                            if (callback.sdkReject) {
+                                callback.sdkReject({
+                                    code: bcRspCode,
+                                    description: "device sdk callback ... " + T.BC_CMD_E[bcCmd]
+                                });
+                            }
                         }
-                    }
+                    });
                 });
                 break;
             }

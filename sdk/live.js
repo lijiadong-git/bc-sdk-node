@@ -28,23 +28,30 @@ class LIVE {
         return LIVE.singleton;
     }
     handleSDKCallback(handle, cmdData) {
+        const bcCmd = cmdData.bcCmd;
+        const cmdIdx = cmdData.cmdIdx;
+        const bcRspCode = cmdData.bcRspCode;
+        const pRspData = cmdData.pRspData;
+        const dataLen = cmdData.dataLen;
         const channel = (cmdData.handleId & 0x000000ff) % T.DEFINDE.BC_MAX_CHANNEL;
-        switch (cmdData.bcCmd) {
+        switch (bcCmd) {
             default: {
-                _callback_1.PROMISE_CBS.handleCallback(handle, channel, cmdData.bcCmd, cmdData.cmdIdx, callback => {
-                    if (T.BC_RSP_CODE_E.E_BC_RSP_OK == cmdData.bcRspCode) {
-                        if (callback.sdkResolve) {
-                            callback.sdkResolve(cmdData.bcRspCode);
+                setImmediate(() => {
+                    _callback_1.PROMISE_CBS.handleCallback(handle, channel, bcCmd, cmdIdx, callback => {
+                        if (T.BC_RSP_CODE_E.E_BC_RSP_OK == bcRspCode) {
+                            if (callback.sdkResolve) {
+                                callback.sdkResolve(bcRspCode);
+                            }
                         }
-                    }
-                    else {
-                        if (callback.sdkReject) {
-                            callback.sdkReject({
-                                code: cmdData.bcRspCode,
-                                description: "live sdk callback ..."
-                            });
+                        else {
+                            if (callback.sdkReject) {
+                                callback.sdkReject({
+                                    code: bcRspCode,
+                                    description: "live sdk callback ..."
+                                });
+                            }
                         }
-                    }
+                    });
                 });
                 break;
             }
@@ -87,7 +94,9 @@ class LIVE {
                     plane2: planes[2]
                 };
                 if (func) {
-                    func.onVieoData(callbackData);
+                    setImmediate(() => {
+                        func.onVieoData(callbackData);
+                    });
                 }
             }
             else if (des.type & T.DEFINDE.MEDIA_FRAME_TYPE_AUDIO) {
@@ -102,7 +111,9 @@ class LIVE {
                     channels: des.audio.channels
                 };
                 if (func) {
-                    func.onAudioData(callbackData);
+                    setImmediate(() => {
+                        func.onAudioData(callbackData);
+                    });
                 }
             }
         });

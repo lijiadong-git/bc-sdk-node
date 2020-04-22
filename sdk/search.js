@@ -112,8 +112,10 @@ SEARCH.deviceFoundCallback = ffi_1.Callback('void', [_T.P_DEVICE_LOCATION_DESC, 
     let buf = ref.reinterpret(pdesc, _T.DEVICE_LOCATION_DESC.size);
     let desc = ref.get(buf, 0, _T.DEVICE_LOCATION_DESC);
     let param = _cast_1.derefCast(desc, _T.DEVICE_LOCATION_DESC);
-    SEARCH.callbacks.forEach(callback => {
-        callback(param);
+    setImmediate(() => {
+        SEARCH.callbacks.forEach(callback => {
+            callback(param);
+        });
     });
 });
 exports.search = SEARCH.instance();
