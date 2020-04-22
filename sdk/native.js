@@ -10,6 +10,7 @@ exports.recordStatusCallback = ffi.Function('void', [_T.P_BC_REC_EVENT_DESC, _T.
 exports.deviceFoundCallback = ffi.Function('void', [_T.P_DEVICE_LOCATION_DESC, _T.pointer('void')]);
 const folder = process.env.NODE_ENV === "development" ? process.env.VUE_APP_DIR_PLATFORM_EXTERNALS : __dirname;
 if (process.platform === "win32") {
+    ffi.Library(path.join(folder, 'vcruntime140'));
     ffi.Library(path.join(folder, 'BCP2P_API'));
     ffi.Library(path.join(folder, 'IOTCAPIs'));
     ffi.Library(path.join(folder, 'RDTApis'));

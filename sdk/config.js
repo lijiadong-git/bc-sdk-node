@@ -420,6 +420,32 @@ class CONFIG {
             case T.BC_CMD_E.E_BC_CMD_MUTE_ALARM_AUDIO:
             case T.BC_CMD_E.E_BC_CMD_SAVE_RINGTONE:
             default: {
+                if (T.BC_CMD_E.E_BC_CMD_SET_PRESET === cmdData.bcCmd) {
+                    const callbackStr = "------- handle this callback {"
+                        + "\n        handle: " + handle
+                        + "\n        channel: " + cmdData.handleId
+                        + "\n        cmd: " + T.BC_CMD_E[cmdData.bcCmd]
+                        + "\n        cmd index: " + cmdData.cmdIdx
+                        + "\n}";
+                    console.log(callbackStr);
+                    _callback_1.PROMISE_CBS.handleCallback(handle, channel, cmdData.bcCmd, cmdData.cmdIdx, callback => {
+                        if (T.BC_RSP_CODE_E.E_BC_RSP_OK == cmdData.bcRspCode) {
+                            console.log('callback resolve ... ');
+                            if (callback.sdkResolve)
+                                callback.sdkResolve();
+                        }
+                        else {
+                            console.log('callback reject ... ');
+                            if (callback.sdkReject) {
+                                callback.sdkReject({
+                                    code: cmdData.bcRspCode,
+                                    description: 'remote config faild ...'
+                                });
+                            }
+                        }
+                    });
+                    break;
+                }
                 _callback_1.PROMISE_CBS.handleCallback(handle, channel, cmdData.bcCmd, cmdData.cmdIdx, callback => {
                     if (T.BC_RSP_CODE_E.E_BC_RSP_OK == cmdData.bcRspCode) {
                         if (callback.sdkResolve)
