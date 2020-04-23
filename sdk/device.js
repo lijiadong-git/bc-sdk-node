@@ -67,6 +67,7 @@ const deviceCallback = ffi_1.Callback('void', ['int', _T.BC_CMD_DATA, _T.pointer
         case T.BC_CMD_E.E_BC_CMD_STOPPLAYBACKBYTIME:
             {
                 playback_1.playback.handleSDKCallback(handle, cmdData);
+                break;
             }
         //
         case T.BC_CMD_E.E_BC_CMD_TALK_OPEN:
@@ -75,6 +76,7 @@ const deviceCallback = ffi_1.Callback('void', ['int', _T.BC_CMD_DATA, _T.pointer
         case T.BC_CMD_E.E_BC_CMD_TALK_FDX_STREAM:
             {
                 talk_1.talk.handleSDKCallback(handle, cmdData);
+                break;
             }
         // remote config about
         case T.BC_CMD_E.E_BC_CMD_GET_OSD:
