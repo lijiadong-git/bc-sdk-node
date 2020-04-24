@@ -315,9 +315,11 @@ class DEVICE {
                 if (_T.DEVICE_STATE_CHANGE_DESC.size == dataLen) {
                     let buf = ref.reinterpret(pRspData, dataLen);
                     let des = ref.get(buf, 0, _T.DEVICE_STATE_CHANGE_DESC);
+                    let from = des.eStateFrom;
+                    let to = des.eStateTo;
                     setImmediate(() => {
                         if (callback && callback.sdkCallback) {
-                            callback.sdkCallback.stateCallback(handle, des.eStateFrom, des.eStateTo);
+                            callback.sdkCallback.stateCallback(handle, from, to);
                         }
                     });
                 }

@@ -76,8 +76,8 @@ class PLAYBACK {
                             });
                         }
                         setImmediate(() => {
-                            filesCallback.sdkCallback(des.seq, files);
-                            if (des.fileNum < 40) {
+                            filesCallback.sdkCallback(files.seq, files);
+                            if (files.fileNum < 40) {
                                 _callback_1.PROMISE_CBS.handleCallback(handle, channel, bcCmd, cmdIdx, callback => {
                                     if (callback.sdkResolve) {
                                         callback.sdkResolve(bcRspCode);
@@ -137,7 +137,7 @@ class PLAYBACK {
                             });
                         }
                         setImmediate(() => {
-                            filesCallback.sdkCallback(des.seq, files);
+                            filesCallback.sdkCallback(files.seq, files);
                             if (files.iFinished) {
                                 _callback_1.PROMISE_CBS.handleCallback(handle, channel, bcCmd, cmdIdx, callback => {
                                     if (callback.sdkResolve) {

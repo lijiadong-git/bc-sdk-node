@@ -33,9 +33,8 @@ class DOWNLOAD {
                 if (!info.fileSize || !info.curSize) {
                     break;
                 }
-                // callback
+                let progress = info.curSize / info.fileSize;
                 setImmediate(() => {
-                    let progress = info.curSize / info.fileSize;
                     callback.sdkCallback(bcRspCode, progress);
                 });
                 break;
