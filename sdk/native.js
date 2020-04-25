@@ -815,6 +815,21 @@ const MFFI = ffi.Library(path.join(folder, 'libBCSDKWrapper'), {
     ,
     BCSDK_RemoteGetLedState: ['int', ['int', 'int']],
     BCSDK_RemoteSetLedState: ['int', ['int', 'int', _T.P_BC_LED_LIGHT_STATE, 'int']]
+    /* Floodlight
+    *
+    * callback with E_BC_CMD_FLOODLIGHT_MANUAL, E_BC_CMD_GET_FLOODLIGHT_TASK, E_BC_CMD_SET_FLOODLIGHT_TASK
+    */
+    ,
+    BCSDK_RemoteFloodlightManual: ['int', ['int', 'int', _T.P_BC_FLOODLIGHT_MANUAL, 'int']],
+    BCSDK_RemoteGetFloodlightTask: ['int', ['int', 'int']],
+    BCSDK_RemoteSetFloodlightTask: ['int', ['int', 'int', _T.P_BC_FLOODLIGHT_TASK, 'int']]
+    /* day night threshold
+     *
+     * callback with NET_GET_DAY_NIGHT_THRESHOLD_V20, NET_SET_DAY_NIGHT_THRESHOLD_V20
+     */
+    ,
+    BCSDK_RemoteGetDayNightThreshold: ['int', ['int', 'int']],
+    BCSDK_RemoteSetDayNightThreshold: ['int', ['int', 'int', _T.P_BC_DAY_NIGHT_THRESHOLD_CFG, 'int']]
     /* Ftp Task
      *
      * callback with E_BC_CMD_GET_FTPTASK, E_BC_CMD_SET_FTPTASK
@@ -1672,6 +1687,19 @@ class NativeDelegate {
          */
         this.BCSDK_RemoteGetLedState = MFFI.BCSDK_RemoteGetLedState;
         this.BCSDK_RemoteSetLedState = MFFI.BCSDK_RemoteSetLedState;
+        /* Floodlight
+        *
+        * callback with E_BC_CMD_FLOODLIGHT_MANUAL, E_BC_CMD_GET_FLOODLIGHT_TASK, E_BC_CMD_SET_FLOODLIGHT_TASK
+        */
+        this.BCSDK_RemoteFloodlightManual = MFFI.BCSDK_RemoteFloodlightManual;
+        this.BCSDK_RemoteGetFloodlightTask = MFFI.BCSDK_RemoteGetFloodlightTask;
+        this.BCSDK_RemoteSetFloodlightTask = MFFI.BCSDK_RemoteSetFloodlightTask;
+        /* day night threshold
+         *
+         * callback with NET_GET_DAY_NIGHT_THRESHOLD_V20, NET_SET_DAY_NIGHT_THRESHOLD_V20
+         */
+        this.BCSDK_RemoteGetDayNightThreshold = MFFI.BCSDK_RemoteGetDayNightThreshold;
+        this.BCSDK_RemoteSetDayNightThreshold = MFFI.BCSDK_RemoteSetDayNightThreshold;
         /* Ftp Task
          *
          * callback with E_BC_CMD_GET_FTPTASK, E_BC_CMD_SET_FTPTASK

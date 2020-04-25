@@ -1251,6 +1251,29 @@ class CONFIG {
     setLedState(handle, channel, param) {
         return this.channelCmd(handle, channel, T.BC_CMD_E.E_BC_CMD_SET_LED_STATE, native_1.native.BCSDK_RemoteSetLedState, param, _T.BC_LED_LIGHT_STATE, CONFIG.getCmdIndex());
     }
+    /* Floodlight
+    *
+    * callback with E_BC_CMD_FLOODLIGHT_MANUAL, E_BC_CMD_GET_FLOODLIGHT_TASK, E_BC_CMD_SET_FLOODLIGHT_TASK
+    */
+    floodlightManual(handle, channel, param) {
+        return this.channelCmd(handle, channel, T.BC_CMD_E.E_BC_CMD_FLOODLIGHT_MANUAL, native_1.native.BCSDK_RemoteFloodlightManual, param, _T.BC_FLOODLIGHT_MANUAL, CONFIG.getCmdIndex());
+    }
+    getFloodlightTask(handle, channel) {
+        return this.channelCmd(handle, channel, T.BC_CMD_E.E_BC_CMD_GET_FLOODLIGHT_TASK, native_1.native.BCSDK_RemoteGetFloodlightTask);
+    }
+    setFloodlightTask(handle, channel, param) {
+        return this.channelCmd(handle, channel, T.BC_CMD_E.E_BC_CMD_SET_FLOODLIGHT_TASK, native_1.native.BCSDK_RemoteSetFloodlightTask, param, _T.BC_FLOODLIGHT_TASK, CONFIG.getCmdIndex());
+    }
+    /* day night threshold
+     *
+     * callback with E_BC_CMD_GET_DAY_NIGHT_THRESHOLD, E_BC_CMD_SET_DAY_NIGHT_THRESHOLD
+     */
+    getDayNightThreshold(handle, channel) {
+        return this.channelCmd(handle, channel, T.BC_CMD_E.E_BC_CMD_GET_DAY_NIGHT_THRESHOLD, native_1.native.BCSDK_RemoteGetDayNightThreshold);
+    }
+    setDayNightThreshold(handle, channel, param) {
+        return this.channelCmd(handle, channel, T.BC_CMD_E.E_BC_CMD_SET_DAY_NIGHT_THRESHOLD, native_1.native.BCSDK_RemoteSetDayNightThreshold, param, _T.BC_FLOODLIGHT_TASK, CONFIG.getCmdIndex());
+    }
     /* Ftp Task
      *
      * callback with E_BC_CMD_GET_FTPTASK, E_BC_CMD_SET_FTPTASK

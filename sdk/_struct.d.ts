@@ -30,6 +30,8 @@ export declare const DATA_AUDIO_FRAME_DESC: refStruct;
 export declare const P_DATA_AUDIO_FRAME_DESC: ref.Type;
 export declare const DATA_FRAME_DESC: refStruct;
 export declare const P_DATA_FRAME_DESC: ref.Type;
+export declare const BC_DAY_NIGHT_THRESHOLD_CFG: refStruct;
+export declare const P_BC_DAY_NIGHT_THRESHOLD_CFG: ref.Type;
 export declare const BC_RESO_PROFILE: refStruct;
 export declare const P_BC_RESO_PROFILE: ref.Type;
 export declare const BC_ENC_PROFILE: refStruct;

@@ -145,6 +145,11 @@ declare class CONFIG {
     setIspDayNightMode(handle: number, channel: number, param: T.BC_DAY_NIGHT_MODE_CFG): Promise<void>;
     getLedState(handle: number, channel: number): Promise<T.BC_LED_LIGHT_STATE>;
     setLedState(handle: number, channel: number, param: T.BC_LED_LIGHT_STATE): Promise<void>;
+    floodlightManual(handle: number, channel: number, param: T.BC_FLOODLIGHT_MANUAL): Promise<void>;
+    getFloodlightTask(handle: number, channel: number): Promise<T.BC_FLOODLIGHT_TASK>;
+    setFloodlightTask(handle: number, channel: number, param: T.BC_FLOODLIGHT_TASK): Promise<void>;
+    getDayNightThreshold(handle: number, channel: number): Promise<T.BC_DAY_NIGHT_THRESHOLD_CFG>;
+    setDayNightThreshold(handle: number, channel: number, param: T.BC_DAY_NIGHT_THRESHOLD_CFG): Promise<void>;
     getFtpTask(handle: number, channel: number): Promise<T.BC_FTP_TASK>;
     setFtpTask(handle: number, channel: number, param: T.BC_FTP_TASK): Promise<void>;
     getEmailTask(handle: number, channel: number): Promise<T.BC_EMAIL_TASK>;

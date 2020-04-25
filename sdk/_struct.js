@@ -123,6 +123,11 @@ exports.DATA_FRAME_DESC = refStruct({
     audioInfo: exports.DATA_AUDIO_FRAME_DESC
 });
 exports.P_DATA_FRAME_DESC = exports.pointer(exports.DATA_FRAME_DESC);
+exports.BC_DAY_NIGHT_THRESHOLD_CFG = refStruct({
+    eMode: ref.types.int,
+    eCurStat: ref.types.int
+});
+exports.P_BC_DAY_NIGHT_THRESHOLD_CFG = exports.pointer(exports.BC_DAY_NIGHT_THRESHOLD_CFG);
 exports.BC_RESO_PROFILE = refStruct({
     eResolution: ref.types.int,
     iWidth: ref.types.int,

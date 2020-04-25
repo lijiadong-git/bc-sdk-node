@@ -425,6 +425,11 @@ export interface NativeMethods {
     BCSDK_RemoteSetIspDayNightMode: (handle: number, channel: number, param: any) => number;
     BCSDK_RemoteGetLedState: (handle: number, channel: number) => number;
     BCSDK_RemoteSetLedState: (handle: number, channel: number, param: any, cmdIdx: number) => number;
+    BCSDK_RemoteFloodlightManual: (handle: number, channel: number, param: any, cmdIdx: number) => number;
+    BCSDK_RemoteGetFloodlightTask: (handle: number, channel: number) => number;
+    BCSDK_RemoteSetFloodlightTask: (handle: number, channel: number, param: any, cmdIdx: number) => number;
+    BCSDK_RemoteGetDayNightThreshold: (handle: number, channel: number) => number;
+    BCSDK_RemoteSetDayNightThreshold: (handle: number, channel: number, param: any, cmdIdx: number) => number;
     BCSDK_RemoteGetFtpTask: (handle: number, channel: number) => number;
     BCSDK_RemoteSetFtpTask: (handle: number, channel: number, param: any) => number;
     BCSDK_RemoteGetEmailTask: (handle: number, channel: number) => number;

@@ -70,6 +70,10 @@ export interface DATA_FRAME_DESC {
     videoInfo: DATA_VIDEO_FRAME_DESC;
     audioInfo: DATA_AUDIO_FRAME_DESC;
 }
+export interface BC_DAY_NIGHT_THRESHOLD_CFG {
+    eMode: T.BC_DAY_NIGHT_THRESHOLD_MODE_E;
+    eCurStat: T.BC_DAY_NIGHT_STAT_E;
+}
 export interface BC_RESO_PROFILE {
     eResolution: number;
     iWidth: number;
