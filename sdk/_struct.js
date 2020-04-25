@@ -259,7 +259,8 @@ exports.BC_EMAIL_SENDER = refStruct({
     byAccount: refArray('byte', types_1.DEFINDE.BC_MAX_ADDR_LEN),
     iSenderMaxLen: ref.types.int // readonly, max len of byAccount
     ,
-    byPassword: refArray('byte', types_1.DEFINDE.BC_MAX_PWD_LEN)
+    byPassword: refArray('byte', types_1.DEFINDE.BC_MAX_PWD_LEN_128),
+    iPwdMaxLen: ref.types.int
 });
 exports.P_BC_EMAIL_SENDER = exports.pointer(exports.BC_EMAIL_SENDER);
 exports.BC_EMAIL_RECEIVER = refStruct({
@@ -459,6 +460,20 @@ exports.BC_RF_ALARM_STATUS = refStruct({
     bEnable: ref.types.bool
 });
 exports.P_BC_RF_ALARM_STATUS = exports.pointer(exports.BC_RF_ALARM_STATUS);
+exports.BC_RF_TEST_START = refStruct({
+    iRfId: ref.types.int // request
+    ,
+    iSensitivityValue: ref.types.int // request, rf sensitivity: 0-100
+    ,
+    iReduceErr: ref.types.int // request, 0: not reduce  1: reduce
+});
+exports.P_BC_RF_TEST_START = exports.pointer(exports.BC_RF_TEST_START);
+exports.BC_RF_TEST_STOP = refStruct({
+    iRfId: ref.types.int // request
+    ,
+    iFalseCnt: ref.types.int // response, return rf false count when test stop
+});
+exports.P_BC_RF_TEST_STOP = exports.pointer(exports.BC_RF_TEST_STOP);
 exports.BC_DST_CFG = refStruct({
     /* validField, used for only set some params.
      * "iStartMonth, iStartIndex, iStartWeekday, iStartHour, iStartMinute, iStartSecond" is independent.
@@ -491,7 +506,7 @@ exports.BC_DDNS_CFG = refStruct({
     eType: ref.types.int,
     cDomainName: refArray('byte', types_1.DEFINDE.BC_MAX_ADDR_LEN),
     cUserName: refArray('byte', types_1.DEFINDE.BC_MAX_NAME_LEN),
-    cPassword: refArray('byte', types_1.DEFINDE.BC_MAX_PWD_LEN)
+    cPassword: refArray('byte', types_1.DEFINDE.BC_MAX_PWD_LEN_128)
 });
 exports.P_BC_DDNS_CFG = exports.pointer(exports.BC_DDNS_CFG);
 exports.BC_NTP_CFG = refStruct({
@@ -647,7 +662,8 @@ exports.P_BC_FTP_INTERVAL_LIST = exports.pointer(exports.BC_FTP_INTERVAL_LIST);
 exports.BC_FTP_CFG = refStruct({
     cServer: refArray('byte', types_1.DEFINDE.BC_MAX_ADDR_LEN),
     cUsername: refArray('byte', types_1.DEFINDE.BC_MAX_NAME_LEN),
-    cPassword: refArray('byte', types_1.DEFINDE.BC_MAX_PWD_LEN),
+    cPassword: refArray('byte', types_1.DEFINDE.BC_MAX_PWD_LEN_128),
+    iPwdMaxLen: ref.types.int,
     cRemotedir: refArray('byte', types_1.DEFINDE.BC_MAX_FILE_LEN),
     bAnonymous: ref.types.bool,
     iPort: ref.types.int,
@@ -844,6 +860,22 @@ exports.BC_SENSITIVITY_INFO = refStruct({
     iSensitivity: ref.types.int // 1 ~ 50
 });
 exports.P_BC_SENSITIVITY_INFO = exports.pointer(exports.BC_SENSITIVITY_INFO);
+exports.BC_NEW_SENS_ITEM = refStruct({
+    iEnable: ref.types.int,
+    iPriority: ref.types.int // 0:lowest
+    ,
+    iBeginHour: ref.types.int,
+    iBeginMinute: ref.types.int,
+    iEndHour: ref.types.int,
+    iEndMinute: ref.types.int,
+    iSensitivity: ref.types.int
+});
+exports.P_BC_NEW_SENS_ITEM = exports.pointer(exports.BC_NEW_SENS_ITEM);
+exports.BC_NEW_SENS_INFO = refStruct({
+    iDefSensitivity: ref.types.int // 1~50 default:9
+    ,
+    sensItems: refArray(exports.BC_NEW_SENS_ITEM, types_1.DEFINDE.BC_MAX_MOTION_SENS_NUM)
+});
 exports.BC_MOTION_CFG = refStruct({
     validField: refArray('byte', 128),
     isCopyTo: ref.types.bool,
@@ -855,6 +887,8 @@ exports.BC_MOTION_CFG = refStruct({
     ,
     bMotionScope: refArray(ref.types.bool, types_1.DEFINDE.BC_MD_AREA_MAX_HEIGHT * types_1.DEFINDE.BC_MD_AREA_MAX_WIDTH) // 1: set to motion, 0: not set
     ,
+    iSensVerion: ref.types.int /* 0:use sensitivityInfo, 1:use newSensInfo */,
+    newSensInfo: exports.BC_NEW_SENS_INFO,
     sensitivityInfo: refArray(exports.BC_SENSITIVITY_INFO, types_1.DEFINDE.BC_MAX_MOTION_SENS_NUM),
     alarmOut: exports.BC_ALARM_OUT,
     byRelRecordChannel: refArray(ref.types.uint8, types_1.DEFINDE.BC_MAX_CHANNEL) // 0: not set, 1:set
@@ -1005,6 +1039,34 @@ exports.BC_LED_LIGHT_STATE = refStruct({
     eIndicatorLight: ref.types.int // BC_LIGHT_STATE_E                    
 });
 exports.P_BC_LED_LIGHT_STATE = exports.pointer(exports.BC_LED_LIGHT_STATE);
+exports.BC_FLOODLIGHT_MANUAL = refStruct({
+    eOper: ref.types.int,
+    iDuration: ref.types.int /* open floodlight last iDuration seconds */
+});
+exports.P_BC_FLOODLIGHT_MANUAL = exports.pointer(exports.BC_FLOODLIGHT_MANUAL);
+exports.BC_FLOODLIGHT_STAT_ITEM = refStruct({
+    iChannel: ref.types.int,
+    iLit: ref.types.int
+});
+exports.P_BC_FLOODLIGHT_STAT_ITEM = exports.pointer(exports.BC_FLOODLIGHT_STAT_ITEM);
+exports.BC_FLOODLIGHT_STAT = refStruct({
+    num: ref.types.int,
+    items: refArray(exports.BC_FLOODLIGHT_STAT_ITEM, types_1.DEFINDE.BC_MAX_CHANNEL)
+});
+exports.P_BC_FLOODLIGHT_STAT = exports.pointer(exports.BC_FLOODLIGHT_STAT);
+exports.BC_FLOODLIGHT_BRIGHT = refStruct({
+    iCur: ref.types.int,
+    iDef: ref.types.int,
+    iMin: ref.types.int,
+    iMax: ref.types.int
+});
+exports.P_BC_FLOODLIGHT_BRIGHT = exports.pointer(exports.BC_FLOODLIGHT_BRIGHT);
+exports.BC_FLOODLIGHT_TASK = refStruct({
+    iBvalid: ref.types.int,
+    bright: exports.BC_FLOODLIGHT_BRIGHT,
+    iAutoByPreview: ref.types.int /* 1:floodlight auto turn on during preview.*/
+});
+exports.P_BC_FLOODLIGHT_TASK = exports.pointer(exports.BC_FLOODLIGHT_TASK);
 exports.BC_FTP_TASK = refStruct({
     /* validField, used for only set some params.
      * validField only suppport for setting <bEnable>,
@@ -1055,6 +1117,20 @@ exports.BC_PTZ_AUTO_FOCUS = refStruct({
     iDisable: ref.types.int
 });
 exports.P_BC_PTZ_AUTO_FOCUS = exports.pointer(exports.BC_PTZ_AUTO_FOCUS);
+exports.BC_ZOOM_FOCUS_INFO = refStruct({
+    iZoomMaxPos: ref.types.int,
+    iZoomMinPos: ref.types.int,
+    iZoomCurPos: ref.types.int,
+    iFocusMaxPos: ref.types.int,
+    iFocusMinPos: ref.types.int,
+    iFocusCurPos: ref.types.int
+});
+exports.P_BC_ZOOM_FOCUS_INFO = exports.pointer(exports.BC_ZOOM_FOCUS_INFO);
+exports.BC_START_ZOOM_FOCUS = refStruct({
+    cmd: ref.types.int,
+    iPos: ref.types.int
+});
+exports.P_BC_START_ZOOM_FOCUS = exports.pointer(exports.BC_START_ZOOM_FOCUS);
 exports.BC_CROP_CFG = refStruct({
     iTopLeftX: ref.types.int,
     iTopLeftY: ref.types.int,

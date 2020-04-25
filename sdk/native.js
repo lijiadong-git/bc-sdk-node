@@ -97,6 +97,7 @@ const MFFI = ffi.Library(path.join(folder, 'libBCSDKWrapper'), {
     BCSDK_GetSupportCloudSchedule: ['int', ['int', _T.pointer('bool')]],
     BCSDK_GetSupportCloudSignatureLoginCfg: ['int', ['int', _T.pointer('bool')]],
     BCSDK_GetSupportAccountBind: ['int', ['int', _T.pointer('bool')]],
+    BCSDK_GetSupportServerControlStreamType: ['int', ['int', _T.pointer('bool')]],
     BCSDK_GetSmarthomeAbility: ['int', ['int', _T.pointer('int')]],
     BCSDK_GetSupportUpgrade: ['int', ['int', _T.pointer('bool')]],
     BCSDK_GetSupportOutput: ['int', ['int', _T.pointer('bool')]],
@@ -155,6 +156,9 @@ const MFFI = ffi.Library(path.join(folder, 'libBCSDKWrapper'), {
     BCSDK_GetSupportExtenStreamCfg: ['int', ['int', 'int', _T.pointer('bool')]],
     BCSDK_GetSupportLEDControl: ['int', ['int', 'int', _T.pointer('bool')]],
     BCSDK_GetSupportIndicatorLight: ['int', ['int', 'int', _T.pointer('bool')]],
+    BCSDK_GetSupportFloodlight: ['int', ['int', 'int', _T.pointer('bool')]],
+    BCSDK_GetSupportFloodlightBrightnessCtrl: ['int', ['int', 'int', _T.pointer('bool')]],
+    BCSDK_GetSupportFloodlightAutoByPreview: ['int', ['int', 'int', _T.pointer('bool')]],
     BCSDK_GetSupportPtzSpeed: ['int', ['int', 'int', _T.pointer('bool')]],
     BCSDK_GetSupportPtzCruise: ['int', ['int', 'int', _T.pointer('bool')]],
     BCSDK_GetSupportPtzPreset: ['int', ['int', 'int', _T.pointer('bool')]],
@@ -714,6 +718,11 @@ const MFFI = ffi.Library(path.join(folder, 'libBCSDKWrapper'), {
     ,
     BCSDK_RemoteRtmpStart: ['int', ['int', _T.P_BC_RTMP_OPT]],
     BCSDK_RemoteRtmpStop: ['int', ['int', _T.P_BC_RTMP_OPT]]
+    /* covers get
+     *
+     * callback with E_BC_CMD_COVER_PREVIEW
+     */
+    /*, BCSDK_RemoteGetCovers:            ['int', ['int', _T.P_BC_GET_FILE_COVERS_CFG]]*/
     /************************************************************************
      * MARK: Channel Remote Config
      ************************************************************************/
@@ -1001,6 +1010,7 @@ class NativeDelegate {
         this.BCSDK_GetSupportTimingRecord = MFFI.BCSDK_GetSupportTimingRecord;
         this.BCSDK_GetSupportReplaySpeed = MFFI.BCSDK_GetSupportReplaySpeed;
         this.BCSDK_GetSupportAlarmVideoMark = MFFI.BCSDK_GetSupportAlarmVideoMark;
+        this.BCSDK_GetSupportCoverPreview = MFFI.BCSDK_GetSupportCoverPreview;
         this.BCSDK_GetSupportPolling = MFFI.BCSDK_GetSupportPolling;
         this.BCSDK_GetSupportAutoNtp = MFFI.BCSDK_GetSupportAutoNtp;
         this.BCSDK_GetSupportWiFi = MFFI.BCSDK_GetSupportWiFi;
@@ -1034,6 +1044,7 @@ class NativeDelegate {
         this.BCSDK_GetSupportCloudSchedule = MFFI.BCSDK_GetSupportCloudSchedule;
         this.BCSDK_GetSupportCloudSignatureLoginCfg = MFFI.BCSDK_GetSupportCloudSignatureLoginCfg;
         this.BCSDK_GetSupportAccountBind = MFFI.BCSDK_GetSupportAccountBind;
+        this.BCSDK_GetSupportServerControlStreamType = MFFI.BCSDK_GetSupportServerControlStreamType;
         this.BCSDK_GetSmarthomeAbility = MFFI.BCSDK_GetSmarthomeAbility;
         this.BCSDK_GetSupportUpgrade = MFFI.BCSDK_GetSupportUpgrade;
         this.BCSDK_GetSupportOutput = MFFI.BCSDK_GetSupportOutput;
@@ -1091,6 +1102,9 @@ class NativeDelegate {
         this.BCSDK_GetSupportExtenStreamCfg = MFFI.BCSDK_GetSupportExtenStreamCfg;
         this.BCSDK_GetSupportLEDControl = MFFI.BCSDK_GetSupportLEDControl;
         this.BCSDK_GetSupportIndicatorLight = MFFI.BCSDK_GetSupportIndicatorLight;
+        this.BCSDK_GetSupportFloodlight = MFFI.BCSDK_GetSupportFloodlight;
+        this.BCSDK_GetSupportFloodlightBrightnessCtrl = MFFI.BCSDK_GetSupportFloodlightBrightnessCtrl;
+        this.BCSDK_GetSupportFloodlightAutoByPreview = MFFI.BCSDK_GetSupportFloodlightAutoByPreview;
         this.BCSDK_GetSupportPtzSpeed = MFFI.BCSDK_GetSupportPtzSpeed;
         this.BCSDK_GetSupportPtzCruise = MFFI.BCSDK_GetSupportPtzCruise;
         this.BCSDK_GetSupportPtzPreset = MFFI.BCSDK_GetSupportPtzPreset;

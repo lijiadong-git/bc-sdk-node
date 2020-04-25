@@ -47,6 +47,7 @@ export interface NativeMethods {
     BCSDK_GetSupportTimingRecord: (handle: number, pSupport: any) => number;
     BCSDK_GetSupportReplaySpeed: (handle: number, pSupport: any) => number;
     BCSDK_GetSupportAlarmVideoMark: (handle: number, pSupport: any) => number;
+    BCSDK_GetSupportCoverPreview: (handle: number, pSupport: any) => number;
     BCSDK_GetSupportPolling: (handle: number, pSupport: any) => number;
     BCSDK_GetSupportAutoNtp: (handle: number, pSupport: any) => number;
     BCSDK_GetSupportWiFi: (handle: number, pSupport: any) => number;
@@ -80,6 +81,7 @@ export interface NativeMethods {
     BCSDK_GetSupportCloudSchedule: (handle: number, pSupport: any) => number;
     BCSDK_GetSupportCloudSignatureLoginCfg: (handle: number, pSupport: any) => number;
     BCSDK_GetSupportAccountBind: (handle: number, pSupport: any) => number;
+    BCSDK_GetSupportServerControlStreamType: (handle: number, pSupport: any) => number;
     BCSDK_GetSmarthomeAbility: (handle: number, ability: any) => number;
     BCSDK_GetSupportUpgrade: (handle: number, pSupport: any) => number;
     BCSDK_GetSupportOutput: (handle: number, pSupport: any) => number;
@@ -144,6 +146,9 @@ export interface NativeMethods {
     BCSDK_GetSupportExtenStreamCfg: (handle: number, channel: number, pSupport: any) => number;
     BCSDK_GetSupportLEDControl: (handle: number, channel: number, pSupport: any) => number;
     BCSDK_GetSupportIndicatorLight: (handle: number, channel: number, pSupport: any) => number;
+    BCSDK_GetSupportFloodlight: (handle: number, channel: number, pSupport: any) => number;
+    BCSDK_GetSupportFloodlightBrightnessCtrl: (handle: number, channel: number, pSupport: any) => number;
+    BCSDK_GetSupportFloodlightAutoByPreview: (handle: number, channel: number, pSupport: any) => number;
     BCSDK_GetSupportPtzSpeed: (handle: number, channel: number, pSupport: any) => number;
     BCSDK_GetSupportPtzCruise: (handle: number, channel: number, pSupport: any) => number;
     BCSDK_GetSupportPtzPreset: (handle: number, channel: number, pSupport: any) => number;

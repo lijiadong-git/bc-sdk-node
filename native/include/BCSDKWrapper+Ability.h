@@ -24,6 +24,7 @@ extern "C" {
     int _BCSDK_ BCSDK_GetSupportTimingRecord(H_BC_DEVICE hDevice, bool *support);
     int _BCSDK_ BCSDK_GetSupportReplaySpeed(H_BC_DEVICE hDevice, bool *support);
     int _BCSDK_ BCSDK_GetSupportAlarmVideoMark(H_BC_DEVICE hDevice, bool *support);
+	int _BCSDK_ BCSDK_GetSupportCoverPreview(H_BC_DEVICE hDevice, bool *support);
     int _BCSDK_ BCSDK_GetSupportPolling(H_BC_DEVICE hDevice, bool *support);
     int _BCSDK_ BCSDK_GetSupportAutoNtp(H_BC_DEVICE hDevice, bool *support);
     int _BCSDK_ BCSDK_GetSupportWiFi(H_BC_DEVICE hDevice, bool *support);
@@ -57,6 +58,7 @@ extern "C" {
     int _BCSDK_ BCSDK_GetSupportCloudSchedule(H_BC_DEVICE hDevice, bool *support);
     int _BCSDK_ BCSDK_GetSupportCloudSignatureLoginCfg(H_BC_DEVICE hDevice, bool *support);
     int _BCSDK_ BCSDK_GetSupportAccountBind(H_BC_DEVICE hDevice, bool *support);
+	int _BCSDK_ BCSDK_GetSupportServerControlStreamType(H_BC_DEVICE hDevice, bool *support);
     int _BCSDK_ BCSDK_GetSmarthomeAbility(H_BC_DEVICE hDevice, BC_SMARTHOME_ABILITY_INFO *smarthome);
     int _BCSDK_ BCSDK_GetSupportUpgrade(H_BC_DEVICE hDevice, bool *support);
     int _BCSDK_ BCSDK_GetSupportOutput(H_BC_DEVICE hDevice, bool *support);
@@ -130,6 +132,8 @@ extern "C" {
     int _BCSDK_ BCSDK_GetSupportLEDControl(H_BC_DEVICE hDevice, int channel, bool *support);
     int _BCSDK_ BCSDK_GetSupportIndicatorLight(H_BC_DEVICE hDevice, int channel, bool *support);
 	int _BCSDK_ BCSDK_GetSupportFloodlight(H_BC_DEVICE hDevice, int channel, bool *support);
+	int _BCSDK_ BCSDK_GetSupportFloodlightBrightnessCtrl(H_BC_DEVICE hDevice, int channel, bool *support);
+	int _BCSDK_ BCSDK_GetSupportFloodlightAutoByPreview(H_BC_DEVICE hDevice, int channel, bool *support);
     int _BCSDK_ BCSDK_GetSupportPtzSpeed(H_BC_DEVICE hDevice, int channel, bool *support);
     int _BCSDK_ BCSDK_GetSupportPtzCruise(H_BC_DEVICE hDevice, int channel, bool *support);
     int _BCSDK_ BCSDK_GetSupportPtzPreset(H_BC_DEVICE hDevice, int channel, bool *support);

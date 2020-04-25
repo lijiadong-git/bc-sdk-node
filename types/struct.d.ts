@@ -268,9 +268,10 @@ export interface BC_EMAIL_CFG {
          */
         iSenderMaxLen: number;
         /**
-         * max length: BC_MAX_PWD_LEN - 1
+         * max length: BC_MAX_PWD_LEN_128 - 1
          */
         byPassword: string;
+        iPwdMaxLen: number;
     };
     receiver: [{
         byAddress: string;
@@ -507,6 +508,15 @@ export interface BC_RF_ALARM_STATUS {
     iRfId: number;
     bEnable: boolean;
 }
+export interface BC_RF_TEST_START {
+    iRfId: number;
+    iSensitivityValue: number;
+    iReduceErr: number;
+}
+export interface BC_RF_TEST_STOP {
+    iRfId: number;
+    iFalseCnt: number;
+}
 export interface BC_DST_CFG {
     validField: string;
     bEnable: boolean;
@@ -540,7 +550,7 @@ export interface BC_DDNS_CFG {
      */
     cUserName: string;
     /**
-     * max length: BC_MAX_PWD_LEN - 1
+     * max length: BC_MAX_PWD_LEN_128 - 1
      */
     cPassword: string;
 }
@@ -886,9 +896,10 @@ export interface BC_FTP_CFG {
      */
     cUsername: string;
     /**
-     * max length: BC_MAX_PWD_LEN - 1
+     * max length: BC_MAX_PWD_LEN_128 - 1
      */
     cPassword: string;
+    iPwdMaxLen: number;
     /**
      * max length: BC_MAX_FILE_LEN - 1
      */
@@ -1111,6 +1122,19 @@ export interface BC_SENSITIVITY_INFO {
      */
     iSensitivity: number;
 }
+export interface BC_NEW_SENS_ITEM {
+    iEnable: number;
+    iPriority: number;
+    iBeginHour: number;
+    iBeginMinute: number;
+    iEndHour: number;
+    iEndMinute: number;
+    iSensitivity: number;
+}
+export interface BC_NEW_SENS_INFO {
+    iDefSensitivity: number;
+    sensItems: BC_NEW_SENS_ITEM[];
+}
 export interface BC_MOTION_CFG {
     validField: string;
     isCopyTo: boolean;
@@ -1132,9 +1156,18 @@ export interface BC_MOTION_CFG {
      */
     bMotionScope: boolean[];
     /**
+     * 0: use sensitivityInfo
+     * 1: use newSensInfo
+     */
+    iSensVerion: number;
+    /**
      * length: BC_MAX_MOTION_SENS_NUM
      */
     sensitivityInfo: BC_SENSITIVITY_INFO[];
+    /**
+     * available when 1 === iSensVerion
+     */
+    newSensInfo: BC_NEW_SENS_INFO;
     alarmOut: BC_ALARM_OUT;
     /**
      * 0: not set, 1:set
@@ -1342,6 +1375,35 @@ export interface BC_LED_LIGHT_STATE {
     iVersion: number;
     eIndicatorLight: T.BC_LIGHT_STATE_E;
 }
+export interface BC_FLOODLIGHT_MANUAL {
+    eOper: T.BC_FLOODLIGHT_OPER_E;
+    /**
+     * open floodlight last iDuration seconds
+     */
+    iDuration: number;
+}
+export interface BC_FLOODLIGHT_STAT_ITEM {
+    iChannel: number;
+    iLit: number;
+}
+export interface BC_FLOODLIGHT_STAT {
+    num: number;
+    items: BC_FLOODLIGHT_STAT_ITEM[];
+}
+export interface BC_FLOODLIGHT_BRIGHT {
+    iCur: number;
+    iDef: number;
+    iMin: number;
+    iMax: number;
+}
+export interface BC_FLOODLIGHT_TASK {
+    iBvalid: number;
+    bright: BC_FLOODLIGHT_BRIGHT;
+    /**
+     * 1:floodlight auto turn on during preview.
+     */
+    iAutoByPreview: number;
+}
 export interface BC_FTP_TASK {
     validField: string;
     bEnable: boolean;
@@ -1376,6 +1438,18 @@ export interface BC_SNAP_INFO {
 }
 export interface BC_PTZ_AUTO_FOCUS {
     iDisable: number;
+}
+export interface BC_ZOOM_FOCUS_INFO {
+    iZoomMaxPos: number;
+    iZoomMinPos: number;
+    iZoomCurPos: number;
+    iFocusMaxPos: number;
+    iFocusMinPos: number;
+    iFocusCurPos: number;
+}
+export interface BC_START_ZOOM_FOCUS {
+    cmd: T.BC_ZF_CMD_E;
+    iPos: number;
 }
 export interface BC_CROP_CFG {
     iTopLeftX: number;

@@ -124,6 +124,7 @@ class ABILITY {
     getSupportDateFormat(handle, df) { return ABILITY.nativeCall(native_1.native.BCSDK_GetSupportDateFormat, handle, df ? df : false); }
     getSupportCloudSignatureLoginCfg(handle, df) { return ABILITY.nativeCall(native_1.native.BCSDK_GetSupportCloudSignatureLoginCfg, handle, df ? df : false); }
     getSupportAccountBind(handle, df) { return ABILITY.nativeCall(native_1.native.BCSDK_GetSupportAccountBind, handle, df ? df : false); }
+    getSupportServerControlStreamType(handle, df) { return ABILITY.nativeCall(native_1.native.BCSDK_GetSupportServerControlStreamType, handle, df ? df : false); }
     getSupportShowQrcode(handle, df) { return ABILITY.nativeCall(native_1.native.BCSDK_GetSupportShowQrcode, handle, df ? df : false); }
     getSupportChinese(handle, df) { return ABILITY.nativeCall(native_1.native.BCSDK_GetSupportChinese, handle, df ? df : false); }
     getSupportNasBind(handle, df) { return ABILITY.nativeCall(native_1.native.BCSDK_GetSupportNasBind, handle, df ? df : false); }
@@ -185,6 +186,9 @@ class ABILITY {
     getSupportExtenStreamCfg(handle, channel, df) { return ABILITY.nativeCall(native_1.native.BCSDK_GetSupportExtenStreamCfg, handle, df ? df : false, channel); }
     getSupportLEDControl(handle, channel, df) { return ABILITY.nativeCall(native_1.native.BCSDK_GetSupportLEDControl, handle, df ? df : false, channel); }
     getSupportIndicatorLight(handle, channel, df) { return ABILITY.nativeCall(native_1.native.BCSDK_GetSupportIndicatorLight, handle, df ? df : false, channel); }
+    getSupportFloodlight(handle, channel, df) { return ABILITY.nativeCall(native_1.native.BCSDK_GetSupportFloodlight, handle, df ? df : false, channel); }
+    getSupportFloodlightBrightnessCtrl(handle, channel, df) { return ABILITY.nativeCall(native_1.native.BCSDK_GetSupportFloodlightBrightnessCtrl, handle, df ? df : false, channel); }
+    getSupportFloodlightAutoByPreview(handle, channel, df) { return ABILITY.nativeCall(native_1.native.BCSDK_GetSupportFloodlightAutoByPreview, handle, df ? df : false, channel); }
     getSupportPtzSpeed(handle, channel, df) { return ABILITY.nativeCall(native_1.native.BCSDK_GetSupportPtzSpeed, handle, df ? df : false, channel); }
     getSupportPtzCruise(handle, channel, df) { return ABILITY.nativeCall(native_1.native.BCSDK_GetSupportPtzCruise, handle, df ? df : false, channel); }
     getSupportPtzPreset(handle, channel, df) { return ABILITY.nativeCall(native_1.native.BCSDK_GetSupportPtzPreset, handle, df ? df : false, channel); }

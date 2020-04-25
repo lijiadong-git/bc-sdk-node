@@ -82,6 +82,7 @@ declare class ABILITY {
     getSupportDateFormat(handle: number, df?: boolean): Promise<boolean>;
     getSupportCloudSignatureLoginCfg(handle: number, df?: boolean): Promise<boolean>;
     getSupportAccountBind(handle: number, df?: boolean): Promise<boolean>;
+    getSupportServerControlStreamType(handle: number, df?: boolean): Promise<boolean>;
     getSupportShowQrcode(handle: number, df?: boolean): Promise<boolean>;
     getSupportChinese(handle: number, df?: boolean): Promise<boolean>;
     getSupportNasBind(handle: number, df?: boolean): Promise<boolean>;
@@ -119,6 +120,9 @@ declare class ABILITY {
     getSupportExtenStreamCfg(handle: number, channel: number, df?: boolean): Promise<boolean>;
     getSupportLEDControl(handle: number, channel: number, df?: boolean): Promise<boolean>;
     getSupportIndicatorLight(handle: number, channel: number, df?: boolean): Promise<boolean>;
+    getSupportFloodlight(handle: number, channel: number, df?: boolean): Promise<boolean>;
+    getSupportFloodlightBrightnessCtrl(handle: number, channel: number, df?: boolean): Promise<boolean>;
+    getSupportFloodlightAutoByPreview(handle: number, channel: number, df?: boolean): Promise<boolean>;
     getSupportPtzSpeed(handle: number, channel: number, df?: boolean): Promise<boolean>;
     getSupportPtzCruise(handle: number, channel: number, df?: boolean): Promise<boolean>;
     getSupportPtzPreset(handle: number, channel: number, df?: boolean): Promise<boolean>;

@@ -15,6 +15,7 @@ export declare namespace DEFINDE {
     const BC_PORT_STR_LEN: number;
     const BC_MAX_NAME_LEN: number;
     const BC_MAX_PWD_LEN: number;
+    const BC_MAX_PWD_LEN_128: number;
     const BC_SERIALNO_LEN: number;
     const BC_MACADDR_LEN: number;
     const BC_MAX_ADDR_LEN: number;

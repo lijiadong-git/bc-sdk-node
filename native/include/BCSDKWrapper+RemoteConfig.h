@@ -467,7 +467,13 @@ extern "C" {
      */
     int _BCSDK_ BCSDK_RemoteRtmpStart(H_BC_DEVICE hDevice, BC_RTMP_OPT *info);
     int _BCSDK_ BCSDK_RemoteRtmpStop(H_BC_DEVICE hDevice, BC_RTMP_OPT *info);
-    
+
+
+    /* covers get
+     *
+     * callback with E_BC_CMD_COVER_PREVIEW
+     */
+    int _BCSDK_ BCSDK_RemoteGetCovers(H_BC_DEVICE hDevice, BC_GET_FILE_COVERS_CFG *cfg);
     
 
     

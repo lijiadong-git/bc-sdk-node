@@ -12,9 +12,6 @@
 typedef int H_BC_DEVICE;                    /*device handle*/
 #define H_BC_DEVICE_INVALID                 (-1)/*invalid device handle*/
 
-typedef int H_BC_PLAYER;                    /*player handle*/
-#define H_BC_PLAYER_INVALID                 (-1)/*invalid surface handle*/
-
 
 #ifdef _WIN32
 #   ifdef _DLL_
@@ -243,6 +240,23 @@ typedef enum {
 #define MEDIA_FRAME_TYPE_INDEX          (1 << 11)
 
 
+#pragma pack(1)
+typedef struct {
+    uint16_t x;
+    uint16_t y;
+    uint16_t w;
+    uint16_t h;
+    uint8_t score;
+} BC_AI_AREA;
+#pragma pack()
+
+
+typedef struct {
+    uint16_t length;
+    BC_AI_AREA areas[BC_MAX_AI_AREA_LEN];
+} BC_AI_DATA;
+
+
 
 /// video frame description
 typedef enum {
@@ -271,6 +285,9 @@ typedef struct {
     uint32_t        height;             // The height of output picture in pixel
     uint32_t        frameRate;          // Render frameRate
     RENDER_VIDEO_PLANE_DESC plane[3];   // YUV plane of the picture
+    BC_AI_DATA      faceSet;
+    BC_AI_DATA      peopleSet;
+    BC_AI_DATA      vehicleSet;
 } RENDER_VIDEO_FRAME_DESC;
 
 typedef struct {
@@ -336,18 +353,6 @@ typedef struct {
 } DATA_FRAME_DESC;
 
 
-/// callback frame description
-typedef struct {
-    
-    int                         version;
-    
-    uint32_t                    type;
-    uint64_t                    pts;
-    uint64_t                    delay;/*ms*/
-    
-} COMMON_FRAME_DESC;
-
-
 /// sdk internal
 typedef void (*OnSDKRenderFrameCallback)(RENDER_FRAME_DESC *frameDesc, void *userData);
 typedef void (*OnSDKDataFrameCallback)(DATA_FRAME_DESC *frameDesc, void *userData);
@@ -411,9 +416,6 @@ typedef void (CALLBACK*OnDeviceStatusCallback)(H_BC_DEVICE hDevice, BC_CMD_DATA 
 typedef void (CALLBACK*OnRenderFrameCallback)(H_BC_DEVICE hDevice, int channel, RENDER_FRAME_DESC *frameDesc, void *userData);
 /// data frame callback function
 typedef void (CALLBACK*OnDataFrameCallback)(H_BC_DEVICE hDevice, int channel, DATA_FRAME_DESC *frameDesc, void *userData);
-/// data callback function
-typedef void (CALLBACK*OnCommonFrameCallback)(H_BC_DEVICE hDevice, int channel, COMMON_FRAME_DESC *frameDesc, void *userData);
-
 
 
 /// device login properties description
@@ -472,46 +474,12 @@ typedef struct {
 } BC_REC_SCHE_DEVICE_CFG;
 
 
-/// encode type
-typedef enum {
-	ENC_TYPE_H264,
-	ENC_TYPE_IMA_ADPCM,
-	ENC_TYPE_G711A
-} ENC_TYPE;
 
-/// video frame description
 typedef struct {
-	ENC_TYPE encType;
-	int frameRate;	
-	int imgWidth;	
-	int imgHeight;	
-} VIDEO_STREAM_DESC;
-
-/// audio frame description
-typedef struct {
-	ENC_TYPE encType;	
-	int channels;		
-	int sampleRate;		
-	int bitsPerSample;	
-	int samplesPerFrame;	
-	//int framesPerPacket;	
-	//int packetSize;
-} AUDIO_STREAM_DESC;
-
-
-/// media frame description
-typedef struct {
-	VIDEO_STREAM_DESC video;
-	AUDIO_STREAM_DESC audio;
-	uint64_t duration;     
-} MEDIA_STREAM_DESC;
-
-
-///
-typedef struct {
-	uint64_t size;
-} DATA_STREAM_DESC;
-
+    BC_COVER_PRE_INFO info;
+    OnRenderFrameCallback frameCallback;
+    void *userData;
+} BC_GET_FILE_COVERS_CFG;
 
 #endif//_SC_SDK_COMMON_H_
 

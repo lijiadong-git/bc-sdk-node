@@ -32,6 +32,18 @@ extern "C" {
     
     int _BCSDK_ BCSDK_SetSpeakerVolume(int volume);
     int _BCSDK_ BCSDK_GetSpeakerVolume(int *volume);
+
+    int _BCSDK_ BCSDK_GetDiskFreeSize(const char *path, unsigned long long *size);
+
+    int _BCSDK_ BCSDK_GetHasWritePermission(const char *path, bool *has);
+
+    int _BCSDK_ BCSDK_SaveYUVToDisk(const char *path,
+                                    int width,
+                                    int height,
+                                    BC_YUV_FORMAT_E format,
+                                    RENDER_VIDEO_PLANE_DESC *plane0,
+                                    RENDER_VIDEO_PLANE_DESC *plane1,
+                                    RENDER_VIDEO_PLANE_DESC *plane2);
     
 #ifdef __cplusplus
 }

@@ -32,6 +32,7 @@
 #define BC_PORT_STR_LEN                    10
 #define BC_MAX_NAME_LEN                    32
 #define BC_MAX_PWD_LEN                     32
+#define BC_MAX_PWD_LEN_128				   128
 #define BC_SERIALNO_LEN                    32
 #define BC_MACADDR_LEN                     6
 #define BC_MAX_ADDR_LEN                    128
@@ -46,6 +47,8 @@
 #define BC_MAX_RF_NUM_V20                  64
 #define BC_MAX_DISKNUM                     16
 #define BC_MAX_ENC_PROFILE_NUM             32
+#define BC_MAX_AI_AREA_LEN                 128
+#define BC_MAX_COV_PRE_LEN                 16
 
 #define BC_LOG_INFO_LEN             4096
 #define BC_MAX_FRAME_SIZE           1000000
@@ -346,6 +349,17 @@ typedef enum
     E_BC_CMD_SET_SIGNATURE_LOGIN_CFG        = 2228,
 	E_BC_CMD_SYNC_UTC_TIME					= 2229,
 	E_BC_CMD_WITHOUT_INTERATION_REPORT		= 2230,
+	E_BC_CMD_FLOODLIGHT_MANUAL              = 2231,
+    E_BC_CMD_GET_FLOODLIGHT_TASK            = 2232,
+    E_BC_CMD_SET_FLOODLIGHT_TASK            = 2233,
+    E_BC_CMD_REPORT_FLOODLIGHT_STAT			= 2234,
+    E_BC_CMD_RF_TEST_START					= 2235,
+    E_BC_CMD_RF_TEST_STOP					= 2236,
+	E_BC_CMD_GET_ZOOM_FOCUS_INFO			= 2237,
+	E_BC_CMD_START_ZOOM_FOCUS				= 2238,
+	E_BC_CMD_GET_DAY_NIGHT_THRESHOLD		= 2239,
+	E_BC_CMD_SET_DAY_NIGHT_THRESHOLD		= 2240,
+    E_BC_CMD_COVER_PREVIEW                  = 2241,
     
     
     // sdk up layer callback use
@@ -388,6 +402,7 @@ typedef enum
     E_BC_RSP_FILE_NOMOREFILE                = 1006,
     E_BC_RSP_FILE_EXCEPTION		            = 1007,
     E_BC_RSP_CMD_NOT_SUPPORT                = 1008,
+    E_BC_RSP_CMD_ENV_NOT_READY              = 1009,
     
     E_BC_RSP_CMD_UPGRADE_SAME_VER           = 2001,
     E_BC_RSP_CMD_UPGRADE_CHECK_FAILED       = 2002,
@@ -418,6 +433,8 @@ typedef enum {
     E_BC_SWITCH_KEY_REPORT_BATTERY_INFO_LIST    = 11,
     E_BC_SWITCH_KEY_REPORT_3G_4G_INFO           = 12,
 	E_BC_SWITCH_KEY_REPORT_WITHOUT_INTERATION   = 13,
+	E_BC_SWITCH_KEY_REPORT_FLOODLIGHT_STAT		= 14,
+	E_BC_SWITCH_KEY_COVER_PREVIEW_RSP_I         = 15,
     
     E_BC_SWITCH_KEY_INVALID             = 255
     
@@ -1282,9 +1299,18 @@ typedef struct tagBC_ABILITY_INFO{
     int      iSupportUpgrade;    // 1: support upgrade online  0:not
     int      iSupportAudioTask;  // 1: support audio task. 0:not
     int      iPushType;          // 0 :udp push  1:http push  2:https push
-    int      iCloudVersion; // bit0:cloud task cfg, bit1:cloud storage, bit2:upload cfg, bit3:signature login cfg, bit4:bind & get bind info
+
+/*	iCloudVersion
+	bit0:cloud task cfg
+	bit1:cloud storage
+	bit2:upload cfg
+	bit3:signature login cfg
+	bit4:bind & get bind info
+	bit5:support server control stream type
+*/
+    int      iCloudVersion;
     int      iApMode;    // 0: not support  1: ap wifi wizard
-    int      iReplayVersion; // bit0: 1-replay fast forward, bit1:support mark alarm video
+    int      iReplayVersion; // bit0: 1-replay fast forward, bit1:support mark alarm video, bit2:support cover preview
     int      i4gDevVersion; // bit0: 3g/4g net info  bit1: SIM module Info
     int      iShowQrcode; // bit0: show QRCode
     int      iLanguageVersion;// bit0: support chinese
@@ -1297,9 +1323,23 @@ typedef struct tagBC_ABILITY_INFO{
     int      iPtzType[BC_MAX_CHANNEL];//0:none,1:af,2:ptz,3:pt,4:analog ptz,5:8136S_ptz_without_speed, 6:pt_witho ut_preset
     int      iUseAutoPt;
     int      iAutoPt[BC_MAX_CHANNEL];
+	int      iUsePtzPreset;
+	int      iPtzPreset[BC_MAX_CHANNEL];//bit0: 1 support preset
+	int      iUsePtzPatrol;
+	int      iPtzPatrol[BC_MAX_CHANNEL];//bit0: 1 support patrol
+	int      iUsePtzPattern;
+	int      iPtzPattern[BC_MAX_CHANNEL];//bit0: 1 support pattern
+	int 	 iPtzControl[BC_MAX_CHANNEL];//bit0:1-support control zoom and focus with slider
     int      iNoAudio[BC_MAX_CHANNEL];          // 1: no audio  0:got some audio
     int      iExStreamCfg[BC_MAX_CHANNEL];      // 1: support extend stream cfg   0: not
-    bool     bIndicatorLight[BC_MAX_CHANNEL];
+	
+	/*  iLedCtrl
+	 *  bit0:   indicator light control
+	 *  bit1:   support floodlight
+	 *  bit2:   support floodlight brightness control
+	 *  bit3:   support floodlight auto turn on during preview
+	 */
+    int      iLedCtrl[BC_MAX_CHANNEL];
     bool     bSupportAudioTalk[BC_MAX_CHANNEL]; // 1: support audio talk,  0:not
     int      iUseMotion;
     int      iMotionVersion[BC_MAX_CHANNEL]; // 1:support MD, 2:support MD with PIR
@@ -1332,7 +1372,25 @@ typedef struct tagBC_ABILITY_INFO{
      *  bit12:  sharpen
      */
     int     iUseIspCfg;
-    int     iIspCfg[BC_MAX_CHANNEL];
+    int     iIspCfg[BC_MAX_CHANNEL];/*only for battery ipc*/
+
+	/*  iNewIspCfg
+     *  bit0:   day/night cfg
+     *  bit1:   antiFlick
+     *  bit2:   exposure mode cfg
+     *  bit3:   white balance
+     *  bit4:   Backlight compensation
+     *  bit5:   3dnr
+     *  bit6:   mirror
+     *  bit7:   flip
+     *  bit8:   bright
+     *  bit9:   contrast
+     *  bit10:  satruation
+     *  bit11:  hue
+     *  bit13:1-support day to night threshold control
+     */
+	int     iUseNewIspCfg;
+	int     iNewIspCfg[BC_MAX_CHANNEL];
     
     BC_BASE_ABILITY_INFO    baseAbility;
     int     iNasVersion; // bit0:1-support bind  bit1:1-support unbind  bit2:1-support get bind info
@@ -1379,6 +1437,18 @@ typedef struct tagBC_STREAM_PARAM {
     bool              bPreRecord;
 } BC_STREAM_PARAM, *LPBC_STREAM_PARAM;
 
+
+typedef struct {
+    int iChannel;
+    int iUseSubStream;
+	BC_TIME startTime;
+	BC_TIME endTime;
+    int frameCount;
+    int frames[BC_MAX_COV_PRE_LEN];
+    const char *bufferFile;
+} BC_COVER_PRE_INFO;
+
+
 typedef struct {
     int channel;
     char cUID[BC_MAX_UID_LEN];// for NAS
@@ -1415,6 +1485,7 @@ typedef struct {
     unsigned int width;
     unsigned int height;
 } BC_DOWNLOAD_BY_TIME_INFO;
+
 
 
 typedef struct tagBC_ALARMER{
@@ -1532,6 +1603,24 @@ typedef struct tagBC_SENSITIVITY_INFO
     int   iSensitivity;  // 1 ~ 50
 } BC_SENSITIVITY_INFO;
 
+typedef struct
+{
+	int iEnable;
+	int iPriority;//0:lowest
+    int iBeginHour;
+    int iBeginMinute;
+    int iEndHour;
+    int iEndMinute;
+    int iSensitivity;
+}BC_NEW_SENS_ITEM;
+
+typedef struct
+{
+	int iDefSensitivity;//1~50 default:9
+	BC_NEW_SENS_ITEM sensItems[BC_MAX_MOTION_SENS_NUM];
+}BC_NEW_SENS_INFO;
+
+
 typedef struct tagBC_HANDLEEXCEPTION
 {
     int      iHandleType;
@@ -1554,7 +1643,9 @@ typedef struct tagBC_MOTION_CFG
     int                  iWidth;   // video image width, max:120
     int                  iHeight;   // video image hight, max:68
     bool                 bMotionScope[BC_MD_AREA_MAX_HEIGHT][BC_MD_AREA_MAX_WIDTH];           // 1: set to motion, 0: not set
+    int					 iSensVerion;/*0:use sensitivityInfo, 1:use newSensInfo*/
     BC_SENSITIVITY_INFO  sensitivityInfo[BC_MAX_MOTION_SENS_NUM];
+	BC_NEW_SENS_INFO	 newSensInfo;
     BC_ALARM_OUT         alarmOut;
     char                 byRelRecordChannel[BC_MAX_CHANNEL];     // 0: not set, 1:set
     int                  iInvalid;
@@ -1874,6 +1965,70 @@ typedef struct {
 } BC_LED_LIGHT_STATE;
 
 
+typedef enum
+{
+	BC_FLOODLIGHT_OPER_CLOSE = 0,
+	BC_FLOODLIGHT_OPER_OPEN = 1,
+	BC_FLOODLIGHT_OPER_BUTT,	
+}BC_FLOODLIGHT_OPER_E;
+
+typedef struct
+{
+    BC_FLOODLIGHT_OPER_E eOper;
+	int iDuration;/*open floodlight last iDuration seconds*/
+}BC_FLOODLIGHT_MANUAL;
+
+
+typedef struct
+{
+	int iChannel;
+	int iLit;
+}BC_FLOODLIGHT_STAT_ITEM;
+
+typedef struct 
+{
+	int num;
+    BC_FLOODLIGHT_STAT_ITEM items[BC_MAX_CHANNEL];
+}BC_FLOODLIGHT_STAT;
+
+typedef struct
+{
+	int iCur;
+	int iDef;
+	int iMin;
+	int iMax;
+}BC_FLOODLIGHT_BRIGHT;
+
+typedef struct
+{
+    int iBvalid;
+	BC_FLOODLIGHT_BRIGHT bright;
+	int iAutoByPreview;/*1:floodlight auto turn on during preview.*/
+}BC_FLOODLIGHT_TASK;
+
+typedef enum
+{
+	BC_DAY_NIGHT_THRESHOLD_MODE_DEFAULT,
+	BC_DAY_NIGHT_THRESHOLD_MODE_CUSTOM,
+	BC_DAY_NIGHT_THRESHOLD_MODE_BUTT
+}BC_DAY_NIGHT_THRESHOLD_MODE_E;
+
+typedef enum
+{
+	BC_DAY_NIGHT_STAT_DAY,
+	BC_DAY_NIGHT_STAT_NIGHT,
+	BC_DAY_NIGHT_STAT_BUTT
+}BC_DAY_NIGHT_STAT_E;
+
+
+typedef struct
+{
+	BC_DAY_NIGHT_THRESHOLD_MODE_E eMode;
+	BC_DAY_NIGHT_STAT_E eCurStat;
+}BC_DAY_NIGHT_THRESHOLD_CFG;
+
+
+
 typedef struct tagBC_RESO_PROFILE
 {
     BC_RESOLUTION_E eResolution;
@@ -1957,7 +2112,8 @@ typedef struct tagBC_EMAIL_CFG
     struct{
         char    byAccount[BC_MAX_ADDR_LEN];
         int     iSenderMaxLen;  //readonly, max len of byAccount
-        char    byPassword[BC_MAX_PWD_LEN];      // sender email
+        char    byPassword[BC_MAX_PWD_LEN_128];      // sender email
+		int		iPwdMaxLen;
     }sender;
     
     struct{
@@ -2140,7 +2296,7 @@ typedef struct tagBC_DDNS_CFG
     BC_DDNS_TYPE_E      eType;
     char                cDomainName[BC_MAX_ADDR_LEN];
     char                cUserName[BC_MAX_NAME_LEN];
-    char                cPassword[BC_MAX_PWD_LEN];
+    char                cPassword[BC_MAX_PWD_LEN_128];
 } BC_DDNS_CFG;
 
 typedef struct tagBC_IP_FILTER
@@ -2275,6 +2431,29 @@ typedef struct
     int iDisable;
 } BC_PTZ_AUTO_FOCUS;
 
+typedef struct
+{
+	int iZoomMaxPos;
+	int iZoomMinPos;
+	int iZoomCurPos;
+	
+	int iFocusMaxPos;
+	int iFocusMinPos;
+	int iFocusCurPos;
+}BC_ZOOM_FOCUS_INFO;
+
+typedef enum
+{
+	BC_ZF_CMD_START_ZOOM,
+	BC_ZF_CMD_START_FOCUS,
+}BC_ZF_CMD_E;
+
+typedef struct
+{
+	BC_ZF_CMD_E cmd;
+	int iPos;
+}BC_START_ZOOM_FOCUS;
+
 typedef enum
 {
     BC_STORAGE_TYPE_UNKNOWN = 0,
@@ -2344,7 +2523,8 @@ typedef struct tagBC_FTP_CFG
 {
     char  cServer[BC_MAX_ADDR_LEN];
     char  cUsername[BC_MAX_NAME_LEN];
-    char  cPassword[BC_MAX_PWD_LEN];
+    char  cPassword[BC_MAX_PWD_LEN_128];
+	int   iPwdMaxLen;
     char  cRemotedir[BC_MAX_FILE_LEN];
     bool  bAnonymous;
     int   iPort;
@@ -3289,6 +3469,20 @@ typedef struct tagBC_RF_ALARM_CFG
     int                 iTimeTable[BC_MAX_DAYS][BC_MAX_TIMESEGMENT];
 }BC_RF_ALARM_CFG, *LPBC_RF_ALARM_CFG;
 
+typedef struct
+{
+	int iRfId; //request
+	int iSensitivityValue; //request, rf sensitivity: 0-100
+	int iReduceErr;	//request, 0: not reduce  1: reduce
+}BC_RF_TEST_START;
+
+typedef struct
+{
+	int iRfId; //request
+	int iFalseCnt; //response, return rf false count when test stop
+}BC_RF_TEST_STOP;
+
+
 
 typedef struct
 {
@@ -3327,6 +3521,8 @@ typedef enum {
     BC_SONG_P2P_TYPE_ARGUS_PRO  = 6,
     BC_SONG_P2P_TYPE_KEEN_2     = 7,//keen 2 = argus pt
     BC_SONG_P2P_TYPE_B16        = 8,
+    BC_SONG_P2P_TYPE_GO_PT      = 9,
+    BC_SONG_P2P_TYPE_ARGUS_3    = 10,
     BC_SONG_P2P_TYPE_OTHERS     = 255
 } BC_SONG_P2P_TYPE_E;
 
