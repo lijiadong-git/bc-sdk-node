@@ -186,6 +186,7 @@ export interface NativeMethods {
     BCSDK_GetSupportIspSatruation: (handle: number, channel: number, pSupport: any) => number;
     BCSDK_GetSupportIspHue: (handle: number, channel: number, pSupport: any) => number;
     BCSDK_GetSupportIspSharpen: (handle: number, channel: number, pSupport: any) => number;
+    BCSDK_GetSupportIspDayNightThreshold: (handle: number, channel: number, pSupport: any) => number;
     /****************************************************************
      *
      *  Methods for Live

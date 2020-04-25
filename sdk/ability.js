@@ -224,6 +224,7 @@ class ABILITY {
     getSupportIspSatruation(handle, channel, df) { return ABILITY.nativeCall(native_1.native.BCSDK_GetSupportIspSatruation, handle, df ? df : false, channel); }
     getSupportIspHue(handle, channel, df) { return ABILITY.nativeCall(native_1.native.BCSDK_GetSupportIspHue, handle, df ? df : false, channel); }
     getSupportIspSharpen(handle, channel, df) { return ABILITY.nativeCall(native_1.native.BCSDK_GetSupportIspSharpen, handle, df ? df : false, channel); }
+    getSupportIspDayNightThreshold(handle, channel, df) { return ABILITY.nativeCall(native_1.native.BCSDK_GetSupportIspDayNightThreshold, handle, df ? df : false, channel); }
     getSupportMDTriggerAudio(handle, channel, df) { return ABILITY.nativeCall(native_1.native.BCSDK_GetSupportMDTriggerAudio, handle, df ? df : false, channel); }
     getSupportMDTriggerRecord(handle, channel, df) { return ABILITY.nativeCall(native_1.native.BCSDK_GetSupportMDTriggerRecord, handle, df ? df : false, channel); }
 }

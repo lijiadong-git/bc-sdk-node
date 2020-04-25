@@ -195,7 +195,8 @@ const MFFI = ffi.Library(path.join(folder, 'libBCSDKWrapper'), {
     BCSDK_GetSupportIspContrast: ['int', ['int', 'int', _T.pointer('bool')]],
     BCSDK_GetSupportIspSatruation: ['int', ['int', 'int', _T.pointer('bool')]],
     BCSDK_GetSupportIspHue: ['int', ['int', 'int', _T.pointer('bool')]],
-    BCSDK_GetSupportIspSharpen: ['int', ['int', 'int', _T.pointer('bool')]]
+    BCSDK_GetSupportIspSharpen: ['int', ['int', 'int', _T.pointer('bool')]],
+    BCSDK_GetSupportIspDayNightThreshold: ['int', ['int', 'int', _T.pointer('bool')]]
     /************************************************************************
      *
      * Live interfaces
@@ -1157,6 +1158,7 @@ class NativeDelegate {
         this.BCSDK_GetSupportIspSatruation = MFFI.BCSDK_GetSupportIspSatruation;
         this.BCSDK_GetSupportIspHue = MFFI.BCSDK_GetSupportIspHue;
         this.BCSDK_GetSupportIspSharpen = MFFI.BCSDK_GetSupportIspSharpen;
+        this.BCSDK_GetSupportIspDayNightThreshold = MFFI.BCSDK_GetSupportIspDayNightThreshold;
         /****************************************************************
          *
          *  Methods for Live

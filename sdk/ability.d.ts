@@ -158,6 +158,7 @@ declare class ABILITY {
     getSupportIspSatruation(handle: number, channel: number, df?: boolean): Promise<boolean>;
     getSupportIspHue(handle: number, channel: number, df?: boolean): Promise<boolean>;
     getSupportIspSharpen(handle: number, channel: number, df?: boolean): Promise<boolean>;
+    getSupportIspDayNightThreshold(handle: number, channel: number, df?: boolean): Promise<boolean>;
     getSupportMDTriggerAudio(handle: number, channel: number, df?: boolean): Promise<boolean>;
     getSupportMDTriggerRecord(handle: number, channel: number, df?: boolean): Promise<boolean>;
 }
