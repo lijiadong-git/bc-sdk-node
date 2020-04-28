@@ -1,6 +1,9 @@
+/// <reference types="node" />
 export interface SDKResolve<T> {
     sdkResolve: null | undefined | ((value?: T) => void);
     sdkReject: null | undefined | ((value?: any) => void);
+    timeout?: number;
+    timer?: NodeJS.Timer;
 }
 export interface Callback<T> {
     sdkCallback?: null | undefined | T;

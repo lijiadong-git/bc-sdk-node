@@ -254,7 +254,8 @@ class PLAYBACK {
             if (0 == ret) {
                 let sdkResolve = {
                     sdkResolve: resolve,
-                    sdkReject: reject
+                    sdkReject: reject,
+                    timeout: 30
                 };
                 _callback_1.PROMISE_CBS.addCallback(handle, channel, T.BC_CMD_E.E_BC_CMD_SEARCH_RECFILES, 0, sdkResolve);
                 let sdkCallback = {
@@ -275,7 +276,8 @@ class PLAYBACK {
             if (0 == ret) {
                 let cb = {
                     sdkResolve: resolve,
-                    sdkReject: reject
+                    sdkReject: reject,
+                    timeout: 30
                 };
                 _callback_1.PROMISE_CBS.addCallback(handle, channel, T.BC_CMD_E.E_BC_CMD_SEARCH_ALARM_VIDEOS, 0, cb);
                 let sdkCallback = {

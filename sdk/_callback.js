@@ -41,6 +41,14 @@ class PromiseCallbacks {
         if (!callback_cmd[cmdIndex]) {
             callback_cmd[cmdIndex] = [];
         }
+        callback.timer = setTimeout(() => {
+            if (callback.sdkReject) {
+                callback.sdkReject({
+                    code: -1004,
+                    description: "js sdk promise callback timeout ... " + cmd
+                });
+            }
+        }, callback.timeout ? callback.timeout * 1000 : 10000);
         callback_cmd[cmdIndex].push(callback);
     }
     modifyCallbackHandle(oldHandle, handle) {
@@ -117,6 +125,9 @@ class PromiseCallbacks {
         }
         let callbacks = callback_cmd[cmdIndex];
         callbacks.forEach(callback => {
+            if (callback.timer) {
+                clearTimeout(callback.timer);
+            }
             func(callback);
         });
         callback_cmd[cmdIndex] = [];

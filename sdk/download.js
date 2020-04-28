@@ -83,7 +83,8 @@ class DOWNLOAD {
             }
             let cb = {
                 sdkResolve: resolve,
-                sdkReject: reject
+                sdkReject: reject,
+                timeout: 30 * 60,
             };
             _callback_1.PROMISE_CBS.addCallback(handle, 0, T.BC_CMD_E.E_BC_CMD_DOWNLOAD, 0, cb);
             _callback_1.COMMON_CBS.setCallback(handle, 0, T.BC_CMD_E.E_BC_CMD_DOWNLOAD_PROGRESS, 0, { sdkCallback: callback });

@@ -464,7 +464,7 @@ class CONFIG {
             }
         }
     }
-    deviceCmd(handle, cmd, func, param, type, cmdIdx) {
+    deviceCmd(handle, cmd, func, timeout = 10, param, type, cmdIdx) {
         return new Promise((resolve, reject) => {
             let ret = T.ERROR.E_UND;
             if (undefined !== param && undefined !== type) {
@@ -486,12 +486,13 @@ class CONFIG {
             }
             let cb = {
                 sdkResolve: resolve,
-                sdkReject: reject
+                sdkReject: reject,
+                timeout: timeout
             };
             _callback_1.PROMISE_CBS.addCallback(handle, 0, cmd, (cmdIdx ? cmdIdx : 0), cb);
         });
     }
-    channelCmd(handle, channel, cmd, func, param, type, cmdIdx) {
+    channelCmd(handle, channel, cmd, func, timeout = 10, param, type, cmdIdx) {
         return new Promise((resolve, reject) => {
             let ret = T.ERROR.E_UND;
             if (undefined !== param && undefined !== type) {
@@ -513,7 +514,8 @@ class CONFIG {
             }
             let cb = {
                 sdkResolve: resolve,
-                sdkReject: reject
+                sdkReject: reject,
+                timeout: timeout
             };
             _callback_1.PROMISE_CBS.addCallback(handle, channel, cmd, (cmdIdx ? cmdIdx : 0), cb);
         });
@@ -569,10 +571,10 @@ class CONFIG {
         return this.deviceCmd(handle, T.BC_CMD_E.E_BC_CMD_GET_SYS, native_1.native.BCSDK_RemoteGetSysGeneralCfg);
     }
     setSysGeneralCfg(handle, param) {
-        return this.deviceCmd(handle, T.BC_CMD_E.E_BC_CMD_SET_SYS, native_1.native.BCSDK_RemoteSetSysGeneralCfg, param, _T.BC_SYS_GENERAL_CFG, CONFIG.getCmdIndex());
+        return this.deviceCmd(handle, T.BC_CMD_E.E_BC_CMD_SET_SYS, native_1.native.BCSDK_RemoteSetSysGeneralCfg, 30, param, _T.BC_SYS_GENERAL_CFG, CONFIG.getCmdIndex());
     }
     setDeviceName(handle, param) {
-        return this.deviceCmd(handle, T.BC_CMD_E.E_BC_CMD_SET_DEVICE_NAME, native_1.native.BCSDK_RemoteSetDeviceName, param, _T.BC_DEVICE_NAME_CFG);
+        return this.deviceCmd(handle, T.BC_CMD_E.E_BC_CMD_SET_DEVICE_NAME, native_1.native.BCSDK_RemoteSetDeviceName, 30, param, _T.BC_DEVICE_NAME_CFG);
     }
     /* autoReboot
      *
@@ -582,14 +584,14 @@ class CONFIG {
         return this.deviceCmd(handle, T.BC_CMD_E.E_BC_CMD_GET_AUTOREBOOT_CFG, native_1.native.BCSDK_RemoteGetAutoRebootCfg);
     }
     setAutoRebootCfg(handle, param) {
-        return this.deviceCmd(handle, T.BC_CMD_E.E_BC_CMD_SET_AUTOREBOOT_CFG, native_1.native.BCSDK_RemoteSetAutoRebootCfg, param, _T.BC_AUTOREBOOT_CFG);
+        return this.deviceCmd(handle, T.BC_CMD_E.E_BC_CMD_SET_AUTOREBOOT_CFG, native_1.native.BCSDK_RemoteSetAutoRebootCfg, 10, param, _T.BC_AUTOREBOOT_CFG);
     }
     /* factory default
      *
      * callback with E_BC_CMD_RESTORE
      */
     factoryDefault(handle, param) {
-        return this.deviceCmd(handle, T.BC_CMD_E.E_BC_CMD_RESTORE, native_1.native.BCSDK_RemoteFactoryDefault, param, _T.BC_RESTORE_CFG);
+        return this.deviceCmd(handle, T.BC_CMD_E.E_BC_CMD_RESTORE, native_1.native.BCSDK_RemoteFactoryDefault, 10, param, _T.BC_RESTORE_CFG);
     }
     /* record cfg
      *
@@ -599,7 +601,7 @@ class CONFIG {
         return this.deviceCmd(handle, T.BC_CMD_E.E_BC_CMD_GET_ADVRECORD, native_1.native.BCSDK_RemoteGetRecordGenCfg);
     }
     setRecordGenCfg(handle, param) {
-        return this.deviceCmd(handle, T.BC_CMD_E.E_BC_CMD_SET_ADVRECORD, native_1.native.BCSDK_RemoteSetRecordGenCfg, param, _T.BC_RECORD_GENERAL_CFG, CONFIG.getCmdIndex());
+        return this.deviceCmd(handle, T.BC_CMD_E.E_BC_CMD_SET_ADVRECORD, native_1.native.BCSDK_RemoteSetRecordGenCfg, 10, param, _T.BC_RECORD_GENERAL_CFG, CONFIG.getCmdIndex());
     }
     /* email
      *
@@ -609,10 +611,10 @@ class CONFIG {
         return this.deviceCmd(handle, T.BC_CMD_E.E_BC_CMD_GET_EMAIL, native_1.native.BCSDK_RemoteGetMailCfg);
     }
     setMailCfg(handle, param) {
-        return this.deviceCmd(handle, T.BC_CMD_E.E_BC_CMD_SET_EMAIL, native_1.native.BCSDK_RemoteSetMailCfg, param, _T.BC_EMAIL_CFG);
+        return this.deviceCmd(handle, T.BC_CMD_E.E_BC_CMD_SET_EMAIL, native_1.native.BCSDK_RemoteSetMailCfg, 10, param, _T.BC_EMAIL_CFG);
     }
     emailTest(handle, param) {
-        return this.deviceCmd(handle, T.BC_CMD_E.E_BC_CMD_EMAILTEST, native_1.native.BCSDK_RemoteEmailTest, param, _T.BC_EMAIL_CFG);
+        return this.deviceCmd(handle, T.BC_CMD_E.E_BC_CMD_EMAILTEST, native_1.native.BCSDK_RemoteEmailTest, 40, param, _T.BC_EMAIL_CFG);
     }
     /* output
      *
@@ -622,7 +624,7 @@ class CONFIG {
         return this.deviceCmd(handle, T.BC_CMD_E.E_BC_CMD_GET_OUTPUT, native_1.native.BCSDK_RemoteGetOutputCfg);
     }
     setOutputCfg(handle, param) {
-        return this.deviceCmd(handle, T.BC_CMD_E.E_BC_CMD_SET_OUTPUT, native_1.native.BCSDK_RemoteSetOutputCfg, param, _T.BC_OUTPUT_CFG);
+        return this.deviceCmd(handle, T.BC_CMD_E.E_BC_CMD_SET_OUTPUT, native_1.native.BCSDK_RemoteSetOutputCfg, 10, param, _T.BC_OUTPUT_CFG);
     }
     /* HDDCfg
      *
@@ -636,10 +638,10 @@ class CONFIG {
      * callback with E_BC_CMD_INIT_HDD
      */
     initHdd(handle, param) {
-        return this.deviceCmd(handle, T.BC_CMD_E.E_BC_CMD_INIT_HDD, native_1.native.BCSDK_RemoteInitHdd, param, _T.BC_HDD_INIT_CFG);
+        return this.deviceCmd(handle, T.BC_CMD_E.E_BC_CMD_INIT_HDD, native_1.native.BCSDK_RemoteInitHdd, 60, param, _T.BC_HDD_INIT_CFG);
     }
     initSDCard(handle, param) {
-        return this.initHdd(handle, param);
+        return this.deviceCmd(handle, T.BC_CMD_E.E_BC_CMD_INIT_HDD, native_1.native.BCSDK_RemoteInitHdd, 20, param, _T.BC_HDD_INIT_CFG);
     }
     /* HDD Full
      *
@@ -649,7 +651,7 @@ class CONFIG {
         return this.deviceCmd(handle, T.BC_CMD_E.E_BC_CMD_GET_HDDFULL_EXPCFG, native_1.native.BCSDK_RemoteGetHDDFull);
     }
     setHDDFull(handle, param) {
-        return this.deviceCmd(handle, T.BC_CMD_E.E_BC_CMD_SET_HDDFULL_EXPCFG, native_1.native.BCSDK_RemoteSetHDDFull, param, _T.BC_EXCEPTION_CFG);
+        return this.deviceCmd(handle, T.BC_CMD_E.E_BC_CMD_SET_HDDFULL_EXPCFG, native_1.native.BCSDK_RemoteSetHDDFull, 10, param, _T.BC_EXCEPTION_CFG);
     }
     /* HDD Error
      *
@@ -659,7 +661,7 @@ class CONFIG {
         return this.deviceCmd(handle, T.BC_CMD_E.E_BC_CMD_GET_HDDERR_EXPCFG, native_1.native.BCSDK_RemoteGetHDDError);
     }
     setHDDError(handle, param) {
-        return this.deviceCmd(handle, T.BC_CMD_E.E_BC_CMD_SET_HDDERR_EXPCFG, native_1.native.BCSDK_RemoteSetHDDError, param, _T.BC_EXCEPTION_CFG);
+        return this.deviceCmd(handle, T.BC_CMD_E.E_BC_CMD_SET_HDDERR_EXPCFG, native_1.native.BCSDK_RemoteSetHDDError, 10, param, _T.BC_EXCEPTION_CFG);
     }
     /* Network Disconnect
      *
@@ -669,7 +671,7 @@ class CONFIG {
         return this.deviceCmd(handle, T.BC_CMD_E.E_BC_CMD_GET_NETDISCONNECT_EXPCFG, native_1.native.BCSDK_RemoteGetNetDisconnect);
     }
     setNetDisconnect(handle, param) {
-        return this.deviceCmd(handle, T.BC_CMD_E.E_BC_CMD_SET_NETDISCONNECT_EXPCFG, native_1.native.BCSDK_RemoteSetNetDisconnect, param, _T.BC_EXCEPTION_CFG);
+        return this.deviceCmd(handle, T.BC_CMD_E.E_BC_CMD_SET_NETDISCONNECT_EXPCFG, native_1.native.BCSDK_RemoteSetNetDisconnect, 10, param, _T.BC_EXCEPTION_CFG);
     }
     /* IpConflict
      *
@@ -679,7 +681,7 @@ class CONFIG {
         return this.deviceCmd(handle, T.BC_CMD_E.E_BC_CMD_GET_IPCONFLICT_EXPCFG, native_1.native.BCSDK_RemoteGetIpConflict);
     }
     setIpConflict(handle, param) {
-        return this.deviceCmd(handle, T.BC_CMD_E.E_BC_CMD_SET_IPCONFLICT_EXPCFG, native_1.native.BCSDK_RemoteSetIpConflict, param, _T.BC_EXCEPTION_CFG);
+        return this.deviceCmd(handle, T.BC_CMD_E.E_BC_CMD_SET_IPCONFLICT_EXPCFG, native_1.native.BCSDK_RemoteSetIpConflict, 10, param, _T.BC_EXCEPTION_CFG);
     }
     /* network local
      *
@@ -689,7 +691,7 @@ class CONFIG {
         return this.deviceCmd(handle, T.BC_CMD_E.E_BC_CMD_GET_LOCAL, native_1.native.BCSDK_RemoteGetNetworkCfg);
     }
     setNetworkCfg(handle, param) {
-        return this.deviceCmd(handle, T.BC_CMD_E.E_BC_CMD_SET_LOCAL, native_1.native.BCSDK_RemoteSetNetworkCfg, param, _T.BC_LOCAL_CFG);
+        return this.deviceCmd(handle, T.BC_CMD_E.E_BC_CMD_SET_LOCAL, native_1.native.BCSDK_RemoteSetNetworkCfg, 10, param, _T.BC_LOCAL_CFG);
     }
     /* normalPort
      *
@@ -699,7 +701,7 @@ class CONFIG {
         return this.deviceCmd(handle, T.BC_CMD_E.E_BC_CMD_GET_NORMAL_PORT, native_1.native.BCSDK_RemoteGetNetNormalPort);
     }
     setNetNormalPort(handle, param) {
-        return this.deviceCmd(handle, T.BC_CMD_E.E_BC_CMD_SET_NORMAL_PORT, native_1.native.BCSDK_RemoteSetNetNormalPort, param, _T.BC_NET_NORMAL_PORT);
+        return this.deviceCmd(handle, T.BC_CMD_E.E_BC_CMD_SET_NORMAL_PORT, native_1.native.BCSDK_RemoteSetNetNormalPort, 10, param, _T.BC_NET_NORMAL_PORT);
     }
     /* advanced Port
      *
@@ -709,7 +711,7 @@ class CONFIG {
         return this.deviceCmd(handle, T.BC_CMD_E.E_BC_CMD_GET_ADVANCED_PORTS, native_1.native.BCSDK_RemoteGetNetAdvancedPort);
     }
     setNetAdvancedPort(handle, param) {
-        return this.deviceCmd(handle, T.BC_CMD_E.E_BC_CMD_SET_ADVANCED_PORTS, native_1.native.BCSDK_RemoteSetNetAdvancedPort, param, _T.BC_NET_ADVANCED_PORT);
+        return this.deviceCmd(handle, T.BC_CMD_E.E_BC_CMD_SET_ADVANCED_PORTS, native_1.native.BCSDK_RemoteSetNetAdvancedPort, 10, param, _T.BC_NET_ADVANCED_PORT);
     }
     /* upnpCfg
      *
@@ -719,7 +721,7 @@ class CONFIG {
         return this.deviceCmd(handle, T.BC_CMD_E.E_BC_CMD_GET_UPNPSTATE, native_1.native.BCSDK_RemoteGetUpnpCfg);
     }
     setUpnpCfg(handle, param) {
-        return this.deviceCmd(handle, T.BC_CMD_E.E_BC_CMD_SET_UPNPSTATE, native_1.native.BCSDK_RemoteSetUpnpCfg, param, _T.BC_UPNP_CFG);
+        return this.deviceCmd(handle, T.BC_CMD_E.E_BC_CMD_SET_UPNPSTATE, native_1.native.BCSDK_RemoteSetUpnpCfg, 10, param, _T.BC_UPNP_CFG);
     }
     /* uid
      *
@@ -736,7 +738,7 @@ class CONFIG {
         return this.deviceCmd(handle, T.BC_CMD_E.E_BC_CMD_GET_PTOP_CFG, native_1.native.BCSDK_RemoteGetP2PCfg);
     }
     setP2PCfg(handle, param) {
-        return this.deviceCmd(handle, T.BC_CMD_E.E_BC_CMD_SET_PTOP_CFG, native_1.native.BCSDK_RemoteSetP2PCfg, param, _T.BC_P2P_CFG);
+        return this.deviceCmd(handle, T.BC_CMD_E.E_BC_CMD_SET_PTOP_CFG, native_1.native.BCSDK_RemoteSetP2PCfg, 10, param, _T.BC_P2P_CFG);
     }
     /* RF Sensor
      *
@@ -765,7 +767,7 @@ class CONFIG {
         return this.channelCmd(handle, inputId, T.BC_CMD_E.E_BC_CMD_GET_ALARMINCFG, native_1.native.BCSDK_RemoteGetAlarmIn);
     }
     setAlarmIn(handle, param) {
-        return this.deviceCmd(handle, T.BC_CMD_E.E_BC_CMD_SET_ALARMINCFG, native_1.native.BCSDK_RemoteSetAlarmIn, param, _T.BC_ALARM_IN_CFG);
+        return this.deviceCmd(handle, T.BC_CMD_E.E_BC_CMD_SET_ALARMINCFG, native_1.native.BCSDK_RemoteSetAlarmIn, 10, param, _T.BC_ALARM_IN_CFG);
     }
     /* Alarm Out
      *
@@ -775,7 +777,7 @@ class CONFIG {
         return this.channelCmd(handle, outputId, T.BC_CMD_E.E_BC_CMD_GET_ALARMOUTCFG, native_1.native.BCSDK_RemoteGetAlarmOut);
     }
     setAlarmOut(handle, param) {
-        return this.deviceCmd(handle, T.BC_CMD_E.E_BC_CMD_SET_ALARMOUTCFG, native_1.native.BCSDK_RemoteSetAlarmOut, param, _T.BC_ALARM_OUT_CFG);
+        return this.deviceCmd(handle, T.BC_CMD_E.E_BC_CMD_SET_ALARMOUTCFG, native_1.native.BCSDK_RemoteSetAlarmOut, 10, param, _T.BC_ALARM_OUT_CFG);
     }
     /* RF Alarm Cfg
      *
@@ -785,10 +787,10 @@ class CONFIG {
         return this.channelCmd(handle, rfId, T.BC_CMD_E.E_BC_CMD_GET_RF_CFG, native_1.native.BCSDK_RemoteGetRfAlarmCfg);
     }
     setRfAlarmCfg(handle, param) {
-        return this.deviceCmd(handle, T.BC_CMD_E.E_BC_CMD_SET_RF_CFG, native_1.native.BCSDK_RemoteSetRfAlarmCfg, param, _T.BC_RF_ALARM_CFG, CONFIG.getCmdIndex());
+        return this.deviceCmd(handle, T.BC_CMD_E.E_BC_CMD_SET_RF_CFG, native_1.native.BCSDK_RemoteSetRfAlarmCfg, 10, param, _T.BC_RF_ALARM_CFG, CONFIG.getCmdIndex());
     }
     setRfAlarmStatus(handle, param) {
-        return this.deviceCmd(handle, T.BC_CMD_E.E_BC_CMD_SET_RF_ALARM_STATUS, native_1.native.BCSDK_RemoteSetRfAlarmStatus, param, _T.BC_RF_ALARM_STATUS);
+        return this.deviceCmd(handle, T.BC_CMD_E.E_BC_CMD_SET_RF_ALARM_STATUS, native_1.native.BCSDK_RemoteSetRfAlarmStatus, 10, param, _T.BC_RF_ALARM_STATUS);
     }
     /* DST
      *
@@ -798,7 +800,7 @@ class CONFIG {
         return this.deviceCmd(handle, T.BC_CMD_E.E_BC_CMD_GET_DST, native_1.native.BCSDK_RemoteGetDst);
     }
     setDst(handle, param) {
-        return this.deviceCmd(handle, T.BC_CMD_E.E_BC_CMD_SET_DST, native_1.native.BCSDK_RemoteSetDst, param, _T.BC_DST_CFG, CONFIG.getCmdIndex());
+        return this.deviceCmd(handle, T.BC_CMD_E.E_BC_CMD_SET_DST, native_1.native.BCSDK_RemoteSetDst, 20, param, _T.BC_DST_CFG, CONFIG.getCmdIndex());
     }
     /* DDNS
      *
@@ -808,7 +810,7 @@ class CONFIG {
         return this.deviceCmd(handle, T.BC_CMD_E.E_BC_CMD_GET_DDNSCFG, native_1.native.BCSDK_RemoteGetDdns);
     }
     setDdns(handle, param) {
-        return this.deviceCmd(handle, T.BC_CMD_E.E_BC_CMD_SET_DDNSCFG, native_1.native.BCSDK_RemoteSetDdns, param, _T.BC_DDNS_CFG);
+        return this.deviceCmd(handle, T.BC_CMD_E.E_BC_CMD_SET_DDNSCFG, native_1.native.BCSDK_RemoteSetDdns, 10, param, _T.BC_DDNS_CFG);
     }
     /* NTP
      *
@@ -818,7 +820,7 @@ class CONFIG {
         return this.deviceCmd(handle, T.BC_CMD_E.E_BC_CMD_GET_NTPCFG, native_1.native.BCSDK_RemoteGetNtp);
     }
     setNtp(handle, param) {
-        return this.deviceCmd(handle, T.BC_CMD_E.E_BC_CMD_SET_NTPCFG, native_1.native.BCSDK_RemoteSetNtp, param, _T.BC_NTP_CFG);
+        return this.deviceCmd(handle, T.BC_CMD_E.E_BC_CMD_SET_NTPCFG, native_1.native.BCSDK_RemoteSetNtp, 35, param, _T.BC_NTP_CFG);
     }
     /* PPPOE
      *
@@ -828,14 +830,14 @@ class CONFIG {
         return this.deviceCmd(handle, T.BC_CMD_E.E_BC_CMD_GET_PPPOECFG, native_1.native.BCSDK_RemoteGetPppoe);
     }
     setPppoe(handle, param) {
-        return this.deviceCmd(handle, T.BC_CMD_E.E_BC_CMD_SET_PPPOECFG, native_1.native.BCSDK_RemoteSetPppoe, param, _T.BC_PPPOE_CFG);
+        return this.deviceCmd(handle, T.BC_CMD_E.E_BC_CMD_SET_PPPOECFG, native_1.native.BCSDK_RemoteSetPppoe, 10, param, _T.BC_PPPOE_CFG);
     }
     /* Online Update
      *
      * callback with E_BC_CMD_ONLINE_UPDATE
      */
     onlineUpate(handle, param) {
-        return this.deviceCmd(handle, T.BC_CMD_E.E_BC_CMD_ONLINE_UPDATE, native_1.native.BCSDK_RemoteOnlineUpate, param, _T.BC_ONLINE_UPDATE);
+        return this.deviceCmd(handle, T.BC_CMD_E.E_BC_CMD_ONLINE_UPDATE, native_1.native.BCSDK_RemoteOnlineUpate, 35, param, _T.BC_ONLINE_UPDATE);
     }
     /* online updtate status
      *
@@ -852,14 +854,14 @@ class CONFIG {
         return this.deviceCmd(handle, T.BC_CMD_E.E_BC_CMD_GET_AUTO_UPDATE, native_1.native.BCSDK_RemoteGetAutoUpdateState);
     }
     setAutoUpdateState(handle, param) {
-        return this.deviceCmd(handle, T.BC_CMD_E.E_BC_CMD_SET_AUTO_UPDATE, native_1.native.BCSDK_RemoteSetAutoUpdateState, param, _T.BC_AUTO_UPDATE);
+        return this.deviceCmd(handle, T.BC_CMD_E.E_BC_CMD_SET_AUTO_UPDATE, native_1.native.BCSDK_RemoteSetAutoUpdateState, 10, param, _T.BC_AUTO_UPDATE);
     }
     /* Online New Firmware
      *
      * callback with E_BC_CMD_GET_ONLINE_NEW_FIRMWARE
      */
     getOnlineNewFwInfo(handle) {
-        return this.deviceCmd(handle, T.BC_CMD_E.E_BC_CMD_GET_ONLINE_NEW_FIRMWARE, native_1.native.BCSDK_RemoteGetOnlineNewFwInfo);
+        return this.deviceCmd(handle, T.BC_CMD_E.E_BC_CMD_GET_ONLINE_NEW_FIRMWARE, native_1.native.BCSDK_RemoteGetOnlineNewFwInfo, 25);
     }
     /* Performances
      *
@@ -877,13 +879,13 @@ class CONFIG {
         return this.deviceCmd(handle, T.BC_CMD_E.E_BC_CMD_GET_WIFI_SIGNAL, native_1.native.BCSDK_RemoteGetWifiSignal);
     }
     getWifiCfg(handle) {
-        return this.deviceCmd(handle, T.BC_CMD_E.E_BC_CMD_GET_WIFI_INFO, native_1.native.BCSDK_RemoteGetWifiCfg);
+        return this.deviceCmd(handle, T.BC_CMD_E.E_BC_CMD_GET_WIFI_INFO, native_1.native.BCSDK_RemoteGetWifiCfg, 25);
     }
     setWifiCfg(handle, param) {
-        return this.deviceCmd(handle, T.BC_CMD_E.E_BC_CMD_SET_WIFI_INFO, native_1.native.BCSDK_RemoteSetWifiCfg, param, _T.BC_WIFI_CFG);
+        return this.deviceCmd(handle, T.BC_CMD_E.E_BC_CMD_SET_WIFI_INFO, native_1.native.BCSDK_RemoteSetWifiCfg, 35, param, _T.BC_WIFI_CFG);
     }
     WifiTest(handle, param) {
-        return this.deviceCmd(handle, T.BC_CMD_E.E_BC_CMD_WIFI_TEST, native_1.native.BCSDK_RemoteWifiTest, param, _T.BC_WIFI_CFG);
+        return this.deviceCmd(handle, T.BC_CMD_E.E_BC_CMD_WIFI_TEST, native_1.native.BCSDK_RemoteWifiTest, 35, param, _T.BC_WIFI_CFG);
     }
     /* 3g 4g info
      *
@@ -900,7 +902,7 @@ class CONFIG {
         return this.deviceCmd(handle, T.BC_CMD_E.E_BC_CMD_GET_SIM_MODULE_INFO, native_1.native.BCSDK_RemoteGetSimModuleInfo);
     }
     setSimModuleInfo(handle, param) {
-        return this.deviceCmd(handle, T.BC_CMD_E.E_BC_CMD_SET_SIM_MODULE_INFO, native_1.native.BCSDK_RemoteSetSimModuleInfo, param, _T.BC_SIM_MODULE_INFO);
+        return this.deviceCmd(handle, T.BC_CMD_E.E_BC_CMD_SET_SIM_MODULE_INFO, native_1.native.BCSDK_RemoteSetSimModuleInfo, 10, param, _T.BC_SIM_MODULE_INFO);
     }
     /* Cloud
      *
@@ -910,20 +912,20 @@ class CONFIG {
         return this.deviceCmd(handle, T.BC_CMD_E.E_BC_CMD_GET_CLOUD_INFO, native_1.native.BCSDK_RemoteGetCloudInfo);
     }
     bindCloud(handle, param) {
-        return this.deviceCmd(handle, T.BC_CMD_E.E_BC_CMD_BIND_CLOUD, native_1.native.BCSDK_RemoteBindCloud, param, _T.BC_BIND_CLOUD);
+        return this.deviceCmd(handle, T.BC_CMD_E.E_BC_CMD_BIND_CLOUD, native_1.native.BCSDK_RemoteBindCloud, 35, param, _T.BC_BIND_CLOUD);
     }
     getCloudCfg(handle) {
         return this.deviceCmd(handle, T.BC_CMD_E.E_BC_CMD_GET_CLOUD_CFG, native_1.native.BCSDK_RemoteGetCloudCfg);
     }
     setCloudCfg(handle, param) {
-        return this.deviceCmd(handle, T.BC_CMD_E.E_BC_CMD_SET_CLOUD_CFG, native_1.native.BCSDK_RemoteSetCloudCfg, param, _T.BC_CLOUD_CFG);
+        return this.deviceCmd(handle, T.BC_CMD_E.E_BC_CMD_SET_CLOUD_CFG, native_1.native.BCSDK_RemoteSetCloudCfg, 10, param, _T.BC_CLOUD_CFG);
     }
     /* Scan ap
      *
      * callback with E_BC_CMD_GET_SCAN_AP
      */
     getScanAp(handle) {
-        return this.deviceCmd(handle, T.BC_CMD_E.E_BC_CMD_GET_SCAN_AP, native_1.native.BCSDK_RemoteGetScanAp);
+        return this.deviceCmd(handle, T.BC_CMD_E.E_BC_CMD_GET_SCAN_AP, native_1.native.BCSDK_RemoteGetScanAp, 25);
     }
     /* record file days
      *
@@ -945,7 +947,7 @@ class CONFIG {
         channels.forEach(channel => {
             param.items[channel].iUsed = 1;
         });
-        return this.deviceCmd(handle, T.BC_CMD_E.E_BC_CMD_GET_RECFILEDATE, native_1.native.BCSDK_RemoteGetRecFileDaysByChannel, param, _T.BC_RECORD_FILE_DAYS_BY_CHN);
+        return this.deviceCmd(handle, T.BC_CMD_E.E_BC_CMD_GET_RECFILEDATE, native_1.native.BCSDK_RemoteGetRecFileDaysByChannel, 10, param, _T.BC_RECORD_FILE_DAYS_BY_CHN);
     }
     /* user config
      *
@@ -955,14 +957,14 @@ class CONFIG {
         return this.deviceCmd(handle, T.BC_CMD_E.E_BC_CMD_GET_USERCFG, native_1.native.BCSDK_RemoteGetUserCfg);
     }
     setUserCfg(handle, param) {
-        return this.deviceCmd(handle, T.BC_CMD_E.E_BC_CMD_SET_USERCFG, native_1.native.BCSDK_RemoteSetUserCfg, param, _T.BC_USER_CFG);
+        return this.deviceCmd(handle, T.BC_CMD_E.E_BC_CMD_SET_USERCFG, native_1.native.BCSDK_RemoteSetUserCfg, 10, param, _T.BC_USER_CFG);
     }
     /* set user ability
      *
      * callback with E_BC_CMD_SET_USER_ALL_ABILITY
      */
     initNewUserAiblity(handle, param) {
-        return this.deviceCmd(handle, T.BC_CMD_E.E_BC_CMD_SET_USER_ALL_ABILITY, native_1.native.BCSDK_RemoteInitNewUserAiblity, param, _T.BC_USER_FOR_ABILITY);
+        return this.deviceCmd(handle, T.BC_CMD_E.E_BC_CMD_SET_USER_ALL_ABILITY, native_1.native.BCSDK_RemoteInitNewUserAiblity, 10, param, _T.BC_USER_FOR_ABILITY);
     }
     /* online user config
      *
@@ -972,14 +974,14 @@ class CONFIG {
         return this.deviceCmd(handle, T.BC_CMD_E.E_BC_CMD_GET_USER_ONLINE, native_1.native.BCSDK_RemoteGetOnlineUserCfg);
     }
     setOnlineUserCfg(handle, param) {
-        return this.deviceCmd(handle, T.BC_CMD_E.E_BC_CMD_SET_USER_ONLINE, native_1.native.BCSDK_RemoteSetOnlineUserCfg, param, _T.BC_USER_ONLINE_CFG);
+        return this.deviceCmd(handle, T.BC_CMD_E.E_BC_CMD_SET_USER_ONLINE, native_1.native.BCSDK_RemoteSetOnlineUserCfg, 10, param, _T.BC_USER_ONLINE_CFG);
     }
     /* force user password when first login
      *
      * callback with E_BC_CMD_FORCE_PASSWORD
      */
     forceUserPassword(handle, param) {
-        return this.deviceCmd(handle, T.BC_CMD_E.E_BC_CMD_FORCE_PASSWORD, native_1.native.BCSDK_RemoteForceUserPassword, param, _T.BC_FORCE_PWD);
+        return this.deviceCmd(handle, T.BC_CMD_E.E_BC_CMD_FORCE_PASSWORD, native_1.native.BCSDK_RemoteForceUserPassword, 10, param, _T.BC_FORCE_PWD);
     }
     /* pwd state
      *
@@ -989,7 +991,7 @@ class CONFIG {
         return this.deviceCmd(handle, T.BC_CMD_E.E_BC_CMD_GET_BOOTPWD_STATE, native_1.native.BCSDK_RemoteGetBootPwdState);
     }
     setBootPwdState(handle, param) {
-        return this.deviceCmd(handle, T.BC_CMD_E.E_BC_CMD_SET_BOOTPWD_STATE, native_1.native.BCSDK_RemoteSetBootPwdState, param, _T.BC_BOOT_PWD_STATE);
+        return this.deviceCmd(handle, T.BC_CMD_E.E_BC_CMD_SET_BOOTPWD_STATE, native_1.native.BCSDK_RemoteSetBootPwdState, 10, param, _T.BC_BOOT_PWD_STATE);
     }
     /* upgrade firmware
      *
@@ -1001,7 +1003,7 @@ class CONFIG {
             let tFileInfo = new _T.BC_UPGRADE_FILE_INFO(castParam);
             let ret = native_1.native.BCSDK_RemoteUpgradeFirmware(handle, tFileInfo.ref());
             if (ret >= 0) {
-                _callback_1.PROMISE_CBS.addCallback(handle, 0, T.BC_CMD_E.E_BC_CMD_UPGRADE, 0, { sdkResolve: resolve, sdkReject: reject });
+                _callback_1.PROMISE_CBS.addCallback(handle, 0, T.BC_CMD_E.E_BC_CMD_UPGRADE, 0, { sdkResolve: resolve, sdkReject: reject, timeout: 1800 });
                 _callback_1.COMMON_CBS.setCallback(handle, 0, T.BC_CMD_E.E_BC_CMD_UPGRADE_PROGRESS, 0, { sdkCallback: callback });
             }
             else {
@@ -1017,20 +1019,20 @@ class CONFIG {
         return this.deviceCmd(handle, T.BC_CMD_E.E_BC_CMD_GET_FTPCFG, native_1.native.BCSDK_RemoteGetFtpCfg);
     }
     setFtpCfg(handle, param) {
-        return this.deviceCmd(handle, T.BC_CMD_E.E_BC_CMD_SET_FTPCFG, native_1.native.BCSDK_RemoteSetFtpCfg, param, _T.BC_FTP_CFG);
+        return this.deviceCmd(handle, T.BC_CMD_E.E_BC_CMD_SET_FTPCFG, native_1.native.BCSDK_RemoteSetFtpCfg, 10, param, _T.BC_FTP_CFG);
     }
     setFtpTest(handle, param) {
-        return this.deviceCmd(handle, T.BC_CMD_E.E_BC_CMD_FTP_TEST, native_1.native.BCSDK_RemoteSetFtpTest, param, _T.BC_FTP_CFG);
+        return this.deviceCmd(handle, T.BC_CMD_E.E_BC_CMD_FTP_TEST, native_1.native.BCSDK_RemoteSetFtpTest, 35, param, _T.BC_FTP_CFG);
     }
     /* I Frame Support
      *
      * callback with E_BC_CMD_IFRAME_PREVIEW, E_BC_CMD_IFRAME_REPLAY
      */
     setIFramePreview(handle, iFrame) {
-        return this.deviceCmd(handle, T.BC_CMD_E.E_BC_CMD_IFRAME_PREVIEW, native_1.native.BCSDK_SetDeviceIFramePreview, iFrame);
+        return this.deviceCmd(handle, T.BC_CMD_E.E_BC_CMD_IFRAME_PREVIEW, native_1.native.BCSDK_SetDeviceIFramePreview, 10, iFrame);
     }
     setIFrameReplay(handle, iFrame) {
-        return this.deviceCmd(handle, T.BC_CMD_E.E_BC_CMD_IFRAME_REPLAY, native_1.native.BCSDK_SetDeviceIFrameReplay, iFrame);
+        return this.deviceCmd(handle, T.BC_CMD_E.E_BC_CMD_IFRAME_REPLAY, native_1.native.BCSDK_SetDeviceIFrameReplay, 10, iFrame);
     }
     /* Reboot
      *
@@ -1056,7 +1058,7 @@ class CONFIG {
             let tFileInfo = new _T.BC_CONFIG_FILE_INFO(castParam);
             let ret = native_1.native.BCSDK_RemoteExportConfig(handle, tFileInfo.ref());
             if (ret >= 0) {
-                _callback_1.PROMISE_CBS.addCallback(handle, 0, T.BC_CMD_E.E_BC_CMD_EXPORT, 0, { sdkResolve: resolve, sdkReject: reject });
+                _callback_1.PROMISE_CBS.addCallback(handle, 0, T.BC_CMD_E.E_BC_CMD_EXPORT, 0, { sdkResolve: resolve, sdkReject: reject, timeout: 60 });
                 _callback_1.COMMON_CBS.setCallback(handle, 0, T.BC_CMD_E.E_BC_CMD_EXPORT_PROGRESS, 0, { sdkCallback: callback });
             }
             else {
@@ -1070,7 +1072,7 @@ class CONFIG {
             let tFileInfo = new _T.BC_CONFIG_FILE_INFO(castParam);
             let ret = native_1.native.BCSDK_RemoteImportConfig(handle, tFileInfo.ref());
             if (ret >= 0) {
-                _callback_1.PROMISE_CBS.addCallback(handle, 0, T.BC_CMD_E.E_BC_CMD_IMPORT, 0, { sdkResolve: resolve, sdkReject: reject });
+                _callback_1.PROMISE_CBS.addCallback(handle, 0, T.BC_CMD_E.E_BC_CMD_IMPORT, 0, { sdkResolve: resolve, sdkReject: reject, timeout: 60 });
                 _callback_1.COMMON_CBS.setCallback(handle, 0, T.BC_CMD_E.E_BC_CMD_IMPORT_PROGRESS, 0, { sdkCallback: callback });
             }
             else {
@@ -1083,7 +1085,7 @@ class CONFIG {
      * callback with E_BC_CMD_GETLOG
      */
     getLogFile(handle, param) {
-        return this.deviceCmd(handle, T.BC_CMD_E.E_BC_CMD_GETLOG, native_1.native.BCSDK_RemoteGetLogFile, param, _T.BC_CONFIG_FILE_INFO);
+        return this.deviceCmd(handle, T.BC_CMD_E.E_BC_CMD_GETLOG, native_1.native.BCSDK_RemoteGetLogFile, 35, param, _T.BC_CONFIG_FILE_INFO);
     }
     /* start alarm report
      *
@@ -1100,17 +1102,17 @@ class CONFIG {
      * callback with E_BC_CMD_PUSH_ADD
      */
     pushOpen(handle, param) {
-        return this.deviceCmd(handle, T.BC_CMD_E.E_BC_CMD_PUSH_ADD, native_1.native.BCSDK_RemotePushOpen, param, _T.BC_PUSH_INFO);
+        return this.deviceCmd(handle, T.BC_CMD_E.E_BC_CMD_PUSH_ADD, native_1.native.BCSDK_RemotePushOpen, 12, param, _T.BC_PUSH_INFO);
     }
     /* rtmp operation
      *
      * callback with E_BC_CMD_RTMP_START, E_BC_CMD_RTMP_STOP
      */
     rtmpStart(handle, param) {
-        return this.deviceCmd(handle, T.BC_CMD_E.E_BC_CMD_RTMP_START, native_1.native.BCSDK_RemoteRtmpStart, param, _T.BC_RTMP_OPT);
+        return this.deviceCmd(handle, T.BC_CMD_E.E_BC_CMD_RTMP_START, native_1.native.BCSDK_RemoteRtmpStart, 12, param, _T.BC_RTMP_OPT);
     }
     rtmpStop(handle, param) {
-        return this.deviceCmd(handle, T.BC_CMD_E.E_BC_CMD_RTMP_STOP, native_1.native.BCSDK_RemoteRtmpStart, param, _T.BC_RTMP_OPT);
+        return this.deviceCmd(handle, T.BC_CMD_E.E_BC_CMD_RTMP_STOP, native_1.native.BCSDK_RemoteRtmpStart, 12, param, _T.BC_RTMP_OPT);
     }
     /*******************************************************************************
      * MARK: Channel Remote Config
@@ -1123,7 +1125,7 @@ class CONFIG {
         return this.channelCmd(handle, channel, T.BC_CMD_E.E_BC_CMD_GET_COMPRESS, native_1.native.BCSDK_RemoteGetEncCfg);
     }
     setEncCfg(handle, channel, param) {
-        return this.channelCmd(handle, channel, T.BC_CMD_E.E_BC_CMD_SET_COMPRESS, native_1.native.BCSDK_RemoteSetEncCfg, param, _T.BC_CHN_ENC_INFO);
+        return this.channelCmd(handle, channel, T.BC_CMD_E.E_BC_CMD_SET_COMPRESS, native_1.native.BCSDK_RemoteSetEncCfg, 10, param, _T.BC_CHN_ENC_INFO);
     }
     /* osd
      *
@@ -1133,7 +1135,7 @@ class CONFIG {
         return this.channelCmd(handle, channel, T.BC_CMD_E.E_BC_CMD_GET_OSD, native_1.native.BCSDK_RemoteGetOsdCfg);
     }
     setOsdCfg(handle, channel, param) {
-        return this.channelCmd(handle, channel, T.BC_CMD_E.E_BC_CMD_SET_OSD, native_1.native.BCSDK_RemoteSetOsdCfg, param, _T.BC_OSD_CFG, CONFIG.getCmdIndex());
+        return this.channelCmd(handle, channel, T.BC_CMD_E.E_BC_CMD_SET_OSD, native_1.native.BCSDK_RemoteSetOsdCfg, 10, param, _T.BC_OSD_CFG, CONFIG.getCmdIndex());
     }
     /* cameraCfg
      *
@@ -1143,7 +1145,7 @@ class CONFIG {
         return this.channelCmd(handle, channel, T.BC_CMD_E.E_BC_CMD_GET_CAMERA_CFG, native_1.native.BCSDK_RemoteGetCameraCfg);
     }
     setCameraCfg(handle, channel, param) {
-        return this.channelCmd(handle, channel, T.BC_CMD_E.E_BC_CMD_SET_CAMERA_CFG, native_1.native.BCSDK_RemoteSetCameraCfg, param, _T.BC_CAMERA_CFG);
+        return this.channelCmd(handle, channel, T.BC_CMD_E.E_BC_CMD_SET_CAMERA_CFG, native_1.native.BCSDK_RemoteSetCameraCfg, 10, param, _T.BC_CAMERA_CFG);
     }
     /* Shelter
      *
@@ -1153,7 +1155,7 @@ class CONFIG {
         return this.channelCmd(handle, channel, T.BC_CMD_E.E_BC_CMD_GET_COVER, native_1.native.BCSDK_RemoteGetShelter);
     }
     setShelter(handle, channel, param) {
-        return this.channelCmd(handle, channel, T.BC_CMD_E.E_BC_CMD_SET_COVER, native_1.native.BCSDK_RemoteSetShelter, param, _T.BC_COVER_CFG);
+        return this.channelCmd(handle, channel, T.BC_CMD_E.E_BC_CMD_SET_COVER, native_1.native.BCSDK_RemoteSetShelter, 10, param, _T.BC_COVER_CFG);
     }
     /* record schedule
      *
@@ -1163,7 +1165,7 @@ class CONFIG {
         return this.channelCmd(handle, channel, T.BC_CMD_E.E_BC_CMD_GET_RECORDSCHED, native_1.native.BCSDK_RemoteGetRecordSchedule);
     }
     setRecordSchedule(handle, channel, param) {
-        return this.channelCmd(handle, channel, T.BC_CMD_E.E_BC_CMD_SET_RECORDSCHED, native_1.native.BCSDK_RemoteSetRecordSchedule, param, _T.BC_RECORD_SCHEDULE_CFG);
+        return this.channelCmd(handle, channel, T.BC_CMD_E.E_BC_CMD_SET_RECORDSCHED, native_1.native.BCSDK_RemoteSetRecordSchedule, 10, param, _T.BC_RECORD_SCHEDULE_CFG);
     }
     /* PTZ Config
      *
@@ -1173,7 +1175,7 @@ class CONFIG {
         return this.channelCmd(handle, channel, T.BC_CMD_E.E_BC_CMD_GET_PTZCFG, native_1.native.BCSDK_RemoteGetPtzCfg);
     }
     setPtzCfg(handle, channel, param) {
-        return this.channelCmd(handle, channel, T.BC_CMD_E.E_BC_CMD_SET_PTZCFG, native_1.native.BCSDK_RemoteSetPtzCfg, param, _T.BC_PTZ_DECODER);
+        return this.channelCmd(handle, channel, T.BC_CMD_E.E_BC_CMD_SET_PTZCFG, native_1.native.BCSDK_RemoteSetPtzCfg, 10, param, _T.BC_PTZ_DECODER);
     }
     /* Motion Config
      *
@@ -1183,7 +1185,7 @@ class CONFIG {
         return this.channelCmd(handle, channel, T.BC_CMD_E.E_BC_CMD_GET_MOTION, native_1.native.BCSDK_RemoteGetMotionCfg);
     }
     setMotionCfg(handle, channel, param) {
-        return this.channelCmd(handle, channel, T.BC_CMD_E.E_BC_CMD_SET_MOTION, native_1.native.BCSDK_RemoteSetMotionCfg, param, _T.BC_MOTION_CFG, CONFIG.getCmdIndex());
+        return this.channelCmd(handle, channel, T.BC_CMD_E.E_BC_CMD_SET_MOTION, native_1.native.BCSDK_RemoteSetMotionCfg, 10, param, _T.BC_MOTION_CFG, CONFIG.getCmdIndex());
     }
     /* Video Loss
      *
@@ -1193,7 +1195,7 @@ class CONFIG {
         return this.channelCmd(handle, channel, T.BC_CMD_E.E_BC_CMD_GET_VILOST, native_1.native.BCSDK_RemoteGetVideoLoss);
     }
     setVideoLoss(handle, channel, param) {
-        return this.channelCmd(handle, channel, T.BC_CMD_E.E_BC_CMD_SET_VILOST, native_1.native.BCSDK_RemoteSetVideoLoss, param, _T.BC_VILOST_CFG);
+        return this.channelCmd(handle, channel, T.BC_CMD_E.E_BC_CMD_SET_VILOST, native_1.native.BCSDK_RemoteSetVideoLoss, 10, param, _T.BC_VILOST_CFG);
     }
     /* ptz preset
      *
@@ -1203,10 +1205,10 @@ class CONFIG {
         return this.channelCmd(handle, channel, T.BC_CMD_E.E_BC_CMD_GET_PRESET, native_1.native.BCSDK_RemoteGetPresets);
     }
     setPresets(handle, channel, param) {
-        return this.channelCmd(handle, channel, T.BC_CMD_E.E_BC_CMD_SET_PRESET, native_1.native.BCSDK_RemoteSetPresets, param, _T.BC_PTZ_PRESETS, CONFIG.getCmdIndex());
+        return this.channelCmd(handle, channel, T.BC_CMD_E.E_BC_CMD_SET_PRESET, native_1.native.BCSDK_RemoteSetPresets, 10, param, _T.BC_PTZ_PRESETS, CONFIG.getCmdIndex());
     }
     presetInvoke(handle, channel, preset) {
-        return this.channelCmd(handle, channel, T.BC_CMD_E.E_BC_CMD_GOTO_PRESET, native_1.native.BCSDK_RemotePresetInvoke, preset);
+        return this.channelCmd(handle, channel, T.BC_CMD_E.E_BC_CMD_GOTO_PRESET, native_1.native.BCSDK_RemotePresetInvoke, 10, preset);
     }
     /* ptz cruise
      *
@@ -1216,14 +1218,14 @@ class CONFIG {
         return this.channelCmd(handle, channel, T.BC_CMD_E.E_BC_CMD_GET_CRUISE, native_1.native.BCSDK_RemoteGetCruises);
     }
     setCruise(handle, channel, param) {
-        return this.channelCmd(handle, channel, T.BC_CMD_E.E_BC_CMD_SET_CRUISE, native_1.native.BCSDK_RemoteSetCruise, param, _T.BC_PTZ_CRUISES);
+        return this.channelCmd(handle, channel, T.BC_CMD_E.E_BC_CMD_SET_CRUISE, native_1.native.BCSDK_RemoteSetCruise, 10, param, _T.BC_PTZ_CRUISES);
     }
     cruiseInvoke(handle, channel) {
-        return this.channelCmd(handle, channel, T.BC_CMD_E.E_BC_CMD_PTZ_CONTROL, native_1.native.BCSDK_RemoteCruiseInvoke, 0);
+        return this.channelCmd(handle, channel, T.BC_CMD_E.E_BC_CMD_PTZ_CONTROL, native_1.native.BCSDK_RemoteCruiseInvoke, 10, 0);
     }
     cruiseStop(handle, channel) {
         // TODO: same cmd with cruise Invoke
-        return this.channelCmd(handle, channel, T.BC_CMD_E.E_BC_CMD_PTZ_CONTROL, native_1.native.BCSDK_RemoteCruiseStop, 0);
+        return this.channelCmd(handle, channel, T.BC_CMD_E.E_BC_CMD_PTZ_CONTROL, native_1.native.BCSDK_RemoteCruiseStop, 10, 0);
     }
     /* isp
      *
@@ -1236,10 +1238,10 @@ class CONFIG {
         return this.channelCmd(handle, channel, T.BC_CMD_E.E_BC_CMD_GET_DEFAULT_CAMERA, native_1.native.BCSDK_RemoteGetDefaultIspCfg);
     }
     setIspCfg(handle, channel, param) {
-        return this.channelCmd(handle, channel, T.BC_CMD_E.E_BC_CMD_SET_CAMERA, native_1.native.BCSDK_RemoteSetIspCfg, param, _T.BC_ISP_CFG, CONFIG.getCmdIndex());
+        return this.channelCmd(handle, channel, T.BC_CMD_E.E_BC_CMD_SET_CAMERA, native_1.native.BCSDK_RemoteSetIspCfg, 10, param, _T.BC_ISP_CFG, CONFIG.getCmdIndex());
     }
     setIspDayNightMode(handle, channel, param) {
-        return this.channelCmd(handle, channel, T.BC_CMD_E.E_BC_CMD_SET_ISP_DAY_NIGHT_MODE, native_1.native.BCSDK_RemoteSetIspDayNightMode, param, _T.BC_DAY_NIGHT_MODE_CFG);
+        return this.channelCmd(handle, channel, T.BC_CMD_E.E_BC_CMD_SET_ISP_DAY_NIGHT_MODE, native_1.native.BCSDK_RemoteSetIspDayNightMode, 10, param, _T.BC_DAY_NIGHT_MODE_CFG);
     }
     /* LED
      *
@@ -1249,20 +1251,20 @@ class CONFIG {
         return this.channelCmd(handle, channel, T.BC_CMD_E.E_BC_CMD_GET_LED_STATE, native_1.native.BCSDK_RemoteGetLedState);
     }
     setLedState(handle, channel, param) {
-        return this.channelCmd(handle, channel, T.BC_CMD_E.E_BC_CMD_SET_LED_STATE, native_1.native.BCSDK_RemoteSetLedState, param, _T.BC_LED_LIGHT_STATE, CONFIG.getCmdIndex());
+        return this.channelCmd(handle, channel, T.BC_CMD_E.E_BC_CMD_SET_LED_STATE, native_1.native.BCSDK_RemoteSetLedState, 10, param, _T.BC_LED_LIGHT_STATE, CONFIG.getCmdIndex());
     }
     /* Floodlight
     *
     * callback with E_BC_CMD_FLOODLIGHT_MANUAL, E_BC_CMD_GET_FLOODLIGHT_TASK, E_BC_CMD_SET_FLOODLIGHT_TASK
     */
     floodlightManual(handle, channel, param) {
-        return this.channelCmd(handle, channel, T.BC_CMD_E.E_BC_CMD_FLOODLIGHT_MANUAL, native_1.native.BCSDK_RemoteFloodlightManual, param, _T.BC_FLOODLIGHT_MANUAL, CONFIG.getCmdIndex());
+        return this.channelCmd(handle, channel, T.BC_CMD_E.E_BC_CMD_FLOODLIGHT_MANUAL, native_1.native.BCSDK_RemoteFloodlightManual, 10, param, _T.BC_FLOODLIGHT_MANUAL, CONFIG.getCmdIndex());
     }
     getFloodlightTask(handle, channel) {
         return this.channelCmd(handle, channel, T.BC_CMD_E.E_BC_CMD_GET_FLOODLIGHT_TASK, native_1.native.BCSDK_RemoteGetFloodlightTask);
     }
     setFloodlightTask(handle, channel, param) {
-        return this.channelCmd(handle, channel, T.BC_CMD_E.E_BC_CMD_SET_FLOODLIGHT_TASK, native_1.native.BCSDK_RemoteSetFloodlightTask, param, _T.BC_FLOODLIGHT_TASK, CONFIG.getCmdIndex());
+        return this.channelCmd(handle, channel, T.BC_CMD_E.E_BC_CMD_SET_FLOODLIGHT_TASK, native_1.native.BCSDK_RemoteSetFloodlightTask, 10, param, _T.BC_FLOODLIGHT_TASK, CONFIG.getCmdIndex());
     }
     /* day night threshold
      *
@@ -1272,7 +1274,7 @@ class CONFIG {
         return this.channelCmd(handle, channel, T.BC_CMD_E.E_BC_CMD_GET_DAY_NIGHT_THRESHOLD, native_1.native.BCSDK_RemoteGetDayNightThreshold);
     }
     setDayNightThreshold(handle, channel, param) {
-        return this.channelCmd(handle, channel, T.BC_CMD_E.E_BC_CMD_SET_DAY_NIGHT_THRESHOLD, native_1.native.BCSDK_RemoteSetDayNightThreshold, param, _T.BC_FLOODLIGHT_TASK, CONFIG.getCmdIndex());
+        return this.channelCmd(handle, channel, T.BC_CMD_E.E_BC_CMD_SET_DAY_NIGHT_THRESHOLD, native_1.native.BCSDK_RemoteSetDayNightThreshold, 10, param, _T.BC_FLOODLIGHT_TASK, CONFIG.getCmdIndex());
     }
     /* Ftp Task
      *
@@ -1282,7 +1284,7 @@ class CONFIG {
         return this.channelCmd(handle, channel, T.BC_CMD_E.E_BC_CMD_GET_FTPTASK, native_1.native.BCSDK_RemoteGetFtpTask);
     }
     setFtpTask(handle, channel, param) {
-        return this.channelCmd(handle, channel, T.BC_CMD_E.E_BC_CMD_SET_FTPTASK, native_1.native.BCSDK_RemoteSetFtpTask, param, _T.BC_FTP_TASK);
+        return this.channelCmd(handle, channel, T.BC_CMD_E.E_BC_CMD_SET_FTPTASK, native_1.native.BCSDK_RemoteSetFtpTask, 10, param, _T.BC_FTP_TASK);
     }
     /* Email Task
      *
@@ -1292,7 +1294,7 @@ class CONFIG {
         return this.channelCmd(handle, channel, T.BC_CMD_E.E_BC_CMD_GET_EMAIL_TASK, native_1.native.BCSDK_RemoteGetEmailTask);
     }
     setEmailTask(handle, channel, param) {
-        return this.channelCmd(handle, channel, T.BC_CMD_E.E_BC_CMD_SET_EMAIL_TASK, native_1.native.BCSDK_RemoteSetEmailTask, param, _T.BC_EMAIL_TASK);
+        return this.channelCmd(handle, channel, T.BC_CMD_E.E_BC_CMD_SET_EMAIL_TASK, native_1.native.BCSDK_RemoteSetEmailTask, 10, param, _T.BC_EMAIL_TASK);
     }
     /* push task
      *
@@ -1302,7 +1304,7 @@ class CONFIG {
         return this.channelCmd(handle, channel, T.BC_CMD_E.E_BC_CMD_GET_PUSH_TASK, native_1.native.BCSDK_RemoteGetPushTask);
     }
     setPushTask(handle, channel, param) {
-        return this.channelCmd(handle, channel, T.BC_CMD_E.E_BC_CMD_SET_PUSH_TASK, native_1.native.BCSDK_RemoteSetPushTask, param, _T.BC_PUSH_TASK);
+        return this.channelCmd(handle, channel, T.BC_CMD_E.E_BC_CMD_SET_PUSH_TASK, native_1.native.BCSDK_RemoteSetPushTask, 10, param, _T.BC_PUSH_TASK);
     }
     /* audio task
      *
@@ -1312,14 +1314,14 @@ class CONFIG {
         return this.channelCmd(handle, channel, T.BC_CMD_E.E_BC_CMD_GET_AUDIO_TASK, native_1.native.BCSDK_RemoteGetAudioTask);
     }
     setAudioTask(handle, channel, param) {
-        return this.channelCmd(handle, channel, T.BC_CMD_E.E_BC_CMD_SET_AUDIO_TASK, native_1.native.BCSDK_RemoteSetAudioTask, param, _T.BC_AUDIO_TASK);
+        return this.channelCmd(handle, channel, T.BC_CMD_E.E_BC_CMD_SET_AUDIO_TASK, native_1.native.BCSDK_RemoteSetAudioTask, 10, param, _T.BC_AUDIO_TASK);
     }
     /* Snap
      *
      * callback with E_BC_CMD_SNAP
      */
     snap(handle, channel, param) {
-        return this.channelCmd(handle, channel, T.BC_CMD_E.E_BC_CMD_SNAP, native_1.native.BCSDK_RemoteSnap, param, _T.BC_SNAP_INFO);
+        return this.channelCmd(handle, channel, T.BC_CMD_E.E_BC_CMD_SNAP, native_1.native.BCSDK_RemoteSnap, 35, param, _T.BC_SNAP_INFO);
     }
     /* Config Stream
      */
@@ -1337,7 +1339,7 @@ class CONFIG {
         return this.channelCmd(handle, channel, T.BC_CMD_E.E_BC_CMD_GET_AUTO_FOCUS, native_1.native.BCSDK_RemoteGetAutoFocus);
     }
     setAutoFocus(handle, channel, param) {
-        return this.channelCmd(handle, channel, T.BC_CMD_E.E_BC_CMD_SET_AUTO_FOCUS, native_1.native.BCSDK_RemoteSetAutoFocus, param, _T.BC_PTZ_AUTO_FOCUS);
+        return this.channelCmd(handle, channel, T.BC_CMD_E.E_BC_CMD_SET_AUTO_FOCUS, native_1.native.BCSDK_RemoteSetAutoFocus, 10, param, _T.BC_PTZ_AUTO_FOCUS);
     }
     /* Crop Cfg
      *
@@ -1347,14 +1349,14 @@ class CONFIG {
         return this.channelCmd(handle, channel, T.BC_CMD_E.E_BC_CMD_GET_CROP_CFG, native_1.native.BCSDK_RemoteGetCropCfg);
     }
     setCropCfg(handle, channel, param) {
-        return this.channelCmd(handle, channel, T.BC_CMD_E.E_BC_CMD_SET_CROP_CFG, native_1.native.BCSDK_RemoteSetCropCfg, param, _T.BC_CROP_CFG);
+        return this.channelCmd(handle, channel, T.BC_CMD_E.E_BC_CMD_SET_CROP_CFG, native_1.native.BCSDK_RemoteSetCropCfg, 10, param, _T.BC_CROP_CFG);
     }
     /* Crop Snap
      *
      * callback with E_BC_CMD_CROP_SNAP
      */
     cropSnap(handle, channel, param) {
-        return this.channelCmd(handle, channel, T.BC_CMD_E.E_BC_CMD_CROP_SNAP, native_1.native.BCSDK_RemoteCropSnap, param, _T.BC_CROP_SNAP_INFO);
+        return this.channelCmd(handle, channel, T.BC_CMD_E.E_BC_CMD_CROP_SNAP, native_1.native.BCSDK_RemoteCropSnap, 35, param, _T.BC_CROP_SNAP_INFO);
     }
     /* battery info
      *
@@ -1389,13 +1391,13 @@ class CONFIG {
         return this.channelCmd(handle, channel, T.BC_CMD_E.E_BC_CMD_GET_RINGTONE_CFG, native_1.native.BCSDK_RemoteGetRingtoneCfg);
     }
     setRingtoneCfg(handle, channel, param) {
-        return this.channelCmd(handle, channel, T.BC_CMD_E.E_BC_CMD_SET_RINGTONE_CFG, native_1.native.BCSDK_RemoteSetRingtoneCfg, param, _T.BC_RINGTONE_CFG);
+        return this.channelCmd(handle, channel, T.BC_CMD_E.E_BC_CMD_SET_RINGTONE_CFG, native_1.native.BCSDK_RemoteSetRingtoneCfg, 10, param, _T.BC_RINGTONE_CFG);
     }
     manualRingDown(handle, channel, param) {
-        return this.channelCmd(handle, channel, T.BC_CMD_E.E_BC_CMD_MANUAL_RING_DOWN, native_1.native.BCSDK_RemoteManualRingDown, param, _T.BC_MANUAL_RING_DOWN);
+        return this.channelCmd(handle, channel, T.BC_CMD_E.E_BC_CMD_MANUAL_RING_DOWN, native_1.native.BCSDK_RemoteManualRingDown, 10, param, _T.BC_MANUAL_RING_DOWN);
     }
     muteAlarmAudio(handle, channel, param) {
-        return this.channelCmd(handle, channel, T.BC_CMD_E.E_BC_CMD_MUTE_ALARM_AUDIO, native_1.native.BCSDK_RemoteMuteAlarmAudio, param, _T.BC_MUTE_ALARM_AUDIO);
+        return this.channelCmd(handle, channel, T.BC_CMD_E.E_BC_CMD_MUTE_ALARM_AUDIO, native_1.native.BCSDK_RemoteMuteAlarmAudio, 10, param, _T.BC_MUTE_ALARM_AUDIO);
     }
     saveRingtone(handle, channel) {
         return this.channelCmd(handle, channel, T.BC_CMD_E.E_BC_CMD_SAVE_RINGTONE, native_1.native.BCSDK_RemoteSaveRingtone);

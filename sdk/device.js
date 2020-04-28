@@ -544,7 +544,8 @@ class DEVICE {
                 }
                 let tcallback = {
                     sdkResolve: resolve,
-                    sdkReject: reject
+                    sdkReject: reject,
+                    timeout: 30
                 };
                 let ret = native_1.native.BCSDK_DeviceForceOpen(handle, true);
                 if (T.ERROR.E_NONE == ret) {
