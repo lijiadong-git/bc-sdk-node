@@ -265,6 +265,16 @@ const deviceCallback = ffi_1.Callback('void', ['int', _T.BC_CMD_DATA, _T.pointer
         case T.BC_CMD_E.E_BC_CMD_MUTE_ALARM_AUDIO:
         case T.BC_CMD_E.E_BC_CMD_GET_RINGTONE_ABILITY:
         case T.BC_CMD_E.E_BC_CMD_SYNC_UTC_TIME:
+        case T.BC_CMD_E.E_BC_CMD_FLOODLIGHT_MANUAL:
+        case T.BC_CMD_E.E_BC_CMD_GET_FLOODLIGHT_TASK:
+        case T.BC_CMD_E.E_BC_CMD_SET_FLOODLIGHT_TASK:
+        case T.BC_CMD_E.E_BC_CMD_REPORT_FLOODLIGHT_STAT:
+        case T.BC_CMD_E.E_BC_CMD_RF_TEST_START:
+        case T.BC_CMD_E.E_BC_CMD_RF_TEST_STOP:
+        case T.BC_CMD_E.E_BC_CMD_GET_ZOOM_FOCUS_INFO:
+        case T.BC_CMD_E.E_BC_CMD_START_ZOOM_FOCUS:
+        case T.BC_CMD_E.E_BC_CMD_GET_DAY_NIGHT_THRESHOLD:
+        case T.BC_CMD_E.E_BC_CMD_SET_DAY_NIGHT_THRESHOLD:
             {
                 config_1.config.handleSDKCallback(handle, cmdData);
                 break;
@@ -480,6 +490,8 @@ class DEVICE {
                 _callback_1.COMMON_CBS.setCallback(handle, 0, T.BC_CMD_E.E_BC_CMD_WITHOUT_INTERATION_REPORT, 0, { sdkCallback: callback });
                 _callback_1.COMMON_CBS.setCallback(handle, 0, T.BC_CMD_E.E_BC_CMD_REPORT_DEVICE_EXCEPTION, 0, { sdkCallback: callback });
                 _callback_1.COMMON_CBS.setCallback(handle, 0, T.BC_CMD_E.E_BC_CMD_REPORT_BATTERY_INFO_LIST, 0, { sdkCallback: callback });
+                _callback_1.COMMON_CBS.setCallback(handle, 0, T.BC_CMD_E.E_BC_CMD_REPORT_3G_4G_INFO, 0, { sdkCallback: callback });
+                _callback_1.COMMON_CBS.setCallback(handle, 0, T.BC_CMD_E.E_BC_CMD_REPORT_FLOODLIGHT_STAT, 0, { sdkCallback: callback });
                 resolve(handle);
             }
             else {

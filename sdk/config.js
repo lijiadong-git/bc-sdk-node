@@ -419,6 +419,7 @@ class CONFIG {
             case T.BC_CMD_E.E_BC_CMD_MANUAL_RING_DOWN:
             case T.BC_CMD_E.E_BC_CMD_MUTE_ALARM_AUDIO:
             case T.BC_CMD_E.E_BC_CMD_SAVE_RINGTONE:
+            case T.BC_CMD_E.E_BC_CMD_FLOODLIGHT_MANUAL:
             default: {
                 if (T.BC_CMD_E.E_BC_CMD_SET_PRESET === cmdData.bcCmd) {
                     const callbackStr = "------- handle this callback {"

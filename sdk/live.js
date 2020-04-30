@@ -56,7 +56,7 @@ class LIVE {
                 break;
             }
         }
-    } 
+    }
     getLiveStreamType(handle, channel) {
         return new Promise((resolve, reject) => {
             let buf = ref.alloc(ref.types.int, T.BC_STREAM_TYPE_E.E_BC_STREAM_SUB);
