@@ -47,6 +47,7 @@ const deviceCallback = ffi_1.Callback('void', ['int', _T.BC_CMD_DATA, _T.pointer
         case T.BC_CMD_E.E_BC_CMD_REPORT_DEVICE_EXCEPTION:
         case T.BC_CMD_E.E_BC_CMD_REPORT_BATTERY_INFO_LIST:
         case T.BC_CMD_E.E_BC_CMD_REPORT_3G_4G_INFO:
+        case T.BC_CMD_E.E_BC_CMD_REPORT_FLOODLIGHT_STAT:
             {
                 exports.device.handleSDKCallback(handle, cmdData);
                 break;
@@ -419,6 +420,20 @@ class DEVICE {
                     setImmediate(() => {
                         if (callback && callback.sdkCallback) {
                             callback.sdkCallback.info3G4GCallback(handle, param);
+                        }
+                    });
+                }
+                break;
+            }
+            case T.BC_CMD_E.E_BC_CMD_REPORT_FLOODLIGHT_STAT: {
+                let callback = _callback_1.COMMON_CBS.getCallback(handle, 0, bcCmd, cmdIdx);
+                if (_T.BC_FLOODLIGHT_STAT.size === dataLen) {
+                    let buf = ref.reinterpret(pRspData, dataLen);
+                    let data = ref.get(buf, 0, _T.BC_FLOODLIGHT_STAT);
+                    let param = _cast_1.derefCast(data, _T.BC_FLOODLIGHT_STAT);
+                    setImmediate(() => {
+                        if (callback && callback.sdkCallback) {
+                            callback.sdkCallback.floodLightStateCallback(handle, param);
                         }
                     });
                 }

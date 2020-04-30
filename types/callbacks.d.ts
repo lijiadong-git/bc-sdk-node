@@ -10,6 +10,7 @@ export interface DeviceCallback {
     batteryExceptionCallback: (handle: number, exception: boolean) => void;
     batteryInfoCallback: (handle: number, info: T.BC_BATTERY_INFO) => void;
     info3G4GCallback: (handle: number, info: T.BC_3G_4G_INFO) => void;
+    floodLightStateCallback: (handle: number, info: T.BC_FLOODLIGHT_STAT) => void;
 }
 export interface IYUVPlane {
     width: number;
