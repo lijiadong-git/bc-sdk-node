@@ -893,8 +893,8 @@ exports.BC_MOTION_CFG = refStruct({
     bMotionScope: refArray(ref.types.bool, types_1.DEFINDE.BC_MD_AREA_MAX_HEIGHT * types_1.DEFINDE.BC_MD_AREA_MAX_WIDTH) // 1: set to motion, 0: not set
     ,
     iSensVerion: ref.types.int /* 0:use sensitivityInfo, 1:use newSensInfo */,
-    newSensInfo: exports.BC_NEW_SENS_INFO,
     sensitivityInfo: refArray(exports.BC_SENSITIVITY_INFO, types_1.DEFINDE.BC_MAX_MOTION_SENS_NUM),
+    newSensInfo: exports.BC_NEW_SENS_INFO,
     alarmOut: exports.BC_ALARM_OUT,
     byRelRecordChannel: refArray(ref.types.uint8, types_1.DEFINDE.BC_MAX_CHANNEL) // 0: not set, 1:set
     ,
