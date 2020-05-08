@@ -297,6 +297,18 @@ class CONFIG {
                 CONFIG.handleSDKGetCallback(_T.BC_RINGTONE_ABILITY, handle, cmdData);
                 break;
             }
+            case T.BC_CMD_E.E_BC_CMD_GET_FLOODLIGHT_TASK: {
+                CONFIG.handleSDKGetCallback(_T.BC_FLOODLIGHT_TASK, handle, cmdData);
+                break;
+            }
+            case T.BC_CMD_E.E_BC_CMD_GET_ZOOM_FOCUS_INFO: {
+                CONFIG.handleSDKGetCallback(_T.BC_ZOOM_FOCUS_INFO, handle, cmdData);
+                break;
+            }
+            case T.BC_CMD_E.E_BC_CMD_GET_DAY_NIGHT_THRESHOLD: {
+                CONFIG.handleSDKGetCallback(_T.BC_DAY_NIGHT_THRESHOLD_CFG, handle, cmdData);
+                break;
+            }
             case T.BC_CMD_E.E_BC_CMD_UPGRADE_PROGRESS: {
                 let callback = _callback_1.COMMON_CBS.getCallback(handle, channel, cmdData.bcCmd, cmdData.cmdIdx);
                 if (!callback || !callback.sdkCallback) {
@@ -420,6 +432,12 @@ class CONFIG {
             case T.BC_CMD_E.E_BC_CMD_MUTE_ALARM_AUDIO:
             case T.BC_CMD_E.E_BC_CMD_SAVE_RINGTONE:
             case T.BC_CMD_E.E_BC_CMD_FLOODLIGHT_MANUAL:
+            case T.BC_CMD_E.E_BC_CMD_SET_FLOODLIGHT_TASK:
+            case T.BC_CMD_E.E_BC_CMD_RF_TEST_START:
+            case T.BC_CMD_E.E_BC_CMD_RF_TEST_STOP:
+            case T.BC_CMD_E.E_BC_CMD_SYNC_UTC_TIME:
+            case T.BC_CMD_E.E_BC_CMD_START_ZOOM_FOCUS:
+            case T.BC_CMD_E.E_BC_CMD_SET_DAY_NIGHT_THRESHOLD:
             default: {
                 if (T.BC_CMD_E.E_BC_CMD_SET_PRESET === cmdData.bcCmd) {
                     const callbackStr = "------- handle this callback {"
@@ -921,6 +939,13 @@ class CONFIG {
     setCloudCfg(handle, param) {
         return this.deviceCmd(handle, T.BC_CMD_E.E_BC_CMD_SET_CLOUD_CFG, native_1.native.BCSDK_RemoteSetCloudCfg, 10, param, _T.BC_CLOUD_CFG);
     }
+    /* sync utc time
+     *
+     * callback with    E_BC_CMD_SYNC_UTC_TIME
+     */
+    syncUtcTime(handle, param) {
+        return this.deviceCmd(handle, T.BC_CMD_E.E_BC_CMD_SYNC_UTC_TIME, native_1.native.BCSDK_RemoteSyncUtcTime, 10, param, _T.BC_UTC_TIME);
+    }
     /* Scan ap
      *
      * callback with E_BC_CMD_GET_SCAN_AP
@@ -1341,6 +1366,16 @@ class CONFIG {
     }
     setAutoFocus(handle, channel, param) {
         return this.channelCmd(handle, channel, T.BC_CMD_E.E_BC_CMD_SET_AUTO_FOCUS, native_1.native.BCSDK_RemoteSetAutoFocus, 10, param, _T.BC_PTZ_AUTO_FOCUS);
+    }
+    /* Zoom Focus
+     *
+     * callback with E_BC_CMD_GET_ZOOM_FOCUS_INFO, E_BC_CMD_START_ZOOM_FOCUS
+     */
+    getZoomFocusInfo(handle, channel) {
+        return this.channelCmd(handle, channel, T.BC_CMD_E.E_BC_CMD_GET_ZOOM_FOCUS_INFO, native_1.native.BCSDK_RemoteGetZoomFocusInfo);
+    }
+    startZoomFocus(handle, channel, param) {
+        return this.channelCmd(handle, channel, T.BC_CMD_E.E_BC_CMD_START_ZOOM_FOCUS, native_1.native.BCSDK_RemoteStartZoomFocus, 10, param, _T.BC_START_ZOOM_FOCUS);
     }
     /* Crop Cfg
      *

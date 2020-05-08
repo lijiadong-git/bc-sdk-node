@@ -365,6 +365,7 @@ export interface NativeMethods {
     BCSDK_RemoteSetCloudCfg: (handle: number, param: any) => number;
     BCSDK_RemoteGetSignatureLoginCfg: (handle: number) => number;
     BCSDK_RemoteSetSignatureLoginCfg: (handle: number, param: any) => number;
+    BCSDK_RemoteSyncUtcTime: (handle: number, param: any) => number;
     BCSDK_RemoteNasGetBindInfo: (handle: number) => number;
     BCSDK_RemoteNasBind: (handle: number, param: any) => number;
     BCSDK_RemoteNasUnbind: (handle: number, param: any, cmdIdx: number) => number;
@@ -445,6 +446,8 @@ export interface NativeMethods {
     BCSDK_ConfigStreamClose: (handle: number, channel: number) => number;
     BCSDK_RemoteGetAutoFocus: (handle: number, channel: number) => number;
     BCSDK_RemoteSetAutoFocus: (handle: number, channel: number, param: any) => number;
+    BCSDK_RemoteGetZoomFocusInfo: (handle: number, channel: number) => number;
+    BCSDK_RemoteStartZoomFocus: (handle: number, channel: number, param: any) => number;
     BCSDK_RemoteGetCropCfg: (handle: number, channel: number) => number;
     BCSDK_RemoteSetCropCfg: (handle: number, channel: number, param: any) => number;
     BCSDK_RemoteCropSnap: (handle: number, channel: number, param: any) => number;

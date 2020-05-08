@@ -601,6 +601,12 @@ const MFFI = ffi.Library(path.join(folder, 'libBCSDKWrapper'), {
     BCSDK_RemoteSetCloudCfg: ['int', ['int', _T.P_BC_CLOUD_CFG]],
     BCSDK_RemoteGetSignatureLoginCfg: ['int', ['int']],
     BCSDK_RemoteSetSignatureLoginCfg: ['int', ['int', _T.BC_SIGNATURE_LOGIN_CFG]]
+    /* sync utc time
+     *
+     * callback with    E_BC_CMD_SYNC_UTC_TIME
+     */
+    ,
+    BCSDK_RemoteSyncUtcTime: ['int', ['int', _T.BC_UTC_TIME]]
     /* NAS
      *
      * callback with E_BC_CMD_NAS_GET_BIND_INFO, E_BC_CMD_NAS_BIND, E_BC_CMD_NAS_UNBIND
@@ -878,6 +884,13 @@ const MFFI = ffi.Library(path.join(folder, 'libBCSDKWrapper'), {
     ,
     BCSDK_RemoteGetAutoFocus: ['int', ['int', 'int']],
     BCSDK_RemoteSetAutoFocus: ['int', ['int', 'int', _T.P_BC_PTZ_AUTO_FOCUS]]
+    /* Zoom Focus
+       *
+       * callback with E_BC_CMD_GET_ZOOM_FOCUS_INFO, E_BC_CMD_START_ZOOM_FOCUS
+       */
+    ,
+    BCSDK_RemoteGetZoomFocusInfo: ['int', ['int', 'int']],
+    BCSDK_RemoteStartZoomFocus: ['int', ['int', 'int', _T.BC_START_ZOOM_FOCUS]]
     /* Crop Cfg
      *
      * callback with E_BC_CMD_GET_CROP_CFG, E_BC_CMD_SET_CROP_CFG
@@ -1510,6 +1523,11 @@ class NativeDelegate {
         this.BCSDK_RemoteSetCloudCfg = MFFI.BCSDK_RemoteSetCloudCfg;
         this.BCSDK_RemoteGetSignatureLoginCfg = MFFI.BCSDK_RemoteGetSignatureLoginCfg;
         this.BCSDK_RemoteSetSignatureLoginCfg = MFFI.BCSDK_RemoteSetSignatureLoginCfg;
+        /* sync utc time
+         *
+         * callback with    E_BC_CMD_SYNC_UTC_TIME
+         */
+        this.BCSDK_RemoteSyncUtcTime = MFFI.BCSDK_RemoteSyncUtcTime;
         /* NAS
          *
          * callback with E_BC_CMD_NAS_GET_BIND_INFO, E_BC_CMD_NAS_BIND, E_BC_CMD_NAS_UNBIND
@@ -1742,6 +1760,12 @@ class NativeDelegate {
          */
         this.BCSDK_RemoteGetAutoFocus = MFFI.BCSDK_RemoteGetAutoFocus;
         this.BCSDK_RemoteSetAutoFocus = MFFI.BCSDK_RemoteSetAutoFocus;
+        /* Zoom Focus
+         *
+         * callback with E_BC_CMD_GET_ZOOM_FOCUS_INFO, E_BC_CMD_START_ZOOM_FOCUS
+         */
+        this.BCSDK_RemoteGetZoomFocusInfo = MFFI.BCSDK_RemoteGetZoomFocusInfo;
+        this.BCSDK_RemoteStartZoomFocus = MFFI.BCSDK_RemoteStartZoomFocus;
         /* Crop Cfg
          *
          * callback with E_BC_CMD_GET_CROP_CFG, E_BC_CMD_SET_CROP_CFG

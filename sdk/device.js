@@ -268,7 +268,6 @@ const deviceCallback = ffi_1.Callback('void', ['int', _T.BC_CMD_DATA, _T.pointer
         case T.BC_CMD_E.E_BC_CMD_FLOODLIGHT_MANUAL:
         case T.BC_CMD_E.E_BC_CMD_GET_FLOODLIGHT_TASK:
         case T.BC_CMD_E.E_BC_CMD_SET_FLOODLIGHT_TASK:
-        case T.BC_CMD_E.E_BC_CMD_REPORT_FLOODLIGHT_STAT:
         case T.BC_CMD_E.E_BC_CMD_RF_TEST_START:
         case T.BC_CMD_E.E_BC_CMD_RF_TEST_STOP:
         case T.BC_CMD_E.E_BC_CMD_GET_ZOOM_FOCUS_INFO:

@@ -57,6 +57,68 @@ class LIVE {
             }
         }
     }
+    // private getFrameCallback(func: T.FrameCallback): Buffer {
+    //     return ffiCallback('void', ['int', 'int', _T.P_RENDER_FRAME_DESC, ref.types.size_t], 
+    //     function(handle: number, channel: number, frameDes: any, userData: any) {
+    //         if (!frameDes) {
+    //             // error format ...
+    //             return;
+    //         }
+    //         let key = 'handle:' + handle + 'channel' + channel;
+    //         let cache = LIVE.frameCallbcks.get(key);
+    //         if (!cache) {
+    //             return;
+    //         }
+    //         let buf = ref.reinterpret(frameDes, _T.RENDER_FRAME_DESC.size);
+    //         let des = ref.get(buf, 0, _T.RENDER_FRAME_DESC);
+    //         if (des.type & T.DEFINDE.MEDIA_FRAME_TYPE_VIDEO) {
+    //             let planes: T.IFramePlane[] = [];
+    //             for (let i = 0; i < 3; i ++) {
+    //                 let len = des.video.plane[i].stride * des.video.plane[i].height;
+    //                 if (len > 0) {
+    //                     cache.bufVideo[i].set(ref.reinterpret(des.video.plane[i].address, len), len);
+    //                 }
+    //                 planes.push({
+    //                     width:  des.video.plane[i].width,
+    //                     height: des.video.plane[i].height,
+    //                     stride: des.video.plane[i].stride,
+    //                     data: len > 0 ? cache.bufVideo[i].buffer : null
+    //                 });
+    //             }
+    //             let callbackData: T.IFrameCallbackData = {
+    //                 pts: des.pts,
+    //                 width: des.video.width,
+    //                 height: des.video.height,
+    //                 format: des.video.format,
+    //                 plane0: planes[0],
+    //                 plane1: planes[1],
+    //                 plane2: planes[2]
+    //             }
+    //             if (func) {
+    //                 setImmediate(() => {
+    //                     func.onVieoData(callbackData);
+    //                 });
+    //             }
+    //         }
+    //         else if (des.type & T.DEFINDE.MEDIA_FRAME_TYPE_AUDIO) {
+    //             let len = des.audio.length;
+    //             cache.bufAudio.set(ref.reinterpret(des.audio.media, len), len);
+    //             let callbackData: T.IAudioCallbackData = {
+    //                 media: cache.bufAudio.buffer,
+    //                 length: des.audio.length,
+    //                 hasAAC: des.audio.hasAAC,
+    //                 sampleRate: des.audio.sampleRate,
+    //                 profile: des.audio.profile,
+    //                 channels: des.audio.channels
+    //             }
+    //             if (func) {
+    //                 setImmediate(() => {
+    //                     func.onAudioData(callbackData);
+    //                 });
+    //             }
+    //         }
+    //     }); 
+    // }   
     getLiveStreamType(handle, channel) {
         return new Promise((resolve, reject) => {
             let buf = ref.alloc(ref.types.int, T.BC_STREAM_TYPE_E.E_BC_STREAM_SUB);

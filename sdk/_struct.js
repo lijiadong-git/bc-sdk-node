@@ -1428,6 +1428,10 @@ exports.BC_SIGNATURE_LOGIN_CFG = refStruct({
     iIsOpened: ref.types.int
 });
 exports.P_BC_SIGNATURE_LOGIN_CFG = exports.pointer(exports.BC_SIGNATURE_LOGIN_CFG);
+exports.BC_UTC_TIME = refStruct({
+    realTime: ref.types.uint
+});
+exports.P_BC_UTC_TIME = exports.pointer(exports.BC_UTC_TIME);
 exports.BC_NAS_BIND = refStruct({
     cDevName: refArray('byte', types_1.DEFINDE.BC_MAX_NAME_LEN),
     cUID: refArray('byte', types_1.DEFINDE.BC_MAX_UID_LEN),

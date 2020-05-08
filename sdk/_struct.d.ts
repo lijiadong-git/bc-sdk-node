@@ -314,6 +314,8 @@ export declare const BC_REC_SCHE_TABLE_CFG: refStruct;
 export declare const P_BC_REC_SCHE_TABLE_CFG: ref.Type;
 export declare const BC_SIGNATURE_LOGIN_CFG: refStruct;
 export declare const P_BC_SIGNATURE_LOGIN_CFG: ref.Type;
+export declare const BC_UTC_TIME: refStruct;
+export declare const P_BC_UTC_TIME: ref.Type;
 export declare const BC_NAS_BIND: refStruct;
 export declare const P_BC_NAS_BIND: ref.Type;
 export declare const BC_SMARTHOME_ITEM: refStruct;

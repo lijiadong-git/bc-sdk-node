@@ -1635,6 +1635,9 @@ export interface BC_REC_SCHE_TABLE_CFG {
 export interface BC_SIGNATURE_LOGIN_CFG {
     iIsOpened: number;
 }
+export interface BC_UTC_TIME {
+    realTime: number;
+}
 export interface BC_NAS_BIND {
     cDevName: string;
     cUID: string;

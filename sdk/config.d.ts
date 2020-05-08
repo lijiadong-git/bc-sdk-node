@@ -87,6 +87,7 @@ declare class CONFIG {
     bindCloud(handle: number, param: T.BC_BIND_CLOUD): Promise<void>;
     getCloudCfg(handle: number): Promise<T.BC_CLOUD_CFG>;
     setCloudCfg(handle: number, param: T.BC_CLOUD_CFG): Promise<void>;
+    syncUtcTime(handle: number, param: T.BC_UTC_TIME): Promise<void>;
     getScanAp(handle: number): Promise<T.BC_SCAN_AP>;
     getRecFileDaysByChannel(handle: number, start: T.BC_TIME, end: T.BC_TIME, channels: number[]): Promise<T.BC_RECORD_FILE_DAYS_BY_CHN>;
     getUserCfg(handle: number): Promise<T.BC_USER_CFG>;
@@ -161,6 +162,8 @@ declare class CONFIG {
     snap(handle: number, channel: number, param: T.BC_SNAP_INFO): Promise<void>;
     getAutoFocus(handle: number, channel: number): Promise<T.BC_PTZ_AUTO_FOCUS>;
     setAutoFocus(handle: number, channel: number, param: T.BC_PTZ_AUTO_FOCUS): Promise<void>;
+    getZoomFocusInfo(handle: number, channel: number): Promise<T.BC_ZOOM_FOCUS_INFO>;
+    startZoomFocus(handle: number, channel: number, param: T.BC_START_ZOOM_FOCUS): Promise<void>;
     getCropCfg(handle: number, channel: number): Promise<T.BC_CROP_CFG>;
     setCropCfg(handle: number, channel: number, param: T.BC_CROP_CFG): Promise<void>;
     cropSnap(handle: number, channel: number, param: T.BC_CROP_SNAP_INFO): Promise<void>;
