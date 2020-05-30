@@ -36,60 +36,62 @@ class PLAYBACK {
         const channel = (cmdData.handleId & 0x000000ff) % T.DEFINDE.BC_MAX_CHANNEL;
         switch (bcCmd) {
             case T.BC_CMD_E.E_BC_CMD_SEARCH_RECFILES: {
+                const filesCallback = _callback_1.COMMON_CBS.getCallback(handle, channel, bcCmd, cmdIdx);
                 if (T.BC_RSP_CODE_E.E_BC_RSP_OK == bcRspCode) {
-                    const filesCallback = _callback_1.COMMON_CBS.getCallback(handle, channel, bcCmd, cmdIdx);
-                    if (filesCallback && filesCallback.sdkCallback) {
-                        let buf = ref.reinterpret(pRspData, dataLen);
-                        let des = ref.get(buf, 0, _T.BC_FIND_REC_FILES);
-                        let files = {
-                            seq: des.seq,
-                            fileNum: des.fileNum,
-                            recFile: []
-                        };
-                        for (let i = 0; i < des.fileNum; i++) {
-                            const file = des.recFile[i];
-                            files.recFile.push({
-                                iChannel: file.iChannel,
-                                cFileName: ref.readCString(file.cFileName.buffer, 0),
-                                startTime: {
-                                    iYear: file.struStartTime.iYear,
-                                    iMonth: file.struStartTime.iMonth,
-                                    iDay: file.struStartTime.iDay,
-                                    iHour: file.struStartTime.iHour,
-                                    iMinute: file.struStartTime.iMinute,
-                                    iSecond: file.struStartTime.iSecond
-                                },
-                                stopTime: {
-                                    iYear: file.struStopTime.iYear,
-                                    iMonth: file.struStopTime.iMonth,
-                                    iDay: file.struStopTime.iDay,
-                                    iHour: file.struStopTime.iHour,
-                                    iMinute: file.struStopTime.iMinute,
-                                    iSecond: file.struStopTime.iSecond
-                                },
-                                iFileSize: file.iFileSize,
-                                iFileSizeH: file.iFileSizeH,
-                                recordType: file.recordType,
-                                eStreamType: file.eStreamType,
-                                eFileType: file.eFileType,
-                                iContainsAudio: file.iContainsAudio
-                            });
-                        }
-                        setImmediate(() => {
+                    let buf = ref.reinterpret(pRspData, dataLen);
+                    let des = ref.get(buf, 0, _T.BC_FIND_REC_FILES);
+                    let files = {
+                        seq: des.seq,
+                        fileNum: des.fileNum,
+                        recFile: []
+                    };
+                    for (let i = 0; i < des.fileNum; i++) {
+                        const file = des.recFile[i];
+                        files.recFile.push({
+                            iChannel: file.iChannel,
+                            cFileName: ref.readCString(file.cFileName.buffer, 0),
+                            startTime: {
+                                iYear: file.struStartTime.iYear,
+                                iMonth: file.struStartTime.iMonth,
+                                iDay: file.struStartTime.iDay,
+                                iHour: file.struStartTime.iHour,
+                                iMinute: file.struStartTime.iMinute,
+                                iSecond: file.struStartTime.iSecond
+                            },
+                            stopTime: {
+                                iYear: file.struStopTime.iYear,
+                                iMonth: file.struStopTime.iMonth,
+                                iDay: file.struStopTime.iDay,
+                                iHour: file.struStopTime.iHour,
+                                iMinute: file.struStopTime.iMinute,
+                                iSecond: file.struStopTime.iSecond
+                            },
+                            iFileSize: file.iFileSize,
+                            iFileSizeH: file.iFileSizeH,
+                            recordType: file.recordType,
+                            eStreamType: file.eStreamType,
+                            eFileType: file.eFileType,
+                            iContainsAudio: file.iContainsAudio
+                        });
+                    }
+                    setImmediate(() => {
+                        if (filesCallback && filesCallback.sdkCallback) {
                             filesCallback.sdkCallback(files.seq, files);
-                            if (files.fileNum < 40) {
-                                _callback_1.PROMISE_CBS.handleCallback(handle, channel, bcCmd, cmdIdx, callback => {
-                                    if (callback.sdkResolve) {
-                                        callback.sdkResolve(bcRspCode);
-                                    }
+                        }
+                        if (files.fileNum < 40) {
+                            _callback_1.PROMISE_CBS.handleCallback(handle, channel, bcCmd, cmdIdx, callback => {
+                                if (callback.sdkResolve) {
+                                    callback.sdkResolve(bcRspCode);
+                                }
+                                if (filesCallback && filesCallback.sdkCallback) {
                                     delete filesCallback.sdkCallback;
                                     if (0 === Object.keys(filesCallback).length) {
                                         _callback_1.PROMISE_CBS.clearCallback(handle, channel, bcCmd, cmdIdx);
                                     }
-                                });
-                            }
-                        });
-                    }
+                                }
+                            });
+                        }
+                    });
                 }
                 else {
                     setImmediate(() => {
@@ -103,54 +105,56 @@ class PLAYBACK {
                 break;
             }
             case T.BC_CMD_E.E_BC_CMD_SEARCH_ALARM_VIDEOS: {
+                const filesCallback = _callback_1.COMMON_CBS.getCallback(handle, channel, bcCmd, cmdIdx);
                 if (T.BC_RSP_CODE_E.E_BC_RSP_OK == bcRspCode) {
-                    const filesCallback = _callback_1.COMMON_CBS.getCallback(handle, channel, bcCmd, cmdIdx);
-                    if (filesCallback && filesCallback.sdkCallback) {
-                        let buf = ref.reinterpret(pRspData, dataLen);
-                        let des = ref.get(buf, 0, _T.BC_ALARM_VIDEOS_INFO);
-                        let files = {
-                            seq: des.seq,
-                            iFinished: des.iFinished,
-                            iItemSize: des.iItemSize,
-                            alarmItems: []
-                        };
-                        for (let i = 0; i < des.iItemSize; i++) {
-                            const file = des.alarmItems[i];
-                            files.alarmItems.push({
-                                cFileName: ref.readCString(file.cFileName.buffer, 0),
-                                startTime: {
-                                    iYear: file.startTime.iYear,
-                                    iMonth: file.startTime.iMonth,
-                                    iDay: file.startTime.iDay,
-                                    iHour: file.startTime.iHour,
-                                    iMinute: file.startTime.iMinute,
-                                    iSecond: file.startTime.iSecond
-                                },
-                                endTime: {
-                                    iYear: file.endTime.iYear,
-                                    iMonth: file.endTime.iMonth,
-                                    iDay: file.endTime.iDay,
-                                    iHour: file.endTime.iHour,
-                                    iMinute: file.endTime.iMinute,
-                                    iSecond: file.endTime.iSecond
-                                }
-                            });
-                        }
-                        setImmediate(() => {
+                    let buf = ref.reinterpret(pRspData, dataLen);
+                    let des = ref.get(buf, 0, _T.BC_ALARM_VIDEOS_INFO);
+                    let files = {
+                        seq: des.seq,
+                        iFinished: des.iFinished,
+                        iItemSize: des.iItemSize,
+                        alarmItems: []
+                    };
+                    for (let i = 0; i < des.iItemSize; i++) {
+                        const file = des.alarmItems[i];
+                        files.alarmItems.push({
+                            cFileName: ref.readCString(file.cFileName.buffer, 0),
+                            startTime: {
+                                iYear: file.startTime.iYear,
+                                iMonth: file.startTime.iMonth,
+                                iDay: file.startTime.iDay,
+                                iHour: file.startTime.iHour,
+                                iMinute: file.startTime.iMinute,
+                                iSecond: file.startTime.iSecond
+                            },
+                            endTime: {
+                                iYear: file.endTime.iYear,
+                                iMonth: file.endTime.iMonth,
+                                iDay: file.endTime.iDay,
+                                iHour: file.endTime.iHour,
+                                iMinute: file.endTime.iMinute,
+                                iSecond: file.endTime.iSecond
+                            }
+                        });
+                    }
+                    setImmediate(() => {
+                        if (filesCallback && filesCallback.sdkCallback) {
                             filesCallback.sdkCallback(files.seq, files);
-                            if (files.iFinished) {
-                                _callback_1.PROMISE_CBS.handleCallback(handle, channel, bcCmd, cmdIdx, callback => {
-                                    if (callback.sdkResolve) {
-                                        callback.sdkResolve(bcRspCode);
-                                    }
+                        }
+                        if (files.iFinished) {
+                            _callback_1.PROMISE_CBS.handleCallback(handle, channel, bcCmd, cmdIdx, callback => {
+                                if (callback.sdkResolve) {
+                                    callback.sdkResolve(bcRspCode);
+                                }
+                                if (filesCallback && filesCallback.sdkCallback) {
                                     delete filesCallback.sdkCallback;
                                     if (0 === Object.keys(filesCallback).length) {
                                         _callback_1.PROMISE_CBS.clearCallback(handle, channel, bcCmd, cmdIdx);
                                     }
-                                });
-                            }
-                        });
-                    }
+                                }
+                            });
+                        }
+                    });
                 }
                 else {
                     setImmediate(() => {

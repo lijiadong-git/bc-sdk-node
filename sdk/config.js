@@ -47,8 +47,13 @@ class CONFIG {
         });
     }
     handleSDKCallback(handle, cmdData) {
+        const bcCmd = cmdData.bcCmd;
+        const cmdIdx = cmdData.cmdIdx;
+        const bcRspCode = cmdData.bcRspCode;
+        const pRspData = cmdData.pRspData;
+        const dataLen = cmdData.dataLen;
         const channel = (cmdData.handleId & 0x000000ff) % T.DEFINDE.BC_MAX_CHANNEL;
-        switch (cmdData.bcCmd) {
+        switch (bcCmd) {
             case T.BC_CMD_E.E_BC_CMD_GET_VERSION: {
                 CONFIG.handleSDKGetCallback(_T.BC_VERSION_INFO, handle, cmdData);
                 break;
@@ -310,15 +315,14 @@ class CONFIG {
                 break;
             }
             case T.BC_CMD_E.E_BC_CMD_UPGRADE_PROGRESS: {
-                let callback = _callback_1.COMMON_CBS.getCallback(handle, channel, cmdData.bcCmd, cmdData.cmdIdx);
+                let callback = _callback_1.COMMON_CBS.getCallback(handle, channel, bcCmd, cmdIdx);
                 if (!callback || !callback.sdkCallback) {
                     break;
                 }
-                if (_T.BC_UPGRADE_FILE_INFO.size !== cmdData.dataLen) {
+                if (_T.BC_UPGRADE_FILE_INFO.size !== dataLen) {
                     break;
                 }
-                let bcRspCode = cmdData.bcRspCode;
-                let buf = ref.reinterpret(cmdData.pRspData, cmdData.dataLen);
+                let buf = ref.reinterpret(pRspData, dataLen);
                 let data = ref.get(buf, 0, _T.BC_UPGRADE_FILE_INFO);
                 let info = _cast_1.derefCast(data, _T.BC_UPGRADE_FILE_INFO);
                 setImmediate(() => {
@@ -334,15 +338,14 @@ class CONFIG {
             case T.BC_CMD_E.E_BC_CMD_EXPORT_PROGRESS:
             case T.BC_CMD_E.E_BC_CMD_IMPORT_PROGRESS:
                 {
-                    let callback = _callback_1.COMMON_CBS.getCallback(handle, channel, cmdData.bcCmd, cmdData.cmdIdx);
+                    let callback = _callback_1.COMMON_CBS.getCallback(handle, channel, bcCmd, cmdIdx);
                     if (!callback || !callback.sdkCallback) {
                         break;
                     }
-                    if (_T.BC_CONFIG_FILE_INFO.size !== cmdData.dataLen) {
+                    if (_T.BC_CONFIG_FILE_INFO.size !== dataLen) {
                         break;
                     }
-                    let bcRspCode = cmdData.bcRspCode;
-                    let buf = ref.reinterpret(cmdData.pRspData, cmdData.dataLen);
+                    let buf = ref.reinterpret(pRspData, dataLen);
                     let data = ref.get(buf, 0, _T.BC_CONFIG_FILE_INFO);
                     let info = _cast_1.derefCast(data, _T.BC_CONFIG_FILE_INFO);
                     setImmediate(() => {
@@ -439,45 +442,42 @@ class CONFIG {
             case T.BC_CMD_E.E_BC_CMD_START_ZOOM_FOCUS:
             case T.BC_CMD_E.E_BC_CMD_SET_DAY_NIGHT_THRESHOLD:
             default: {
-                if (T.BC_CMD_E.E_BC_CMD_SET_PRESET === cmdData.bcCmd) {
-                    const callbackStr = "------- handle this callback {"
-                        + "\n        handle: " + handle
-                        + "\n        channel: " + cmdData.handleId
-                        + "\n        cmd: " + T.BC_CMD_E[cmdData.bcCmd]
-                        + "\n        cmd index: " + cmdData.cmdIdx
-                        + "\n}";
-                    console.log(callbackStr);
-                    _callback_1.PROMISE_CBS.handleCallback(handle, channel, cmdData.bcCmd, cmdData.cmdIdx, callback => {
-                        if (T.BC_RSP_CODE_E.E_BC_RSP_OK == cmdData.bcRspCode) {
-                            console.log('callback resolve ... ');
+                if (T.BC_CMD_E.E_BC_CMD_SET_PRESET === bcCmd) {
+                    setImmediate(() => {
+                        _callback_1.PROMISE_CBS.handleCallback(handle, channel, bcCmd, cmdIdx, callback => {
+                            if (T.BC_RSP_CODE_E.E_BC_RSP_OK == bcRspCode) {
+                                console.log('callback resolve ... ');
+                                if (callback.sdkResolve)
+                                    callback.sdkResolve();
+                            }
+                            else {
+                                console.log('callback reject ... ');
+                                if (callback.sdkReject) {
+                                    callback.sdkReject({
+                                        code: bcRspCode,
+                                        description: 'remote config faild ...'
+                                    });
+                                }
+                            }
+                        });
+                    });
+                    break;
+                }
+                setImmediate(() => {
+                    _callback_1.PROMISE_CBS.handleCallback(handle, channel, bcCmd, cmdIdx, callback => {
+                        if (T.BC_RSP_CODE_E.E_BC_RSP_OK == bcRspCode) {
                             if (callback.sdkResolve)
                                 callback.sdkResolve();
                         }
                         else {
-                            console.log('callback reject ... ');
                             if (callback.sdkReject) {
                                 callback.sdkReject({
-                                    code: cmdData.bcRspCode,
+                                    code: bcRspCode,
                                     description: 'remote config faild ...'
                                 });
                             }
                         }
                     });
-                    break;
-                }
-                _callback_1.PROMISE_CBS.handleCallback(handle, channel, cmdData.bcCmd, cmdData.cmdIdx, callback => {
-                    if (T.BC_RSP_CODE_E.E_BC_RSP_OK == cmdData.bcRspCode) {
-                        if (callback.sdkResolve)
-                            callback.sdkResolve();
-                    }
-                    else {
-                        if (callback.sdkReject) {
-                            callback.sdkReject({
-                                code: cmdData.bcRspCode,
-                                description: 'remote config faild ...'
-                            });
-                        }
-                    }
                 });
                 break;
             }
