@@ -184,6 +184,9 @@ typedef enum {
     FS_MOD_IDX_SCHED,
     FS_MOD_IDX_MD,
     FS_MOD_IDX_IO,
+    FS_MOD_IDX_PEOPLE,
+    FS_MOD_IDX_FACE,
+    FS_MOD_IDX_VEHICLE,
 } FS_MOD_E;
 
 #define MODE(idx) (1<<(idx))
@@ -192,6 +195,10 @@ typedef enum {
 #define FS_MOD_SCHED  	MODE(FS_MOD_IDX_SCHED)
 #define FS_MOD_MD 		MODE(FS_MOD_IDX_MD)
 #define FS_MOD_IO 		MODE(FS_MOD_IDX_IO)
+#define FS_MOD_PEOPLE   MODE(FS_MOD_IDX_PEOPLE)
+#define FS_MOD_FACE     MODE(FS_MOD_IDX_FACE)
+#define FS_MOD_VEHICLE  MODE(FS_MOD_IDX_VEHICLE)
+
 
 ///////////////
 
@@ -224,6 +231,7 @@ typedef enum {
 #define E_RECV_FAIL         -206
 #define E_INVALID           -207
 #define E_OP_TIMEOUT        -208
+#define E_FD_ERROR          -209
 
 // media frame type define
 #define MEDIA_FRAME_TYPE_VIDEO          (1 << 0) 
@@ -477,9 +485,23 @@ typedef struct {
 
 typedef struct {
     BC_COVER_PRE_INFO info;
+    const char * bufferFile;
     OnRenderFrameCallback frameCallback;
     void *userData;
 } BC_GET_FILE_COVERS_CFG;
+
+
+typedef struct {
+    BC_COMMON_COVER_INFO info;
+    const char * bufferFile;
+    OnRenderFrameCallback frameCallback;
+    void *userData;
+} BC_GET_TIMELAPSE_COVER_CFG;
+
+
+typedef struct {
+    char buf[BC_MAX_XML_SIZE];
+} BC_XML_DATA;
 
 #endif//_SC_SDK_COMMON_H_
 

@@ -58,8 +58,11 @@ class ABILITY {
     getSupportReplay(handle, df) { return ABILITY.nativeCall(native_1.native.BCSDK_GetSupportReplay, handle, df ? df : false); }
     getSupportReplaySubStream(handle, df) { return ABILITY.nativeCall(native_1.native.BCSDK_GetSupportReplaySubStream, handle, df ? df : false); }
     getSupportTimingRecord(handle, df) { return ABILITY.nativeCall(native_1.native.BCSDK_GetSupportTimingRecord, handle, df ? df : false); }
+    getSupportRecordEnable(handle, df) { return ABILITY.nativeCall(native_1.native.BCSDK_GetSupportRecordEnable, handle, df ? df : false); }
     getSupportReplaySpeed(handle, df) { return ABILITY.nativeCall(native_1.native.BCSDK_GetSupportReplaySpeed, handle, df ? df : false); }
     getSupportAlarmVideoMark(handle, df) { return ABILITY.nativeCall(native_1.native.BCSDK_GetSupportAlarmVideoMark, handle, df ? df : false); }
+    getSupportCoverPreview(handle, df) { return ABILITY.nativeCall(native_1.native.BCSDK_GetSupportCoverPreview, handle, df ? df : false); }
+    getSupportDeleteRecordFiles(handle, df) { return ABILITY.nativeCall(native_1.native.BCSDK_GetSupportDeleteRecordFiles, handle, df ? df : false); }
     getSupportPolling(handle, df) { return ABILITY.nativeCall(native_1.native.BCSDK_GetSupportPolling, handle, df ? df : false); }
     getSupportAutoNtp(handle, df) { return ABILITY.nativeCall(native_1.native.BCSDK_GetSupportAutoNtp, handle, df ? df : false); }
     getSupportWiFi(handle, df) { return ABILITY.nativeCall(native_1.native.BCSDK_GetSupportWiFi, handle, df ? df : false); }
@@ -70,6 +73,8 @@ class ABILITY {
     getSupportFTPTest(handle, df) { return ABILITY.nativeCall(native_1.native.BCSDK_GetSupportFTPTest, handle, df ? df : false); }
     getSupportFTPSubStream(handle, df) { return ABILITY.nativeCall(native_1.native.BCSDK_GetSupportFTPSubStream, handle, df ? df : false); }
     getSupportFTPExtensionStream(handle, df) { return ABILITY.nativeCall(native_1.native.BCSDK_GetSupportFTPExtensionStream, handle, df ? df : false); }
+    getSupportFTPPicture(handle, df) { return ABILITY.nativeCall(native_1.native.BCSDK_GetSupportFTPPicture, handle, df ? df : false); }
+    getSupportFTPEnable(handle, df) { return ABILITY.nativeCall(native_1.native.BCSDK_GetSupportFTPEnable, handle, df ? df : false); }
     getSupportRTSP(handle, df) { return ABILITY.nativeCall(native_1.native.BCSDK_GetSupportRTSP, handle, df ? df : false); }
     getSupportRTMP(handle, df) { return ABILITY.nativeCall(native_1.native.BCSDK_GetSupportRTMP, handle, df ? df : false); }
     getSupportONVIF(handle, df) { return ABILITY.nativeCall(native_1.native.BCSDK_GetSupportONVIF, handle, df ? df : false); }
@@ -84,7 +89,10 @@ class ABILITY {
     getSupportTimeFormat(handle, df) { return ABILITY.nativeCall(native_1.native.BCSDK_GetSupportTimeFormat, handle, df ? df : false); }
     getSupportEmailTask(handle, df) { return ABILITY.nativeCall(native_1.native.BCSDK_GetSupportEmailTask, handle, df ? df : false); }
     getSupportEmailNickName(handle, df) { return ABILITY.nativeCall(native_1.native.BCSDK_GetSupportEmailNickName, handle, df ? df : false); }
+    getSupportEmailInterval(handle, df) { return ABILITY.nativeCall(native_1.native.BCSDK_GetSupportEmailInterval, handle, df ? df : false); }
+    getSupportEmailEnable(handle, df) { return ABILITY.nativeCall(native_1.native.BCSDK_GetSupportEmailEnable, handle, df ? df : false); }
     getSupportPushTask(handle, df) { return ABILITY.nativeCall(native_1.native.BCSDK_GetSupportPushTask, handle, df ? df : false); }
+    getSupportPushEnable(handle, df) { return ABILITY.nativeCall(native_1.native.BCSDK_GetSupportPushEnable, handle, df ? df : false); }
     getSupportCloud(handle, df) { return ABILITY.nativeCall(native_1.native.BCSDK_GetSupportCloud, handle, df ? df : false); }
     getSupportCloudCfg(handle, df) { return ABILITY.nativeCall(native_1.native.BCSDK_GetSupportCloudCfg, handle, df ? df : false); }
     getSupportCloudSchedule(handle, df) { return ABILITY.nativeCall(native_1.native.BCSDK_GetSupportCloudSchedule, handle, df ? df : false); }
@@ -105,7 +113,6 @@ class ABILITY {
     getSupportHttpsPort(handle, df) { return ABILITY.nativeCall(native_1.native.BCSDK_GetSupportHttpsPort, handle, df ? df : false); }
     getSupportNtp(handle, df) { return ABILITY.nativeCall(native_1.native.BCSDK_GetSupportNtp, handle, df ? df : false); }
     getSupportRecSchedule(handle, df) { return ABILITY.nativeCall(native_1.native.BCSDK_GetSupportRecSchedule, handle, df ? df : false); }
-    getSupportEmailInterval(handle, df) { return ABILITY.nativeCall(native_1.native.BCSDK_GetSupportEmailInterval, handle, df ? df : false); }
     getSupportRecSettings(handle, df) { return ABILITY.nativeCall(native_1.native.BCSDK_GetSupportRecSettings, handle, df ? df : false); }
     getSupportRecOverWriteCfg(handle, df) { return ABILITY.nativeCall(native_1.native.BCSDK_GetSupportRecOverWriteCfg, handle, df ? df : false); }
     getSupportRecPreRecordCfg(handle, df) { return ABILITY.nativeCall(native_1.native.BCSDK_GetSupportRecPreRecordCfg, handle, df ? df : false); }
@@ -119,7 +126,6 @@ class ABILITY {
     getHasAdminPermission(handle, df) { return ABILITY.nativeCall(native_1.native.BCSDK_GetHasAdminPermission, handle, df ? df : false); }
     getSupportSimModule(handle, df) { return ABILITY.nativeCall(native_1.native.BCSDK_GetSupportSimModule, handle, df ? df : false); }
     getIsLoginByDefaultPass(handle, df) { return ABILITY.nativeCall(native_1.native.BCSDK_GetIsLoginByDefaultPass, handle, df ? df : false); }
-    getSupportFTPPicture(handle, df) { return ABILITY.nativeCall(native_1.native.BCSDK_GetSupportFTPPicture, handle, df ? df : false); }
     getSupportPppoe(handle, df) { return ABILITY.nativeCall(native_1.native.BCSDK_GetSupportPppoe, handle, df ? df : false); }
     getSupportDateFormat(handle, df) { return ABILITY.nativeCall(native_1.native.BCSDK_GetSupportDateFormat, handle, df ? df : false); }
     getSupportCloudSignatureLoginCfg(handle, df) { return ABILITY.nativeCall(native_1.native.BCSDK_GetSupportCloudSignatureLoginCfg, handle, df ? df : false); }
@@ -132,6 +138,13 @@ class ABILITY {
     getSupportNasBindStatusInfo(handle, df) { return ABILITY.nativeCall(native_1.native.BCSDK_GetSupportNasBindStatusInfo, handle, df ? df : false); }
     getSupportExport(handle, df) { return ABILITY.nativeCall(native_1.native.BCSDK_GetSupportExport, handle, df ? df : false); }
     getSupportImport(handle, df) { return ABILITY.nativeCall(native_1.native.BCSDK_GetSupportImport, handle, df ? df : false); }
+    getSupportSyncUTCTime(handle, df) { return ABILITY.nativeCall(native_1.native.BCSDK_GetSupportSyncUTCTime, handle, df ? df : false); }
+    getSupportSamba(handle, df) { return ABILITY.nativeCall(native_1.native.BCSDK_GetSupportSamba, handle, df ? df : false); }
+    getScheduleVersion(handle, df) { return ABILITY.nativeCall(native_1.native.BCSDK_GetScheduleVersion, handle, df ? df : false); }
+    getSupportBuzzer(handle, df) { return ABILITY.nativeCall(native_1.native.BCSDK_GetSupportBuzzer, handle, df ? df : false); }
+    getSupportBuzzerTask(handle, df) { return ABILITY.nativeCall(native_1.native.BCSDK_GetSupportBuzzerTask, handle, df ? df : false); }
+    getSupportBuzzerEnable(handle, df) { return ABILITY.nativeCall(native_1.native.BCSDK_GetSupportBuzzerEnable, handle, df ? df : false); }
+    getSupportChannelVersion(handle, df) { return ABILITY.nativeCall(native_1.native.BCSDK_GetSupportChannelVersion, handle, df ? df : false); }
     // get number properties
     getDeviceNorm(handle, df) { return ABILITY.nativeCall(native_1.native.BCSDK_GetDeviceNorm, handle, df ? df : -1); }
     getUserVersion(handle, df) { return ABILITY.nativeCall(native_1.native.BCSDK_GetUserVersion, handle, df ? df : 0); }
@@ -162,6 +175,19 @@ class ABILITY {
             resolve(et);
         });
     }
+    getQRAudios(handle) {
+        return new Promise((resolve, reject) => {
+            let info = new _T.BC_QR_AUDIOS_INFO();
+            let ret = native_1.native.BCSDK_GetQRAudios(handle, info.ref());
+            if (ret < 0) {
+                reject({ code: ret });
+                return;
+            }
+            let et = _cast_1.derefCast(info, _T.BC_QR_AUDIOS_INFO);
+            resolve(et);
+        });
+    }
+    ;
     /****************************************************************
      *
      *  Methods for Channel Abilities
@@ -201,6 +227,8 @@ class ABILITY {
     getSupportTalk(handle, channel, df) { return ABILITY.nativeCall(native_1.native.BCSDK_GetSupportTalk, handle, df ? df : false, channel); }
     getSupportMD(handle, channel, df) { return ABILITY.nativeCall(native_1.native.BCSDK_GetSupportMD, handle, df ? df : false, channel); }
     getSupportMDWithPIR(handle, channel, df) { return ABILITY.nativeCall(native_1.native.BCSDK_GetSupportMDWithPIR, handle, df ? df : false, channel); }
+    getSupportMDTriggerAudio(handle, channel, df) { return ABILITY.nativeCall(native_1.native.BCSDK_GetSupportMDTriggerAudio, handle, df ? df : false, channel); }
+    getSupportMDTriggerRecord(handle, channel, df) { return ABILITY.nativeCall(native_1.native.BCSDK_GetSupportMDTriggerRecord, handle, df ? df : false, channel); }
     getSupportShelterCfg(handle, channel, df) { return ABILITY.nativeCall(native_1.native.BCSDK_GetSupportShelterCfg, handle, df ? df : false, channel); }
     getIsBattery(handle, channel, df) { return ABILITY.nativeCall(native_1.native.BCSDK_GetIsBattery, handle, df ? df : false, channel); }
     getIsCharge(handle, channel, df) { return ABILITY.nativeCall(native_1.native.BCSDK_GetIsCharge, handle, df ? df : false, channel); }
@@ -225,8 +253,13 @@ class ABILITY {
     getSupportIspHue(handle, channel, df) { return ABILITY.nativeCall(native_1.native.BCSDK_GetSupportIspHue, handle, df ? df : false, channel); }
     getSupportIspSharpen(handle, channel, df) { return ABILITY.nativeCall(native_1.native.BCSDK_GetSupportIspSharpen, handle, df ? df : false, channel); }
     getSupportIspDayNightThreshold(handle, channel, df) { return ABILITY.nativeCall(native_1.native.BCSDK_GetSupportIspDayNightThreshold, handle, df ? df : false, channel); }
-    getSupportMDTriggerAudio(handle, channel, df) { return ABILITY.nativeCall(native_1.native.BCSDK_GetSupportMDTriggerAudio, handle, df ? df : false, channel); }
-    getSupportMDTriggerRecord(handle, channel, df) { return ABILITY.nativeCall(native_1.native.BCSDK_GetSupportMDTriggerRecord, handle, df ? df : false, channel); }
+    getSupportAI(handle, channel, df) { return ABILITY.nativeCall(native_1.native.BCSDK_GetSupportAI, handle, df ? df : false, channel); }
+    getSupportAIPeople(handle, channel, df) { return ABILITY.nativeCall(native_1.native.BCSDK_GetSupportAIPeople, handle, df ? df : false, channel); }
+    getSupportAIVehicle(handle, channel, df) { return ABILITY.nativeCall(native_1.native.BCSDK_GetSupportAIVehicle, handle, df ? df : false, channel); }
+    getSupportAIFace(handle, channel, df) { return ABILITY.nativeCall(native_1.native.BCSDK_GetSupportAIFace, handle, df ? df : false, channel); }
+    getSupportAIAnimal(handle, channel, df) { return ABILITY.nativeCall(native_1.native.BCSDK_GetSupportAIAnimal, handle, df ? df : false, channel); }
+    getSupportTimelapse(handle, channel, df) { return ABILITY.nativeCall(native_1.native.BCSDK_GetSupportTimelapse, handle, df ? df : false, channel); }
+    getSupportTimelapseThumbnail(handle, channel, df) { return ABILITY.nativeCall(native_1.native.BCSDK_GetSupportTimelapseThumbnail, handle, df ? df : false, channel); }
 }
 ABILITY.singleton = new ABILITY();
 exports.ability = ABILITY.instance();

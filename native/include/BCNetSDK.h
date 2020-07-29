@@ -50,6 +50,7 @@
 #define BC_MAX_AI_AREA_LEN                 128
 #define BC_MAX_COV_PRE_LEN                 16
 
+#define BC_MAX_XML_SIZE             40000
 #define BC_LOG_INFO_LEN             4096
 #define BC_MAX_FRAME_SIZE           1000000
 #define BC_MAX_CONFIG_BUF_SIZE      50000
@@ -68,6 +69,11 @@
 #define BC_MAX_RESOLUTION_NUM   32
 #define BC_MAX_DWELL_NUM        16
 #define BC_MAX_AUTHORITY_NUM    32
+#define BC_MAX_REC_FILE_NAME	32
+#define BC_MAX_REC_FILE_ID		128
+
+#define BC_MAX_FILE_ID_LEN      256
+#define BC_MAX_FILE_NAME_LEN    128
 
 #define BC_MAX_POS_NUM          64
 #define BC_MAX_KEY_POS          16
@@ -76,6 +82,8 @@
 #define BC_MAX_TRACK_SIZE       128
 
 #define BC_WIFI_UDID_MAX_NUM    128
+
+#define BC_MAX_QR_AUDIO_LEN     256
 
 #define MAX_UINT32_NUM          4294967295lu
 #define MAX_INT32_NUM           2147483647l
@@ -360,11 +368,46 @@ typedef enum
 	E_BC_CMD_GET_DAY_NIGHT_THRESHOLD		= 2239,
 	E_BC_CMD_SET_DAY_NIGHT_THRESHOLD		= 2240,
     E_BC_CMD_COVER_PREVIEW                  = 2241,
+	E_BC_CMD_GET_AI_CFG						= 2242,
+	E_BC_CMD_SET_AI_CFG						= 2243,
+    E_BC_CMD_GET_SMB_CFG                    = 2244,
+    E_BC_CMD_SET_SMB_CFG                    = 2245,
+    E_BC_CMD_REC_FILE_DEL                   = 2246,
+    E_BC_CMD_GET_NAS_CFG                    = 2247,
+    E_BC_CMD_SET_NAS_CFG                    = 2248,
+    E_BC_CMD_GET_BUZZER_TASK                = 2249,
+    E_BC_CMD_SET_BUZZER_TASK                = 2250,
+    E_BC_CMD_GET_RECORD_ENABLE              = 2251,
+    E_BC_CMD_SET_RECORD_ENABLE              = 2252,
+    E_BC_CMD_GET_EMAIL_ENABLE               = 2253,
+    E_BC_CMD_SET_EMAIL_ENABLE               = 2254,
+    E_BC_CMD_GET_PUSH_ENABLE                = 2255,
+    E_BC_CMD_SET_PUSH_ENABLE                = 2256,
+    E_BC_CMD_GET_FTP_ENABLE                 = 2257,
+    E_BC_CMD_SET_FTP_ENABLE                 = 2258,
+    E_BC_CMD_GET_BUZZER_ENABLE              = 2259,
+    E_BC_CMD_SET_BUZZER_ENABLE              = 2260,
+    E_BC_CMD_GET_CHN_VERSION                = 2261,
+    E_BC_CMD_GET_TIMELAPSE_CFG              = 2262,
+    E_BC_CMD_SET_TIMELAPSE_CFG              = 2263,
+    E_BC_CMD_TIMELAPSE_TASK_SEARCH          = 2264,
+    E_BC_CMD_TIMELAPSE_DATE_SEARCH          = 2265,
+    E_BC_CMD_TIMELAPSE_MP4_SEARCH           = 2266,
+    E_BC_CMD_TIMELAPSE_JPG_SEARCH_OPEN      = 2267,
+    E_BC_CMD_TIMELAPSE_JPG_SEARCH_ONCE      = 2268,
+    E_BC_CMD_TIMELAPSE_JPG_SEARCH_CLOSE     = 2269,
+    E_BC_CMD_TIMELAPSE_DOWNLOAD             = 2270,
+    E_BC_CMD_TIMELAPSE_DOWNLOAD_PROGRESS    = 2271,
+    E_BC_CMD_TIMELAPSE_DOWNLOAD_STOP        = 2272,
+    E_BC_CMD_TIMELAPSE_FILE_COVER           = 2273,
+    E_BC_CMD_TIMELAPSE_TASK_DELETE          = 2274,
+    E_BC_CMD_TIMELAPSE_FIlE_DELETE          = 2275,
+
     
     
     // sdk up layer callback use
-    E_BC_CMD_CONNECTION_STATE_CHANGE        = 3001,
-    E_BC_CMD_LOGIN_INFO_CHANGE              = 3002,
+    E_BC_CMD_CONNECTION_STATE_CHANGE        = 9001,
+    E_BC_CMD_LOGIN_INFO_CHANGE              = 9002,
     
     E_BC_CMD_BUTT
 } BC_CMD_E;
@@ -394,6 +437,9 @@ typedef enum
     E_BC_RSP_SDK_ERR                        = 19,
     E_BC_RSP_PARA_IS_NULL                   = 20,
     E_BC_RSP_CONNECT_FAILED                 = 21,
+    E_BC_RSP_NETWORK_ERROR                  = 22,
+    E_BC_RSP_SERVER_REFUSED                 = 23,
+    E_BC_RSP_MEMORY_ERR                     = 24,
     E_BC_RSP_OLD_VERSION                    = 1001,      //return code from device begin
     E_BC_RSP_WRITE_FAILED                   = 1002,
     E_BC_RSP_NOT_EXIST                      = 1003,
@@ -435,6 +481,7 @@ typedef enum {
 	E_BC_SWITCH_KEY_REPORT_WITHOUT_INTERATION   = 13,
 	E_BC_SWITCH_KEY_REPORT_FLOODLIGHT_STAT		= 14,
 	E_BC_SWITCH_KEY_COVER_PREVIEW_RSP_I         = 15,
+    E_BC_SWITCH_KEY_TIMELAPSE_DOWNLOAD_RSP_I    = 16,
     
     E_BC_SWITCH_KEY_INVALID             = 255
     
@@ -516,65 +563,66 @@ typedef enum
 
 typedef enum
 {
-    E_BC_RESO_D1         = 0,          /*PAL:704*576  NTSC:704*480*/
-    E_BC_RESO_HD1         = 1,         /*PAL:704*288  NTSC:704*240*/
-    E_BC_RESO_2CIF         = 2,        /*PAL:352*576  NTSC:352*480*/
-    E_BC_RESO_CIF         = 3,         /*PAL:352*288  NTSC:352*240*/
-    E_BC_RESO_QCIF         = 4,        /*PAL:176*144  NTSC:176*120*/
+    E_BC_RESO_D1            = 0,          /*PAL:704*576  NTSC:704*480*/
+    E_BC_RESO_HD1           = 1,         /*PAL:704*288  NTSC:704*240*/
+    E_BC_RESO_2CIF          = 2,        /*PAL:352*576  NTSC:352*480*/
+    E_BC_RESO_CIF           = 3,         /*PAL:352*288  NTSC:352*240*/
+    E_BC_RESO_QCIF          = 4,        /*PAL:176*144  NTSC:176*120*/
     
-    E_BC_RESO_1024_768     = 5,
-    E_BC_RESO_1280_720     = 6,
-    E_BC_RESO_1280_800     = 7,
+    E_BC_RESO_1024_768      = 5,
+    E_BC_RESO_1280_720      = 6,
+    E_BC_RESO_1280_800      = 7,
     E_BC_RESO_1280_1024     = 8,
-    E_BC_RESO_1366_768     = 9,
+    E_BC_RESO_1366_768      = 9,
     E_BC_RESO_1400_1050     = 10,
-    E_BC_RESO_1440_900     = 11,
-    E_BC_RESO_1600_900     = 12,
+    E_BC_RESO_1440_900      = 11,
+    E_BC_RESO_1600_900      = 12,
     E_BC_RESO_1600_1200     = 13,
     E_BC_RESO_1680_1050     = 14,
     E_BC_RESO_1920_1080     = 15,
     E_BC_RESO_1920_1200     = 16,
     E_BC_RESO_2048_1152     = 17,
     
-    E_BC_RESO_960P         = 18,
-    E_BC_RESO_960_540     = 19,
-    E_BC_RESO_800_600     = 20,
-    E_BC_RESO_640_360     = 21,
-    E_BC_RESO_960P_SUB     = 22,
-    E_BC_RESO_480_270     = 23,
-    E_BC_RESO_480_256     = 24,
-    E_BC_RESO_320_180     = 25,
-    E_BC_RESO_320_240     = 26,
-    E_BC_RESO_854_480     = 27,
-    E_BC_RESO_640_480     = 28,
-    E_BC_RESO_640_352     = 29,
+    E_BC_RESO_960P          = 18,
+    E_BC_RESO_960_540       = 19,
+    E_BC_RESO_800_600       = 20,
+    E_BC_RESO_640_360       = 21,
+    E_BC_RESO_960P_SUB      = 22,
+    E_BC_RESO_480_270       = 23,
+    E_BC_RESO_480_256       = 24,
+    E_BC_RESO_320_180       = 25,
+    E_BC_RESO_320_240       = 26,
+    E_BC_RESO_854_480       = 27,
+    E_BC_RESO_640_480       = 28,
+    E_BC_RESO_640_352       = 29,
     E_BC_RESO_2560_1600     = 30,
-    E_BC_RESO_1280_960     = 31,
+    E_BC_RESO_1280_960      = 31,
     E_BC_RESO_2048_1536     = 32,
-    E_BC_RESO_512_384     = 33,
-    E_BC_RESO_2304_1296    = 34,
-    E_BC_RESO_1152_648   = 35,
-    E_BC_RESO_768_432    = 36,
-    E_BC_RESO_2512_1520    = 37,
-    E_BC_RESO_1536_1536  = 38,
-    E_BC_RESO_1024_576   = 39,
-    E_BC_RESO_928_512    = 40,
-    E_BC_RESO_2560_1440  = 41,
-    E_BC_RESO_896_512     = 42,
-    E_BC_RESO_720_416     = 43,
+    E_BC_RESO_512_384       = 33,
+    E_BC_RESO_2304_1296     = 34,
+    E_BC_RESO_1152_648      = 35,
+    E_BC_RESO_768_432       = 36,
+    E_BC_RESO_2512_1520     = 37,
+    E_BC_RESO_1536_1536     = 38,
+    E_BC_RESO_1024_576      = 39,
+    E_BC_RESO_928_512       = 40,
+    E_BC_RESO_2560_1440     = 41,
+    E_BC_RESO_896_512       = 42,
+    E_BC_RESO_720_416       = 43,
     E_BC_RESO_1280_720_V2   = 44,
-    E_BC_RESO_2560_1944  = 45,
-    E_BC_RESO_960P_V2    = 46,
-    E_BC_RESO_960P_V3    = 47,
-    E_BC_RESO_1280_720_v3= 48,
-    E_BC_RESO_1920_1080_v2= 49,
-    E_BC_RESO_3072_2048  = 50,
-    E_BC_RESO_3840_2160   = 51,
-    E_BC_RESO_3072_1728   = 52,
-    E_BC_RESO_2592_1944   = 53,
-    E_BC_RESO_2560_1920   = 54,
-    E_BC_RESO_1440_1080   = 55,
-    E_BC_RESO_896_672     = 56,
+    E_BC_RESO_2560_1944     = 45,
+    E_BC_RESO_960P_V2       = 46,
+    E_BC_RESO_960P_V3       = 47,
+    E_BC_RESO_1280_720_v3   = 48,
+    E_BC_RESO_1920_1080_v2  = 49,
+    E_BC_RESO_3072_2048     = 50,
+    E_BC_RESO_3840_2160     = 51,
+    E_BC_RESO_3072_1728     = 52,
+    E_BC_RESO_2592_1944     = 53,
+    E_BC_RESO_2560_1920     = 54,
+    E_BC_RESO_1440_1080     = 55,
+    E_BC_RESO_896_672       = 56,
+    E_BC_RESO_4096_3072     = 57,
     E_BC_RESO_BUTT
 } BC_RESOLUTION_E;
 
@@ -754,6 +802,9 @@ static inline const char* reso2str(BC_RESOLUTION_E reso)
         case E_BC_RESO_896_672:
             return "896*672";
             
+        case E_BC_RESO_4096_3072:
+            return "4096*3072";
+            
         default:
             return "";
     }
@@ -811,6 +862,7 @@ typedef enum
     E_BC_LANGUAGE_BUTT
 } BC_LANGUAGE_E;
 
+
 typedef enum
 {
     E_BC_STREAM_MAIN = 0,
@@ -819,18 +871,6 @@ typedef enum
     E_BC_STREAM_EXTERN = 4,
     E_BC_STREAM_BUTT
 } BC_STREAM_TYPE_E;
-
-#define INVALID_VALUE 1024
-
-typedef enum
-{
-    E_RECORD_NORMAL = 0,
-    E_RECORD_MOTION = 1,
-    E_RECORD_ALARM  = 4,
-    E_RECORD_MA     = 5,
-    E_RECORD_RF     = 256,
-    E_RECORD_NONE   = INVALID_VALUE
-}E_RECORD_TYPE_E;
 
 
 typedef enum
@@ -946,23 +986,28 @@ typedef enum
 
 typedef enum
 {
-    E_BC_ALARM_IN_MD = 0,
-    E_BC_ALARM_IN_VL,
-    E_BC_ALARM_IN_IO,
-    E_BC_ALARM_IN_BLIND,
-    E_BC_ALARM_IN_HDEXP,
-    E_BC_ALARM_IN_HDFULL,
-    E_BC_ALARM_IN_IPCONFLICT,
-    E_BC_ALARM_IN_NETCONNECT,
-    E_BC_ALARM_IN_RF,
-    E_BC_ALARM_IN_FD,
-    E_BC_ALARM_IN_VS,
-    E_BC_ALARM_IN_ID,
-    E_BC_ALARM_IN_RFSENSO_LOW_POWER,
-    E_BC_ALARM_IN_RFSENSO_TAMPER,
-    E_BC_ALARM_IN_DONGLE_LOST,
-    E_BC_ALARM_IN_BUTT
-} BC_ALARM_IN_E;
+    BC_ALARM_IN_IDX_MD = 0,
+    BC_ALARM_IN_IDX_VL,
+    BC_ALARM_IN_IDX_IO,
+    BC_ALARM_IN_IDX_BLIND,
+    BC_ALARM_IN_IDX_HDEXP,
+    BC_ALARM_IN_IDX_HDFULL,
+    BC_ALARM_IN_IDX_IPCONFLICT,
+    BC_ALARM_IN_IDX_NETCONNECT,
+    BC_ALARM_IN_IDX_RF,
+    BC_ALARM_IN_IDX_FD,
+    BC_ALARM_IN_IDX_VS,
+    BC_ALARM_IN_IDX_ID,
+    BC_ALARM_IN_IDX_RFSENSO_LOW_POWER,
+    BC_ALARM_IN_IDX_RFSENSO_TAMPER,
+    BC_ALARM_IN_IDX_DONGLE_LOST,
+	BC_ALARM_IN_IDX_PIR,
+	BC_ALARM_IN_IDX_TIMING,
+    BC_ALARM_IN_IDX_PEOPLE,
+    BC_ALARM_IN_IDX_FACE,
+    BC_ALARM_IN_IDX_VEHICLE,
+    BC_ALARM_IN_IDX_BUTT
+} BC_ALARM_IN_IDX_E;
 
 typedef enum
 {
@@ -1065,23 +1110,37 @@ typedef enum
     E_BC_DT_BUTT,
 } BC_DDNS_TYPE_E;
 
-#define BC_ALARM_IN_NONE        0
-#define BC_ALARM_IN_MD          BC_MODE(E_BC_ALARM_IN_MD)
-#define BC_ALARM_IN_VL          BC_MODE(E_BC_ALARM_IN_VL)
-#define BC_ALARM_IN_IO          BC_MODE(E_BC_ALARM_IN_IO)
-#define BC_ALARM_IN_BLIND       BC_MODE(E_BC_ALARM_IN_BLIND)
-#define BC_ALARM_IN_HDEXP       BC_MODE(E_BC_ALARM_IN_HDEXP)
-#define BC_ALARM_IN_HDFULL      BC_MODE(E_BC_ALARM_IN_HDFULL)
-#define BC_ALARM_IN_IPCONFLICT  BC_MODE(E_BC_ALARM_IN_IPCONFLICT)
-#define BC_ALARM_IN_NETCONNECT  BC_MODE(E_BC_ALARM_IN_NETCONNECT)
-#define BC_ALARM_IN_RF          BC_MODE(E_BC_ALARM_IN_RF)
-#define BC_ALARM_IN_FD          BC_MODE(E_BC_ALARM_IN_FD)
-#define BC_ALARM_IN_VS          BC_MODE(E_BC_ALARM_IN_VS)
-#define BC_ALARM_IN_ID          BC_MODE(E_BC_ALARM_IN_ID)
-#define BC_ALARM_IN_RFLPWR      BC_MODE(E_BC_ALARM_IN_RFSENSO_LOW_POWER)
-#define BC_ALARM_IN_RFTAMPER    BC_MODE(E_BC_ALARM_IN_RFSENSO_TAMPER)
-#define BC_ALARM_IN_DONGLELOST  BC_MODE(E_BC_ALARM_IN_DONGLE_LOST)
-#define BC_ALARM_IN_BUTT  		BC_MODE(E_BC_ALARM_IN_BUTT)
+//#define BC_ALARM_IN_NONE        0
+
+typedef enum {
+    BC_ALARM_IN_MD          = BC_MODE(BC_ALARM_IN_IDX_MD),
+    BC_ALARM_IN_VL          = BC_MODE(BC_ALARM_IN_IDX_VL),
+    BC_ALARM_IN_IO          = BC_MODE(BC_ALARM_IN_IDX_IO),
+    BC_ALARM_IN_BLIND       = BC_MODE(BC_ALARM_IN_IDX_BLIND),
+    BC_ALARM_IN_HDEXP       = BC_MODE(BC_ALARM_IN_IDX_HDEXP),
+    BC_ALARM_IN_HDFULL      = BC_MODE(BC_ALARM_IN_IDX_HDFULL),
+    BC_ALARM_IN_IPCONFLICT  = BC_MODE(BC_ALARM_IN_IDX_IPCONFLICT),
+    BC_ALARM_IN_NETCONNECT  = BC_MODE(BC_ALARM_IN_IDX_NETCONNECT),
+    BC_ALARM_IN_RF          = BC_MODE(BC_ALARM_IN_IDX_RF),
+    BC_ALARM_IN_FD          = BC_MODE(BC_ALARM_IN_IDX_FD),
+    BC_ALARM_IN_VS          = BC_MODE(BC_ALARM_IN_IDX_VS),
+    BC_ALARM_IN_ID          = BC_MODE(BC_ALARM_IN_IDX_ID),
+    BC_ALARM_IN_RFLPWR      = BC_MODE(BC_ALARM_IN_IDX_RFSENSO_LOW_POWER),
+    BC_ALARM_IN_RFTAMPER    = BC_MODE(BC_ALARM_IN_IDX_RFSENSO_TAMPER),
+    BC_ALARM_IN_DONGLELOST  = BC_MODE(BC_ALARM_IN_IDX_DONGLE_LOST),
+    BC_ALARM_IN_PIR         = BC_MODE(BC_ALARM_IN_IDX_PIR),
+    BC_ALARM_IN_TIMING      = BC_MODE(BC_ALARM_IN_IDX_TIMING),
+    BC_ALARM_IN_PEOPLE      = BC_MODE(BC_ALARM_IN_IDX_PEOPLE),
+    BC_ALARM_IN_FACE        = BC_MODE(BC_ALARM_IN_IDX_FACE),
+    BC_ALARM_IN_VEHICLE     = BC_MODE(BC_ALARM_IN_IDX_VEHICLE),
+    //
+    /* callback has unknow bit */
+    BC_ALARM_IN_UNKNOW      = BC_MODE(31),
+    /* just for seach all types */
+    BC_ALARM_IN_ALL         = 0x7FFFFFFF
+} BC_ALARM_IN_TYPE_E;
+
+//#define BC_ALARM_IN_BUTT  		BC_MODE(BC_ALARM_IN_IDX_BUTT)
 
 
 #define BC_ALARM_OUT_NONE       0
@@ -1150,7 +1209,7 @@ typedef struct tagBC_LOGIN_DIAGNOSE_INFO {
     unsigned long long revCount;
 } BC_LOGIN_DIAGNOSE_INFO, *LPBC_LOGIN_DIAGNOSE_INFO;
 
-typedef struct tagBC_DEVICE_INFO{
+typedef struct tagBC_DEVICE_INFO {
     char    cSerialNumber[BC_SERIALNO_LEN];
     int     iAlarmInPortNum;
     int     iAlarmOutPortNum;
@@ -1212,7 +1271,9 @@ typedef struct
     BC_SMARTHOME_ITEM items[BC_SMARTHOME_ITEMS_MAX_NUM];
 } BC_SMARTHOME_ABILITY_INFO;
 
-typedef struct tagBC_ABILITY_INFO{
+
+typedef struct tagBC_ABILITY_INFO {
+    
     char     cUserName[BC_MAX_NAME_LEN];
     bool     bIframePreview;
     bool     bIframeReplay;
@@ -1231,169 +1292,521 @@ typedef struct tagBC_ABILITY_INFO{
     bool     bCameraMode[BC_MAX_CHANNEL];
     bool     bLedState[BC_MAX_CHANNEL];
     
+    /* @Param iUseReboot
+     *  whether use iReboot or not
+     *
+     * @Param iReboot
+     *  bit0: support
+     */
     int      iUseReboot;
-    int      iReboot; // 1:support, 0:not
+    int      iReboot;
+    
+    /* @Param iUseVideoStandard
+     *  whether use iVideoStandard or not
+     *
+     * @Param iVideoStandard
+     *  bit0: support
+     */
     int      iUseVideoStandard;
-    int      iVideoStandard; // 1:support, 0:not
+    int      iVideoStandard;
+    
+    /* @Param iUseUpnp
+     *  whether use iUpnp or not
+     *
+     * @Param iUpnp
+     *  bit0: support
+     */
     int      iUseUpnp;
-    int      iUpnp; // 1:support, 0:not
+    int      iUpnp;
+    
+    /* @Param iUseExceptionCfg
+     *  whether use iUseExceptionCfg or not
+     *
+     * @Param iUseExceptionCfg
+     *  bit0: support
+     */
     int      iUseExceptionCfg;
-    int      iExceptionCfg; // 1:support, 0:not
+    int      iExceptionCfg;
+    
+    /* @Param iUseLogSearch
+     *  whether use iLogSearch or not
+     *
+     * @Param iLogSearch
+     *  bit0: support
+     */
     int      iUseLogSearch;
-    int      iLogSearch; // 1:support, 0:not
+    int      iLogSearch;
+    
+    /* @Param iUseNetPortCfg
+     *  whether use iNetPortCfg or not
+     *
+     * @Param iNetPortCfg
+     *  bit0: media port
+     *  bit1: http port
+     *  bit2: https port
+     */
     int      iUseNetPortCfg;
-    int      iNetPortCfg; //bit0: media port,bit1: http port,bit2: https port
+    int      iNetPortCfg;
+    
+    /* @Param iUseNtp
+     *  whether use iNtp or not
+     *
+     * @Param iNtp
+     *  bit0: support
+     */
     int      iUseNtp;
-    int      iNtp; // 1:support, 0:not
+    int      iNtp;
+    
+    /* @Param iUseP2pCfg
+     *  whether use iP2pCfg or not
+     *
+     * @Param iP2pCfg
+     *  bit0: domain name cfg
+     *  bit1: server port cfg
+     *  bit2: enable p2p
+     */
     int      iUseP2pCfg;
-    int      iP2pCfg; //bit0: domain name cfg  bit1:server port cfg, bit2: enable p2p
+    int      iP2pCfg;
+    
+    /* @Param iUsePppoe
+     *  whether use iPppoe or not
+     *
+     * @Param iPppoe
+     *  bit0: support pppoe
+     */
     int      iUsePppoe;
-    int      iPppoe; //bit0: support pppoe
+    int      iPppoe;
+    
+    /* @Param iUseStorageMode
+     *  whether use iStorageMode or not
+     *
+     * @Param iStorageMode
+     *  bit0:support hdd
+     *  bit1:support SD-Card
+     */
     int      iUseStorageMode;
-    int      iStorageMode; //bit0:support hdd, bit1:support SD-Card
+    int      iStorageMode;
     
     int      iAutoUpdate;
+    
     int      iPushAlarm;
-    int      iFtp; // bit0:support ftp, bit1:support subStream and pic, bit2:support extension stream and pic, bit3:not support picture
+    
+    /* @Param iFtp
+     *  bit0: support ftp
+     *  bit1: support subStream and pic
+     *  bit2: support extension stream and pic
+     *  bit3: not support picture
+     */
+    int      iFtp;
+    
     int      iFtpTest;
     int      iEmail;
     int      iWifi;
-    int      iWifiVersion; //bit0: init wifi after logining success first time
-    int      iRecord;     //  bit0: 1-md record  bit1: 1-normal record
+    
+    /* @Param iFtp
+     *  bit0: init wifi after logining success first time
+     */
+    int      iWifiVersion;
+    
+    /* @Param iRecord
+     *  bit0: md record
+     *  bit1: normal record
+     */
+    int      iRecord;
+    
+    /* @Param iUseNewRecordType
+     *  whether use iNewRecordType or not
+     *
+     * @Param iNewRecordType
+     *  bit0: md record
+     *  bit1: normal record
+     */
     int      iUseNewRecordType;
-    int      iNewRecordType;//  bit0: 1-md record  bit1: 1-normal record
+    int      iNewRecordType;
+    
+    /* @Param iUseRecordCfg
+     *  whether use iRecordCfg or not
+     *
+     * @Param iRecordCfg
+     *  bit0: post record
+     *  bit1: pre record
+     *  bit2: overwrite
+     *  bit3: packet time
+     *  bit4: post record time list
+     */
     int      iUseRecordCfg;
-    int 	 iRecordCfg;  //bit0:post record  bit1:pre record  bit2:overwrite  bit3:packet time bit4:post record time list
+    int 	 iRecordCfg;
+    
     int      iWifiTest;
     int      iRtsp;
     int      iOnvif;
     int      iRtmp;
     
-// rfVersion:   0 -> no support;
-//              1 -> old,suppport 3 buttons;
-//              2 -> support RF Remote Config;
-//              3 -> support 4 buttons;
-//              4 -> support RF Remote Config with Sensitivity
+    /* @Param rfVersion
+     *  0 -> no support;
+     *  1 -> old,suppport 3 buttons;
+     *  2 -> support RF Remote Config;
+     *  3 -> support 4 buttons;
+     *  4 -> support RF Remote Config with Sensitivity
+     */
     int      iRfVersion;
+    
     int      iNoExternStream;
     int      iTimeFormat;
+    
+    /* @Param iUseDateFormat
+     *  whether use iDateFormat or not
+     *
+     * @Param iDateFormat
+     *  bit0: support date format set.
+     */
     int      iUseDateFormat;
-    int      iDateFormat; // bit0:support date format set.
+    int      iDateFormat;
     
-/*   iDDnsVersion
-     0:3322+dyndns
-     1:dyndns+noip
-     2:3322
-     3:dyndns
-     4:3322+swann
-     5:dyndns+swann
-     6:swann
-     7:3322+swann+dyndns
-     8:noip
-*/
-    int      iDDnsVersion;       // 0: old, 1: new
+    /* @Param iDDnsVersion
+     *  0: 3322+dyndns
+     *  1: dyndns+noip
+     *  2: 3322
+     *  3: dyndns
+     *  4: 3322+swann
+     *  5: dyndns+swann
+     *  6: swann
+     *  7: 3322+swann+dyndns
+     *  8: noip
+     */
+    int      iDDnsVersion;
+    
+    /* @Param iUseDDNSCfg
+     *  whether use iDDNSCfg or not
+     *
+     * @Param iDDNSCfg
+     *  bit0: support ddns
+     */
     int      iUseDDNSCfg;
-    int      iDDNSCfg; // 1:support ddns, 0:not
-    int      iEmailVersion;// 0:old, bit0: 1-task, bit1: 1-nickname, bit2:1-bit3 valid, bit3:1-support email interval
-    int      iPushVersion;       // 1:new, has push task. 0:old, no
-    int      iSupportUpgrade;    // 1: support upgrade online  0:not
-    int      iSupportAudioTask;  // 1: support audio task. 0:not
-    int      iPushType;          // 0 :udp push  1:http push  2:https push
-
-/*	iCloudVersion
-	bit0:cloud task cfg
-	bit1:cloud storage
-	bit2:upload cfg
-	bit3:signature login cfg
-	bit4:bind & get bind info
-	bit5:support server control stream type
-*/
-    int      iCloudVersion;
-    int      iApMode;    // 0: not support  1: ap wifi wizard
-    int      iReplayVersion; // bit0: 1-replay fast forward, bit1:support mark alarm video, bit2:support cover preview
-    int      i4gDevVersion; // bit0: 3g/4g net info  bit1: SIM module Info
-    int      iShowQrcode; // bit0: show QRCode
-    int      iLanguageVersion;// bit0: support chinese
-    int      iCfgFileOperation;// bit0: 1-disable export, bit1: 1-disable import
-	int		 iSyncTime;// bit0: 1-need client send utc time to ipc when login in
+    int      iDDNSCfg;
     
-    int      iSupportAutoFocus[BC_MAX_CHANNEL]; // 1: support auto focus  0:not
-    int      iSupportCrop[BC_MAX_CHANNEL];      // 1: support crop live stream
+    /* @Param iEmailVersion
+     *  0: old
+     *  bit0: task
+     *  bit1: nickname
+     *  bit2: bit3 valid
+     *  bit3: support email interval
+     */
+    int      iEmailVersion;
+    
+    /* @Param iPushVersion
+     *  0: old, no
+     *  1: new, has push task.
+     */
+    int      iPushVersion;
+    
+    int      iSupportUpgrade;
+    int      iSupportAudioTask;
+    
+    /* @Param iBuzzerVersion
+     *  bit0: support;
+     *  bit1: task;
+     *  bit2: enable all channels
+     */
+    int      iBuzzerVersion;
+    
+    /* @Param iChVerInfo
+     *  bit0: support get channel's version info
+     */
+    int      iChVerInfo;
+    
+    /* @Param iPushType
+     *  0: udp push
+     *  1: http push
+     *  2: https push
+     */
+    int      iPushType;
+
+    /* @Param iCloudVersion
+	 *  bit0: cloud task cfg
+	 *  bit1: cloud storage
+	 *  bit2: upload cfg
+	 *  bit3: signature login cfg
+	 *  bit4: bind & get bind info
+	 *  bit5: support server control stream type
+     */
+    int      iCloudVersion;
+    
+    /* @Param iApMode
+     *  0: not support
+     *  1: ap wifi wizard
+     */
+    int      iApMode;
+    
+    /* @Param iReplayVersion
+     *  bit0: 1-replay fast forward
+     *  bit1: support mark alarm video
+     *  bit2: support cover preview
+     *  bit3: support file delete
+     */
+    int      iReplayVersion;
+    
+    /* @Param i4gDevVersion
+     *  bit0: 3g/4g net info
+     *  bit1: SIM module Info
+     */
+    int      i4gDevVersion;
+    
+    /* @Param iShowQrcode
+     *  bit0: show QRCode
+     */
+    int      iShowQrcode;
+    
+    /* @Param iLanguageVersion
+     *  bit0: support chinese
+     */
+    int      iLanguageVersion;
+    
+    /* @Param iCfgFileOperation
+     *  bit0: 1-disable export
+     *  bit1: 1-disable import
+     */
+    int      iCfgFileOperation;
+    
+    /* @Param iSyncTime
+     *  bit0: need client send utc time to ipc when login in
+     */
+	int		 iSyncTime;
+    
+	char     cQRAudio[BC_MAX_QR_AUDIO_LEN];
+    
+    /* @Param iScheduleVersion
+     *  bit0: support output schedule and timing is a bit of trigger type.
+     */
+	int		 iScheduleVersion;
+
+    /* @Param iScheduleVersion
+     *  bit0: support auto focus
+     */
+    int      iSupportAutoFocus[BC_MAX_CHANNEL];
+    
+    /* @Param iScheduleVersion
+     *  bit0: support crop live stream
+     */
+    int      iSupportCrop[BC_MAX_CHANNEL];
+    
+    /* @Param iUsePtzType
+     *  whether use iPtzType or not
+     *
+     * @Param iPtzType
+     *  0: none
+     *  1: af
+     *  2: ptz
+     *  3: pt
+     *  4: analog ptz
+     *  5: 8136S_ptz_without_speed
+     *  6: pt_witho ut_preset
+     */
     int      iUsePtzType;
-    int      iPtzType[BC_MAX_CHANNEL];//0:none,1:af,2:ptz,3:pt,4:analog ptz,5:8136S_ptz_without_speed, 6:pt_witho ut_preset
+    int      iPtzType[BC_MAX_CHANNEL];
+    
+    /* @Param iUseAutoPt
+     *  whether use iAutoPt or not
+     *
+     * @Param iAutoPt
+     */
     int      iUseAutoPt;
     int      iAutoPt[BC_MAX_CHANNEL];
+    
+    /* @Param iUsePtzPreset
+     *  whether use iPtzPreset or not
+     *
+     * @Param iPtzPreset
+     *  bit0: support preset
+     */
 	int      iUsePtzPreset;
-	int      iPtzPreset[BC_MAX_CHANNEL];//bit0: 1 support preset
+	int      iPtzPreset[BC_MAX_CHANNEL];
+    
+    /* @Param iUsePtzPatrol
+     *  whether use iPtzPatrol or not
+     *
+     * @Param iPtzPatrol
+     *  bit0: support patrol
+     */
 	int      iUsePtzPatrol;
-	int      iPtzPatrol[BC_MAX_CHANNEL];//bit0: 1 support patrol
-	int      iUsePtzPattern;
-	int      iPtzPattern[BC_MAX_CHANNEL];//bit0: 1 support pattern
-	int 	 iPtzControl[BC_MAX_CHANNEL];//bit0:1-support control zoom and focus with slider
-    int      iNoAudio[BC_MAX_CHANNEL];          // 1: no audio  0:got some audio
-    int      iExStreamCfg[BC_MAX_CHANNEL];      // 1: support extend stream cfg   0: not
+	int      iPtzPatrol[BC_MAX_CHANNEL];
 	
-	/*  iLedCtrl
-	 *  bit0:   indicator light control
-	 *  bit1:   support floodlight
-	 *  bit2:   support floodlight brightness control
-	 *  bit3:   support floodlight auto turn on during preview
+    /* @Param iUsePtzPattern
+     *  whether use iPtzPattern or not
+     *
+     * @Param iPtzPattern
+     *  bit0: support pattern
+     */
+    int      iUsePtzPattern;
+	int      iPtzPattern[BC_MAX_CHANNEL];
+	
+    /* @Param iPtzControl
+     *  bit0: support control zoom and focus with slider
+     */
+    int 	 iPtzControl[BC_MAX_CHANNEL];
+    
+    /* @Param iNoAudio
+     *  1: no audio
+     *  0: got some audio
+     */
+    int      iNoAudio[BC_MAX_CHANNEL];
+    
+    /* @Param iExStreamCfg
+     *  bit0: support extend stream cfg
+     */
+    int      iExStreamCfg[BC_MAX_CHANNEL];
+	
+	/* @Param iLedCtrl
+	 *  bit0: indicator light control
+	 *  bit1: support floodlight
+	 *  bit2: support floodlight brightness control
+	 *  bit3: support floodlight auto turn on during preview
 	 */
     int      iLedCtrl[BC_MAX_CHANNEL];
-    bool     bSupportAudioTalk[BC_MAX_CHANNEL]; // 1: support audio talk,  0:not
-    int      iUseMotion;
-    int      iMotionVersion[BC_MAX_CHANNEL]; // 1:support MD, 2:support MD with PIR
-    int      iUseMdConfig;
-    int      iMdConfig[BC_MAX_CHANNEL]; //bit0:support audio warnning, bit1:support trigger recording settings.
-    int      iUseBattery;
-    int      iBattery[BC_MAX_CHANNEL]; // 0:not, 1:dry battery, 2:charge battery
-    int      iUseBatAnalysis;
-    int      iBatAnalysis[BC_MAX_CHANNEL]; //bit0: dump energy analysis
-    int      iUseShelterCfg;
-    int      bShelterCfg[BC_MAX_CHANNEL]; // 1:battery, 0:not
-    int      iUseAudioVersion;
-    int      iAudioVersion[BC_MAX_CHANNEL]; // bit0: audio alarm enable, bit1:audio alarm schedule, bit2:manual ring down bit3:custom ringtone
-    int      iUseOsdCfg;
-    int      iOsdCfg[BC_MAX_CHANNEL]; // bit0: support watermark, bit1: support padding
+
+    /* @Param bSupportAudioTalk
+     *  bit0: support audio talk
+     */
+    bool     bSupportAudioTalk[BC_MAX_CHANNEL];
     
-    /*  iIspCfg
-     *  bit0:   day/night cfg
-     *  bit1:   antiFlick
-     *  bit2:   exposure mode cfg
-     *  bit3:   white balance
-     *  bit4:   Backlight compensation
-     *  bit5:   3dnr
-     *  bit6:   mirror
-     *  bit7:   flip
-     *  bit8:   bright
-     *  bit9:   contrast
-     *  bit10:  satruation
-     *  bit11:  hue
-     *  bit12:  sharpen
+    /* @Param iUseMotion
+     *  whether use iMotionVersion or not
+     *
+     * @Param iMotionVersion
+     *  1: support MD
+     *  2: support MD with PIR
+     */
+    int      iUseMotion;
+    int      iMotionVersion[BC_MAX_CHANNEL];
+    
+    /* @Param iUseMdConfig
+     *  whether use iMdConfig or not
+     *
+     * @Param iMdConfig
+     *  bit0: support audio warnning
+     *  bit1: support trigger recording settings.
+     */
+    int      iUseMdConfig;
+    int      iMdConfig[BC_MAX_CHANNEL];
+    
+    /* @Param iUseBattery
+     *  whether use iBattery or not
+     *
+     * @Param iBattery
+     *  0: not
+     *  1: dry battery
+     *  2: charge battery
+     */
+    int      iUseBattery;
+    int      iBattery[BC_MAX_CHANNEL];
+    
+    /* @Param iUseBatAnalysis
+     *  whether use iBatAnalysis or not
+     *
+     * @Param iBatAnalysis
+     *  bit0: dump energy analysis
+     */
+    int      iUseBatAnalysis;
+    int      iBatAnalysis[BC_MAX_CHANNEL];
+    
+    /* @Param iUseShelterCfg
+     *  whether use bShelterCfg or not
+     *
+     * @Param bShelterCfg
+     *  bit0: support
+     */
+    int      iUseShelterCfg;
+    int      bShelterCfg[BC_MAX_CHANNEL];
+    
+    /* @Param iUseAudioVersion
+     *  whether use iAudioVersion or not
+     *
+     * @Param iAudioVersion
+     *  bit0: audio alarm enable
+     *  bit1: audio alarm schedule
+     *  bit2: manual ring down bit3:custom ringtone
+     */
+    int      iUseAudioVersion;
+    int      iAudioVersion[BC_MAX_CHANNEL];
+    
+    /* @Param iUseOsdCfg
+     *  whether use iOsdCfg or not
+     *
+     * @Param iOsdCfg
+     *  bit0: support watermark
+     *  bit1: support padding
+     */
+    int      iUseOsdCfg;
+    int      iOsdCfg[BC_MAX_CHANNEL];
+    
+    /* @Param iUseIspCfg
+     *  whether use iIspCfg or not
+     *
+     * @Param iIspCfg
+     *  bit0: day/night cfg
+     *  bit1: antiFlick
+     *  bit2: exposure mode cfg
+     *  bit3: white balance
+     *  bit4: Backlight compensation
+     *  bit5: 3dnr
+     *  bit6: mirror
+     *  bit7: flip
+     *  bit8: bright
+     *  bit9: contrast
+     *  bit10: satruation
+     *  bit11: hue
+     *  bit12: sharpen
      */
     int     iUseIspCfg;
     int     iIspCfg[BC_MAX_CHANNEL];/*only for battery ipc*/
 
-	/*  iNewIspCfg
-     *  bit0:   day/night cfg
-     *  bit1:   antiFlick
-     *  bit2:   exposure mode cfg
-     *  bit3:   white balance
-     *  bit4:   Backlight compensation
-     *  bit5:   3dnr
-     *  bit6:   mirror
-     *  bit7:   flip
-     *  bit8:   bright
-     *  bit9:   contrast
-     *  bit10:  satruation
-     *  bit11:  hue
-     *  bit13:1-support day to night threshold control
+	/* @Param iUseNewIspCfg
+     *  whether use iNewIspCfg or not
+     *
+     * @Param iNewIspCfg
+     *  bit0: day/night cfg
+     *  bit1: antiFlick
+     *  bit2: exposure mode cfg
+     *  bit3: white balance
+     *  bit4: Backlight compensation
+     *  bit5: 3dnr
+     *  bit6: mirror
+     *  bit7: flip
+     *  bit8: bright
+     *  bit9: contrast
+     *  bit10: satruation
+     *  bit11: hue
+     *  bit13: 1-support day to night threshold control
      */
 	int     iUseNewIspCfg;
 	int     iNewIspCfg[BC_MAX_CHANNEL];
+	
+	/* @Param iAiVersion
+	 *  bit0: support AI
+	 *  bit1: suppport people detection
+	 *  bit2: suppport vehicle detection
+	 *  bit3: support face detection
+	 *  bit4: support animal detection
+	 *  bit5 ~ bit31: reserve
+	 */
+	int 	iAiVersion[BC_MAX_CHANNEL];
+    
+    /* @Param iTimelapseVer
+     *  bit0: support
+     *  bit1: support jpeg file's thumbnail
+     */
+    int     iTimelapseVer[BC_MAX_CHANNEL];
     
     BC_BASE_ABILITY_INFO    baseAbility;
-    int     iNasVersion; // bit0:1-support bind  bit1:1-support unbind  bit2:1-support get bind info
+    
+    /* @Param iNasVersion
+     *  bit0: support bind
+     *  bit1: support unbind
+     *  bit2: support get bind info
+     */
+    int     iNasVersion;
+    
+    int     iSambaVersion;
     
     BC_SMARTHOME_ABILITY_INFO smarthome;
     
@@ -1438,15 +1851,51 @@ typedef struct tagBC_STREAM_PARAM {
 } BC_STREAM_PARAM, *LPBC_STREAM_PARAM;
 
 
+typedef enum {
+    BC_COVER_TYPE_RECORD,
+    BC_COVER_TYPE_TIMELAPSE
+} BC_COVER_TYPE_E;
+
+
 typedef struct {
+    
     int iChannel;
+    
     int iUseSubStream;
 	BC_TIME startTime;
 	BC_TIME endTime;
+    
+    /* get how many frames
+     */
     int frameCount;
+    
+    /* which frame to get
+     */
     int frames[BC_MAX_COV_PRE_LEN];
-    const char *bufferFile;
+    
 } BC_COVER_PRE_INFO;
+
+
+typedef struct {
+    char cFileIdentity[BC_MAX_FILE_ID_LEN];
+} BC_COMMON_COVER_INFO;
+
+
+typedef struct {
+    
+    int channel;
+    
+    BC_COVER_TYPE_E type;
+    
+    union {
+        BC_COVER_PRE_INFO       timeCoverInfo;
+        BC_COMMON_COVER_INFO    commonCoverInfo;
+    } unionInfo;
+
+    const char * bufferFile;
+    
+} BC_COVER_INFO;
+
 
 
 typedef struct {
@@ -1454,6 +1903,7 @@ typedef struct {
     char cUID[BC_MAX_UID_LEN];// for NAS
     
     char fileName[BC_MAX_FILE_LEN];
+	char cFileId[BC_MAX_REC_FILE_ID];
     int iUseSubStream;
     float iMultiple; // the speed of playback
 } BC_PLAYBACK_INFO;
@@ -1464,6 +1914,7 @@ typedef struct {
     char cUID[BC_MAX_UID_LEN];// for NAS
     
     char cSourceFileName[BC_MAX_FILE_LEN];
+	char cFileId[BC_MAX_REC_FILE_ID];
     char cSaveFileName[BC_MAX_FILE_LEN];
     char cTempFileName[BC_MAX_FILE_LEN];
     long long fileSize;
@@ -1488,7 +1939,7 @@ typedef struct {
 
 
 
-typedef struct tagBC_ALARMER{
+typedef struct tagBC_ALARMER {
     long  lUserID;
     int   iDeviceVersion;
     char  cSerialNumber[BC_SERIALNO_LEN];
@@ -1504,11 +1955,11 @@ typedef struct tagBC_ALARMER{
 typedef struct tagBC_ALARM_INFO
 {
     int   iAlarmType;
-    int   iAlarmInputNumber;                      // alarm IO input port
-    char  byAlarmOutputNumber[BC_MAX_ALARMOUT];    // alarm output port for the dwAlarmType
-    char  byAlarmRelateChannel[BC_MAX_CHANNEL];    // record channel for the dwAlarmType
-    char  byChannel[BC_MAX_CHANNEL];               // alarm channels (valid when MD,VLOST,BLIND)
-    char  byDiskNumber[BC_MAX_DISKNUM];            // HDs when BC_ALARM_HD_FULL or BC_ALARM_HD_ERR
+    int   iAlarmInputNumber;                    // alarm IO input port
+    char  byAlarmOutputNumber[BC_MAX_ALARMOUT]; // alarm output port for the dwAlarmType
+    char  byAlarmRelateChannel[BC_MAX_CHANNEL]; // record channel for the dwAlarmType
+    char  byChannel[BC_MAX_CHANNEL];            // alarm channels (valid when MD,VLOST,BLIND)
+    char  byDiskNumber[BC_MAX_DISKNUM];         // HDs when BC_ALARM_HD_FULL or BC_ALARM_HD_ERR
 } BC_ALARM_INFO, *LPBC_ALARM_INFO;
 
 typedef struct tagBC_RESTORE_CFG
@@ -1575,19 +2026,19 @@ typedef struct tagBC_FILE_HEADER{
     char  byRes[2];       // reserve bytes
 } BC_FILE_HEADER,*LPBC_FILE_HEADER;
 
-typedef struct tagBC_COLOR_CFG{
+typedef struct tagBC_COLOR_CFG {
     char    byBrightness; //range:0~0xff,default: 0x80
     char    byContrast;   //range:0~0xff,default: 0x80
     char    bySaturation; //range:0~0xff,default: 0x80
     char    byHue;        //range:0~0xff,default: 0x80
 } BC_COLOR_CFG, *LPBC_COLOR_CFG;
 
-typedef struct tagBC_ALARM_OUT{
+typedef struct tagBC_ALARM_OUT {
     int      iType;                     // BC_ALARM_OUT_NONE  ~  BC_ALARM_OUT_SCREEN
     bool     bAlarmout[BC_MAX_ALARMOUT]; // alarmout channel, 0: disable, 1: enable
 } BC_ALARM_OUT, *LPBC_ALARM_OUT;
 
-typedef struct tagBC_VILOST_CFG{
+typedef struct tagBC_VILOST_CFG {
     bool          bEnable;                     // 0:disable, 1:enable
     BC_ALARM_OUT  alarmOut;
     int  		  iInvalid;
@@ -1612,13 +2063,13 @@ typedef struct
     int iEndHour;
     int iEndMinute;
     int iSensitivity;
-}BC_NEW_SENS_ITEM;
+} BC_NEW_SENS_ITEM;
 
 typedef struct
 {
 	int iDefSensitivity;//1~50 default:9
 	BC_NEW_SENS_ITEM sensItems[BC_MAX_MOTION_SENS_NUM];
-}BC_NEW_SENS_INFO;
+} BC_NEW_SENS_INFO;
 
 
 typedef struct tagBC_HANDLEEXCEPTION
@@ -1627,8 +2078,8 @@ typedef struct tagBC_HANDLEEXCEPTION
     char     byRelAlarmOut[96];
 } BC_HANDLEEXCEPTION;
 
-#define BC_MD_AREA_MAX_HEIGHT   68
-#define BC_MD_AREA_MAX_WIDTH    120
+#define BC_MD_AREA_MAX_HEIGHT   100
+#define BC_MD_AREA_MAX_WIDTH    130
 
 typedef struct tagBC_MOTION_CFG
 {
@@ -1661,7 +2112,7 @@ typedef struct {
     bool                 bMotionScope[BC_MD_AREA_MAX_HEIGHT][BC_MD_AREA_MAX_WIDTH];// 1: set to motion, 0: not set
 } BC_MD_SCOPE;
 
-typedef struct tagBC_BLIND_CFG{
+typedef struct tagBC_BLIND_CFG {
     bool                bEnable;    // FALSE: disable, TRUE:enable
     BC_ALARM_OUT        alarmOut;
     int                 iInvalid;
@@ -1721,7 +2172,7 @@ typedef struct tagBC_ALARM_OUT_CFG
  dwWidth    = ((cover_w<<16)&0xffff0000)|(image_w&0xffff);
  dwHeight   = ((cover_h<<16)&0xffff0000)|(image_h&0xffff);
  */
-typedef struct tagBC_COVER_AREA{
+typedef struct tagBC_COVER_AREA {
     int      iX;
     int      iY;
     int      iWidth;
@@ -1743,7 +2194,7 @@ typedef enum
 } BC_CAMERA_MODE_E;
 
 
-typedef struct tagBC_CAMERA_CFG{
+typedef struct tagBC_CAMERA_CFG {
     
     BC_CAMERA_MODE_E    eCameraMode;
 } BC_CAMERA_CFG, *LPBC_CAMERA_CFG;
@@ -1885,7 +2336,7 @@ typedef enum
  and Flip to the default value
  2: Set other members to the default value
  */
-typedef struct tagBC_ISP_CFG{
+typedef struct tagBC_ISP_CFG   {
     
     /* validField, used for only set some params.
      * for example, validField = "<lBright><lContrast><eAntiflick><eDayNightMode>", only set lBright, lContrast, eAntiflick, eDayNightMode.
@@ -1949,7 +2400,7 @@ typedef enum
     BC_LIGHT_CLOSE,
     BC_LIGHT_OPEN,
     BC_LIGHT_BUTT,
-}BC_LIGHT_STATE_E;
+} BC_LIGHT_STATE_E;
 
 typedef struct {
     
@@ -1970,26 +2421,26 @@ typedef enum
 	BC_FLOODLIGHT_OPER_CLOSE = 0,
 	BC_FLOODLIGHT_OPER_OPEN = 1,
 	BC_FLOODLIGHT_OPER_BUTT,	
-}BC_FLOODLIGHT_OPER_E;
+} BC_FLOODLIGHT_OPER_E;
 
 typedef struct
 {
     BC_FLOODLIGHT_OPER_E eOper;
 	int iDuration;/*open floodlight last iDuration seconds*/
-}BC_FLOODLIGHT_MANUAL;
+} BC_FLOODLIGHT_MANUAL;
 
 
 typedef struct
 {
 	int iChannel;
 	int iLit;
-}BC_FLOODLIGHT_STAT_ITEM;
+} BC_FLOODLIGHT_STAT_ITEM;
 
 typedef struct 
 {
 	int num;
     BC_FLOODLIGHT_STAT_ITEM items[BC_MAX_CHANNEL];
-}BC_FLOODLIGHT_STAT;
+} BC_FLOODLIGHT_STAT;
 
 typedef struct
 {
@@ -1997,35 +2448,35 @@ typedef struct
 	int iDef;
 	int iMin;
 	int iMax;
-}BC_FLOODLIGHT_BRIGHT;
+} BC_FLOODLIGHT_BRIGHT;
 
 typedef struct
 {
     int iBvalid;
 	BC_FLOODLIGHT_BRIGHT bright;
 	int iAutoByPreview;/*1:floodlight auto turn on during preview.*/
-}BC_FLOODLIGHT_TASK;
+} BC_FLOODLIGHT_TASK;
 
 typedef enum
 {
 	BC_DAY_NIGHT_THRESHOLD_MODE_DEFAULT,
 	BC_DAY_NIGHT_THRESHOLD_MODE_CUSTOM,
 	BC_DAY_NIGHT_THRESHOLD_MODE_BUTT
-}BC_DAY_NIGHT_THRESHOLD_MODE_E;
+} BC_DAY_NIGHT_THRESHOLD_MODE_E;
 
 typedef enum
 {
 	BC_DAY_NIGHT_STAT_DAY,
 	BC_DAY_NIGHT_STAT_NIGHT,
 	BC_DAY_NIGHT_STAT_BUTT
-}BC_DAY_NIGHT_STAT_E;
+} BC_DAY_NIGHT_STAT_E;
 
 
 typedef struct
 {
 	BC_DAY_NIGHT_THRESHOLD_MODE_E eMode;
 	BC_DAY_NIGHT_STAT_E eCurStat;
-}BC_DAY_NIGHT_THRESHOLD_CFG;
+} BC_DAY_NIGHT_THRESHOLD_CFG;
 
 
 
@@ -2114,11 +2565,11 @@ typedef struct tagBC_EMAIL_CFG
         int     iSenderMaxLen;  //readonly, max len of byAccount
         char    byPassword[BC_MAX_PWD_LEN_128];      // sender email
 		int		iPwdMaxLen;
-    }sender;
+    } sender;
     
     struct{
         char   byAddress[BC_MAX_ADDR_LEN];
-    }receiver[3];
+    } receiver[3];
     
     char      bySmtpServer[BC_MAX_ADDR_LEN];
     bool      bSSL;
@@ -2141,10 +2592,21 @@ typedef struct tagBC_EMAIL_TASK
     char                validField[128];
     
     bool                bEnable;
-    int                 iInvalid;
+	
+    /*
+     * 0: old timetable, timing must be stand alone,
+     * 1: new timetable, timing is a bitmap value
+     */
+    int 				iProtocolVer;
+    
+    /* bitmap
+     * BC_ALARM_IN_MD, BC_ALARM_IN_VL ...
+     */
+    int                 iAlarmInTypes;
+    
     int                 iTimeTable[BC_MAX_DAYS][BC_MAX_TIMESEGMENT];
+    
 } BC_EMAIL_TASK, *LPBC_EMAIL_TASK;
-
 
 typedef struct taBC_RESOLUTION
 {
@@ -2220,8 +2682,20 @@ typedef struct tagBC_RECORD_SCHEDULE_CFG
     char                    validField[128];
     
     bool					bEnable;
-   	int                 	iInvalid;
+
+    /*
+     * 0: old timetable, timing must be stand alone,
+     * 1: new timetable, timing is a bitmap value
+     */
+    int                     iProtocolVer;
+    
+    /* bitmap
+     * BC_ALARM_IN_MD, BC_ALARM_IN_VL ...
+     */
+    int                     iAlarmInTypes;
+    
     int                 	iTimeTable[BC_MAX_DAYS][BC_MAX_TIMESEGMENT];
+    
 } BC_RECORD_SCHEDULE_CFG;
 
 
@@ -2440,19 +2914,19 @@ typedef struct
 	int iFocusMaxPos;
 	int iFocusMinPos;
 	int iFocusCurPos;
-}BC_ZOOM_FOCUS_INFO;
+} BC_ZOOM_FOCUS_INFO;
 
 typedef enum
 {
 	BC_ZF_CMD_START_ZOOM,
 	BC_ZF_CMD_START_FOCUS,
-}BC_ZF_CMD_E;
+} BC_ZF_CMD_E;
 
 typedef struct
 {
 	BC_ZF_CMD_E cmd;
 	int iPos;
-}BC_START_ZOOM_FOCUS;
+} BC_START_ZOOM_FOCUS;
 
 typedef enum
 {
@@ -2531,7 +3005,17 @@ typedef struct tagBC_FTP_CFG
     int   iwFilelen;            //Unit:MB
     bool  bSupportTest;         //1:support ftp test
     int   iSupportStreamType;
-    int   iStreamType;          //0:pic and mainStream video, 1:pic and subStream video, 2:pic and extension stream video, 3:only picture, 4:mainStream video only, 5:subStream video only, 6:extension stream video only
+    
+    /* @Param iStreamType
+     *  0: pic and mainStream video
+     *  1: pic and subStream video
+     *  2: pic and extension stream video
+     *  3: only picture
+     *  4: mainStream video only
+     *  5: subStream video only
+     *  6: extension stream video only
+     */
+    int   iStreamType;
     int   iSupportInterval;
     int   iInterval;            //seconds
     BC_FTP_INTERVAL_LIST intervalList; // readonly
@@ -2548,7 +3032,18 @@ typedef struct tagBC_FTP_TASK
     char                validField[128];
     
     bool                bEnable;
-    int                 iInvalid;
+
+    /*
+     * 0: old timetable, timing must be stand alone,
+     * 1: new timetable, timing is a bitmap value
+     */
+    int                 iProtocolVer;
+    
+    /* bitmap
+     * BC_ALARM_IN_MD, BC_ALARM_IN_VL ...
+     */
+    int                 iAlarmInTypes;
+    
     int                 iTimeTable[BC_MAX_DAYS][BC_MAX_TIMESEGMENT];
 } BC_FTP_TASK, *LPBC_FTP_TASK;
 
@@ -2711,13 +3206,21 @@ typedef struct {
 
 // find record file
 typedef enum {
-    RECORD_TYPE_SCHEDULE = (1 << 0),
-    RECORD_TYPE_MANUAL = (1 << 1),
-    RECORD_TYPE_ALARM = (1 << 2),
-    RECORD_TYPE_ALL = ((1 << 0)|(1 << 1)|(1 << 2))
+    RECORD_TYPE_SCHEDULE    = (0x01 << 0),
+    RECORD_TYPE_MANUAL      = (0x01 << 1),
+    RECORD_TYPE_MD          = (0x01 << 2),
+    RECORD_TYPE_IO          = (0x01 << 3),
+    RECORD_TYPE_PEOPLE      = (0x01 << 4),
+    RECORD_TYPE_FACE        = (0x01 << 5),
+    RECORD_TYPE_VEHICLE     = (0x01 << 6),
+    //
+    /* callback file has unknow bit */
+    RECORD_TYPE_UNKNOW      = (0x01 << 31),
+    /* just for seach all types */
+    RECORD_TYPE_ALL         = 0x7FFFFFFF,
 } RECORD_TYPE;
 
-typedef struct tagBC_FILE_FIND{
+typedef struct tagBC_FILE_FIND {
     int              seq;           //the times of this file find
     long             lChannel;
     BC_STREAM_TYPE_E eStreamType;
@@ -2734,9 +3237,10 @@ typedef enum {
     BC_FILE_TYPE_FLV,
 } BC_FILE_TYPE_E;
 
-typedef struct tagBC_FIND_REC_FILE{
+typedef struct tagBC_FIND_REC_FILE {
     int              iChannel;
-    char             cFileName[BC_MAX_FILE_LEN];
+	char 			 cIdentity[BC_MAX_REC_FILE_ID];
+    char             cFileName[BC_MAX_REC_FILE_NAME];
     BC_TIME     	 struStartTime;
     BC_TIME          struStopTime;
     unsigned int     iFileSize;
@@ -2745,40 +3249,55 @@ typedef struct tagBC_FIND_REC_FILE{
     char             cLocked;
     char             cSupportNum;
     char             cRes[2];
-    RECORD_TYPE      recordType;
+    int              recordType; // bitmap: RECORD_TYPE
     BC_STREAM_TYPE_E eStreamType;
     BC_FILE_TYPE_E   eFileType;
     int              iContainsAudio;
 } BC_FIND_REC_FILE, *LPBC_FIND_REC_FILE;
 
 
-typedef struct tagBC_FIND_REC_FILES{
+typedef struct tagBC_FIND_REC_FILES {
     int seq;                        //the times of this file find
     int fileNum;
     BC_FIND_REC_FILE recFile[40];
 } BC_FIND_REC_FILES;
 
+
+typedef struct {
+    char cIdentity[BC_MAX_REC_FILE_ID];
+} BC_DEL_REC_FILE;
+
+
+typedef struct {
+    int iSize;
+    BC_DEL_REC_FILE items[40];
+} BC_DEL_REC_FILES;
+
+
 /* Alarm Video Info */
 typedef struct
 {
-    int              seq;//the times of this alarm video find
-    int              iChannel;
-    BC_STREAM_TYPE_E eStreamType;
-    BC_TIME          startTime;
-    BC_TIME          endTime;
+    int                 seq; // the times of this alarm video find
+    int                 iChannel;
+    BC_STREAM_TYPE_E    eStreamType;
+    BC_ALARM_IN_TYPE_E  eAlamInType;
+    BC_TIME             startTime;
+    BC_TIME             endTime;
 } BC_FIND_ALARM_VIDEOS;
 
 typedef struct
 {
-    char             cFileName[BC_MAX_FILE_LEN];
-    BC_TIME          startTime;
-    BC_TIME          endTime;
+	char 			    cIdentity[BC_MAX_REC_FILE_ID];
+	char                cFileName[BC_MAX_REC_FILE_NAME];
+    BC_ALARM_IN_TYPE_E  alarmType;
+    BC_TIME             startTime;
+    BC_TIME             endTime;
 } BC_ALARM_VIDEO_ITEM;
 
 typedef struct
 {
-    int seq;//the times of this alarm video find
-    int iFinished;
+    int seq; // the times of this alarm video find
+    int iFinished; // search finished
     int iItemSize;
     BC_ALARM_VIDEO_ITEM alarmItems[60];
 } BC_ALARM_VIDEOS_INFO;
@@ -2813,7 +3332,7 @@ typedef struct tagBC_IPADDR{
 } BC_IPADDR, *LPBC_IPADDR;
 
 
-typedef struct tagBC_LOG_INFO{
+typedef struct tagBC_LOG_INFO {
     BC_TIME     	 strLogTime;
     int              iMajorType;
     int              iMinorType;
@@ -2830,11 +3349,11 @@ typedef struct tagBC_LOG_INFO{
 } BC_LOG_INFO,*LPBC_LOG_INFO;
 
 //
-typedef struct tagBC_BootPWDState{
+typedef struct tagBC_BootPWDState {
     bool bPwdState;         //
 } BC_BootPWDState,*LPBC_BootPWDState;
 
-typedef struct tagBC_FILECUT{
+typedef struct tagBC_FILECUT {
     long             lChannel;
     BC_TIME          struStartTime;
     BC_TIME          struStopTime;
@@ -3023,7 +3542,7 @@ typedef enum
     BC_ONLINE_UPDATE_STATUS_FINISHED,
     BC_ONLINE_UPDATE_STATUS_UPDATE_FAILED,
     BC_ONLINE_UPDATE_STATUS_IMG_ERROR
-}BC_ONLINE_UPDATE_STATUS_E;
+} BC_ONLINE_UPDATE_STATUS_E;
 
 typedef struct
 {
@@ -3054,7 +3573,7 @@ typedef struct
     int iIsMultiDeviceUpdate;
     BC_MULTI_UPDATE_STATUS deviceState;
     BC_MULTI_UPDATE_STATUS_LIST channelsState;
-}BC_ONLINE_UPDATE_STATUS;
+} BC_ONLINE_UPDATE_STATUS;
 
 
 typedef struct
@@ -3127,6 +3646,10 @@ typedef enum
     BC_LOG_MINOR_SET_DISK,
     BC_LOG_MINOR_RESTORE_CONFIG,
     BC_LOG_MINOR_CLEAR_LOG,
+	BC_LOG_MINOR_ADD_USER,
+	BC_LOG_MINOR_DEL_USER,
+	BC_LOG_MINOR_MODIFY_USER,
+	BC_LOG_MINOR_MAINTAIN,
     BC_LOG_MINOR_OP_BUTT,
     BC_LOG_MINOR_BUTT,
 } BC_LOG_MINOR_OP_E;
@@ -3215,6 +3738,7 @@ typedef struct
 typedef struct {
     
     bool    bMotion;
+	int 	iAiType;// bitmap (BC_AI_TYPE_PEOPLE | BC_AI_TYPE_VEHICLE | ...)
 } BC_CHANNEL_ALARM_STATUS_REPORT;
 
 typedef struct {
@@ -3328,7 +3852,7 @@ typedef enum
     BC_RING_DOWN_SWITCH,
     BC_RING_DOWN_FROM_RAM,
     BC_RING_DOWN_BUTT = 255,
-}BC_RING_DOWN_MODE_E;
+} BC_RING_DOWN_MODE_E;
 
 /*
  * iDuration:   valid when continuous mode.
@@ -3350,7 +3874,7 @@ typedef struct
     int iDuration;
     int iTimes;
     int iOnOff;
-}BC_MANUAL_RING_DOWN;
+} BC_MANUAL_RING_DOWN;
 
 typedef struct
 {
@@ -3359,23 +3883,36 @@ typedef struct
     char cAdpcmFileName[BC_MAX_FILE_LEN];
     int iFileSize;
     int iCurSize;
-}BC_RINGTONE_FILE_INFO;
+} BC_RINGTONE_FILE_INFO;
 
 typedef struct
 {
     int iChannel;
     int iMaxCapacity;//ringtone file max size (KB)
     BC_AUDIO_CONFIG_TABLE audioConfigs;
-}BC_RINGTONE_ABILITY;
+} BC_RINGTONE_ABILITY;
 
 
 //push task
 typedef struct tagBC_PUSH_TASK
 {
     bool                bEnable;
-    int                 iInvalid;
+
+    /*
+     * 0: old timetable, timing must be stand alone,
+     * 1: new timetable, timing is a bitmap value
+     */
+    int                 iProtocolVer;
+    
+    /* bitmap
+     * BC_ALARM_IN_MD, BC_ALARM_IN_VL ...
+     */
+    int                 iAlarmInTypes;
+    
     int                 iTimeTable[BC_MAX_DAYS][BC_MAX_TIMESEGMENT];
+    
     int                 iPushVersion; // 0:old  1:new
+    
 } BC_PUSH_TASK, *LPBC_PUSH_TASK;
 
 
@@ -3389,10 +3926,40 @@ typedef struct tagBC_AUDIO_TASK
     char                validField[128];
     
     bool                bEnable;
-    int                 iInvalid;
+    
+	/*
+     * 0: old timetable, timing must be stand alone,
+     * 1: new timetable, timing is a bitmap value
+     */
+    int                 iProtocolVer;
+    
+    /* bitmap
+     * BC_ALARM_IN_MD, BC_ALARM_IN_VL ...
+     */
+    int                 iAlarmInTypes;
     int                 iTimeTable[BC_MAX_DAYS][BC_MAX_TIMESEGMENT];
 } BC_AUDIO_TASK, *LPBC_AUDIO_TASK;
 
+
+// buzzer task
+typedef struct tagBC_BUZZER_TASK
+{
+    /* validField, used for only set some params.
+     * validField only suppport for setting <bEnable>,
+     * validField = "" or "<bEnable>".
+     */
+    char                validField[128];
+    
+    bool                bEnable;
+    
+    /* bitmap
+     * BC_ALARM_IN_MD, BC_ALARM_IN_VL ...
+     */
+    int                 iAlarmInTypes;
+    
+    int                 iTimeTable[BC_MAX_DAYS][BC_MAX_TIMESEGMENT];
+    
+} BC_BUZZER_TASK, *LPBC_BUZZER_TASK;
 
 //cloud settings
 #define BC_MAX_AUTH_TOKEN_LEN               128
@@ -3427,6 +3994,22 @@ typedef struct
     BC_CLOUD_STREAM_TYPE_LIST streamCfg;
 } BC_CLOUD_CFG;
 
+
+/* bitmap:
+ *      bit0: main stream,
+ *      bit1: sub stream,
+ *      bit2: exten stream
+ */
+#define BC_NAS_CFG_STREAM_MAIN      (0x01<<0)
+#define BC_NAS_CFG_STREAM_SUB       (0x01<<1)
+#define BC_NAS_CFG_STREAM_EXTEN     (0x01<<2)
+typedef struct
+{
+    int iStreamAbility;
+    int iStreamCfg;
+} BC_NAS_CFG;
+
+
 typedef struct
 {
     int iIsOpened;
@@ -3436,7 +4019,7 @@ typedef struct
 typedef struct
 {
 	unsigned int realTime;
-}BC_UTC_TIME;
+} BC_UTC_TIME;
 
 
 //
@@ -3467,20 +4050,20 @@ typedef struct tagBC_RF_ALARM_CFG
     int                 channelNum;
     int                 triggeredHandleType[BC_MAX_CHANNEL];
     int                 iTimeTable[BC_MAX_DAYS][BC_MAX_TIMESEGMENT];
-}BC_RF_ALARM_CFG, *LPBC_RF_ALARM_CFG;
+} BC_RF_ALARM_CFG, *LPBC_RF_ALARM_CFG;
 
 typedef struct
 {
 	int iRfId; //request
 	int iSensitivityValue; //request, rf sensitivity: 0-100
 	int iReduceErr;	//request, 0: not reduce  1: reduce
-}BC_RF_TEST_START;
+} BC_RF_TEST_START;
 
 typedef struct
 {
 	int iRfId; //request
 	int iFalseCnt; //response, return rf false count when test stop
-}BC_RF_TEST_STOP;
+} BC_RF_TEST_STOP;
 
 
 
@@ -3488,7 +4071,7 @@ typedef struct
 {
     int                 iRfId;
     bool                bEnable;
-}BC_RF_ALARM_STATUS;
+} BC_RF_ALARM_STATUS;
 
 
 // battery info
@@ -3496,7 +4079,33 @@ typedef struct
 {
     int                 iLowBattery;        // 1:low battery  0:sufficient battery
     int                 iBatteryPercent;    //Battery Percentage
-}BC_ELECTRICITY_INFO;
+} BC_ELECTRICITY_INFO;
+
+// ai config
+typedef enum
+{
+	BC_AI_TYPE_IDX_PEOPLE = 0,
+	BC_AI_TYPE_IDX_VEHICLE,
+	BC_AI_TYPE_IDX_FACE,
+	BC_AI_TYPE_IDX_ANIMAL,
+	BC_AI_TYPE_IDX_BUTT,
+} BC_AI_TYPE_IDX_E;
+
+#define BC_AI_TYPE_PEOPLE			BC_MODE(BC_AI_TYPE_IDX_PEOPLE)
+#define BC_AI_TYPE_VEHICLE			BC_MODE(BC_AI_TYPE_IDX_VEHICLE)
+#define BC_AI_TYPE_FACE				BC_MODE(BC_AI_TYPE_IDX_FACE)
+#define BC_AI_TYPE_ANIMAL			BC_MODE(BC_AI_TYPE_IDX_ANIMAL)
+
+typedef struct
+{
+	/* validField, used for only set some params.
+	 * for example, validField = "<iSmartTrack>", only set iSmartTrack"
+	 */
+	char validField[128];
+	
+	int iSmartTrack;// 0 or 1
+	int iDetectType;// bitmap (BC_AI_TYPE_PEOPLE | BC_AI_TYPE_VEHICLE | ...)
+} BC_AI_CFG;
 
 
 ////////////////////////
@@ -3535,6 +4144,10 @@ typedef struct
     char productName[16];      // product name: "KEEN", "CARD", ...
     BC_SONG_P2P_TYPE_E productType;
 } BC_P2P_DEVICE_INFO;
+
+typedef struct{
+    char audio[BC_MAX_QR_AUDIO_LEN];
+} BC_QR_AUDIOS_INFO;
 
 typedef struct
 {
@@ -3680,7 +4293,7 @@ typedef struct
     int                 channelNum;
     int                 triggeredHandleType[BC_MAX_CHANNEL];
     int                 iTimeTable[BC_MAX_DAYS][BC_MAX_TIMESEGMENT];
-}BC_BASE_RF_ALARM_CFG, *LPBC_BASE_RF_ALARM_CFG;
+} BC_BASE_RF_ALARM_CFG, *LPBC_BASE_RF_ALARM_CFG;
 
 typedef struct
 {
@@ -3709,6 +4322,30 @@ typedef struct
 
 typedef struct
 {
+    /* bind
+     * send to ipc
+     *      cDevName: nas's name
+     *      cUID: nas's uid
+     *      cUserName: nas's username
+     *      cPassword: nas's password
+     */
+    
+    /* unbind
+     * send to nas
+     *      cDevName: no need
+     *      cUID: ipc's uid
+     *      cUserName: no need
+     *      cPassword: no need
+     */
+    
+    /* unbind
+     * send to ipc
+     *      cDevName: no need
+     *      cUID: nas's uid
+     *      cUserName: no need
+     *      cPassword: no need
+     */
+    
     char cDevName[BC_MAX_NAME_LEN];
     char cUID[BC_MAX_UID_LEN];
     char cUserName[BC_MAX_NAME_LEN];
@@ -3719,7 +4356,7 @@ typedef struct
 {
     char cDevName[BC_MAX_NAME_LEN];
     char cUID[BC_MAX_UID_LEN];
-    int iBindStatus;//0:none, 1:is bound
+    int iBindStatus;                    // 0:none, 1:is bound
 } BC_NAS_BIND_INFO_ITEM;
 
 typedef struct
@@ -3728,14 +4365,259 @@ typedef struct
     BC_NAS_BIND_INFO_ITEM infoList[BC_NAS_BIND_INFO_MAX_NUM];
 } BC_NAS_BIND_STATUS_INFO;
 
-//time without user interaction
+
+typedef struct
+{
+    int  iEnable;
+} BC_SMB_CFG;
+
+
+typedef struct
+{
+    /* Bitmap
+     * bit0: channel 0
+     * bit1: channel 1
+     * ...
+     */
+    int  iEnable;
+} BC_ALARM_OUT_ENABLE_CFG;
+
+
+
+#define BC_MAX_TIMELAPSE_ID_LEN         16
+#define BC_MAX_TIMELAPSE_PRO_LEN        32
+#define BC_MAX_TIMELAPSE_DURATION_NUM   4
+#define BC_MAX_TIMELAPSE_CFG_NUM        1
+#define BC_MAX_TIMELAPSE_FILE_NUM       40
+#define BC_MAX_TIMELAPSE_PAIR_ID_LEN    16
+
+
+typedef enum
+{
+    BC_TIMELAPSE_TASK_TYPE_JPG,
+    BC_TIMELAPSE_TASK_TYPE_MP4,
+} BC_TIMELAPSE_TASK_TYPE_E;
+
+
+typedef struct
+{
+    BC_TIMELAPSE_TASK_TYPE_E eTaskType;
+    
+    /* @Param cIdentity
+     *  the unique identifier for timelapse task
+     */
+    char cIdentify[BC_MAX_TIMELAPSE_ID_LEN];
+    
+    /* @Param cProperties
+     *  property string for task
+     *  can not contain ( * . " / \ [ ] : ; | = , )
+     */
+    char cProperties[BC_MAX_TIMELAPSE_PRO_LEN];
+    
+} BC_TIMELAPSE_TASK_DES;
+
+
+typedef struct {
+    int iHour;
+    int iMinute;
+    int iSecond;
+} BC_TIMELAPSE_TIME;
+
+
+typedef struct {
+    int iValid;
+    BC_TIMELAPSE_TIME start;
+    BC_TIMELAPSE_TIME end;
+} BC_TIMELAPSE_DURATION;
+
+
+typedef struct
+{
+    /* @Param iEnable
+     *  0: stop
+     *  1: start
+     */
+    int iEnable;
+    
+    BC_TIMELAPSE_TASK_DES taskDes;
+    
+    BC_STREAM_TYPE_E eStreamtype;
+    
+    /* @Param iInterval
+     *  interval of frames, seconds
+     */
+    int iInterval;
+    int iFrameRate;
+    
+    /* @Param iUseThumbnail
+     *  0: no thumbnail
+     *  1: has thumbnail when taks type is jpeg
+     */
+    int iUseThumbnail;
+    
+    BC_TIME startTime;
+    BC_TIME endTime;
+    int iNeverEnd;
+    
+    BC_TIMELAPSE_DURATION durations[BC_MAX_TIMELAPSE_DURATION_NUM];
+
+} BC_TIMELAPSE_CFG;
+
+
+typedef struct
+{
+    int iChannel;
+    int iOverwrite;
+    int iMaxFileNum;
+    int iNum;
+    BC_TIMELAPSE_CFG items[BC_MAX_TIMELAPSE_CFG_NUM];
+} BC_TIMELAPSE_CFG_LIST;
+
+
+typedef struct
+{
+    int iChannel;
+    char cUID[BC_MAX_UID_LEN];
+    int iSize;
+    BC_TIMELAPSE_TASK_DES tasks[128];
+} BC_TIMELAPSE_TASKS_LIST;
+
+
+typedef struct
+{
+    /* etc: 2020
+     */
+    int iYear;
+    
+    /* 31 days per month
+     */
+    int dates[12 * 31];
+    
+} BC_TIMELAPSE_DATES;
+
+
+typedef struct
+{
+    int iChannel;
+    char cUID[BC_MAX_UID_LEN];
+    char cIdentify[BC_MAX_TIMELAPSE_ID_LEN];
+    
+    int iSize;
+    BC_TIMELAPSE_DATES items[10];
+} BC_TIMELAPSE_DATES_LIST;
+
+
+typedef struct
+{
+    char cUID[BC_MAX_UID_LEN];
+} BC_TIMELAPSE_TASK_SEARCH_PARAM;
+
+
+typedef struct
+{
+    char cUID[BC_MAX_UID_LEN];
+    char cTaskId[BC_MAX_TIMELAPSE_ID_LEN];
+} BC_TIMELAPSE_DATE_SEARCH_PARAM;
+
+
+typedef struct
+{
+    int                     seq; // the times of this file find
+    int                     iChannel;
+    char                    cUID[BC_MAX_UID_LEN];// for NAS
+    BC_TIMELAPSE_TASK_DES   task;
+    BC_TIME                 startTime; // valid for jpeg
+    BC_TIME                 endTime; // valid for jpeg
+} BC_TIMELAPSE_FILE_SEARCH_OPEN_PARAM;
+
+
+typedef struct
+{
+    int                     seq; // the times of this file find
+    int                     iChannel;
+    char                    cUID[BC_MAX_UID_LEN];// for NAS
+    BC_TIMELAPSE_TASK_DES   task;
+    int                     searchHandle;
+    int                     fromIndex;
+} BC_TIMELAPSE_FILE_SEARCH_ONCE_PARAM;
+
+
+typedef struct
+{
+    int                     iChannel;
+    char                    cUID[BC_MAX_UID_LEN];// for NAS
+    int                     searchHandle;
+} BC_TIMELAPSE_FILE_SEARCH_CLOSE_PARAM;
+
+
+typedef struct
+{
+    BC_TIME                     startTime; // for mp4
+    BC_TIME                     endTime; // for mp4
+    uint64_t                    filesize;
+    char                        cIdentity[BC_MAX_FILE_ID_LEN];
+    char                        cFilename[BC_MAX_FILE_NAME_LEN];
+} BC_TIMELAPSE_FILE_INFO;
+
+
+typedef struct
+{
+    int                         hasThumbnail;
+    BC_TIMELAPSE_FILE_INFO      original;
+    BC_TIMELAPSE_FILE_INFO      thumbnail;
+} BC_TIMELAPSE_FILE_PAIR;
+
+
+typedef struct
+{
+    int                         seq; // the times of this file find
+    int                         iChannel;
+    int                         iSearchHandle;
+    int                         iFinished;
+    char                        cUID[BC_MAX_UID_LEN]; // for NAS
+    char                        taskId[BC_MAX_TIMELAPSE_ID_LEN];
+    BC_TIMELAPSE_TASK_TYPE_E    fileType;
+    
+    int                         iTotalSize; // total num when search open
+    int                         iFromIndex; // from where when search once
+    int                         iSize;
+    BC_TIMELAPSE_FILE_PAIR      files[BC_MAX_TIMELAPSE_FILE_NUM];
+} BC_TIMELAPSE_FILE_LIST;
+
+
+typedef struct
+{
+    BC_TIMELAPSE_TASK_TYPE_E    taskType;
+    BC_TIMELAPSE_FILE_INFO      file;
+    char                        dstFile[BC_MAX_FILE_ID_LEN];
+    uint64_t                    curSize; // current size
+} BC_TIMELAPSE_FILE_DOWNLOAD_PARAM;
+
+
+typedef struct
+{
+    char cUID[BC_MAX_UID_LEN]; // for NAS
+    BC_TIMELAPSE_TASK_TYPE_E taskType;
+    int num;
+    BC_TIMELAPSE_FILE_INFO items[BC_MAX_TIMELAPSE_FILE_NUM];
+} BC_TIMELAPSE_FILES_DELETE_PARAM;
+
+typedef struct
+{
+    char cUID[BC_MAX_UID_LEN]; // for NAS
+    BC_TIMELAPSE_TASK_DES task;
+} BC_TIMELAPSE_TASK_DELETE_PARAM;
+
+
+// ------------------------------------------------------------------------
+// time without user interaction
 typedef struct
 {
 	int duration;//seconds
-}BC_TIME_WITHOUT_INTERACTION;
+} BC_TIME_WITHOUT_INTERACTION;
 
 
-//param by get or write config
+// param by get or write config
 typedef struct {
     int channelId;
     int bcCmd;
@@ -3745,7 +4627,7 @@ typedef struct {
 } CONFIG_PARAM;
 
 
-//call back function
+// call back function
 typedef struct {
     int bcCmd;
     int cmdIdx;
@@ -3761,7 +4643,6 @@ typedef struct {
     pBC_CallBackFunc bcFunc;
     void *userData;
 } BC_CallBackFunc_t;
-
 
 
 // Diagnose Log

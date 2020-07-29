@@ -13,7 +13,7 @@ declare class PLAYBACK {
     openStatus(handle: number, channel: number): Promise<T.BCSDK_MEDIA_STATE_E>;
     isOpen(handle: number, channel: number): Promise<boolean>;
     streamType(handle: number, channel: number): Promise<T.BC_STREAM_TYPE_E>;
-    open(handle: number, channel: number, fileNam: string, cacheFile: string, subStream: boolean, speed: number, callback: FrameCallback): Promise<void>;
+    open(handle: number, channel: number, identity: string, fileNam: string, cacheFile: string, subStream: boolean, speed: number, callback: FrameCallback): Promise<void>;
     close(handle: number, channel: number): Promise<void>;
     start(handle: number, channel: number): Promise<void>;
     pause(handle: number, channel: number): Promise<void>;

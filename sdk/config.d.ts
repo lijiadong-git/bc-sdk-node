@@ -114,6 +114,17 @@ declare class CONFIG {
     pushOpen(handle: number, param: T.BC_PUSH_INFO): Promise<void>;
     rtmpStart(handle: number, param: T.BC_RTMP_OPT): Promise<void>;
     rtmpStop(handle: number, param: T.BC_RTMP_OPT): Promise<void>;
+    deleteRecFiles(handle: number, files: T.BC_DEL_REC_FILES): Promise<void>;
+    getRecordEnable(handle: number): Promise<T.BC_ALARM_OUT_ENABLE_CFG>;
+    setRecordEnable(handle: number, enable: T.BC_ALARM_OUT_ENABLE_CFG): Promise<void>;
+    getFtpEnable(handle: number): Promise<T.BC_ALARM_OUT_ENABLE_CFG>;
+    setFtpEnable(handle: number, enable: T.BC_ALARM_OUT_ENABLE_CFG): Promise<void>;
+    getEmailEnable(handle: number): Promise<T.BC_ALARM_OUT_ENABLE_CFG>;
+    setEmailEnable(handle: number, enable: T.BC_ALARM_OUT_ENABLE_CFG): Promise<void>;
+    getPushEnable(handle: number): Promise<T.BC_ALARM_OUT_ENABLE_CFG>;
+    setPushEnable(handle: number, enable: T.BC_ALARM_OUT_ENABLE_CFG): Promise<void>;
+    getBuzzerEnable(handle: number): Promise<T.BC_ALARM_OUT_ENABLE_CFG>;
+    setBuzzerEnable(handle: number, enable: T.BC_ALARM_OUT_ENABLE_CFG): Promise<void>;
     /*******************************************************************************
      * MARK: Channel Remote Config
      ******************************************************************************/
@@ -159,6 +170,8 @@ declare class CONFIG {
     setPushTask(handle: number, channel: number, param: T.BC_PUSH_TASK): Promise<void>;
     getAudioTask(handle: number, channel: number): Promise<T.BC_AUDIO_TASK>;
     setAudioTask(handle: number, channel: number, param: T.BC_AUDIO_TASK): Promise<void>;
+    getBuzzerTask(handle: number, channel: number): Promise<T.BC_BUZZER_TASK>;
+    setBuzzerTask(handle: number, channel: number, param: T.BC_BUZZER_TASK): Promise<void>;
     snap(handle: number, channel: number, param: T.BC_SNAP_INFO): Promise<void>;
     getAutoFocus(handle: number, channel: number): Promise<T.BC_PTZ_AUTO_FOCUS>;
     setAutoFocus(handle: number, channel: number, param: T.BC_PTZ_AUTO_FOCUS): Promise<void>;
@@ -176,6 +189,7 @@ declare class CONFIG {
     muteAlarmAudio(handle: number, channel: number, param: T.BC_MUTE_ALARM_AUDIO): Promise<void>;
     saveRingtone(handle: number, channel: number): Promise<void>;
     getRingtoneAbility(handle: number, channel: number): Promise<T.BC_RINGTONE_ABILITY>;
+    getChannelVersionInfo(handle: number, channel: number): Promise<T.BC_VERSION_INFO>;
 }
 export declare const config: CONFIG;
 export {};

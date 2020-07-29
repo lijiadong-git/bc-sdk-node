@@ -62,8 +62,11 @@ const MFFI = ffi.Library(path.join(folder, 'libBCSDKWrapper'), {
     BCSDK_GetSupportReplay: ['int', ['int', _T.pointer('bool')]],
     BCSDK_GetSupportReplaySubStream: ['int', ['int', _T.pointer('bool')]],
     BCSDK_GetSupportTimingRecord: ['int', ['int', _T.pointer('bool')]],
+    BCSDK_GetSupportRecordEnable: ['int', ['int', _T.pointer('bool')]],
     BCSDK_GetSupportReplaySpeed: ['int', ['int', _T.pointer('bool')]],
     BCSDK_GetSupportAlarmVideoMark: ['int', ['int', _T.pointer('bool')]],
+    BCSDK_GetSupportCoverPreview: ['int', ['int', _T.pointer('bool')]],
+    BCSDK_GetSupportDeleteRecordFiles: ['int', ['int', _T.pointer('bool')]],
     BCSDK_GetSupportPolling: ['int', ['int', _T.pointer('bool')]],
     BCSDK_GetSupportAutoNtp: ['int', ['int', _T.pointer('bool')]],
     BCSDK_GetSupportWiFi: ['int', ['int', _T.pointer('bool')]],
@@ -75,6 +78,7 @@ const MFFI = ffi.Library(path.join(folder, 'libBCSDKWrapper'), {
     BCSDK_GetSupportFTPSubStream: ['int', ['int', _T.pointer('bool')]],
     BCSDK_GetSupportFTPExtensionStream: ['int', ['int', _T.pointer('bool')]],
     BCSDK_GetSupportFTPPicture: ['int', ['int', _T.pointer('bool')]],
+    BCSDK_GetSupportFTPEnable: ['int', ['int', _T.pointer('bool')]],
     BCSDK_GetSupportRTSP: ['int', ['int', _T.pointer('bool')]],
     BCSDK_GetSupportRTMP: ['int', ['int', _T.pointer('bool')]],
     BCSDK_GetSupportONVIF: ['int', ['int', _T.pointer('bool')]],
@@ -91,7 +95,10 @@ const MFFI = ffi.Library(path.join(folder, 'libBCSDKWrapper'), {
     BCSDK_GetSupportDateFormat: ['int', ['int', _T.pointer('bool')]],
     BCSDK_GetSupportEmailTask: ['int', ['int', _T.pointer('bool')]],
     BCSDK_GetSupportEmailNickName: ['int', ['int', _T.pointer('bool')]],
+    BCSDK_GetSupportEmailInterval: ['int', ['int', _T.pointer('bool')]],
+    BCSDK_GetSupportEmailEnable: ['int', ['int', _T.pointer('bool')]],
     BCSDK_GetSupportPushTask: ['int', ['int', _T.pointer('bool')]],
+    BCSDK_GetSupportPushEnable: ['int', ['int', _T.pointer('bool')]],
     BCSDK_GetSupportCloud: ['int', ['int', _T.pointer('bool')]],
     BCSDK_GetSupportCloudCfg: ['int', ['int', _T.pointer('bool')]],
     BCSDK_GetSupportCloudSchedule: ['int', ['int', _T.pointer('bool')]],
@@ -116,7 +123,6 @@ const MFFI = ffi.Library(path.join(folder, 'libBCSDKWrapper'), {
     BCSDK_GetSupportHttpsPort: ['int', ['int', _T.pointer('bool')]],
     BCSDK_GetSupportNtp: ['int', ['int', _T.pointer('bool')]],
     BCSDK_GetSupportRecSchedule: ['int', ['int', _T.pointer('bool')]],
-    BCSDK_GetSupportEmailInterval: ['int', ['int', _T.pointer('bool')]],
     BCSDK_GetSupportRecSettings: ['int', ['int', _T.pointer('bool')]],
     BCSDK_GetSupportRecOverWriteCfg: ['int', ['int', _T.pointer('bool')]],
     BCSDK_GetSupportRecPreRecordCfg: ['int', ['int', _T.pointer('bool')]],
@@ -144,7 +150,15 @@ const MFFI = ffi.Library(path.join(folder, 'libBCSDKWrapper'), {
     BCSDK_GetSupportNasUnbind: ['int', ['int', _T.pointer('bool')]],
     BCSDK_GetSupportNasBindStatusInfo: ['int', ['int', _T.pointer('bool')]],
     BCSDK_GetSupportExport: ['int', ['int', _T.pointer('bool')]],
-    BCSDK_GetSupportImport: ['int', ['int', _T.pointer('bool')]]
+    BCSDK_GetSupportImport: ['int', ['int', _T.pointer('bool')]],
+    BCSDK_GetSupportSyncUTCTime: ['int', ['int', _T.pointer('bool')]],
+    BCSDK_GetQRAudios: ['int', ['int', _T.P_BC_QR_AUDIOS_INFO]],
+    BCSDK_GetSupportSamba: ['int', ['int', _T.pointer('bool')]],
+    BCSDK_GetScheduleVersion: ['int', ['int', _T.pointer('int')]],
+    BCSDK_GetSupportBuzzer: ['int', ['int', _T.pointer('bool')]],
+    BCSDK_GetSupportBuzzerTask: ['int', ['int', _T.pointer('bool')]],
+    BCSDK_GetSupportBuzzerEnable: ['int', ['int', _T.pointer('bool')]],
+    BCSDK_GetSupportChannelVersion: ['int', ['int', _T.pointer('bool')]]
     /************************************************************************
      * MARK: Channel abilities
      ************************************************************************/
@@ -196,7 +210,14 @@ const MFFI = ffi.Library(path.join(folder, 'libBCSDKWrapper'), {
     BCSDK_GetSupportIspSatruation: ['int', ['int', 'int', _T.pointer('bool')]],
     BCSDK_GetSupportIspHue: ['int', ['int', 'int', _T.pointer('bool')]],
     BCSDK_GetSupportIspSharpen: ['int', ['int', 'int', _T.pointer('bool')]],
-    BCSDK_GetSupportIspDayNightThreshold: ['int', ['int', 'int', _T.pointer('bool')]]
+    BCSDK_GetSupportIspDayNightThreshold: ['int', ['int', 'int', _T.pointer('bool')]],
+    BCSDK_GetSupportAI: ['int', ['int', 'int', _T.pointer('bool')]],
+    BCSDK_GetSupportAIPeople: ['int', ['int', 'int', _T.pointer('bool')]],
+    BCSDK_GetSupportAIVehicle: ['int', ['int', 'int', _T.pointer('bool')]],
+    BCSDK_GetSupportAIFace: ['int', ['int', 'int', _T.pointer('bool')]],
+    BCSDK_GetSupportAIAnimal: ['int', ['int', 'int', _T.pointer('bool')]],
+    BCSDK_GetSupportTimelapse: ['int', ['int', 'int', _T.pointer('bool')]],
+    BCSDK_GetSupportTimelapseThumbnail: ['int', ['int', 'int', _T.pointer('bool')]]
     /************************************************************************
      *
      * Live interfaces
@@ -242,7 +263,7 @@ const MFFI = ffi.Library(path.join(folder, 'libBCSDKWrapper'), {
     BCSDK_GetPlaybackState: ['int', ['int', 'int', _T.pointer('int')]],
     BCSDK_GetIsPlaybackOpen: ['int', ['int', 'int', _T.pointer('bool')]],
     BCSDK_GetPlaybackStreamType: ['int', ['int', 'int', _T.pointer('int')]],
-    BCSDK_PlaybackOpen: ['int', ['int', 'int', 'string', 'string', 'string', 'bool', 'float', exports.renderCallbackFunc, _T.pointer('void')]],
+    BCSDK_PlaybackOpen: ['int', ['int', 'int', 'string', 'string', 'string', 'string', 'bool', 'float', exports.renderCallbackFunc, _T.pointer('void')]],
     BCSDK_PlaybackClose2: ['int', ['int', 'int']],
     BCSDK_PlaybackStart: ['int', ['int', 'int']],
     BCSDK_PlaybackPause: ['int', ['int', 'int']],
@@ -321,7 +342,7 @@ const MFFI = ffi.Library(path.join(folder, 'libBCSDKWrapper'), {
      ************************************************************************/
     ,
     BCSDK_GetIsDownloading: ['int', ['int', _T.pointer('int')]],
-    BCSDK_StartDownloadFile: ['int', ['int', 'string', 'string', 'bool', 'int', 'string', 'string']],
+    BCSDK_StartDownloadFile: ['int', ['int', 'string', 'string', 'string', 'bool', 'int', 'string', 'string']],
     BCSDK_StopDownload: ['int', ['int', 'long']]
     /************************************************************************
      *
@@ -730,6 +751,47 @@ const MFFI = ffi.Library(path.join(folder, 'libBCSDKWrapper'), {
      * callback with E_BC_CMD_COVER_PREVIEW
      */
     /*, BCSDK_RemoteGetCovers:            ['int', ['int', _T.P_BC_GET_FILE_COVERS_CFG]]*/
+    /* files Delete
+     *
+     * callback with E_BC_CMD_REC_FILE_DEL
+     */
+    ,
+    BCSDK_DeleteRecFiles: ['int', ['int', _T.P_BC_DEL_REC_FILES]]
+    /* record enable
+     *
+     * callback with E_BC_CMD_GET_RECORD_ENABLE, E_BC_CMD_SET_RECORD_ENABLE
+     */
+    ,
+    BCSDK_RemoteGetRecordEnable: ['int', ['int']],
+    BCSDK_RemoteSetRecordEnable: ['int', ['int', _T.P_BC_ALARM_OUT_ENABLE_CFG]]
+    /* Ftp enable
+     *
+     * callback with E_BC_CMD_GET_FTP_ENABLE, E_BC_CMD_SET_FTP_ENABLE
+     */
+    ,
+    BCSDK_RemoteGetFtpEnable: ['int', ['int']],
+    BCSDK_RemoteSetFtpEnable: ['int', ['int', _T.P_BC_ALARM_OUT_ENABLE_CFG]]
+    /* Email enable
+     *
+     * callback with E_BC_CMD_GET_EMAIL_ENABLE, E_BC_CMD_SET_EMAIL_ENABLE
+     */
+    ,
+    BCSDK_RemoteGetEmailEnable: ['int', ['int']],
+    BCSDK_RemoteSetEmailEnable: ['int', ['int', _T.P_BC_ALARM_OUT_ENABLE_CFG]]
+    /* push enable
+     *
+     * callback with E_BC_CMD_GET_PUSH_ENABLE, E_BC_CMD_SET_PUSH_ENABLE
+     */
+    ,
+    BCSDK_RemoteGetPushEnable: ['int', ['int']],
+    BCSDK_RemoteSetPushEnable: ['int', ['int', _T.P_BC_ALARM_OUT_ENABLE_CFG]]
+    /* buzzer enable
+     *
+     * callback with E_BC_CMD_GET_BUZZER_ENABLE, E_BC_CMD_SET_BUZZER_ENABLE
+     */
+    ,
+    BCSDK_RemoteGetBuzzerEnable: ['int', ['int']],
+    BCSDK_RemoteSetBuzzerEnable: ['int', ['int', _T.P_BC_ALARM_OUT_ENABLE_CFG]]
     /************************************************************************
      * MARK: Channel Remote Config
      ************************************************************************/
@@ -782,6 +844,12 @@ const MFFI = ffi.Library(path.join(folder, 'libBCSDKWrapper'), {
     ,
     BCSDK_RemoteGetMotionCfg: ['int', ['int', 'int']],
     BCSDK_RemoteSetMotionCfg: ['int', ['int', 'int', _T.P_BC_MOTION_CFG, 'int']]
+    /* AI Config
+     *
+     * callback with E_BC_CMD_GET_AI_CFG, E_BC_CMD_SET_AI_CFG
+     */
+    //, BCSDK_RemoteGetAiCfg:             ['int', ['int', 'int']]
+    //, BCSDK_RemoteSetAiCfg:             ['int', ['int', 'int', _T.P_BC_AI_CFG, 'int']]
     /* Video Loss
      *
      * callback with E_BC_CMD_GET_VILOST, E_BC_CMD_SET_VILOST
@@ -865,6 +933,13 @@ const MFFI = ffi.Library(path.join(folder, 'libBCSDKWrapper'), {
     ,
     BCSDK_RemoteGetAudioTask: ['int', ['int', 'int']],
     BCSDK_RemoteSetAudioTask: ['int', ['int', 'int', _T.P_BC_AUDIO_TASK]]
+    /* buzzer task
+     *
+     * callback with E_BC_CMD_GET_BUZZER_TASK, E_BC_CMD_SET_BUZZER_TASK
+     */
+    ,
+    BCSDK_RemoteGetBuzzerTask: ['int', ['int', 'int']],
+    BCSDK_RemoteSetBuzzerTask: ['int', ['int', 'int', _T.P_BC_BUZZER_TASK]]
     /* Snap
      *
      * callback with E_BC_CMD_SNAP
@@ -936,7 +1011,8 @@ const MFFI = ffi.Library(path.join(folder, 'libBCSDKWrapper'), {
     BCSDK_RemoteMuteAlarmAudio: ['int', ['int', 'int', _T.P_BC_MUTE_ALARM_AUDIO]],
     BCSDK_RemoteSaveRingtone: ['int', ['int', 'int']],
     BCSDK_RemoteImportRingtone: ['int', ['int', 'int', _T.P_BC_RINGTONE_FILE_INFO]],
-    BCSDK_RemoteGetRingtoneAbility: ['int', ['int', 'int']]
+    BCSDK_RemoteGetRingtoneAbility: ['int', ['int', 'int']],
+    BCSDK_RemoteGetChannelVersionInfo: ['int', ['int', 'int']]
     /************************************************************************
      *
      * Search interfaces
@@ -1037,9 +1113,11 @@ class NativeDelegate {
         this.BCSDK_GetSupportReplay = MFFI.BCSDK_GetSupportReplay;
         this.BCSDK_GetSupportReplaySubStream = MFFI.BCSDK_GetSupportReplaySubStream;
         this.BCSDK_GetSupportTimingRecord = MFFI.BCSDK_GetSupportTimingRecord;
+        this.BCSDK_GetSupportRecordEnable = MFFI.BCSDK_GetSupportRecordEnable;
         this.BCSDK_GetSupportReplaySpeed = MFFI.BCSDK_GetSupportReplaySpeed;
         this.BCSDK_GetSupportAlarmVideoMark = MFFI.BCSDK_GetSupportAlarmVideoMark;
         this.BCSDK_GetSupportCoverPreview = MFFI.BCSDK_GetSupportCoverPreview;
+        this.BCSDK_GetSupportDeleteRecordFiles = MFFI.BCSDK_GetSupportDeleteRecordFiles;
         this.BCSDK_GetSupportPolling = MFFI.BCSDK_GetSupportPolling;
         this.BCSDK_GetSupportAutoNtp = MFFI.BCSDK_GetSupportAutoNtp;
         this.BCSDK_GetSupportWiFi = MFFI.BCSDK_GetSupportWiFi;
@@ -1051,6 +1129,7 @@ class NativeDelegate {
         this.BCSDK_GetSupportFTPSubStream = MFFI.BCSDK_GetSupportFTPSubStream;
         this.BCSDK_GetSupportFTPExtensionStream = MFFI.BCSDK_GetSupportFTPExtensionStream;
         this.BCSDK_GetSupportFTPPicture = MFFI.BCSDK_GetSupportFTPPicture;
+        this.BCSDK_GetSupportFTPEnable = MFFI.BCSDK_GetSupportFTPEnable;
         this.BCSDK_GetSupportRTSP = MFFI.BCSDK_GetSupportRTSP;
         this.BCSDK_GetSupportRTMP = MFFI.BCSDK_GetSupportRTMP;
         this.BCSDK_GetSupportONVIF = MFFI.BCSDK_GetSupportONVIF;
@@ -1067,7 +1146,10 @@ class NativeDelegate {
         this.BCSDK_GetSupportDateFormat = MFFI.BCSDK_GetSupportDateFormat;
         this.BCSDK_GetSupportEmailTask = MFFI.BCSDK_GetSupportEmailTask;
         this.BCSDK_GetSupportEmailNickName = MFFI.BCSDK_GetSupportEmailNickName;
+        this.BCSDK_GetSupportEmailInterval = MFFI.BCSDK_GetSupportEmailInterval;
+        this.BCSDK_GetSupportEmailEnable = MFFI.BCSDK_GetSupportEmailEnable;
         this.BCSDK_GetSupportPushTask = MFFI.BCSDK_GetSupportPushTask;
+        this.BCSDK_GetSupportPushEnable = MFFI.BCSDK_GetSupportPushEnable;
         this.BCSDK_GetSupportCloud = MFFI.BCSDK_GetSupportCloud;
         this.BCSDK_GetSupportCloudCfg = MFFI.BCSDK_GetSupportCloudCfg;
         this.BCSDK_GetSupportCloudSchedule = MFFI.BCSDK_GetSupportCloudSchedule;
@@ -1092,7 +1174,6 @@ class NativeDelegate {
         this.BCSDK_GetSupportHttpsPort = MFFI.BCSDK_GetSupportHttpsPort;
         this.BCSDK_GetSupportNtp = MFFI.BCSDK_GetSupportNtp;
         this.BCSDK_GetSupportRecSchedule = MFFI.BCSDK_GetSupportRecSchedule;
-        this.BCSDK_GetSupportEmailInterval = MFFI.BCSDK_GetSupportEmailInterval;
         this.BCSDK_GetSupportRecSettings = MFFI.BCSDK_GetSupportRecSettings;
         this.BCSDK_GetSupportRecOverWriteCfg = MFFI.BCSDK_GetSupportRecOverWriteCfg;
         this.BCSDK_GetSupportRecPreRecordCfg = MFFI.BCSDK_GetSupportRecPreRecordCfg;
@@ -1121,6 +1202,14 @@ class NativeDelegate {
         this.BCSDK_GetSupportNasBindStatusInfo = MFFI.BCSDK_GetSupportNasBindStatusInfo;
         this.BCSDK_GetSupportExport = MFFI.BCSDK_GetSupportExport;
         this.BCSDK_GetSupportImport = MFFI.BCSDK_GetSupportImport;
+        this.BCSDK_GetSupportSyncUTCTime = MFFI.BCSDK_GetSupportSyncUTCTime;
+        this.BCSDK_GetQRAudios = MFFI.BCSDK_GetQRAudios;
+        this.BCSDK_GetSupportSamba = MFFI.BCSDK_GetSupportSamba;
+        this.BCSDK_GetScheduleVersion = MFFI.BCSDK_GetScheduleVersion;
+        this.BCSDK_GetSupportBuzzer = MFFI.BCSDK_GetSupportBuzzer;
+        this.BCSDK_GetSupportBuzzerTask = MFFI.BCSDK_GetSupportBuzzerTask;
+        this.BCSDK_GetSupportBuzzerEnable = MFFI.BCSDK_GetSupportBuzzerEnable;
+        this.BCSDK_GetSupportChannelVersion = MFFI.BCSDK_GetSupportChannelVersion;
         /****************************************************************
          *  Methods for Channel Abilities
          ****************************************************************/
@@ -1172,6 +1261,13 @@ class NativeDelegate {
         this.BCSDK_GetSupportIspHue = MFFI.BCSDK_GetSupportIspHue;
         this.BCSDK_GetSupportIspSharpen = MFFI.BCSDK_GetSupportIspSharpen;
         this.BCSDK_GetSupportIspDayNightThreshold = MFFI.BCSDK_GetSupportIspDayNightThreshold;
+        this.BCSDK_GetSupportAI = MFFI.BCSDK_GetSupportAI;
+        this.BCSDK_GetSupportAIPeople = MFFI.BCSDK_GetSupportAIPeople;
+        this.BCSDK_GetSupportAIVehicle = MFFI.BCSDK_GetSupportAIVehicle;
+        this.BCSDK_GetSupportAIFace = MFFI.BCSDK_GetSupportAIFace;
+        this.BCSDK_GetSupportAIAnimal = MFFI.BCSDK_GetSupportAIAnimal;
+        this.BCSDK_GetSupportTimelapse = MFFI.BCSDK_GetSupportTimelapse;
+        this.BCSDK_GetSupportTimelapseThumbnail = MFFI.BCSDK_GetSupportTimelapseThumbnail;
         /****************************************************************
          *
          *  Methods for Live
@@ -1627,6 +1723,46 @@ class NativeDelegate {
          */
         this.BCSDK_RemoteRtmpStart = MFFI.BCSDK_RemoteRtmpStart;
         this.BCSDK_RemoteRtmpStop = MFFI.BCSDK_RemoteRtmpStop;
+        /* covers get
+         *
+         * callback with E_BC_CMD_COVER_PREVIEW
+         */
+        //BCSDK_RemoteGetCovers = MFFI.BCSDK_RemoteGetCovers;
+        /* files Delete
+         *
+         * callback with E_BC_CMD_REC_FILE_DEL
+         */
+        this.BCSDK_DeleteRecFiles = MFFI.BCSDK_DeleteRecFiles;
+        /* record enable
+         *
+         * callback with E_BC_CMD_GET_RECORD_ENABLE, E_BC_CMD_SET_RECORD_ENABLE
+         */
+        this.BCSDK_RemoteGetRecordEnable = MFFI.BCSDK_RemoteGetRecordEnable;
+        this.BCSDK_RemoteSetRecordEnable = MFFI.BCSDK_RemoteSetRecordEnable;
+        /* Ftp enable
+         *
+         * callback with E_BC_CMD_GET_FTP_ENABLE, E_BC_CMD_SET_FTP_ENABLE
+         */
+        this.BCSDK_RemoteGetFtpEnable = MFFI.BCSDK_RemoteGetFtpEnable;
+        this.BCSDK_RemoteSetFtpEnable = MFFI.BCSDK_RemoteSetFtpEnable;
+        /* Email enable
+         *
+         * callback with E_BC_CMD_GET_EMAIL_ENABLE, E_BC_CMD_SET_EMAIL_ENABLE
+         */
+        this.BCSDK_RemoteGetEmailEnable = MFFI.BCSDK_RemoteGetEmailEnable;
+        this.BCSDK_RemoteSetEmailEnable = MFFI.BCSDK_RemoteSetEmailEnable;
+        /* push enable
+         *
+         * callback with E_BC_CMD_GET_PUSH_ENABLE, E_BC_CMD_SET_PUSH_ENABLE
+         */
+        this.BCSDK_RemoteGetPushEnable = MFFI.BCSDK_RemoteGetPushEnable;
+        this.BCSDK_RemoteSetPushEnable = MFFI.BCSDK_RemoteGetPushEnable;
+        /* buzzer enable
+         *
+         * callback with E_BC_CMD_GET_BUZZER_ENABLE, E_BC_CMD_SET_BUZZER_ENABLE
+         */
+        this.BCSDK_RemoteGetBuzzerEnable = MFFI.BCSDK_RemoteGetBuzzerEnable;
+        this.BCSDK_RemoteSetBuzzerEnable = MFFI.BCSDK_RemoteSetBuzzerEnable;
         /*******************************************************************************
          * MARK: Channel Remote Config
          ******************************************************************************/
@@ -1672,6 +1808,12 @@ class NativeDelegate {
          */
         this.BCSDK_RemoteGetMotionCfg = MFFI.BCSDK_RemoteGetMotionCfg;
         this.BCSDK_RemoteSetMotionCfg = MFFI.BCSDK_RemoteSetMotionCfg;
+        /* AI Config
+         *
+         * callback with E_BC_CMD_GET_AI_CFG, E_BC_CMD_SET_AI_CFG
+         */
+        //BCSDK_RemoteGetAiCfg    = MFFI.BCSDK_RemoteGetAiCfg;
+        //BCSDK_RemoteSetAiCfg    = MFFI.BCSDK_RemoteSetAiCfg;
         /* Video Loss
          *
          * callback with E_BC_CMD_GET_VILOST, E_BC_CMD_SET_VILOST
@@ -1744,6 +1886,12 @@ class NativeDelegate {
          */
         this.BCSDK_RemoteGetAudioTask = MFFI.BCSDK_RemoteGetAudioTask;
         this.BCSDK_RemoteSetAudioTask = MFFI.BCSDK_RemoteSetAudioTask;
+        /* buzzer task
+         *
+         * callback with E_BC_CMD_GET_BUZZER_TASK, E_BC_CMD_SET_BUZZER_TASK
+         */
+        this.BCSDK_RemoteGetBuzzerTask = MFFI.BCSDK_RemoteGetBuzzerTask;
+        this.BCSDK_RemoteSetBuzzerTask = MFFI.BCSDK_RemoteSetBuzzerTask;
         /* Snap
          *
          * callback with E_BC_CMD_SNAP
@@ -1807,6 +1955,11 @@ class NativeDelegate {
         this.BCSDK_RemoteSaveRingtone = MFFI.BCSDK_RemoteSaveRingtone;
         this.BCSDK_RemoteImportRingtone = MFFI.BCSDK_RemoteImportRingtone;
         this.BCSDK_RemoteGetRingtoneAbility = MFFI.BCSDK_RemoteGetRingtoneAbility;
+        /* battery info
+         *
+         * callback with E_BC_CMD_GET_CHN_VERSION
+         */
+        this.BCSDK_RemoteGetChannelVersionInfo = MFFI.BCSDK_RemoteGetChannelVersionInfo;
         /************************************************************************
          *
          * Search interfaces

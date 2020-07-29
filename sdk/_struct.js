@@ -162,7 +162,8 @@ exports.BC_TIME = refStruct({
 exports.P_BC_TIME = exports.pointer(exports.BC_TIME);
 exports.BC_FIND_REC_FILE = refStruct({
     iChannel: ref.types.int,
-    cFileName: refArray('byte', types_1.DEFINDE.BC_MAX_FILE_LEN),
+    cIdentity: refArray('byte', types_1.DEFINDE.BC_MAX_REC_FILE_ID),
+    cFileName: refArray('byte', types_1.DEFINDE.BC_MAX_REC_FILE_NAME),
     struStartTime: exports.BC_TIME,
     struStopTime: exports.BC_TIME,
     iFileSize: ref.types.uint32,
@@ -183,8 +184,19 @@ exports.BC_FIND_REC_FILES = refStruct({
     recFile: refArray(exports.BC_FIND_REC_FILE, 40)
 });
 exports.P_BC_FIND_REC_FILES = exports.pointer(exports.BC_FIND_REC_FILES);
+exports.BC_DEL_REC_FILE = refStruct({
+    cIdentity: refArray('byte', types_1.DEFINDE.BC_MAX_REC_FILE_ID)
+});
+exports.P_BC_DEL_REC_FILE = exports.pointer(exports.BC_DEL_REC_FILE);
+exports.BC_DEL_REC_FILES = refStruct({
+    iSize: ref.types.int,
+    items: refArray(exports.BC_DEL_REC_FILE, 40)
+});
+exports.P_BC_DEL_REC_FILES = exports.pointer(exports.BC_DEL_REC_FILES);
 exports.BC_ALARM_VIDEO_ITEM = refStruct({
-    cFileName: refArray('byte', types_1.DEFINDE.BC_MAX_FILE_LEN),
+    cIdentity: refArray('byte', types_1.DEFINDE.BC_MAX_REC_FILE_ID),
+    cFileName: refArray('byte', types_1.DEFINDE.BC_MAX_REC_FILE_NAME),
+    alarmType: ref.types.int,
     startTime: exports.BC_TIME,
     endTime: exports.BC_TIME
 });
@@ -829,8 +841,18 @@ exports.BC_RECORD_SCHEDULE_CFG = refStruct({
      * validField = "" or "<bEnable>".
      */
     validField: refArray('byte', 128),
-    bEnable: ref.types.bool,
-    iInvalid: ref.types.int,
+    bEnable: ref.types.bool
+    /*
+     * 0: old timetable, timing must be stand alone,
+     * 1: new timetable, timing is a bitmap value
+     */
+    ,
+    iProtocolVer: ref.types.int
+    /* bitmap
+     * BC_ALARM_IN_MD, BC_ALARM_IN_VL ...
+     */
+    ,
+    iAlarmInTypes: ref.types,
     iTimeTable: refArray(ref.types.int, types_1.DEFINDE.BC_MAX_DAYS * types_1.DEFINDE.BC_MAX_TIMESEGMENT)
 });
 exports.P_BC_RECORD_SCHEDULE_CFG = exports.pointer(exports.BC_RECORD_SCHEDULE_CFG);
@@ -1078,8 +1100,18 @@ exports.BC_FTP_TASK = refStruct({
      * validField = "" or "<bEnable>".
      */
     validField: refArray('byte', 128),
-    bEnable: ref.types.bool,
-    iInvalid: ref.types.int,
+    bEnable: ref.types.bool
+    /*
+     * 0: old timetable, timing must be stand alone,
+     * 1: new timetable, timing is a bitmap value
+     */
+    ,
+    iProtocolVer: ref.types.int
+    /* bitmap
+     * BC_ALARM_IN_MD, BC_ALARM_IN_VL ...
+     */
+    ,
+    iAlarmInTypes: ref.types,
     iTimeTable: refArray(ref.types.int, types_1.DEFINDE.BC_MAX_DAYS * types_1.DEFINDE.BC_MAX_TIMESEGMENT)
 });
 exports.P_BC_FTP_TASK = exports.pointer(exports.BC_FTP_TASK);
@@ -1089,14 +1121,34 @@ exports.BC_EMAIL_TASK = refStruct({
      * validField = "" or "<bEnable>".
      */
     validField: refArray('byte', 128),
-    bEnable: ref.types.bool,
-    iInvalid: ref.types.int,
+    bEnable: ref.types.bool
+    /*
+    * 0: old timetable, timing must be stand alone,
+    * 1: new timetable, timing is a bitmap value
+    */
+    ,
+    iProtocolVer: ref.types.int
+    /* bitmap
+    * BC_ALARM_IN_MD, BC_ALARM_IN_VL ...
+    */
+    ,
+    iAlarmInTypes: ref.types,
     iTimeTable: refArray(ref.types.int, types_1.DEFINDE.BC_MAX_DAYS * types_1.DEFINDE.BC_MAX_TIMESEGMENT)
 });
 exports.P_BC_EMAIL_TASK = exports.pointer(exports.BC_EMAIL_TASK);
 exports.BC_PUSH_TASK = refStruct({
-    bEnable: ref.types.bool,
-    iInvalid: ref.types.int,
+    bEnable: ref.types.bool
+    /*
+     * 0: old timetable, timing must be stand alone,
+     * 1: new timetable, timing is a bitmap value
+     */
+    ,
+    iProtocolVer: ref.types.int
+    /* bitmap
+     * BC_ALARM_IN_MD, BC_ALARM_IN_VL ...
+     */
+    ,
+    iAlarmInTypes: ref.types,
     iTimeTable: refArray(ref.types.int, types_1.DEFINDE.BC_MAX_DAYS * types_1.DEFINDE.BC_MAX_TIMESEGMENT),
     iPushVersion: ref.types.int // 0:old  1:new
 });
@@ -1107,11 +1159,36 @@ exports.BC_AUDIO_TASK = refStruct({
      * validField = "" or "<bEnable>".
      */
     validField: refArray('byte', 128),
-    bEnable: ref.types.bool,
-    iInvalid: ref.types.int,
+    bEnable: ref.types.bool
+    /*
+     * 0: old timetable, timing must be stand alone,
+     * 1: new timetable, timing is a bitmap value
+     */
+    ,
+    iProtocolVer: ref.types.int
+    /* bitmap
+     * BC_ALARM_IN_MD, BC_ALARM_IN_VL ...
+     */
+    ,
+    iAlarmInTypes: ref.types,
     iTimeTable: refArray(ref.types.int, types_1.DEFINDE.BC_MAX_DAYS * types_1.DEFINDE.BC_MAX_TIMESEGMENT)
 });
 exports.P_BC_AUDIO_TASK = exports.pointer(exports.BC_AUDIO_TASK);
+exports.BC_BUZZER_TASK = refStruct({
+    /* validField, used for only set some params.
+     * validField only suppport for setting <bEnable>,
+     * validField = "" or "<bEnable>".
+     */
+    validField: refArray('byte', 128),
+    bEnable: ref.types.bool
+    /* bitmap
+     * BC_ALARM_IN_MD, BC_ALARM_IN_VL ...
+     */
+    ,
+    iAlarmInTypes: ref.types,
+    iTimeTable: refArray(ref.types.int, types_1.DEFINDE.BC_MAX_DAYS * types_1.DEFINDE.BC_MAX_TIMESEGMENT)
+});
+exports.P_BC_BUZZER_TASK = exports.pointer(exports.BC_BUZZER_TASK);
 exports.BC_SNAP_INFO = refStruct({
     cSaveFileName: refArray('byte', types_1.DEFINDE.BC_MAX_FILE_LEN),
     uFileSize: ref.types.uint32,
@@ -1433,12 +1510,43 @@ exports.BC_UTC_TIME = refStruct({
 });
 exports.P_BC_UTC_TIME = exports.pointer(exports.BC_UTC_TIME);
 exports.BC_NAS_BIND = refStruct({
+    /* bind
+     * send to ipc
+     *      cDevName: nas's name
+     *      cUID: nas's uid
+     *      cUserName: nas's username
+     *      cPassword: nas's password
+     */
+    /* unbind
+     * send to nas
+     *      cDevName: no need
+     *      cUID: ipc's uid
+     *      cUserName: no need
+     *      cPassword: no need
+     */
+    /* unbind
+     * send to ipc
+     *      cDevName: no need
+     *      cUID: nas's uid
+     *      cUserName: no need
+     *      cPassword: no need
+     */
     cDevName: refArray('byte', types_1.DEFINDE.BC_MAX_NAME_LEN),
     cUID: refArray('byte', types_1.DEFINDE.BC_MAX_UID_LEN),
     cUserName: refArray('byte', types_1.DEFINDE.BC_MAX_NAME_LEN),
     cPassword: refArray('byte', types_1.DEFINDE.BC_MAX_PWD_LEN)
 });
 exports.P_BC_NAS_BIND = exports.pointer(exports.BC_NAS_BIND);
+exports.BC_NAS_CFG = refStruct({
+    iStreamAbility: ref.types.int,
+    /* @param:iStreamCfg
+     *  bit0: main stream,
+     *  bit1: sub stream,
+     *  bit2: exten stream
+     */
+    iStreamCfg: ref.types.int
+});
+exports.P_BC_NAS_CFG = exports.pointer(exports.BC_NAS_CFG);
 exports.BC_SMARTHOME_ITEM = refStruct({
     cName: refArray('byte', types_1.DEFINDE.BC_SMARTHOME_NAME_MAX_LEN),
     uiValue: ref.types.uint
@@ -1451,7 +1559,11 @@ exports.BC_SMARTHOME_ABILITY_INFO = refStruct({
 });
 exports.P_BC_SMARTHOME_ABILITY_INFO = exports.pointer(exports.BC_SMARTHOME_ABILITY_INFO);
 exports.BC_CHANNEL_ALARM_STATUS_REPORT = refStruct({
-    bMotion: ref.types.bool
+    bMotion: ref.types.bool,
+    /* @param iAiType
+     *  bitmap (BC_AI_TYPE_PEOPLE | BC_AI_TYPE_VEHICLE | ...)
+     */
+    iAiType: ref.types.int
 });
 exports.P_BC_CHANNEL_ALARM_STATUS_REPORT = exports.pointer(exports.BC_CHANNEL_ALARM_STATUS_REPORT);
 exports.BC_ALARM_STATUS_REPORT = refStruct({
@@ -1467,6 +1579,7 @@ exports.BC_DOWNLOAD_BY_NAME_INFO = refStruct({
     iChannel: ref.types.int,
     cUID: refArray('byte', types_1.DEFINDE.BC_MAX_UID_LEN),
     cSourceFileName: refArray('byte', types_1.DEFINDE.BC_MAX_FILE_LEN),
+    cFileId: refArray('byte', types_1.DEFINDE.BC_MAX_REC_FILE_ID),
     cSaveFileName: refArray('byte', types_1.DEFINDE.BC_MAX_FILE_LEN),
     cTempFileName: refArray('byte', types_1.DEFINDE.BC_MAX_FILE_LEN),
     fileSize: ref.types.longlong,
@@ -1493,4 +1606,35 @@ exports.BC_TRANSFORM = refStruct({
     ty: ref.types.float
 });
 exports.P_BC_TRANSFORM = exports.pointer(exports.BC_TRANSFORM);
+exports.BC_COVER_PRE_INFO = refStruct({
+    iChannel: ref.types.int,
+    iUseSubStream: ref.types.int,
+    startTime: exports.BC_TIME,
+    endTime: exports.BC_TIME,
+    /* get how many frames
+     */
+    frameCount: ref.types.int,
+    /* which frame to get
+     */
+    frames: refArray(ref.types.int, types_1.DEFINDE.BC_MAX_COV_PRE_LEN)
+});
+exports.P_BC_COVER_PRE_INFO = exports.pointer(exports.BC_COVER_PRE_INFO);
+exports.BC_QR_AUDIOS_INFO = refStruct({
+    audio: refArray('byte', types_1.DEFINDE.BC_MAX_QR_AUDIO_LEN)
+});
+exports.P_BC_QR_AUDIOS_INFO = exports.pointer(exports.BC_QR_AUDIOS_INFO);
+exports.BC_SMB_CFG = refStruct({
+    iEnable: ref.types.int
+});
+exports.P_BC_SMB_CFG = exports.pointer(exports.BC_SMB_CFG);
+exports.BC_ALARM_OUT_ENABLE_CFG = refStruct({
+    /* @param iEnable
+     *  Bitmap
+     *  bit0: channel 0
+     *  bit1: channel 1
+     *  ...
+     */
+    iEnable: ref.types.int
+});
+exports.P_BC_ALARM_OUT_ENABLE_CFG = exports.pointer(exports.BC_ALARM_OUT_ENABLE_CFG);
 //# sourceMappingURL=_struct.js.map

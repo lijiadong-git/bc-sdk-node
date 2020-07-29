@@ -45,9 +45,11 @@ export interface NativeMethods {
     BCSDK_GetSupportReplay: (handle: number, pSupport: any) => number;
     BCSDK_GetSupportReplaySubStream: (handle: number, pSupport: any) => number;
     BCSDK_GetSupportTimingRecord: (handle: number, pSupport: any) => number;
+    BCSDK_GetSupportRecordEnable: (handle: number, pSupport: any) => number;
     BCSDK_GetSupportReplaySpeed: (handle: number, pSupport: any) => number;
     BCSDK_GetSupportAlarmVideoMark: (handle: number, pSupport: any) => number;
     BCSDK_GetSupportCoverPreview: (handle: number, pSupport: any) => number;
+    BCSDK_GetSupportDeleteRecordFiles: (handle: number, pSupport: any) => number;
     BCSDK_GetSupportPolling: (handle: number, pSupport: any) => number;
     BCSDK_GetSupportAutoNtp: (handle: number, pSupport: any) => number;
     BCSDK_GetSupportWiFi: (handle: number, pSupport: any) => number;
@@ -59,6 +61,7 @@ export interface NativeMethods {
     BCSDK_GetSupportFTPSubStream: (handle: number, pSupport: any) => number;
     BCSDK_GetSupportFTPExtensionStream: (handle: number, pSupport: any) => number;
     BCSDK_GetSupportFTPPicture: (handle: number, pSupport: any) => number;
+    BCSDK_GetSupportFTPEnable: (handle: number, pSupport: any) => number;
     BCSDK_GetSupportRTSP: (handle: number, pSupport: any) => number;
     BCSDK_GetSupportRTMP: (handle: number, pSupport: any) => number;
     BCSDK_GetSupportONVIF: (handle: number, pSupport: any) => number;
@@ -75,7 +78,10 @@ export interface NativeMethods {
     BCSDK_GetSupportDateFormat: (handle: number, pSupport: any) => number;
     BCSDK_GetSupportEmailTask: (handle: number, pSupport: any) => number;
     BCSDK_GetSupportEmailNickName: (handle: number, pSupport: any) => number;
+    BCSDK_GetSupportEmailInterval: (handle: number, pSupport: any) => number;
+    BCSDK_GetSupportEmailEnable: (handle: number, pSupport: any) => number;
     BCSDK_GetSupportPushTask: (handle: number, pSupport: any) => number;
+    BCSDK_GetSupportPushEnable: (handle: number, pSupport: any) => number;
     BCSDK_GetSupportCloud: (handle: number, pSupport: any) => number;
     BCSDK_GetSupportCloudCfg: (handle: number, pSupport: any) => number;
     BCSDK_GetSupportCloudSchedule: (handle: number, pSupport: any) => number;
@@ -100,7 +106,6 @@ export interface NativeMethods {
     BCSDK_GetSupportHttpsPort: (handle: number, pSupport: any) => number;
     BCSDK_GetSupportNtp: (handle: number, pSupport: any) => number;
     BCSDK_GetSupportRecSchedule: (handle: number, pSupport: any) => number;
-    BCSDK_GetSupportEmailInterval: (handle: number, pSupport: any) => number;
     BCSDK_GetSupportRecSettings: (handle: number, pSupport: any) => number;
     BCSDK_GetSupportRecOverWriteCfg: (handle: number, pSupport: any) => number;
     BCSDK_GetSupportRecPreRecordCfg: (handle: number, pSupport: any) => number;
@@ -136,6 +141,14 @@ export interface NativeMethods {
     BCSDK_GetSupportNasBindStatusInfo: (handle: number, pSupport: any) => number;
     BCSDK_GetSupportExport: (handle: number, pSupport: any) => number;
     BCSDK_GetSupportImport: (handle: number, pSupport: any) => number;
+    BCSDK_GetSupportSyncUTCTime: (handle: number, pSupport: any) => number;
+    BCSDK_GetQRAudios: (handle: number, pSupport: any) => number;
+    BCSDK_GetSupportSamba: (handle: number, pSupport: any) => number;
+    BCSDK_GetScheduleVersion: (handle: number, pVersion: any) => number;
+    BCSDK_GetSupportBuzzer: (handle: number, pSupport: any) => number;
+    BCSDK_GetSupportBuzzerTask: (handle: number, pSupport: any) => number;
+    BCSDK_GetSupportBuzzerEnable: (handle: number, pSupport: any) => number;
+    BCSDK_GetSupportChannelVersion: (handle: number, pSupport: any) => number;
     /****************************************************************
      *  Methods for Channel Abilities
      ****************************************************************/
@@ -187,6 +200,13 @@ export interface NativeMethods {
     BCSDK_GetSupportIspHue: (handle: number, channel: number, pSupport: any) => number;
     BCSDK_GetSupportIspSharpen: (handle: number, channel: number, pSupport: any) => number;
     BCSDK_GetSupportIspDayNightThreshold: (handle: number, channel: number, pSupport: any) => number;
+    BCSDK_GetSupportAI: (handle: number, channel: number, pSupport: any) => number;
+    BCSDK_GetSupportAIPeople: (handle: number, channel: number, pSupport: any) => number;
+    BCSDK_GetSupportAIVehicle: (handle: number, channel: number, pSupport: any) => number;
+    BCSDK_GetSupportAIFace: (handle: number, channel: number, pSupport: any) => number;
+    BCSDK_GetSupportAIAnimal: (handle: number, channel: number, pSupport: any) => number;
+    BCSDK_GetSupportTimelapse: (handle: number, channel: number, pSupport: any) => number;
+    BCSDK_GetSupportTimelapseThumbnail: (handle: number, channel: number, pSupport: any) => number;
     /****************************************************************
      *
      *  Methods for Live
@@ -229,7 +249,7 @@ export interface NativeMethods {
     BCSDK_GetPlaybackState: (handle: number, channel: number, pState: any) => number;
     BCSDK_GetIsPlaybackOpen: (handle: number, channel: number, pOpen: any) => number;
     BCSDK_GetPlaybackStreamType: (handle: number, channel: number, pType: any) => number;
-    BCSDK_PlaybackOpen: (handle: number, channel: number, uid: string, fileNam: string, cacheFile: string, sub: boolean, speed: number, callback: any, userData: any) => number;
+    BCSDK_PlaybackOpen: (handle: number, channel: number, uid: string, identity: string, fileNam: string, cacheFile: string, sub: boolean, speed: number, callback: any, userData: any) => number;
     BCSDK_PlaybackClose: (handle: number, channel: number) => number;
     BCSDK_PlaybackStart: (handle: number, channel: number) => number;
     BCSDK_PlaybackPause: (handle: number, channel: number) => number;
@@ -278,7 +298,7 @@ export interface NativeMethods {
      *
      ************************************************************************/
     BCSDK_GetIsDownloading: (handle: number, download: any) => number;
-    BCSDK_StartDownloadFile: (handle: number, uid: string, fileName: string, subStream: boolean, type: T.BC_FILE_TYPE_E, tempFolder: string, dstFile: string) => number;
+    BCSDK_StartDownloadFile: (handle: number, uid: string, identity: string, fileName: string, subStream: boolean, type: T.BC_FILE_TYPE_E, tempFolder: string, dstFile: string) => number;
     BCSDK_StopDownload: (handle: number, fileName: any) => number;
     /************************************************************************
      *
@@ -395,6 +415,17 @@ export interface NativeMethods {
     BCSDK_RemotePushOpen: (handle: number, param: any) => number;
     BCSDK_RemoteRtmpStart: (handle: number, param: any) => number;
     BCSDK_RemoteRtmpStop: (handle: number, param: any) => number;
+    BCSDK_DeleteRecFiles: (handle: number, param: any) => number;
+    BCSDK_RemoteGetRecordEnable: (handle: number) => number;
+    BCSDK_RemoteSetRecordEnable: (handle: number, param: any) => number;
+    BCSDK_RemoteGetFtpEnable: (handle: number) => number;
+    BCSDK_RemoteSetFtpEnable: (handle: number, param: any) => number;
+    BCSDK_RemoteGetEmailEnable: (handle: number) => number;
+    BCSDK_RemoteSetEmailEnable: (handle: number, param: any) => number;
+    BCSDK_RemoteGetPushEnable: (handle: number) => number;
+    BCSDK_RemoteSetPushEnable: (handle: number, param: any) => number;
+    BCSDK_RemoteGetBuzzerEnable: (handle: number) => number;
+    BCSDK_RemoteSetBuzzerEnable: (handle: number, param: any) => number;
     /*******************************************************************************
      * MARK: Channel Remote Config
      ******************************************************************************/
@@ -440,6 +471,8 @@ export interface NativeMethods {
     BCSDK_RemoteSetPushTask: (handle: number, channel: number, param: any) => number;
     BCSDK_RemoteGetAudioTask: (handle: number, channel: number) => number;
     BCSDK_RemoteSetAudioTask: (handle: number, channel: number, param: any) => number;
+    BCSDK_RemoteGetBuzzerTask: (handle: number, channel: number) => number;
+    BCSDK_RemoteSetBuzzerTask: (handle: number, channel: number, param: any) => number;
     BCSDK_RemoteSnap: (handle: number, channel: number, param: any) => number;
     BCSDK_GetIsConfigStreamOpen: (handle: number, channel: number, pOpen: any) => number;
     BCSDK_ConfigStreamOpen: (handle: number, channel: number, callback: any, userData: any) => number;
@@ -461,6 +494,7 @@ export interface NativeMethods {
     BCSDK_RemoteSaveRingtone: (handle: number, channel: number) => number;
     BCSDK_RemoteImportRingtone: (handle: number, channel: number, param: any) => number;
     BCSDK_RemoteGetRingtoneAbility: (handle: number, channel: number) => number;
+    BCSDK_RemoteGetChannelVersionInfo: (handle: number, channel: number) => number;
     /************************************************************************
      *
      * Search interfaces

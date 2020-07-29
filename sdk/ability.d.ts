@@ -16,8 +16,11 @@ declare class ABILITY {
     getSupportReplay(handle: number, df?: boolean): Promise<boolean>;
     getSupportReplaySubStream(handle: number, df?: boolean): Promise<boolean>;
     getSupportTimingRecord(handle: number, df?: boolean): Promise<boolean>;
+    getSupportRecordEnable(handle: number, df?: boolean): Promise<boolean>;
     getSupportReplaySpeed(handle: number, df?: boolean): Promise<boolean>;
     getSupportAlarmVideoMark(handle: number, df?: boolean): Promise<boolean>;
+    getSupportCoverPreview(handle: number, df?: boolean): Promise<boolean>;
+    getSupportDeleteRecordFiles(handle: number, df?: boolean): Promise<boolean>;
     getSupportPolling(handle: number, df?: boolean): Promise<boolean>;
     getSupportAutoNtp(handle: number, df?: boolean): Promise<boolean>;
     getSupportWiFi(handle: number, df?: boolean): Promise<boolean>;
@@ -28,6 +31,8 @@ declare class ABILITY {
     getSupportFTPTest(handle: number, df?: boolean): Promise<boolean>;
     getSupportFTPSubStream(handle: number, df?: boolean): Promise<boolean>;
     getSupportFTPExtensionStream(handle: number, df?: boolean): Promise<boolean>;
+    getSupportFTPPicture(handle: number, df?: boolean): Promise<boolean>;
+    getSupportFTPEnable(handle: number, df?: boolean): Promise<boolean>;
     getSupportRTSP(handle: number, df?: boolean): Promise<boolean>;
     getSupportRTMP(handle: number, df?: boolean): Promise<boolean>;
     getSupportONVIF(handle: number, df?: boolean): Promise<boolean>;
@@ -42,7 +47,10 @@ declare class ABILITY {
     getSupportTimeFormat(handle: number, df?: boolean): Promise<boolean>;
     getSupportEmailTask(handle: number, df?: boolean): Promise<boolean>;
     getSupportEmailNickName(handle: number, df?: boolean): Promise<boolean>;
+    getSupportEmailInterval(handle: number, df?: boolean): Promise<boolean>;
+    getSupportEmailEnable(handle: number, df?: boolean): Promise<boolean>;
     getSupportPushTask(handle: number, df?: boolean): Promise<boolean>;
+    getSupportPushEnable(handle: number, df?: boolean): Promise<boolean>;
     getSupportCloud(handle: number, df?: boolean): Promise<boolean>;
     getSupportCloudCfg(handle: number, df?: boolean): Promise<boolean>;
     getSupportCloudSchedule(handle: number, df?: boolean): Promise<boolean>;
@@ -63,7 +71,6 @@ declare class ABILITY {
     getSupportHttpsPort(handle: number, df?: boolean): Promise<boolean>;
     getSupportNtp(handle: number, df?: boolean): Promise<boolean>;
     getSupportRecSchedule(handle: number, df?: boolean): Promise<boolean>;
-    getSupportEmailInterval(handle: number, df?: boolean): Promise<boolean>;
     getSupportRecSettings(handle: number, df?: boolean): Promise<boolean>;
     getSupportRecOverWriteCfg(handle: number, df?: boolean): Promise<boolean>;
     getSupportRecPreRecordCfg(handle: number, df?: boolean): Promise<boolean>;
@@ -77,7 +84,6 @@ declare class ABILITY {
     getHasAdminPermission(handle: number, df?: boolean): Promise<boolean>;
     getSupportSimModule(handle: number, df?: boolean): Promise<boolean>;
     getIsLoginByDefaultPass(handle: number, df?: boolean): Promise<boolean>;
-    getSupportFTPPicture(handle: number, df?: boolean): Promise<boolean>;
     getSupportPppoe(handle: number, df?: boolean): Promise<boolean>;
     getSupportDateFormat(handle: number, df?: boolean): Promise<boolean>;
     getSupportCloudSignatureLoginCfg(handle: number, df?: boolean): Promise<boolean>;
@@ -90,6 +96,13 @@ declare class ABILITY {
     getSupportNasBindStatusInfo(handle: number, df?: boolean): Promise<boolean>;
     getSupportExport(handle: number, df?: boolean): Promise<boolean>;
     getSupportImport(handle: number, df?: boolean): Promise<boolean>;
+    getSupportSyncUTCTime(handle: number, df?: boolean): Promise<boolean>;
+    getSupportSamba(handle: number, df?: boolean): Promise<boolean>;
+    getScheduleVersion(handle: number, df?: boolean): Promise<boolean>;
+    getSupportBuzzer(handle: number, df?: boolean): Promise<boolean>;
+    getSupportBuzzerTask(handle: number, df?: boolean): Promise<boolean>;
+    getSupportBuzzerEnable(handle: number, df?: boolean): Promise<boolean>;
+    getSupportChannelVersion(handle: number, df?: boolean): Promise<boolean>;
     getDeviceNorm(handle: number, df?: T.BC_DEVICE_NORM_E): Promise<T.BC_DEVICE_NORM_E>;
     getUserVersion(handle: number, df?: number): Promise<number>;
     getPTZMode(handle: number, df?: number): Promise<number>;
@@ -108,6 +121,7 @@ declare class ABILITY {
     getRfVersion(handle: number, df?: number): Promise<number>;
     getRfNumbers(handle: number, df?: number): Promise<number>;
     getSmarthomeAbility(handle: number): Promise<T.BC_SMARTHOME_ABILITY_INFO>;
+    getQRAudios(handle: number): Promise<T.BC_QR_AUDIOS_INFO>;
     /****************************************************************
      *
      *  Methods for Channel Abilities
@@ -135,6 +149,8 @@ declare class ABILITY {
     getSupportTalk(handle: number, channel: number, df?: boolean): Promise<boolean>;
     getSupportMD(handle: number, channel: number, df?: boolean): Promise<boolean>;
     getSupportMDWithPIR(handle: number, channel: number, df?: boolean): Promise<boolean>;
+    getSupportMDTriggerAudio(handle: number, channel: number, df?: boolean): Promise<boolean>;
+    getSupportMDTriggerRecord(handle: number, channel: number, df?: boolean): Promise<boolean>;
     getSupportShelterCfg(handle: number, channel: number, df?: boolean): Promise<boolean>;
     getIsBattery(handle: number, channel: number, df?: boolean): Promise<boolean>;
     getIsCharge(handle: number, channel: number, df?: boolean): Promise<boolean>;
@@ -159,8 +175,13 @@ declare class ABILITY {
     getSupportIspHue(handle: number, channel: number, df?: boolean): Promise<boolean>;
     getSupportIspSharpen(handle: number, channel: number, df?: boolean): Promise<boolean>;
     getSupportIspDayNightThreshold(handle: number, channel: number, df?: boolean): Promise<boolean>;
-    getSupportMDTriggerAudio(handle: number, channel: number, df?: boolean): Promise<boolean>;
-    getSupportMDTriggerRecord(handle: number, channel: number, df?: boolean): Promise<boolean>;
+    getSupportAI(handle: number, channel: number, df?: boolean): Promise<boolean>;
+    getSupportAIPeople(handle: number, channel: number, df?: boolean): Promise<boolean>;
+    getSupportAIVehicle(handle: number, channel: number, df?: boolean): Promise<boolean>;
+    getSupportAIFace(handle: number, channel: number, df?: boolean): Promise<boolean>;
+    getSupportAIAnimal(handle: number, channel: number, df?: boolean): Promise<boolean>;
+    getSupportTimelapse(handle: number, channel: number, df?: boolean): Promise<boolean>;
+    getSupportTimelapseThumbnail(handle: number, channel: number, df?: boolean): Promise<boolean>;
 }
 export declare const ability: ABILITY;
 export {};

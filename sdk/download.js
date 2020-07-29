@@ -74,9 +74,9 @@ class DOWNLOAD {
             }
         }
     }
-    startDownloadFile(handle, fileName, subStream, type, tempFolder, dstFile, callback) {
+    startDownloadFile(handle, identity, fileName, subStream, type, tempFolder, dstFile, callback) {
         return new Promise((resolve, reject) => {
-            let ret = native_1.native.BCSDK_StartDownloadFile(handle, '', fileName, subStream, type, tempFolder, dstFile);
+            let ret = native_1.native.BCSDK_StartDownloadFile(handle, '', identity, fileName, subStream, type, tempFolder, dstFile);
             if (ret != T.ERROR.E_NONE) {
                 reject({ code: ret, description: 'start download file' });
                 return;

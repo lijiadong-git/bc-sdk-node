@@ -234,6 +234,8 @@ const deviceCallback = ffi_1.Callback('void', ['int', _T.BC_CMD_DATA, _T.pointer
         case T.BC_CMD_E.E_BC_CMD_DEVICE_SLEEP:
         case T.BC_CMD_E.E_BC_CMD_GET_AUDIO_TASK:
         case T.BC_CMD_E.E_BC_CMD_SET_AUDIO_TASK:
+        case T.BC_CMD_E.E_BC_CMD_GET_BUZZER_TASK:
+        case T.BC_CMD_E.E_BC_CMD_SET_BUZZER_TASK:
         case T.BC_CMD_E.E_BC_CMD_BATTERY_HEARTBEAT_RSP:
         case T.BC_CMD_E.E_BC_CMD_GET_AP_MODE_INFO:
         case T.BC_CMD_E.E_BC_CMD_BASE_REPORT_ONLINE_DEVICE:
@@ -274,6 +276,17 @@ const deviceCallback = ffi_1.Callback('void', ['int', _T.BC_CMD_DATA, _T.pointer
         case T.BC_CMD_E.E_BC_CMD_START_ZOOM_FOCUS:
         case T.BC_CMD_E.E_BC_CMD_GET_DAY_NIGHT_THRESHOLD:
         case T.BC_CMD_E.E_BC_CMD_SET_DAY_NIGHT_THRESHOLD:
+        case T.BC_CMD_E.E_BC_CMD_REC_FILE_DEL:
+        case T.BC_CMD_E.E_BC_CMD_GET_RECORD_ENABLE:
+        case T.BC_CMD_E.E_BC_CMD_SET_RECORD_ENABLE:
+        case T.BC_CMD_E.E_BC_CMD_GET_FTP_ENABLE:
+        case T.BC_CMD_E.E_BC_CMD_SET_FTP_ENABLE:
+        case T.BC_CMD_E.E_BC_CMD_GET_EMAIL_ENABLE:
+        case T.BC_CMD_E.E_BC_CMD_SET_EMAIL_ENABLE:
+        case T.BC_CMD_E.E_BC_CMD_GET_PUSH_ENABLE:
+        case T.BC_CMD_E.E_BC_CMD_SET_PUSH_ENABLE:
+        case T.BC_CMD_E.E_BC_CMD_GET_BUZZER_ENABLE:
+        case T.BC_CMD_E.E_BC_CMD_SET_BUZZER_ENABLE:
             {
                 config_1.config.handleSDKCallback(handle, cmdData);
                 break;

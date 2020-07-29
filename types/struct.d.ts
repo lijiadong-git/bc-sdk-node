@@ -122,8 +122,17 @@ export interface BC_FIND_REC_FILES {
     fileNum: number;
     recFile: BC_FIND_REC_FILE[];
 }
+export interface BC_DEL_REC_FILE {
+    cIdentity: string;
+}
+export interface BC_DEL_REC_FILES {
+    iSize: number;
+    items: BC_DEL_REC_FILE[];
+}
 export interface BC_ALARM_VIDEO_ITEM {
+    cIdentity: string;
     cFileName: string;
+    alarmType: number;
     startTime: BC_TIME;
     endTime: BC_TIME;
 }
@@ -1061,7 +1070,8 @@ export interface BC_COVER_CFG {
 export interface BC_RECORD_SCHEDULE_CFG {
     validField: string;
     bEnable: boolean;
-    iInvalid: number;
+    iProtocolVer: number;
+    iAlarmInTypes: number;
     iTimeTable: number[];
 }
 export interface BC_PTZ_DECODER {
@@ -1411,25 +1421,35 @@ export interface BC_FLOODLIGHT_TASK {
 export interface BC_FTP_TASK {
     validField: string;
     bEnable: boolean;
-    iInvalid: number;
+    iProtocolVer: number;
+    iAlarmInTypes: number;
     iTimeTable: number[];
 }
 export interface BC_EMAIL_TASK {
     validField: string;
     bEnable: boolean;
-    iInvalid: number;
+    iProtocolVer: number;
+    iAlarmInTypes: number;
     iTimeTable: number[];
 }
 export interface BC_PUSH_TASK {
     bEnable: boolean;
-    iInvalid: number;
+    iProtocolVer: number;
+    iAlarmInTypes: number;
     iTimeTable: number[];
     iPushVersion: number;
 }
 export interface BC_AUDIO_TASK {
     validField: string;
     bEnable: boolean;
-    iInvalid: number;
+    iProtocolVer: number;
+    iAlarmInTypes: number;
+    iTimeTable: number[];
+}
+export interface BC_BUZZER_TASK {
+    validField: string;
+    bEnable: boolean;
+    iAlarmInTypes: number;
     iTimeTable: number[];
 }
 export interface BC_SNAP_INFO {
@@ -1655,6 +1675,7 @@ export interface BC_SMARTHOME_ABILITY_INFO {
 }
 export interface BC_CHANNEL_ALARM_STATUS_REPORT {
     bMotion: boolean;
+    iAiType: number;
 }
 export interface BC_ALARM_STATUS_REPORT {
     reportByChannel: BC_CHANNEL_ALARM_STATUS_REPORT[];
@@ -1666,6 +1687,7 @@ export interface BC_DOWNLOAD_BY_NAME_INFO {
     iChannel: number;
     cUID: string;
     cSourceFileName: string;
+    cFileId: string;
     cSaveFileName: string;
     cTempFileName: string;
     fileSize: number;
@@ -1680,11 +1702,20 @@ export interface BC_DEVICE_EXCEPTION {
     adcOfPartA: number;
     adcOfPartB: number;
 }
-export interface BC_TRANSFORM {
-    a: number;
-    b: number;
-    c: number;
-    d: number;
-    tx: number;
-    ty: number;
+export interface BC_COVER_PRE_INFO {
+    iChannel: number;
+    iUseSubStream: number;
+    startTime: BC_TIME;
+    endTime: BC_TIME;
+    frameCount: number;
+    frames: number[];
+}
+export interface BC_QR_AUDIOS_INFO {
+    audio: string;
+}
+export interface BC_SMB_CFG {
+    iEnable: number;
+}
+export interface BC_ALARM_OUT_ENABLE_CFG {
+    iEnable: number;
 }

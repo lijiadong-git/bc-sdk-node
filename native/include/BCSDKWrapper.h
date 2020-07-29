@@ -16,7 +16,8 @@ extern "C" {
 #include "BCSDKWrapper+PTZ.h"
 #include "BCSDKWrapper+RemoteConfig.h"
 #include "BCSDKWrapper+Tools.h"
-    
+#include "BCSDKWrapper+Timelapse.h"
+
 #ifdef __cplusplus
 }
 #endif//__cplusplus

@@ -118,7 +118,9 @@ class PLAYBACK {
                     for (let i = 0; i < des.iItemSize; i++) {
                         const file = des.alarmItems[i];
                         files.alarmItems.push({
+                            cIdentity: ref.readCString(file.cIdentity.buffer, 0),
                             cFileName: ref.readCString(file.cFileName.buffer, 0),
+                            alarmType: file.alarmType,
                             startTime: {
                                 iYear: file.startTime.iYear,
                                 iMonth: file.startTime.iMonth,
@@ -280,9 +282,9 @@ class PLAYBACK {
             resolve(value);
         });
     }
-    open(handle, channel, fileNam, cacheFile, subStream, speed, callback) {
+    open(handle, channel, identity, fileNam, cacheFile, subStream, speed, callback) {
         return new Promise((resolve, reject) => {
-            let ret = native_1.native.BCSDK_PlaybackOpen(handle, channel, '', fileNam, cacheFile, subStream, speed, PLAYBACK.SDK_FRAME_CALLBACK, ref.NULL);
+            let ret = native_1.native.BCSDK_PlaybackOpen(handle, channel, '', identity, fileNam, cacheFile, subStream, speed, PLAYBACK.SDK_FRAME_CALLBACK, ref.NULL);
             if (0 === ret) {
                 let cb = {
                     sdkResolve: resolve,

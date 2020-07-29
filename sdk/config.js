@@ -274,6 +274,10 @@ class CONFIG {
                 CONFIG.handleSDKGetCallback(_T.BC_AUDIO_TASK, handle, cmdData);
                 break;
             }
+            case T.BC_CMD_E.E_BC_CMD_GET_BUZZER_TASK: {
+                CONFIG.handleSDKGetCallback(_T.BC_BUZZER_TASK, handle, cmdData);
+                break;
+            }
             case T.BC_CMD_E.E_BC_CMD_GET_AUTO_FOCUS: {
                 CONFIG.handleSDKGetCallback(_T.BC_PTZ_AUTO_FOCUS, handle, cmdData);
                 break;
@@ -302,6 +306,10 @@ class CONFIG {
                 CONFIG.handleSDKGetCallback(_T.BC_RINGTONE_ABILITY, handle, cmdData);
                 break;
             }
+            case T.BC_CMD_E.E_BC_CMD_GET_CHN_VERSION: {
+                CONFIG.handleSDKGetCallback(_T.BC_VERSION_INFO, handle, cmdData);
+                break;
+            }
             case T.BC_CMD_E.E_BC_CMD_GET_FLOODLIGHT_TASK: {
                 CONFIG.handleSDKGetCallback(_T.BC_FLOODLIGHT_TASK, handle, cmdData);
                 break;
@@ -314,6 +322,15 @@ class CONFIG {
                 CONFIG.handleSDKGetCallback(_T.BC_DAY_NIGHT_THRESHOLD_CFG, handle, cmdData);
                 break;
             }
+            case T.BC_CMD_E.E_BC_CMD_GET_RECORD_ENABLE:
+            case T.BC_CMD_E.E_BC_CMD_GET_FTP_ENABLE:
+            case T.BC_CMD_E.E_BC_CMD_GET_EMAIL_ENABLE:
+            case T.BC_CMD_E.E_BC_CMD_GET_PUSH_ENABLE:
+            case T.BC_CMD_E.E_BC_CMD_GET_BUZZER_ENABLE:
+                {
+                    CONFIG.handleSDKGetCallback(_T.BC_ALARM_OUT_ENABLE_CFG, handle, cmdData);
+                    break;
+                }
             case T.BC_CMD_E.E_BC_CMD_UPGRADE_PROGRESS: {
                 let callback = _callback_1.COMMON_CBS.getCallback(handle, channel, bcCmd, cmdIdx);
                 if (!callback || !callback.sdkCallback) {
@@ -426,6 +443,8 @@ class CONFIG {
             case T.BC_CMD_E.E_BC_CMD_SET_FTPTASK:
             case T.BC_CMD_E.E_BC_CMD_SET_EMAIL_TASK:
             case T.BC_CMD_E.E_BC_CMD_SET_PUSH_TASK:
+            case T.BC_CMD_E.E_BC_CMD_SET_AUDIO_TASK:
+            case T.BC_CMD_E.E_BC_CMD_SET_BUZZER_TASK:
             case T.BC_CMD_E.E_BC_CMD_SNAP:
             case T.BC_CMD_E.E_BC_CMD_SET_AUTO_FOCUS:
             case T.BC_CMD_E.E_BC_CMD_SET_CROP_CFG:
@@ -441,6 +460,12 @@ class CONFIG {
             case T.BC_CMD_E.E_BC_CMD_SYNC_UTC_TIME:
             case T.BC_CMD_E.E_BC_CMD_START_ZOOM_FOCUS:
             case T.BC_CMD_E.E_BC_CMD_SET_DAY_NIGHT_THRESHOLD:
+            case T.BC_CMD_E.E_BC_CMD_REC_FILE_DEL:
+            case T.BC_CMD_E.E_BC_CMD_SET_RECORD_ENABLE:
+            case T.BC_CMD_E.E_BC_CMD_SET_FTP_ENABLE:
+            case T.BC_CMD_E.E_BC_CMD_SET_EMAIL_ENABLE:
+            case T.BC_CMD_E.E_BC_CMD_SET_PUSH_ENABLE:
+            case T.BC_CMD_E.E_BC_CMD_SET_BUZZER_ENABLE:
             default: {
                 if (T.BC_CMD_E.E_BC_CMD_SET_PRESET === bcCmd) {
                     setImmediate(() => {
@@ -1140,6 +1165,68 @@ class CONFIG {
     rtmpStop(handle, param) {
         return this.deviceCmd(handle, T.BC_CMD_E.E_BC_CMD_RTMP_STOP, native_1.native.BCSDK_RemoteRtmpStart, 12, param, _T.BC_RTMP_OPT);
     }
+    /* covers get
+     *
+     * callback with E_BC_CMD_COVER_PREVIEW
+     */
+    //BCSDK_RemoteGetCovers(H_BC_DEVICE hDevice, BC_GET_FILE_COVERS_CFG *cfg);
+    /* files Delete
+     *
+     * callback with E_BC_CMD_REC_FILE_DEL
+     */
+    deleteRecFiles(handle, files) {
+        return this.deviceCmd(handle, T.BC_CMD_E.E_BC_CMD_REC_FILE_DEL, native_1.native.BCSDK_DeleteRecFiles, 60, files, _T.BC_DEL_REC_FILES);
+    }
+    /* record enable
+     *
+     * callback with E_BC_CMD_GET_RECORD_ENABLE, E_BC_CMD_SET_RECORD_ENABLE
+     */
+    getRecordEnable(handle) {
+        return this.deviceCmd(handle, T.BC_CMD_E.E_BC_CMD_GET_RECORD_ENABLE, native_1.native.BCSDK_RemoteGetRecordEnable);
+    }
+    setRecordEnable(handle, enable) {
+        return this.deviceCmd(handle, T.BC_CMD_E.E_BC_CMD_SET_RECORD_ENABLE, native_1.native.BCSDK_RemoteSetRecordEnable, 12, enable, _T.BC_ALARM_OUT_ENABLE_CFG);
+    }
+    /* Ftp enable
+     *
+     * callback with E_BC_CMD_GET_FTP_ENABLE, E_BC_CMD_SET_FTP_ENABLE
+     */
+    getFtpEnable(handle) {
+        return this.deviceCmd(handle, T.BC_CMD_E.E_BC_CMD_GET_FTP_ENABLE, native_1.native.BCSDK_RemoteGetFtpEnable);
+    }
+    setFtpEnable(handle, enable) {
+        return this.deviceCmd(handle, T.BC_CMD_E.E_BC_CMD_SET_FTP_ENABLE, native_1.native.BCSDK_RemoteSetFtpEnable, 12, enable, _T.BC_ALARM_OUT_ENABLE_CFG);
+    }
+    /* Email enable
+     *
+     * callback with E_BC_CMD_GET_EMAIL_ENABLE, E_BC_CMD_SET_EMAIL_ENABLE
+     */
+    getEmailEnable(handle) {
+        return this.deviceCmd(handle, T.BC_CMD_E.E_BC_CMD_GET_EMAIL_ENABLE, native_1.native.BCSDK_RemoteGetEmailEnable);
+    }
+    setEmailEnable(handle, enable) {
+        return this.deviceCmd(handle, T.BC_CMD_E.E_BC_CMD_SET_EMAIL_ENABLE, native_1.native.BCSDK_RemoteSetEmailEnable, 12, enable, _T.BC_ALARM_OUT_ENABLE_CFG);
+    }
+    /* push enable
+     *
+     * callback with E_BC_CMD_GET_PUSH_ENABLE, E_BC_CMD_SET_PUSH_ENABLE
+     */
+    getPushEnable(handle) {
+        return this.deviceCmd(handle, T.BC_CMD_E.E_BC_CMD_GET_PUSH_ENABLE, native_1.native.BCSDK_RemoteGetPushEnable);
+    }
+    setPushEnable(handle, enable) {
+        return this.deviceCmd(handle, T.BC_CMD_E.E_BC_CMD_SET_PUSH_ENABLE, native_1.native.BCSDK_RemoteSetPushEnable, 12, enable, _T.BC_ALARM_OUT_ENABLE_CFG);
+    }
+    /* buzzer enable
+     *
+     * callback with E_BC_CMD_GET_BUZZER_ENABLE, E_BC_CMD_SET_BUZZER_ENABLE
+     */
+    getBuzzerEnable(handle) {
+        return this.deviceCmd(handle, T.BC_CMD_E.E_BC_CMD_GET_BUZZER_ENABLE, native_1.native.BCSDK_RemoteGetBuzzerEnable);
+    }
+    setBuzzerEnable(handle, enable) {
+        return this.deviceCmd(handle, T.BC_CMD_E.E_BC_CMD_SET_BUZZER_ENABLE, native_1.native.BCSDK_RemoteSetBuzzerEnable, 12, enable, _T.BC_ALARM_OUT_ENABLE_CFG);
+    }
     /*******************************************************************************
      * MARK: Channel Remote Config
      ******************************************************************************/
@@ -1213,6 +1300,12 @@ class CONFIG {
     setMotionCfg(handle, channel, param) {
         return this.channelCmd(handle, channel, T.BC_CMD_E.E_BC_CMD_SET_MOTION, native_1.native.BCSDK_RemoteSetMotionCfg, 10, param, _T.BC_MOTION_CFG, CONFIG.getCmdIndex());
     }
+    /* AI Config
+     *
+     * callback with E_BC_CMD_GET_AI_CFG, E_BC_CMD_SET_AI_CFG
+     */
+    //public getAiCfg(handle: number, channel: number): Promise<T.BC_AI_CFG>
+    //public setAiCfg(handle: number, channel: number, param: T.BC_AI_CFG);
     /* Video Loss
      *
      * callback with E_BC_CMD_GET_VILOST, E_BC_CMD_SET_VILOST
@@ -1342,6 +1435,16 @@ class CONFIG {
     setAudioTask(handle, channel, param) {
         return this.channelCmd(handle, channel, T.BC_CMD_E.E_BC_CMD_SET_AUDIO_TASK, native_1.native.BCSDK_RemoteSetAudioTask, 10, param, _T.BC_AUDIO_TASK);
     }
+    /* buzzer task
+     *
+     * callback with E_BC_CMD_GET_BUZZER_TASK, E_BC_CMD_SET_BUZZER_TASK
+     */
+    getBuzzerTask(handle, channel) {
+        return this.channelCmd(handle, channel, T.BC_CMD_E.E_BC_CMD_GET_BUZZER_TASK, native_1.native.BCSDK_RemoteGetBuzzerTask);
+    }
+    setBuzzerTask(handle, channel, param) {
+        return this.channelCmd(handle, channel, T.BC_CMD_E.E_BC_CMD_SET_BUZZER_TASK, native_1.native.BCSDK_RemoteSetBuzzerTask, 10, param, _T.BC_BUZZER_TASK);
+    }
     /* Snap
      *
      * callback with E_BC_CMD_SNAP
@@ -1442,6 +1545,13 @@ class CONFIG {
     // }
     getRingtoneAbility(handle, channel) {
         return this.channelCmd(handle, channel, T.BC_CMD_E.E_BC_CMD_GET_RINGTONE_ABILITY, native_1.native.BCSDK_RemoteGetRingtoneAbility);
+    }
+    /* version info
+     *
+     * callback with E_BC_CMD_GET_CHN_VERSION
+     */
+    getChannelVersionInfo(handle, channel) {
+        return this.channelCmd(handle, channel, T.BC_CMD_E.E_BC_CMD_GET_CHN_VERSION, native_1.native.BCSDK_RemoteGetChannelVersionInfo);
     }
 }
 CONFIG.singleton = new CONFIG();
