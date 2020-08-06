@@ -49,6 +49,7 @@ class PLAYBACK {
                         const file = des.recFile[i];
                         files.recFile.push({
                             iChannel: file.iChannel,
+                            cIdentity: ref.readCString(file.cIdentity.buffer, 0),
                             cFileName: ref.readCString(file.cFileName.buffer, 0),
                             startTime: {
                                 iYear: file.struStartTime.iYear,
@@ -191,11 +192,11 @@ class PLAYBACK {
             }
         }
     }
-    recordFilesSearch(handle, channel, start, end, type, streamType, seq, callback) {
+    recordFilesSearch(handle, channel, start, end, streamType, seq, callback) {
         return new Promise((resolve, reject) => {
             const tstart = new _T.BC_TIME(start);
             const tend = new _T.BC_TIME(end);
-            let ret = native_1.native.BCSDK_RecordFilesSearch(handle, channel, '', tstart, tend, type, streamType, seq);
+            let ret = native_1.native.BCSDK_RecordFilesSearch(handle, channel, '', tstart, tend, streamType, seq);
             if (0 == ret) {
                 let sdkResolve = {
                     sdkResolve: resolve,
@@ -291,7 +292,6 @@ class PLAYBACK {
                     sdkReject: reject
                 };
                 _callback_1.PROMISE_CBS.addCallback(handle, channel, T.BC_CMD_E.E_BC_CMD_PLAYBACKBYTIME, 0, cb);
-                _callback_1.COMMON_CBS.setCallback(handle, channel, T.BC_CMD_E.E_BC_CMD_PLAYBACKBYTIME, 0, { sdkCallback: callback });
                 // save callback
                 let key = 'handle:' + handle + 'channel' + channel;
                 PLAYBACK.frameCallbcks.set(key, {

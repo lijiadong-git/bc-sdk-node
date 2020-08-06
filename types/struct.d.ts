@@ -104,9 +104,7 @@ export interface BC_TIME {
 }
 export interface BC_FIND_REC_FILE {
     iChannel: number;
-    /**
-     * max length: BC_MAX_FILE_LEN - 1
-     */
+    cIdentity: string;
     cFileName: string;
     startTime: BC_TIME;
     stopTime: BC_TIME;

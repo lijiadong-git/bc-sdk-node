@@ -852,7 +852,7 @@ exports.BC_RECORD_SCHEDULE_CFG = refStruct({
      * BC_ALARM_IN_MD, BC_ALARM_IN_VL ...
      */
     ,
-    iAlarmInTypes: ref.types,
+    iAlarmInTypes: ref.types.int,
     iTimeTable: refArray(ref.types.int, types_1.DEFINDE.BC_MAX_DAYS * types_1.DEFINDE.BC_MAX_TIMESEGMENT)
 });
 exports.P_BC_RECORD_SCHEDULE_CFG = exports.pointer(exports.BC_RECORD_SCHEDULE_CFG);
@@ -1111,7 +1111,7 @@ exports.BC_FTP_TASK = refStruct({
      * BC_ALARM_IN_MD, BC_ALARM_IN_VL ...
      */
     ,
-    iAlarmInTypes: ref.types,
+    iAlarmInTypes: ref.types.int,
     iTimeTable: refArray(ref.types.int, types_1.DEFINDE.BC_MAX_DAYS * types_1.DEFINDE.BC_MAX_TIMESEGMENT)
 });
 exports.P_BC_FTP_TASK = exports.pointer(exports.BC_FTP_TASK);
@@ -1132,7 +1132,7 @@ exports.BC_EMAIL_TASK = refStruct({
     * BC_ALARM_IN_MD, BC_ALARM_IN_VL ...
     */
     ,
-    iAlarmInTypes: ref.types,
+    iAlarmInTypes: ref.types.int,
     iTimeTable: refArray(ref.types.int, types_1.DEFINDE.BC_MAX_DAYS * types_1.DEFINDE.BC_MAX_TIMESEGMENT)
 });
 exports.P_BC_EMAIL_TASK = exports.pointer(exports.BC_EMAIL_TASK);
@@ -1148,7 +1148,7 @@ exports.BC_PUSH_TASK = refStruct({
      * BC_ALARM_IN_MD, BC_ALARM_IN_VL ...
      */
     ,
-    iAlarmInTypes: ref.types,
+    iAlarmInTypes: ref.types.int,
     iTimeTable: refArray(ref.types.int, types_1.DEFINDE.BC_MAX_DAYS * types_1.DEFINDE.BC_MAX_TIMESEGMENT),
     iPushVersion: ref.types.int // 0:old  1:new
 });
@@ -1170,7 +1170,7 @@ exports.BC_AUDIO_TASK = refStruct({
      * BC_ALARM_IN_MD, BC_ALARM_IN_VL ...
      */
     ,
-    iAlarmInTypes: ref.types,
+    iAlarmInTypes: ref.types.int,
     iTimeTable: refArray(ref.types.int, types_1.DEFINDE.BC_MAX_DAYS * types_1.DEFINDE.BC_MAX_TIMESEGMENT)
 });
 exports.P_BC_AUDIO_TASK = exports.pointer(exports.BC_AUDIO_TASK);
@@ -1185,7 +1185,7 @@ exports.BC_BUZZER_TASK = refStruct({
      * BC_ALARM_IN_MD, BC_ALARM_IN_VL ...
      */
     ,
-    iAlarmInTypes: ref.types,
+    iAlarmInTypes: ref.types.int,
     iTimeTable: refArray(ref.types.int, types_1.DEFINDE.BC_MAX_DAYS * types_1.DEFINDE.BC_MAX_TIMESEGMENT)
 });
 exports.P_BC_BUZZER_TASK = exports.pointer(exports.BC_BUZZER_TASK);

@@ -7,7 +7,7 @@ declare class PLAYBACK {
     private static frameCallbcks;
     handleSDKCallback(handle: number, cmdData: any): void;
     private static SDK_FRAME_CALLBACK;
-    recordFilesSearch(handle: number, channel: number, start: T.BC_TIME, end: T.BC_TIME, type: T.RECORD_TYPE_E, streamType: T.BC_STREAM_TYPE_E, seq: number, callback: T.RecordFilesCallback): Promise<void>;
+    recordFilesSearch(handle: number, channel: number, start: T.BC_TIME, end: T.BC_TIME, streamType: T.BC_STREAM_TYPE_E, seq: number, callback: T.RecordFilesCallback): Promise<void>;
     alarmVideosSearch(handle: number, channel: number, start: T.BC_TIME, end: T.BC_TIME, streamType: T.BC_STREAM_TYPE_E, seq: number, callback: T.AlarmVideosCallback): Promise<void>;
     seek(handle: number, time: T.BC_TIME): Promise<void>;
     openStatus(handle: number, channel: number): Promise<T.BCSDK_MEDIA_STATE_E>;
