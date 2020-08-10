@@ -256,9 +256,9 @@ export interface BC_RECORD_GENERAL_CFG {
      */
     iPackageTime: 30 | 45 | 60;
     /**
-     * 1 2 5 10 MIN
+     * 60 | 120 | 300 | 600 ...
      */
-    iPostRecordTime: 1 | 2 | 5 | 10;
+    iPostRecordTime: number;
     bPreRecord: boolean;
     /**
      * only for E_BC_CMD_GET_ADVRECORD
