@@ -5,6 +5,7 @@ declare class DEVICE {
     private constructor();
     static instance(): DEVICE;
     handleSDKCallback(handle: number, cmdData: any): void;
+    sdkOpen(bexcept_server_cn: boolean, bexcept_server_ru: boolean): void;
     add(loginDes: T.DEVICE_LOGIN_DESC, callback: DeviceCallback): Promise<number>;
     remove(handle: number): Promise<void>;
     removeAll(): Promise<void>;

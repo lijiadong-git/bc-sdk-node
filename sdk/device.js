@@ -320,7 +320,7 @@ const deviceCallback = ffi_1.Callback('void', ['int', _T.BC_CMD_DATA, _T.pointer
 // -----------------------------------------------------------------------------
 class DEVICE {
     constructor() {
-        native_1.native.BCSDK_Open(0, 0);
+        //
     }
     static instance() {
         return DEVICE.singleton;
@@ -482,6 +482,9 @@ class DEVICE {
                 break;
             }
         }
+    }
+    sdkOpen(bexcept_server_cn, bexcept_server_ru) {
+        native_1.native.BCSDK_Open(bexcept_server_cn ? 1 : 0, bexcept_server_ru ? 1 : 0);
     }
     add(loginDes, callback) {
         return new Promise((resolve, reject) => {
