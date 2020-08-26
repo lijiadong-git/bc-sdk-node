@@ -103,6 +103,7 @@ const deviceCallback = ffi_1.Callback('void', ['int', _T.BC_CMD_DATA, _T.pointer
         case T.BC_CMD_E.E_BC_CMD_GET_SYS:
         case T.BC_CMD_E.E_BC_CMD_SET_SYS:
         case T.BC_CMD_E.E_BC_CMD_GET_VERSION:
+        case T.BC_CMD_E.E_BC_CMD_GET_CHN_VERSION:
         case T.BC_CMD_E.E_BC_CMD_GET_ENC_PROFILE:
         case T.BC_CMD_E.E_BC_CMD_GET_OUTPUT:
         case T.BC_CMD_E.E_BC_CMD_SET_OUTPUT:
