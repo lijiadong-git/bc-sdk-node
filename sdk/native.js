@@ -1757,7 +1757,7 @@ class NativeDelegate {
          * callback with E_BC_CMD_GET_PUSH_ENABLE, E_BC_CMD_SET_PUSH_ENABLE
          */
         this.BCSDK_RemoteGetPushEnable = MFFI.BCSDK_RemoteGetPushEnable;
-        this.BCSDK_RemoteSetPushEnable = MFFI.BCSDK_RemoteGetPushEnable;
+        this.BCSDK_RemoteSetPushEnable = MFFI.BCSDK_RemoteSetPushEnable;
         /* buzzer enable
          *
          * callback with E_BC_CMD_GET_BUZZER_ENABLE, E_BC_CMD_SET_BUZZER_ENABLE
