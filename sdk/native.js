@@ -9,18 +9,27 @@ exports.diskStatusCallback = ffi.Function('void', [_T.P_BC_DISK_WARNINIG_DESC, _
 exports.recordStatusCallback = ffi.Function('void', [_T.P_BC_REC_EVENT_DESC, _T.pointer('void')]);
 exports.deviceFoundCallback = ffi.Function('void', [_T.P_DEVICE_LOCATION_DESC, _T.pointer('void')]);
 const folder = process.env.NODE_ENV === "development" ? process.env.VUE_APP_DIR_PLATFORM_EXTERNALS : __dirname;
+function tryLoad(lib) {
+    try {
+        ffi.Library(path.join(folder, lib));
+    }
+    catch (e) {
+        console.log('error load --- ' + lib);
+        console.log(e);
+    }
+}
 if (process.platform === "win32") {
-    ffi.Library(path.join(folder, 'msvcp140'));
-    ffi.Library(path.join(folder, 'vcruntime140'));
-    ffi.Library(path.join(folder, 'BCP2P_API'));
-    ffi.Library(path.join(folder, 'IOTCAPIs'));
-    ffi.Library(path.join(folder, 'RDTApis'));
-    ffi.Library(path.join(folder, 'D3DX9_42'));
-    ffi.Library(path.join(folder, 'avutil-55'));
-    ffi.Library(path.join(folder, 'swresample-2'));
-    ffi.Library(path.join(folder, 'swscale-4'));
-    ffi.Library(path.join(folder, 'avcodec-57'));
-    ffi.Library(path.join(folder, 'avformat-57'));
+    tryLoad('vcruntime140');
+    tryLoad('msvcp140');
+    tryLoad('BCP2P_API');
+    tryLoad('IOTCAPIs');
+    tryLoad('RDTApis');
+    tryLoad('D3DX9_42');
+    tryLoad('avutil-55');
+    tryLoad('swresample-2');
+    tryLoad('swscale-4');
+    tryLoad('avcodec-57');
+    tryLoad('avformat-57');
 }
 const MFFI = ffi.Library(path.join(folder, 'libBCSDKWrapper'), {
     /************************************************************************
