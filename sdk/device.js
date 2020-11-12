@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const ffi_1 = require("ffi");
-const ref = require("ref");
+const ffi_napi_1 = require("ffi-napi");
+const ref = require("ref-napi");
 const native_1 = require("./native");
 const T = require("../types");
 const _cast_1 = require("./_cast");
@@ -12,7 +12,7 @@ const live_1 = require("./live");
 const playback_1 = require("./playback");
 const talk_1 = require("./talk");
 const download_1 = require("./download");
-const deviceCallback = ffi_1.Callback('void', ['int', _T.BC_CMD_DATA, _T.pointer('void')], function (handle, cmdData, userData) {
+const deviceCallback = ffi_napi_1.Callback('void', ['int', _T.BC_CMD_DATA, _T.pointer('void')], function (handle, cmdData, userData) {
     if (!cmdData /*_T.BC_CMD_DATA*/
         || 'undefined' === typeof cmdData.bcCmd
         || 'undefined' === typeof cmdData.cmdIdx

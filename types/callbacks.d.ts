@@ -1,4 +1,5 @@
 /// <reference types="node" />
+/// <reference types="ref-napi" />
 import * as T from './types';
 export interface DeviceCallback {
     stateCallback: (handle: number, from: T.BCSDK_DEVICE_STATE_E, to: T.BCSDK_DEVICE_STATE_E) => void;

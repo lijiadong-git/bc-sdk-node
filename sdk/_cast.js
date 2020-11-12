@@ -1,8 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const ref = require("ref");
-const refStruct = require("ref-struct");
-const refArray = require("ref-array");
+const ref = require("ref-napi");
+const refStruct = require("ref-struct-di");
+const refArray = require("ref-array-di");
 function getType(obj) {
     var toString = Object.prototype.toString;
     var map = {

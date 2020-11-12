@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const ffi = require("ffi");
+const ffi = require("ffi-napi");
 const path = require('path');
 const _T = require("./_struct");
 exports.renderCallbackFunc = ffi.Function('void', ['int', 'int', _T.P_RENDER_FRAME_DESC, _T.pointer('void')]);

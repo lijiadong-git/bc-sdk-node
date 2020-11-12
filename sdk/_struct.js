@@ -1,9 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const ffi_1 = require("ffi");
-const ref = require("ref");
-const refStruct = require("ref-struct");
-const refArray = require("ref-array");
+const ffi_napi_1 = require("ffi-napi");
+const ref = require("ref-napi");
+const refStruct = require("ref-struct-di");
+const refArray = require("ref-array-di");
 const types_1 = require("../types");
 exports.pointer = ref.refType;
 exports.cString = ref.types.CString;
@@ -34,7 +34,7 @@ exports.DEVICE_LOGIN_DESC = refStruct({
 });
 exports.P_DEVICE_LOGIN_DESC = exports.pointer(exports.DEVICE_LOGIN_DESC);
 exports.DEVICE_CALLBACK_DESC = refStruct({
-    func: ffi_1.Function('int', ['int', exports.BC_CMD_DATA, exports.pointer('void')]),
+    func: ffi_napi_1.Function('int', ['int', exports.BC_CMD_DATA, exports.pointer('void')]),
     userData: exports.pointer('void')
 });
 exports.P_DEVICE_CALLBACK_DESC = exports.pointer(exports.DEVICE_CALLBACK_DESC);

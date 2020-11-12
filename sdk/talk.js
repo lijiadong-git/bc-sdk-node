@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const native_1 = require("./native");
 const T = require("../types");
-const ref = require("ref");
+const ref = require("ref-napi");
 const _callback_1 = require("./_callback");
 class TALK {
     constructor() {

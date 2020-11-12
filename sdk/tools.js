@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const native_1 = require("./native");
-const ref = require("ref");
+const ref = require("ref-napi");
 const T = require("../types");
 const _T = require("./_struct");
 const _cast_1 = require("./_cast");

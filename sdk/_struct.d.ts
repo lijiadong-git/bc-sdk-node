@@ -1,5 +1,5 @@
-import * as ref from 'ref';
-import * as refStruct from 'ref-struct';
+import * as ref from 'ref-napi';
+import * as refStruct from 'ref-struct-di';
 export declare const pointer: typeof ref.refType;
 export declare const cString: ref.Type;
 export declare const DEVICE_STATE_CHANGE_DESC: refStruct;

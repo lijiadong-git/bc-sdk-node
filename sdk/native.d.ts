@@ -1,4 +1,4 @@
-import * as ffi from 'ffi';
+import * as ffi from 'ffi-napi';
 import * as T from '../types';
 export declare const renderCallbackFunc: ffi.Function;
 export declare const dataCallbackFunc: ffi.Function;
