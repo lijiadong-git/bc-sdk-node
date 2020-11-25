@@ -5,7 +5,7 @@ declare class DEVICE {
     private constructor();
     static instance(): DEVICE;
     handleSDKCallback(handle: number, cmdData: any): void;
-    sdkOpen(bexcept_server_cn: boolean, bexcept_server_ru: boolean): void;
+    sdkOpen(group: number, bexcept_server_cn: boolean, bexcept_server_ru: boolean): void;
     add(loginDes: T.DEVICE_LOGIN_DESC, callback: DeviceCallback): Promise<number>;
     remove(handle: number): Promise<void>;
     removeAll(): Promise<void>;
@@ -14,6 +14,8 @@ declare class DEVICE {
     getDeviceAtIndex(index: number): Promise<number>;
     open(handle: number): Promise<number>;
     close(handle: number): Promise<void>;
+    setAccountCenter(accountCenterApiUrl: string, token: string, pemFilePath: string): Promise<void>;
+    setShouldLoginWithSignature(handle: number, should: boolean): Promise<void>;
     setNeedAutoOpen(handle: number, need: boolean): Promise<void>;
     setDeviceMaxReconnectCount(handle: number, count: number): Promise<void>;
     getLoginDescription(handle: number): Promise<T.DEVICE_LOGIN_DESC>;

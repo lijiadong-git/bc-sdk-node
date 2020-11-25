@@ -52,7 +52,7 @@ int _BCSDK_ BCSDK_RemoteSetAutoRebootCfg(H_BC_DEVICE hDevice, BC_AUTOREBOOT_CFG 
 
 /* factory default
  *
- * callback with E_BC_CMD_RESTORE
+ * callback with E_BC_CMD_reORE
  */
 int _BCSDK_ BCSDK_RemoteFactoryDefault(H_BC_DEVICE hDevice, BC_RESTORE_CFG *restoreCfg);
 
@@ -131,7 +131,7 @@ int _BCSDK_ BCSDK_RemoteSetIpConflict(H_BC_DEVICE hDevice, BC_EXCEPTION_CFG *ipC
 
 /* network local
  *
- * callback with E_BC_CMD_GET_IPCONFLICT_EXPCFG, E_BC_CMD_SET_IPCONFLICT_EXPCFG
+ * callback with E_BC_CMD_GET_LOCAL, E_BC_CMD_SET_LOCAL
  */
 int _BCSDK_ BCSDK_RemoteGetNetworkCfg(H_BC_DEVICE hDevice);
 int _BCSDK_ BCSDK_RemoteSetNetworkCfg(H_BC_DEVICE hDevice, BC_LOCAL_CFG *networkCfg);
@@ -540,6 +540,22 @@ int _BCSDK_ BCSDK_RemoteGetBuzzerEnable(H_BC_DEVICE hDevice);
 int _BCSDK_ BCSDK_RemoteSetBuzzerEnable(H_BC_DEVICE hDevice, BC_ALARM_OUT_ENABLE_CFG *enable);
 
 
+/* factory test result
+ *
+ * callback with E_BC_CMD_GET_FACTORY_TEST_MODE, E_BC_CMD_SET_FACTORY_TEST_MODE
+ */
+int _BCSDK_ BCSDK_RemoteGetFactoryTestMode(H_BC_DEVICE hDevice);
+int _BCSDK_ BCSDK_RemoteSetFactoryTestMode(H_BC_DEVICE hDevice, BC_FACTORY_TEST_MODE *mode);
+
+
+/* factory test info
+ *
+ * callback with E_BC_CMD_GET_FACTORY_TEST_INFO, E_BC_CMD_SET_FACTORY_TEST_INFO
+ */
+int _BCSDK_ BCSDK_RemoteGetFactoryTestInfo(H_BC_DEVICE hDevice);
+int _BCSDK_ BCSDK_RemoteSetFactoryTestInfo(H_BC_DEVICE hDevice, BC_FACTORY_TEST_INFO *info);
+
+
 
 
 
@@ -741,6 +757,13 @@ int _BCSDK_ BCSDK_RemoteSetAutoFocus(H_BC_DEVICE hDevice, int channel, BC_PTZ_AU
 int _BCSDK_ BCSDK_RemoteGetZoomFocusInfo(H_BC_DEVICE hDevice, int channel);
 int _BCSDK_ BCSDK_RemoteStartZoomFocus(H_BC_DEVICE hDevice, int channel, BC_START_ZOOM_FOCUS *startZf);
 
+/* pt power on self test
+ *
+ * callback with E_BC_CMD_GET_PT_SELF_TEST_CFG, E_BC_CMD_SET_PT_SELF_TEST_CFG
+ */
+int _BCSDK_ BCSDK_RemoteGetPtSelfTestCfg(H_BC_DEVICE hDevice, int channel);
+int _BCSDK_ BCSDK_RemoteSetPtSelfTestCfg(H_BC_DEVICE hDevice, int channel, BC_PT_SELF_TEST_CFG *cfg);
+int _BCSDK_ BCSDK_RemoteStartPtSelfTest(H_BC_DEVICE hDevice, int channel);
 
 /* Crop Cfg
  *
@@ -816,7 +839,7 @@ int _BCSDK_ BCSDK_RemoteImportRingtone(H_BC_DEVICE hDevice, int channel, BC_RING
 int _BCSDK_ BCSDK_RemoteGetRingtoneAbility(H_BC_DEVICE hDevice, int channel);
 
 
-/* battery info
+/* version info
  *
  * callback with E_BC_CMD_GET_CHN_VERSION
  */

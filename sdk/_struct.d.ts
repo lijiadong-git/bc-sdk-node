@@ -1,5 +1,5 @@
-import * as ref from 'ref-napi';
-import * as refStruct from 'ref-struct-di';
+import * as ref from 'ref';
+import * as refStruct from 'ref-struct';
 export declare const pointer: typeof ref.refType;
 export declare const cString: ref.Type;
 export declare const DEVICE_STATE_CHANGE_DESC: refStruct;
@@ -352,3 +352,5 @@ export declare const BC_SMB_CFG: refStruct;
 export declare const P_BC_SMB_CFG: ref.Type;
 export declare const BC_ALARM_OUT_ENABLE_CFG: refStruct;
 export declare const P_BC_ALARM_OUT_ENABLE_CFG: ref.Type;
+export declare const BC_PT_SELF_TEST_CFG: refStruct;
+export declare const P_BC_PT_SELF_TEST_CFG: ref.Type;

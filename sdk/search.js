@@ -1,8 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const native_1 = require("./native");
-const ffi_napi_1 = require("ffi-napi");
-const ref = require("ref-napi");
+const ffi_1 = require("ffi");
+const ref = require("ref");
 const T = require("../types");
 const _T = require("./_struct");
 const _cast_1 = require("./_cast");
@@ -104,7 +104,7 @@ class SEARCH {
 }
 SEARCH.singleton = new SEARCH();
 SEARCH.callbacks = [];
-SEARCH.deviceFoundCallback = ffi_napi_1.Callback('void', [_T.P_DEVICE_LOCATION_DESC, _T.pointer('void')], function (pdesc, userData) {
+SEARCH.deviceFoundCallback = ffi_1.Callback('void', [_T.P_DEVICE_LOCATION_DESC, _T.pointer('void')], function (pdesc, userData) {
     if (!pdesc) {
         // search callback error format ...
         return;

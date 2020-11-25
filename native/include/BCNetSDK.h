@@ -33,6 +33,7 @@
 #define BC_MAX_NAME_LEN                    32
 #define BC_MAX_PWD_LEN                     32
 #define BC_MAX_PWD_LEN_128				   128
+#define BC_MAX_AUTH_TOKEN_LEN              128
 #define BC_SERIALNO_LEN                    32
 #define BC_MACADDR_LEN                     6
 #define BC_MAX_ADDR_LEN                    128
@@ -70,10 +71,11 @@
 #define BC_MAX_DWELL_NUM        16
 #define BC_MAX_AUTHORITY_NUM    32
 #define BC_MAX_REC_FILE_NAME	32
-#define BC_MAX_REC_FILE_ID		128
+#define BC_MAX_REC_FILE_ID		256
 
 #define BC_MAX_FILE_ID_LEN      256
 #define BC_MAX_FILE_NAME_LEN    128
+#define BC_MAX_URL_LEN          256
 
 #define BC_MAX_POS_NUM          64
 #define BC_MAX_KEY_POS          16
@@ -402,7 +404,13 @@ typedef enum
     E_BC_CMD_TIMELAPSE_FILE_COVER           = 2273,
     E_BC_CMD_TIMELAPSE_TASK_DELETE          = 2274,
     E_BC_CMD_TIMELAPSE_FIlE_DELETE          = 2275,
-
+    E_BC_CMD_GET_FACTORY_TEST_MODE          = 2276,
+    E_BC_CMD_SET_FACTORY_TEST_MODE          = 2277,
+    E_BC_CMD_GET_FACTORY_TEST_INFO          = 2278,
+    E_BC_CMD_SET_FACTORY_TEST_INFO          = 2279,
+    E_BC_CMD_GET_PT_SELF_TEST_CFG           = 2280,
+    E_BC_CMD_SET_PT_SELF_TEST_CFG           = 2281,
+    E_BC_CMD_START_PT_SELF_TEST             = 2282,
     
     
     // sdk up layer callback use
@@ -558,7 +566,7 @@ typedef enum
     PTZ_STOPSAVETRACK,
     PTZ_CLEANTRACK,
     
-}PTZ_CMD_E;
+} PTZ_CMD_E;
 
 
 typedef enum
@@ -1178,12 +1186,18 @@ typedef struct tagBC_DEVICE_OPEN_INFO {
 
 
 typedef struct tagBC_LOGIN_INFO {
-
-    char cUserName[BC_MAX_NAME_LEN+32];
-    char cPassword[BC_MAX_PWD_LEN+32];
-    char cDefaultPass[BC_MAX_PWD_LEN+32];
     
-    unsigned int delayCallbackTime; //ms,   0:no delay
+#define BC_MAX_LOGIN_NONCE_LEN  32
+
+    char cUserName[BC_MAX_NAME_LEN];
+    char cPassword[BC_MAX_PWD_LEN];
+    
+    // login with cloud account
+    char cURL[BC_MAX_URL_LEN];
+    char cUID[BC_MAX_UID_LEN];
+    char cAuthToken[BC_MAX_AUTH_TOKEN_LEN];
+
+    unsigned int delayCallbackTime; // ms,   0:no delay
     
 } BC_LOGIN_INFO,*LPBC_LOGIN_INFO;
 
@@ -1244,6 +1258,12 @@ typedef struct tagBC_DEVICE_INFO {
     int     iMaxReconnectTimes;
     
     int     useDefaultPass;
+    
+    /* @param iAuthMode
+     *  0: password login
+     *  1: signature login
+     */
+    int     iAuthMode;
     
 } BC_DEVICE_INFO,*LPBC_DEVICE_INFO;
 
@@ -1396,6 +1416,7 @@ typedef struct tagBC_ABILITY_INFO {
      *  bit1: support subStream and pic
      *  bit2: support extension stream and pic
      *  bit3: not support picture
+     *  bit4: support enable/disable all channel
      */
     int      iFtp;
     
@@ -1420,6 +1441,7 @@ typedef struct tagBC_ABILITY_INFO {
      * @Param iNewRecordType
      *  bit0: md record
      *  bit1: normal record
+     *  bit2: support enable/disable all channel
      */
     int      iUseNewRecordType;
     int      iNewRecordType;
@@ -1491,12 +1513,13 @@ typedef struct tagBC_ABILITY_INFO {
      *  bit1: nickname
      *  bit2: bit3 valid
      *  bit3: support email interval
+     *  bit4: support enable/disable all channel
      */
     int      iEmailVersion;
     
     /* @Param iPushVersion
-     *  0: old, no
-     *  1: new, has push task.
+     *  bit0: 0 - old, 1 - new (has push task)
+     *  bit1: support enable/disable all channel
      */
     int      iPushVersion;
     
@@ -2662,15 +2685,23 @@ typedef struct
 typedef struct tagBC_RECORD_GENERAL_CFG
 {
     /* validField, used for only set some params.
-     * for example, validField = "<bOverWrite><iPackageTime>", only set  bOverWrite, iPackageTime"
+     * for example, validField = "<iOverWrite><iPackageTime>", only set  bOverWrite, iPackageTime"
      */
     char                validField[128];
     
-    bool                bOverWrite;
-    int                 iPackageTime;  //30 45 60 MIN
-    int                 iPostRecordTime; //1 2 5 10 MIN
+    /* @param iOverWrite
+     *  0: no overwrite
+     *  1: overwrite when disk full
+     * -1: overwrite when file is 1 day ago
+     * -2: overwrite when file is 2 days ago
+     * ...
+     */
+    int                 iOverWrite;
+    int                 iPackageTime;  // 30 45 60 MIN
+    int                 iPostRecordTime; // 60 120 300 600 Second
     bool                bPreRecord;
     BC_RECORD_TIME_LIST timeList;
+    BC_RECORD_TIME_LIST overWriteList;
 } BC_RECORD_GENERAL_CFG;
 
 typedef struct tagBC_RECORD_SCHEDULE_CFG
@@ -2927,6 +2958,25 @@ typedef struct
 	BC_ZF_CMD_E cmd;
 	int iPos;
 } BC_START_ZOOM_FOCUS;
+
+typedef struct {
+    
+    int iChannel;
+    
+    /* @param iPowerOnSelfTest
+     *  0: not do self test when power on
+     *  1: do self test when power on
+     */
+    int iPowerOnSelfTest;
+    
+    /* @param iTestState
+     *  0: idle
+     *  1: doing
+     *  2: finished
+     */
+    int iTestState;
+    
+} BC_PT_SELF_TEST_CFG;
 
 typedef enum
 {
@@ -3734,11 +3784,15 @@ typedef struct
 } BC_CROP_SNAP_INFO;
 
 
-//alarm report
+// alarm report
 typedef struct {
     
     bool    bMotion;
-	int 	iAiType;// bitmap (BC_AI_TYPE_PEOPLE | BC_AI_TYPE_VEHICLE | ...)
+    
+    /* @param iAiType
+     *  bitmap (BC_AI_TYPE_PEOPLE | BC_AI_TYPE_VEHICLE | ...)
+     */
+	int 	iAiType;
 } BC_CHANNEL_ALARM_STATUS_REPORT;
 
 typedef struct {
@@ -3962,7 +4016,6 @@ typedef struct tagBC_BUZZER_TASK
 } BC_BUZZER_TASK, *LPBC_BUZZER_TASK;
 
 //cloud settings
-#define BC_MAX_AUTH_TOKEN_LEN               128
 typedef struct
 {
     char cAuthToken[BC_MAX_AUTH_TOKEN_LEN];
@@ -4384,6 +4437,8 @@ typedef struct
 
 
 
+// ------------------------------------------------------------------------
+// timelapse
 #define BC_MAX_TIMELAPSE_ID_LEN         16
 #define BC_MAX_TIMELAPSE_PRO_LEN        32
 #define BC_MAX_TIMELAPSE_DURATION_NUM   4
@@ -4552,8 +4607,7 @@ typedef struct
 
 typedef struct
 {
-    BC_TIME                     startTime; // for mp4
-    BC_TIME                     endTime; // for mp4
+    int                         duration; // valid for mp4
     uint64_t                    filesize;
     char                        cIdentity[BC_MAX_FILE_ID_LEN];
     char                        cFilename[BC_MAX_FILE_NAME_LEN];
@@ -4607,6 +4661,71 @@ typedef struct
     char cUID[BC_MAX_UID_LEN]; // for NAS
     BC_TIMELAPSE_TASK_DES task;
 } BC_TIMELAPSE_TASK_DELETE_PARAM;
+
+
+// ------------------------------------------------------------------------
+// factory test
+typedef struct {
+    
+    /* @param mode
+     *  0: idle
+     *  1: commmon
+     *  2: aging
+     */
+    int mode;
+    
+    /* @param agingTime
+     *  duration for aging
+     */
+    int agingTime;
+    
+    /* @param pakname
+     *
+     */
+    char pakname[128];
+    
+} BC_FACTORY_TEST_MODE;
+
+typedef struct
+{
+    int iProcSta;
+    int iTestable;
+    int iBasicStat;
+    
+    /* @param iResetKeyBuzzerRes
+     * -1: not support
+     *  0: idle
+     *  1: succeed
+     *  2: failed
+     */
+    int iResetKeyBuzzerRes;
+    
+    /* @param iIndicatorLightRes
+     * -1: not support
+     *  0: idle
+     *  1: succeed
+     *  2: failed
+     */
+    int iIndicatorLightRes;
+    
+    /* @param iSataRes
+     * -1: not support
+     *  0: idle
+     *  1: succeed
+     *  2: failed
+     */
+    int iSataRes;
+    
+    /* @param iSDRes
+     * -1: not support
+     *  0: idle
+     *  1: succeed
+     *  2: failed
+     */
+    int iSDRes;
+    
+} BC_FACTORY_TEST_INFO;
+
 
 
 // ------------------------------------------------------------------------

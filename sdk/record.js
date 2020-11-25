@@ -1,8 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const native_1 = require("./native");
-const ffi_napi_1 = require("ffi-napi");
-const ref = require("ref-napi");
+const ffi_1 = require("ffi");
+const ref = require("ref");
 const T = require("../types");
 const _T = require("./_struct");
 const _cast_1 = require("./_cast");
@@ -297,7 +297,7 @@ class RECORD {
 }
 RECORD.singleton = new RECORD();
 RECORD.diskCallbacks = [];
-RECORD.diskStatusCallback = ffi_napi_1.Callback('void', [_T.P_BC_DISK_WARNINIG_DESC, _T.pointer('void')], function (pdesc, userData) {
+RECORD.diskStatusCallback = ffi_1.Callback('void', [_T.P_BC_DISK_WARNINIG_DESC, _T.pointer('void')], function (pdesc, userData) {
     if (!pdesc) {
         // disk callback error format ...
         return;
@@ -312,7 +312,7 @@ RECORD.diskStatusCallback = ffi_napi_1.Callback('void', [_T.P_BC_DISK_WARNINIG_D
     });
 });
 RECORD.recordCallbacks = [];
-RECORD.recordStatusCallback = ffi_napi_1.Callback('void', [_T.P_BC_REC_EVENT_DESC, _T.pointer('void')], function (pdesc, userData) {
+RECORD.recordStatusCallback = ffi_1.Callback('void', [_T.P_BC_REC_EVENT_DESC, _T.pointer('void')], function (pdesc, userData) {
     if (!pdesc) {
         // record status callback error format ...
         return;

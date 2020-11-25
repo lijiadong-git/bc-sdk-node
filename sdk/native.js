@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const ffi = require("ffi-napi");
+const ffi = require("ffi");
 const path = require('path');
 const _T = require("./_struct");
 exports.renderCallbackFunc = ffi.Function('void', ['int', 'int', _T.P_RENDER_FRAME_DESC, _T.pointer('void')]);
@@ -37,7 +37,7 @@ const MFFI = ffi.Library(path.join(folder, 'libBCSDKWrapper'), {
      * Device interfaces
      *
      ************************************************************************/
-    BCSDK_Open: ['int', ['int', 'int']],
+    BCSDK_Open: ['int', ['int', 'int', 'int']],
     BCSDK_AddDevice: ['int', [_T.P_DEVICE_LOGIN_DESC, _T.P_DEVICE_CALLBACK_DESC, _T.pointer('int')]],
     BCSDK_RemoveDevice: ['int', ['int']],
     BCSDK_RemoveAllDevices: ['int', ['void']],
@@ -46,6 +46,8 @@ const MFFI = ffi.Library(path.join(folder, 'libBCSDKWrapper'), {
     BCSDK_GetDevice: ['int', ['int']],
     BCSDK_SetIsInBackground: ['int', ['bool']],
     BCSDK_SetNetworkType: ['int', ['int']],
+    BCSDK_SetAccountCenter: ['int', ['string', 'string', 'string']],
+    BCSDK_SetShouldLoginWithSignature: ['int', ['int', 'bool']],
     BCSDK_SetDeviceNeedAutoOpen: ['int', ['int', 'bool']],
     BCSDK_SetDeviceMaxReconnectCount: ['int', ['int', 'int']],
     BCSDK_StartDevicesAutoOpen: ['int', ['int']],
@@ -1098,6 +1100,8 @@ class NativeDelegate {
         this.BCSDK_GetDevice = MFFI.BCSDK_GetDevice;
         this.BCSDK_SetIsInBackground = MFFI.BCSDK_SetIsInBackground;
         this.BCSDK_SetNetworkType = MFFI.BCSDK_SetNetworkType;
+        this.BCSDK_SetAccountCenter = MFFI.BCSDK_SetAccountCenter;
+        this.BCSDK_SetShouldLoginWithSignature = MFFI.BCSDK_SetShouldLoginWithSignature;
         this.BCSDK_SetDeviceNeedAutoOpen = MFFI.BCSDK_SetDeviceNeedAutoOpen;
         this.BCSDK_SetDeviceMaxReconnectCount = MFFI.BCSDK_SetDeviceMaxReconnectCount;
         this.BCSDK_StartDevicesAutoOpen = MFFI.BCSDK_StartDevicesAutoOpen;

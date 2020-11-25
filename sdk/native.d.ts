@@ -1,4 +1,4 @@
-import * as ffi from 'ffi-napi';
+import * as ffi from 'ffi';
 import * as T from '../types';
 export declare const renderCallbackFunc: ffi.Function;
 export declare const dataCallbackFunc: ffi.Function;
@@ -11,7 +11,7 @@ export interface NativeMethods {
      *  Methods for Device
      *
      ****************************************************************/
-    BCSDK_Open: (exceptCNServer: number, exceptRUServer: number) => number;
+    BCSDK_Open: (group: number, exceptCNServer: number, exceptRUServer: number) => number;
     BCSDK_AddDevice: (loginDes: any, callbackDes: any, pError: any) => number;
     BCSDK_RemoveDevice: (handle: number) => number;
     BCSDK_RemoveAllDevices: () => number;
@@ -20,6 +20,8 @@ export interface NativeMethods {
     BCSDK_GetDevice: (handle: number) => number;
     BCSDK_SetIsInBackground: (background: boolean) => number;
     BCSDK_SetNetworkType: (type: T.BCSDK_NET_TYPE_E) => number;
+    BCSDK_SetAccountCenter: (accountCenterApiUrl: string, token: string, pemFilePath: string) => number;
+    BCSDK_SetShouldLoginWithSignature: (handle: number, should: boolean) => number;
     BCSDK_SetDeviceNeedAutoOpen: (handle: number, need: boolean) => number;
     BCSDK_SetDeviceMaxReconnectCount: (handle: number, count: number) => number;
     BCSDK_StartDevicesAutoOpen: (time: number) => number;

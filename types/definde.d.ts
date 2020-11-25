@@ -16,6 +16,7 @@ export declare namespace DEFINDE {
     const BC_MAX_NAME_LEN: number;
     const BC_MAX_PWD_LEN: number;
     const BC_MAX_PWD_LEN_128: number;
+    const BC_MAX_AUTH_TOKEN_LEN: number;
     const BC_SERIALNO_LEN: number;
     const BC_MACADDR_LEN: number;
     const BC_MAX_ADDR_LEN: number;
@@ -53,6 +54,7 @@ export declare namespace DEFINDE {
     const BC_MAX_REC_FILE_ID: number;
     const BC_MAX_FILE_ID_LEN: number;
     const BC_MAX_FILE_NAME_LEN: number;
+    const BC_MAX_URL_LEN: number;
     const BC_MAX_POS_NUM: number;
     const BC_MAX_KEY_POS: number;
     const BC_MAX_CRUISE_NUM: number;
@@ -60,7 +62,6 @@ export declare namespace DEFINDE {
     const BC_MAX_TRACK_SIZE: number;
     const BC_WIFI_UDID_MAX_NUM: number;
     const BC_MAX_QR_AUDIO_LEN: number;
-    const BC_MAX_AUTH_TOKEN_LEN: number;
     const MAX_UINT32_NUM: number;
     const MAX_INT32_NUM: number;
     const NET_MAX_SHELTERNUM: number;

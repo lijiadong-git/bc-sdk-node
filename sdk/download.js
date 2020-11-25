@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const native_1 = require("./native");
 const T = require("../types");
 const _T = require("./_struct");
-const ref = require("ref-napi");
+const ref = require("ref");
 const _callback_1 = require("./_callback");
 class DOWNLOAD {
     constructor() {

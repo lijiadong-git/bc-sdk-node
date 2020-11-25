@@ -431,14 +431,12 @@ typedef struct {
     
     char            name[SDK_MAX_NORMAL_STR_LEN];
     
-    bool            useP2P;
-    int             port;                           // used when useP2P is false
-    int             uidPort;                        // used when useP2P is true
-    char            host[SDK_MAX_HOSTNAME_LEN];     // used when useP2P is false
-    char            uid[SDK_MAX_UID_STR_LEN];       // used when useP2P is true
+    int             port;
+    int             uidPort;
+    char            host[SDK_MAX_HOSTNAME_LEN];
+    char            uid[SDK_MAX_UID_STR_LEN];
     char            username[SDK_MAX_NAME_LEN];
     char            password[SDK_MAX_PASSWD_LEN];
-    char            defaultPass[SDK_MAX_PASSWD_LEN];
     
 } DEVICE_LOGIN_DESC;
 

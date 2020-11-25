@@ -1,9 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const ffi_napi_1 = require("ffi-napi");
-const ref = require("ref-napi");
-const refStruct = require("ref-struct-di");
-const refArray = require("ref-array-di");
+const ffi_1 = require("ffi");
+const ref = require("ref");
+const refStruct = require("ref-struct");
+const refArray = require("ref-array");
 const types_1 = require("../types");
 exports.pointer = ref.refType;
 exports.cString = ref.types.CString;
@@ -23,18 +23,16 @@ exports.BC_CMD_DATA = refStruct({
 exports.P_BC_CMD_DATA = exports.pointer(exports.BC_CMD_DATA);
 exports.DEVICE_LOGIN_DESC = refStruct({
     name: refArray('byte', types_1.DEFINDE.SDK_MAX_NORMAL_STR_LEN),
-    useP2P: ref.types.bool,
     port: ref.types.int,
     uidPort: ref.types.int,
     host: refArray('byte', types_1.DEFINDE.SDK_MAX_HOSTNAME_LEN),
     uid: refArray('byte', types_1.DEFINDE.SDK_MAX_UID_STR_LEN),
     username: refArray('byte', types_1.DEFINDE.SDK_MAX_NAME_LEN),
-    password: refArray('byte', types_1.DEFINDE.SDK_MAX_PASSWD_LEN),
-    defaultPass: refArray('byte', types_1.DEFINDE.SDK_MAX_PASSWD_LEN)
+    password: refArray('byte', types_1.DEFINDE.SDK_MAX_PASSWD_LEN)
 });
 exports.P_DEVICE_LOGIN_DESC = exports.pointer(exports.DEVICE_LOGIN_DESC);
 exports.DEVICE_CALLBACK_DESC = refStruct({
-    func: ffi_napi_1.Function('int', ['int', exports.BC_CMD_DATA, exports.pointer('void')]),
+    func: ffi_1.Function('int', ['int', exports.BC_CMD_DATA, exports.pointer('void')]),
     userData: exports.pointer('void')
 });
 exports.P_DEVICE_CALLBACK_DESC = exports.pointer(exports.DEVICE_CALLBACK_DESC);
@@ -260,16 +258,17 @@ exports.BC_RECORD_TIME_LIST = refStruct({
 exports.P_BC_RECORD_TIME_LIST = exports.pointer(exports.BC_RECORD_TIME_LIST);
 exports.BC_RECORD_GENERAL_CFG = refStruct({
     /* validField, used for only set some params.
-     * for example, validField = "<bOverWrite><iPackageTime>", only set  bOverWrite, iPackageTime"
+     * for example, validField = "<iOverWrite><iPackageTime>", only set  bOverWrite, iPackageTime"
      */
     validField: refArray('byte', 128),
-    bOverWrite: ref.types.bool,
-    iPackageTime: ref.types.int //30 45 60 MIN
+    iOverWrite: ref.types.int,
+    iPackageTime: ref.types.int // 30 45 60 MIN
     ,
-    iPostRecordTime: ref.types.int //1 2 5 10 MIN
+    iPostRecordTime: ref.types.int // 60 120 300 600 Second
     ,
     bPreRecord: ref.types.bool,
-    timeList: exports.BC_RECORD_TIME_LIST
+    timeList: exports.BC_RECORD_TIME_LIST,
+    overWriteList: exports.BC_RECORD_TIME_LIST
 });
 exports.P_BC_RECORD_GENERAL_CFG = exports.pointer(exports.BC_RECORD_GENERAL_CFG);
 exports.BC_EMAIL_SENDER = refStruct({
@@ -1637,4 +1636,19 @@ exports.BC_ALARM_OUT_ENABLE_CFG = refStruct({
     iEnable: ref.types.int
 });
 exports.P_BC_ALARM_OUT_ENABLE_CFG = exports.pointer(exports.BC_ALARM_OUT_ENABLE_CFG);
+exports.BC_PT_SELF_TEST_CFG = refStruct({
+    iChannel: ref.types.int,
+    /* @param iPowerOnSelfTest
+     *  0: not do self test when power on
+     *  1: do self test when power on
+     */
+    iPowerOnSelfTest: ref.types.int,
+    /* @param iTestState
+     *  0: idle
+     *  1: doing
+     *  2: finished
+     */
+    iTestState: ref.types.int
+});
+exports.P_BC_PT_SELF_TEST_CFG = exports.pointer(exports.BC_PT_SELF_TEST_CFG);
 //# sourceMappingURL=_struct.js.map

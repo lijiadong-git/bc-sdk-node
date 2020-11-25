@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const ffi_napi_1 = require("ffi-napi");
-const ref = require("ref-napi");
+const ffi_1 = require("ffi");
+const ref = require("ref");
 const native_1 = require("./native");
 const T = require("../types");
 const _T = require("./_struct");
@@ -146,7 +146,7 @@ class LIVE {
 }
 LIVE.singleton = new LIVE();
 LIVE.frameCallbcks = new Map();
-LIVE.SDK_FRAME_CALLBACK = ffi_napi_1.Callback('void', ['int', 'int', _T.P_RENDER_FRAME_DESC, ref.types.size_t], function (handle, channel, frameDes, userData) {
+LIVE.SDK_FRAME_CALLBACK = ffi_1.Callback('void', ['int', 'int', _T.P_RENDER_FRAME_DESC, ref.types.size_t], function (handle, channel, frameDes, userData) {
     if (!frameDes) {
         // error format ...
         return;

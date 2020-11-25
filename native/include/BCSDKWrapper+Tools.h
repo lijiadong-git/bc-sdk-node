@@ -45,6 +45,10 @@ int _BCSDK_ BCSDK_SaveYUVToDisk(const char *path,
                                 RENDER_VIDEO_PLANE_DESC *plane1,
                                 RENDER_VIDEO_PLANE_DESC *plane2);
 
+#if defined(__ANDROID__)
+int _BCSDK_ BCSDK_Mp4FileMerge(const char *src[], int num, const char *dst, int framerate, int duration);
+#endif
+
 #ifdef __cplusplus
 }
 #endif//__cplusplus

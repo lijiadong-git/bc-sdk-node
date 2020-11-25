@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const ffi_napi_1 = require("ffi-napi");
-const ref = require("ref-napi");
+const ffi_1 = require("ffi");
+const ref = require("ref");
 const native_1 = require("./native");
 const T = require("../types");
 const _cast_1 = require("./_cast");
@@ -12,7 +12,7 @@ const live_1 = require("./live");
 const playback_1 = require("./playback");
 const talk_1 = require("./talk");
 const download_1 = require("./download");
-const deviceCallback = ffi_napi_1.Callback('void', ['int', _T.BC_CMD_DATA, _T.pointer('void')], function (handle, cmdData, userData) {
+const deviceCallback = ffi_1.Callback('void', ['int', _T.BC_CMD_DATA, _T.pointer('void')], function (handle, cmdData, userData) {
     if (!cmdData /*_T.BC_CMD_DATA*/
         || 'undefined' === typeof cmdData.bcCmd
         || 'undefined' === typeof cmdData.cmdIdx
@@ -484,8 +484,8 @@ class DEVICE {
             }
         }
     }
-    sdkOpen(bexcept_server_cn, bexcept_server_ru) {
-        native_1.native.BCSDK_Open(bexcept_server_cn ? 1 : 0, bexcept_server_ru ? 1 : 0);
+    sdkOpen(group, bexcept_server_cn, bexcept_server_ru) {
+        native_1.native.BCSDK_Open(group, bexcept_server_cn ? 1 : 0, bexcept_server_ru ? 1 : 0);
     }
     add(loginDes, callback) {
         return new Promise((resolve, reject) => {
@@ -608,6 +608,26 @@ class DEVICE {
             let ret = native_1.native.BCSDK_DeviceForceClose(handle, true);
             if (ret != T.ERROR.E_NONE) {
                 reject({ code: ret, description: 'device close' });
+                return;
+            }
+            resolve();
+        });
+    }
+    setAccountCenter(accountCenterApiUrl, token, pemFilePath) {
+        return new Promise((resolve, reject) => {
+            let ret = native_1.native.BCSDK_SetAccountCenter(accountCenterApiUrl, token, pemFilePath);
+            if (ret != T.ERROR.E_NONE) {
+                reject({ code: ret, description: 'set account center failed' });
+                return;
+            }
+            resolve();
+        });
+    }
+    setShouldLoginWithSignature(handle, should) {
+        return new Promise((resolve, reject) => {
+            let ret = native_1.native.BCSDK_SetShouldLoginWithSignature(handle, should);
+            if (ret != T.ERROR.E_NONE) {
+                reject({ code: ret, description: 'set should login with signature' });
                 return;
             }
             resolve();

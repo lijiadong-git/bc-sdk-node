@@ -18,11 +18,13 @@ extern "C" {
  *
  * this method must be called before add devies
  *
- * @param bexcept_server_cn     except p2p server in china
- *        bexcept_server_ru     except p2p server in russia
+ * @param group                 0: reolink
+ *                              1: reolink_cn
  *
+ * @param bexcept_server_cn     except p2p server in china when group is 0
+ *        bexcept_server_ru     except p2p server in russia when group is 0
  */
-int _BCSDK_ BCSDK_Open(int bexcept_server_cn, int bexcept_server_ru);
+int _BCSDK_ BCSDK_Open(int group, int bexcept_server_cn, int bexcept_server_ru);
 
 
 
@@ -112,8 +114,30 @@ int _BCSDK_ BCSDK_SetIsInBackground(bool background);
  *                          BCSDK_NET_TYPE_WIFI Default
  *                          BCSDK_NET_TYPE_3G4G
  */
-
 int _BCSDK_ BCSDK_SetNetworkType(BCSDK_NET_TYPE_E type);
+
+
+/* set account center url and access token
+ *
+ * device can login with this token
+ * when BCSDK_SetShouldLoginWithSignature is set and signature login is open
+ *
+ * @param accountCenterApiUrl       maybe https://apis.reolink.com
+ *
+ * @param token                     auth token for access account center
+ *
+ * @param pemFilePath               pem for https
+ *                                  download from: https://curl.haxx.se/ca/cacert.pem
+ *
+ */
+int _BCSDK_ BCSDK_SetAccountCenter(const char *accountCenterApiUrl,
+                                   const char *token,
+                                   const char *pemFilePath);
+
+
+/* set device Should login with access token of account system
+ */
+int _BCSDK_ BCSDK_SetShouldLoginWithSignature(H_BC_DEVICE hDevice, bool should);
 
 
 /* set device need auto open
