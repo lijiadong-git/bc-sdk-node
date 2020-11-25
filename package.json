@@ -1,34 +1,34 @@
 {
-  "name": "bc-sdk",
-  "version": "1.0.2",
-  "description": "sdk for baichuan shenzhen, version 1603",
-  "main": "index.js",
-  "typings": "index.d.ts",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "dependencies": {
-    "bindings": "~1.2.1",
-    "ffi-napi": "^3.0.1",
-    "ref-array-di": "^1.2.2"
-  },
-  "devDependencies": {
-    "@types/ref-array-di": "^1.2.0",
-    "@types/ref-struct-di": "^1.1.0",
-    "@types/ref-napi": "^1.4.1",
-    "@types/ffi-napi": "^2.4.3"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/lijiadong-git/bc-sdk-node.git"
-  },
-  "keywords": [
-    "baichuan"
-  ],
-  "author": "",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/lijiadong-git/bc-sdk-node/issues"
-  },
-  "homepage": "https://github.com/lijiadong-git/bc-sdk-node#readme"
-}
+    "name": "bc-sdk",
+    "version": "1.0.3",
+    "description": "sdk for baichuan shenzhen, version 1603",
+    "main": "index.js",
+    "typings": "index.d.ts",
+    "scripts": {
+      "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "dependencies": {
+      "bindings": "~1.2.1",
+      "ffi": "git+https://github.com/lijiadong-git/node-ffi.git",
+      "ref-array": "git+https://github.com/lijiadong-git/ref-array.git"
+    },
+    "devDependencies": {
+      "@types/ffi": "^0.2.0",
+      "@types/ref-array": "0.0.28",
+      "@types/ref-struct": "0.0.29"
+    },
+    "repository": {
+      "type": "git",
+      "url": "git+https://github.com/lijiadong-git/bc-sdk-node.git"
+    },
+    "keywords": [
+      "baichuan"
+    ],
+    "author": "",
+    "license": "MIT",
+    "bugs": {
+      "url": "https://github.com/lijiadong-git/bc-sdk-node/issues"
+    },
+    "homepage": "https://github.com/lijiadong-git/bc-sdk-node#readme"
+  }
+  
