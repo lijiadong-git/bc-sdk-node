@@ -242,7 +242,7 @@ export interface BC_RECORD_TIME_LIST {
 }
 export interface BC_RECORD_GENERAL_CFG {
     validField: string;
-    iOverWrite: boolean;
+    iOverWrite: number;
     /**
      * 30 45 60 MIN
      */
