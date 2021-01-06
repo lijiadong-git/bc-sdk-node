@@ -170,6 +170,7 @@ export interface NativeMethods {
     BCSDK_GetSupportPt: (handle: number, channel: number, pSupport: any) => number;
     BCSDK_GetSupportAutoPt: (handle: number, channel: number, pSupport: any) => number;
     BCSDK_GetSupportZoomAndFocus: (handle: number, channel: number, pSupport: any) => number;
+    BCSDK_GetSupportZoomAndFocusSliderCfg: (handle: number, channel: number, pSupport: any) => number;
     BCSDK_GetSupportAudio: (handle: number, channel: number, pSupport: any) => number;
     BCSDK_GetSupportAutoFocus: (handle: number, channel: number, pSupport: any) => number;
     BCSDK_GetSupportCropSnap: (handle: number, channel: number, pSupport: any) => number;
@@ -301,6 +302,7 @@ export interface NativeMethods {
      ************************************************************************/
     BCSDK_GetIsDownloading: (handle: number, download: any) => number;
     BCSDK_StartDownloadFile: (handle: number, uid: string, identity: string, fileName: string, subStream: boolean, type: T.BC_FILE_TYPE_E, tempFolder: string, dstFile: string) => number;
+    BCSDK_StartDownloadByTime: (handle: number, channel: number, uid: string, start: any, end: any, subStream: boolean, tempFolder: string, dstFile: string) => number;
     BCSDK_StopDownload: (handle: number, fileName: any) => number;
     /************************************************************************
      *

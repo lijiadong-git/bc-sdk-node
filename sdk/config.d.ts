@@ -87,6 +87,8 @@ declare class CONFIG {
     bindCloud(handle: number, param: T.BC_BIND_CLOUD): Promise<void>;
     getCloudCfg(handle: number): Promise<T.BC_CLOUD_CFG>;
     setCloudCfg(handle: number, param: T.BC_CLOUD_CFG): Promise<void>;
+    getSignatureLoginCfg(handle: number): Promise<T.BC_SIGNATURE_LOGIN_CFG>;
+    setSignatureLoginCfg(handle: number, param: T.BC_SIGNATURE_LOGIN_CFG): Promise<void>;
     syncUtcTime(handle: number, param: T.BC_UTC_TIME): Promise<void>;
     getScanAp(handle: number): Promise<T.BC_SCAN_AP>;
     getRecFileDaysByChannel(handle: number, start: T.BC_TIME, end: T.BC_TIME, channels: number[]): Promise<T.BC_RECORD_FILE_DAYS_BY_CHN>;

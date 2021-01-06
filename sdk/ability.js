@@ -221,6 +221,7 @@ class ABILITY {
     getSupportPt(handle, channel, df) { return ABILITY.nativeCall(native_1.native.BCSDK_GetSupportPt, handle, df ? df : false, channel); }
     getSupportAutoPt(handle, channel, df) { return ABILITY.nativeCall(native_1.native.BCSDK_GetSupportAutoPt, handle, df ? df : false, channel); }
     getSupportZoomAndFocus(handle, channel, df) { return ABILITY.nativeCall(native_1.native.BCSDK_GetSupportZoomAndFocus, handle, df ? df : false, channel); }
+    getSupportZoomAndFocusSliderCfg(handle, channel, df) { return ABILITY.nativeCall(native_1.native.BCSDK_GetSupportZoomAndFocusSliderCfg, handle, df ? df : false, channel); }
     getSupportAudio(handle, channel, df) { return ABILITY.nativeCall(native_1.native.BCSDK_GetSupportAudio, handle, df ? df : false, channel); }
     getSupportAutoFocus(handle, channel, df) { return ABILITY.nativeCall(native_1.native.BCSDK_GetSupportAutoFocus, handle, df ? df : false, channel); }
     getSupportCropSnap(handle, channel, df) { return ABILITY.nativeCall(native_1.native.BCSDK_GetSupportCropSnap, handle, df ? df : false, channel); }

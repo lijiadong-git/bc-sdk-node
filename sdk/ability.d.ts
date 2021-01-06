@@ -143,6 +143,7 @@ declare class ABILITY {
     getSupportPt(handle: number, channel: number, df?: boolean): Promise<boolean>;
     getSupportAutoPt(handle: number, channel: number, df?: boolean): Promise<boolean>;
     getSupportZoomAndFocus(handle: number, channel: number, df?: boolean): Promise<boolean>;
+    getSupportZoomAndFocusSliderCfg(handle: number, channel: number, df?: boolean): Promise<boolean>;
     getSupportAudio(handle: number, channel: number, df?: boolean): Promise<boolean>;
     getSupportAutoFocus(handle: number, channel: number, df?: boolean): Promise<boolean>;
     getSupportCropSnap(handle: number, channel: number, df?: boolean): Promise<boolean>;

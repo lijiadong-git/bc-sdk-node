@@ -1586,6 +1586,19 @@ exports.BC_DOWNLOAD_BY_NAME_INFO = refStruct({
     iUseSubStream: ref.types.int
 });
 exports.P_BC_DOWNLOAD_BY_NAME_INFO = exports.pointer(exports.BC_DOWNLOAD_BY_NAME_INFO);
+exports.BC_DOWNLOAD_BY_TIME_INFO = refStruct({
+    iChannel: ref.types.int,
+    cUID: refArray('byte', types_1.DEFINDE.BC_MAX_UID_LEN),
+    startTime: exports.BC_TIME,
+    endTime: exports.BC_TIME,
+    cSaveFileName: refArray('byte', types_1.DEFINDE.BC_MAX_FILE_LEN),
+    fileSize: ref.types.longlong,
+    curSize: ref.types.longlong,
+    iUseSubStream: ref.types.int,
+    width: ref.types.uint,
+    height: ref.types.uint
+});
+exports.P_BC_DOWNLOAD_BY_TIME_INFO = exports.pointer(exports.BC_DOWNLOAD_BY_TIME_INFO);
 exports.BC_TIME_WITHOUT_INTERACTION = refStruct({
     duration: ref.types.int // seconds
 });

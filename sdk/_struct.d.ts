@@ -338,6 +338,8 @@ export declare const BC_REC_SCHE_DEVICE_CFG: refStruct;
 export declare const P_BC_REC_SCHE_DEVICE_CFG: ref.Type;
 export declare const BC_DOWNLOAD_BY_NAME_INFO: refStruct;
 export declare const P_BC_DOWNLOAD_BY_NAME_INFO: ref.Type;
+export declare const BC_DOWNLOAD_BY_TIME_INFO: refStruct;
+export declare const P_BC_DOWNLOAD_BY_TIME_INFO: ref.Type;
 export declare const BC_TIME_WITHOUT_INTERACTION: refStruct;
 export declare const P_BC_TIME_WITHOUT_INTERACTION: ref.Type;
 export declare const BC_DEVICE_EXCEPTION: refStruct;

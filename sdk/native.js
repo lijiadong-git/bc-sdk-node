@@ -152,7 +152,9 @@ const MFFI = ffi.Library(path.join(folder, 'libBCSDKWrapper'), {
     BCSDK_GetAlarmOutPortCount: ['int', ['int', _T.pointer('int')]],
     BCSDK_GetDdnsVersion: ['int', ['int', _T.pointer('int')]],
     BCSDK_GetAnalogChannelCount: ['int', ['int', _T.pointer('int')]],
-    BCSDK_GetPushType: ['int', ['int', _T.pointer('int')]],
+    BCSDK_GetPushType: ['int', ['int', _T.pointer('int')]]
+    /*, BCSDK_GetPushSecretCode: ['int', ['int', 'char[]' 'int']] */
+    ,
     BCSDK_GetRfVersion: ['int', ['int', _T.pointer('int')]],
     BCSDK_GetRfNumbers: ['int', ['int', _T.pointer('int')]],
     BCSDK_GetSupportSimModule: ['int', ['int', _T.pointer('bool')]],
@@ -191,6 +193,7 @@ const MFFI = ffi.Library(path.join(folder, 'libBCSDKWrapper'), {
     BCSDK_GetSupportPt: ['int', ['int', 'int', _T.pointer('bool')]],
     BCSDK_GetSupportAutoPt: ['int', ['int', 'int', _T.pointer('bool')]],
     BCSDK_GetSupportZoomAndFocus: ['int', ['int', 'int', _T.pointer('bool')]],
+    BCSDK_GetSupportZoomAndFocusSliderCfg: ['int', ['int', 'int', _T.pointer('bool')]],
     BCSDK_GetSupportAudio: ['int', ['int', 'int', _T.pointer('bool')]],
     BCSDK_GetSupportAutoFocus: ['int', ['int', 'int', _T.pointer('bool')]],
     BCSDK_GetSupportCropSnap: ['int', ['int', 'int', _T.pointer('bool')]],
@@ -208,7 +211,9 @@ const MFFI = ffi.Library(path.join(folder, 'libBCSDKWrapper'), {
     BCSDK_GetSupportManualRingDown: ['int', ['int', 'int', _T.pointer('bool')]],
     BCSDK_GetSupportCustomRingtone: ['int', ['int', 'int', _T.pointer('bool')]],
     BCSDK_GetSupportOsdPadding: ['int', ['int', 'int', _T.pointer('bool')]],
-    BCSDK_GetSupportOsdWaterMark: ['int', ['int', 'int', _T.pointer('bool')]],
+    BCSDK_GetSupportOsdWaterMark: ['int', ['int', 'int', _T.pointer('bool')]]
+    // ISP
+    ,
     BCSDK_GetSupportIspDayNight: ['int', ['int', 'int', _T.pointer('bool')]],
     BCSDK_GetSupportIspAntiFlick: ['int', ['int', 'int', _T.pointer('bool')]],
     BCSDK_GetSupportIspExposureMode: ['int', ['int', 'int', _T.pointer('bool')]],
@@ -222,12 +227,16 @@ const MFFI = ffi.Library(path.join(folder, 'libBCSDKWrapper'), {
     BCSDK_GetSupportIspSatruation: ['int', ['int', 'int', _T.pointer('bool')]],
     BCSDK_GetSupportIspHue: ['int', ['int', 'int', _T.pointer('bool')]],
     BCSDK_GetSupportIspSharpen: ['int', ['int', 'int', _T.pointer('bool')]],
-    BCSDK_GetSupportIspDayNightThreshold: ['int', ['int', 'int', _T.pointer('bool')]],
+    BCSDK_GetSupportIspDayNightThreshold: ['int', ['int', 'int', _T.pointer('bool')]]
+    // AI
+    ,
     BCSDK_GetSupportAI: ['int', ['int', 'int', _T.pointer('bool')]],
     BCSDK_GetSupportAIPeople: ['int', ['int', 'int', _T.pointer('bool')]],
     BCSDK_GetSupportAIVehicle: ['int', ['int', 'int', _T.pointer('bool')]],
     BCSDK_GetSupportAIFace: ['int', ['int', 'int', _T.pointer('bool')]],
-    BCSDK_GetSupportAIAnimal: ['int', ['int', 'int', _T.pointer('bool')]],
+    BCSDK_GetSupportAIAnimal: ['int', ['int', 'int', _T.pointer('bool')]]
+    // Timelapse
+    ,
     BCSDK_GetSupportTimelapse: ['int', ['int', 'int', _T.pointer('bool')]],
     BCSDK_GetSupportTimelapseThumbnail: ['int', ['int', 'int', _T.pointer('bool')]]
     /************************************************************************
@@ -355,6 +364,7 @@ const MFFI = ffi.Library(path.join(folder, 'libBCSDKWrapper'), {
     ,
     BCSDK_GetIsDownloading: ['int', ['int', _T.pointer('int')]],
     BCSDK_StartDownloadFile: ['int', ['int', 'string', 'string', 'string', 'bool', 'int', 'string', 'string']],
+    BCSDK_StartDownloadByTime: ['int', ['int', 'int', 'string', _T.BC_TIME, _T.BC_TIME, 'bool', 'string', 'string']],
     BCSDK_StopDownload: ['int', ['int', 'long']]
     /************************************************************************
      *
@@ -972,12 +982,20 @@ const MFFI = ffi.Library(path.join(folder, 'libBCSDKWrapper'), {
     BCSDK_RemoteGetAutoFocus: ['int', ['int', 'int']],
     BCSDK_RemoteSetAutoFocus: ['int', ['int', 'int', _T.P_BC_PTZ_AUTO_FOCUS]]
     /* Zoom Focus
-       *
-       * callback with E_BC_CMD_GET_ZOOM_FOCUS_INFO, E_BC_CMD_START_ZOOM_FOCUS
-       */
+     *
+     * callback with E_BC_CMD_GET_ZOOM_FOCUS_INFO, E_BC_CMD_START_ZOOM_FOCUS
+     */
     ,
     BCSDK_RemoteGetZoomFocusInfo: ['int', ['int', 'int']],
     BCSDK_RemoteStartZoomFocus: ['int', ['int', 'int', _T.BC_START_ZOOM_FOCUS]]
+    /* pt power on self test
+     *
+     * callback with E_BC_CMD_GET_PT_SELF_TEST_CFG, E_BC_CMD_SET_PT_SELF_TEST_CFG
+     */
+    /*int _BCSDK_ BCSDK_RemoteGetPtSelfTestCfg(H_BC_DEVICE hDevice, int channel);
+    int _BCSDK_ BCSDK_RemoteSetPtSelfTestCfg(H_BC_DEVICE hDevice, int channel, BC_PT_SELF_TEST_CFG *cfg);
+    int _BCSDK_ BCSDK_RemoteStartPtSelfTest(H_BC_DEVICE hDevice, int channel);
+    */
     /* Crop Cfg
      *
      * callback with E_BC_CMD_GET_CROP_CFG, E_BC_CMD_SET_CROP_CFG
@@ -991,6 +1009,24 @@ const MFFI = ffi.Library(path.join(folder, 'libBCSDKWrapper'), {
      */
     ,
     BCSDK_RemoteCropSnap: ['int', ['int', 'int', _T.P_BC_CROP_SNAP_INFO]]
+    /* Delete Online Device
+     *
+     * callback with E_BC_CMD_BASE_DELETE_ONLINE_DEVICE
+     */
+    // int _BCSDK_ BCSDK_RemoteBaseDeleteOnlineDevice(H_BC_DEVICE hDevice, BC_BASE_ONLINE_DEVICE_INFO *onlineDevInfo);
+    /* base device's RF Cfg
+     *
+     * callback with E_BC_CMD_BASE_GET_RF_CFG, E_BC_CMD_BASE_SET_RF_CFG
+     */
+    // int _BCSDK_  BCSDK_RemoteGetBaseRfAlarmCfg(H_BC_DEVICE hDevice, int channel, BC_BASE_RF_ALARM_REQUEST *request);
+    // int _BCSDK_  BCSDK_RemoteSetBaseRfAlarmCfg(H_BC_DEVICE hDevice, int channel, BC_BASE_RF_ALARM_CFG *rfAlarmCfg);
+    // int _BCSDK_  BCSDK_RemoteSetBaseRfAlarmStatus(H_BC_DEVICE hDevice, int channel, BC_RF_ALARM_STATUS *rfAlarmStatus);
+    /* base device's WIFI QRCode
+     *
+     * callback with E_BC_CMD_BASE_GET_WIFI_QRCODE, E_BC_CMD_BASE_SET_WIFI_QRCODE
+     */
+    // int _BCSDK_ BCSDK_RemoteGetBaseWifiQRCode(H_BC_DEVICE hDevice);
+    // int _BCSDK_ BCSDK_RemoteSetBaseWifiQRCode(H_BC_DEVICE hDevice, BC_BASE_WIFI_QRCODE *qrCodeCfg);
     /* battery info
      *
      * callback with E_BC_CMD_GET_BATTERY_INFO
@@ -1023,7 +1059,12 @@ const MFFI = ffi.Library(path.join(folder, 'libBCSDKWrapper'), {
     BCSDK_RemoteMuteAlarmAudio: ['int', ['int', 'int', _T.P_BC_MUTE_ALARM_AUDIO]],
     BCSDK_RemoteSaveRingtone: ['int', ['int', 'int']],
     BCSDK_RemoteImportRingtone: ['int', ['int', 'int', _T.P_BC_RINGTONE_FILE_INFO]],
-    BCSDK_RemoteGetRingtoneAbility: ['int', ['int', 'int']],
+    BCSDK_RemoteGetRingtoneAbility: ['int', ['int', 'int']]
+    /* version info
+     *
+     * callback with E_BC_CMD_GET_CHN_VERSION
+     */
+    ,
     BCSDK_RemoteGetChannelVersionInfo: ['int', ['int', 'int']]
     /************************************************************************
      *
@@ -1243,6 +1284,7 @@ class NativeDelegate {
         this.BCSDK_GetSupportPt = MFFI.BCSDK_GetSupportPt;
         this.BCSDK_GetSupportAutoPt = MFFI.BCSDK_GetSupportAutoPt;
         this.BCSDK_GetSupportZoomAndFocus = MFFI.BCSDK_GetSupportZoomAndFocus;
+        this.BCSDK_GetSupportZoomAndFocusSliderCfg = MFFI.BCSDK_GetSupportZoomAndFocusSliderCfg;
         this.BCSDK_GetSupportAudio = MFFI.BCSDK_GetSupportAudio;
         this.BCSDK_GetSupportAutoFocus = MFFI.BCSDK_GetSupportAutoFocus;
         this.BCSDK_GetSupportCropSnap = MFFI.BCSDK_GetSupportCropSnap;
@@ -1392,6 +1434,7 @@ class NativeDelegate {
          ************************************************************************/
         this.BCSDK_GetIsDownloading = MFFI.BCSDK_GetIsDownloading;
         this.BCSDK_StartDownloadFile = MFFI.BCSDK_StartDownloadFile;
+        this.BCSDK_StartDownloadByTime = MFFI.BCSDK_StartDownloadByTime;
         this.BCSDK_StopDownload = MFFI.BCSDK_StopDownload;
         /************************************************************************
          *

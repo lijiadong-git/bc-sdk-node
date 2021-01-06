@@ -185,6 +185,10 @@ class CONFIG {
                 CONFIG.handleSDKGetCallback(_T.BC_CLOUD_CFG, handle, cmdData);
                 break;
             }
+            case T.BC_CMD_E.E_BC_CMD_GET_SIGNATURE_LOGIN_CFG: {
+                CONFIG.handleSDKGetCallback(_T.BC_SIGNATURE_LOGIN_CFG, handle, cmdData);
+                break;
+            }
             case T.BC_CMD_E.E_BC_CMD_GET_SCAN_AP: {
                 CONFIG.handleSDKGetCallback(_T.BC_SCAN_AP, handle, cmdData);
                 break;
@@ -410,6 +414,7 @@ class CONFIG {
             case T.BC_CMD_E.E_BC_CMD_SET_SIM_MODULE_INFO:
             case T.BC_CMD_E.E_BC_CMD_BIND_CLOUD:
             case T.BC_CMD_E.E_BC_CMD_SET_CLOUD_CFG:
+            case T.BC_CMD_E.E_BC_CMD_SET_SIGNATURE_LOGIN_CFG:
             case T.BC_CMD_E.E_BC_CMD_SET_USERCFG:
             case T.BC_CMD_E.E_BC_CMD_SET_USER_ALL_ABILITY:
             case T.BC_CMD_E.E_BC_CMD_SET_USER_ONLINE:
@@ -510,7 +515,7 @@ class CONFIG {
     }
     deviceCmd(handle, cmd, func, timeout = 10, param, type, cmdIdx) {
         return new Promise((resolve, reject) => {
-            let ret = T.ERROR.E_UND;
+            let ret;
             if (undefined !== param && undefined !== type) {
                 let castParam = _cast_1.refCast(param);
                 let data = new type(castParam);
@@ -538,7 +543,7 @@ class CONFIG {
     }
     channelCmd(handle, channel, cmd, func, timeout = 10, param, type, cmdIdx) {
         return new Promise((resolve, reject) => {
-            let ret = T.ERROR.E_UND;
+            let ret;
             if (undefined !== param && undefined !== type) {
                 let castParam = _cast_1.refCast(param);
                 let data = new type(castParam);
@@ -963,6 +968,12 @@ class CONFIG {
     }
     setCloudCfg(handle, param) {
         return this.deviceCmd(handle, T.BC_CMD_E.E_BC_CMD_SET_CLOUD_CFG, native_1.native.BCSDK_RemoteSetCloudCfg, 10, param, _T.BC_CLOUD_CFG);
+    }
+    getSignatureLoginCfg(handle) {
+        return this.deviceCmd(handle, T.BC_CMD_E.E_BC_CMD_GET_SIGNATURE_LOGIN_CFG, native_1.native.BCSDK_RemoteGetSignatureLoginCfg);
+    }
+    setSignatureLoginCfg(handle, param) {
+        return this.deviceCmd(handle, T.BC_CMD_E.E_BC_CMD_SET_SIGNATURE_LOGIN_CFG, native_1.native.BCSDK_RemoteSetSignatureLoginCfg, 10, param, _T.BC_SIGNATURE_LOGIN_CFG);
     }
     /* sync utc time
      *

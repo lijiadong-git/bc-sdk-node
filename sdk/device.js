@@ -258,6 +258,8 @@ const deviceCallback = ffi_1.Callback('void', ['int', _T.BC_CMD_DATA, _T.pointer
         case T.BC_CMD_E.E_BC_CMD_BIND_CLOUD:
         case T.BC_CMD_E.E_BC_CMD_GET_CLOUD_CFG:
         case T.BC_CMD_E.E_BC_CMD_SET_CLOUD_CFG:
+        case T.BC_CMD_E.E_BC_CMD_GET_SIGNATURE_LOGIN_CFG:
+        case T.BC_CMD_E.E_BC_CMD_SET_SIGNATURE_LOGIN_CFG:
         case T.BC_CMD_E.E_BC_CMD_GET_RINGTONE_FILE_INFO:
         case T.BC_CMD_E.E_BC_CMD_IMPORT_RINGTONE:
         case T.BC_CMD_E.E_BC_CMD_IMPORT_RINGTONE_PROGRESS:
