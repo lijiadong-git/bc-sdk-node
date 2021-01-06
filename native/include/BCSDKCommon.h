@@ -183,10 +183,12 @@ typedef enum {
     FS_MOD_IDX_MANUAL,
     FS_MOD_IDX_SCHED,
     FS_MOD_IDX_MD,
+    FS_MOD_IDX_PIR,
     FS_MOD_IDX_IO,
     FS_MOD_IDX_PEOPLE,
     FS_MOD_IDX_FACE,
     FS_MOD_IDX_VEHICLE,
+    FS_MOD_IDX_AI_OTHER,
 } FS_MOD_E;
 
 #define MODE(idx) (1<<(idx))
@@ -194,10 +196,12 @@ typedef enum {
 #define FS_MOD_MANUAL 	MODE(FS_MOD_IDX_MANUAL)
 #define FS_MOD_SCHED  	MODE(FS_MOD_IDX_SCHED)
 #define FS_MOD_MD 		MODE(FS_MOD_IDX_MD)
+#define FS_MOD_PIR      MODE(FS_MOD_IDX_PIR)
 #define FS_MOD_IO 		MODE(FS_MOD_IDX_IO)
 #define FS_MOD_PEOPLE   MODE(FS_MOD_IDX_PEOPLE)
 #define FS_MOD_FACE     MODE(FS_MOD_IDX_FACE)
 #define FS_MOD_VEHICLE  MODE(FS_MOD_IDX_VEHICLE)
+#define FS_MOD_AI_OTHER MODE(FS_MOD_IDX_AI_OTHER)
 
 
 ///////////////

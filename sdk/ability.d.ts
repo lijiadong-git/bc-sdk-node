@@ -33,6 +33,7 @@ declare class ABILITY {
     getSupportFTPExtensionStream(handle: number, df?: boolean): Promise<boolean>;
     getSupportFTPPicture(handle: number, df?: boolean): Promise<boolean>;
     getSupportFTPEnable(handle: number, df?: boolean): Promise<boolean>;
+    getSupportFTPAutoDir(handle: number, df?: boolean): Promise<boolean>;
     getSupportRTSP(handle: number, df?: boolean): Promise<boolean>;
     getSupportRTMP(handle: number, df?: boolean): Promise<boolean>;
     getSupportONVIF(handle: number, df?: boolean): Promise<boolean>;
@@ -137,6 +138,7 @@ declare class ABILITY {
     getSupportFloodlight(handle: number, channel: number, df?: boolean): Promise<boolean>;
     getSupportFloodlightBrightnessCtrl(handle: number, channel: number, df?: boolean): Promise<boolean>;
     getSupportFloodlightAutoByPreview(handle: number, channel: number, df?: boolean): Promise<boolean>;
+    getSupportFloodlightModeConfig(handle: number, channel: number, df?: boolean): Promise<boolean>;
     getSupportPtzSpeed(handle: number, channel: number, df?: boolean): Promise<boolean>;
     getSupportPtzCruise(handle: number, channel: number, df?: boolean): Promise<boolean>;
     getSupportPtzPreset(handle: number, channel: number, df?: boolean): Promise<boolean>;

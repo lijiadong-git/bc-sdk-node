@@ -64,6 +64,7 @@ export interface NativeMethods {
     BCSDK_GetSupportFTPExtensionStream: (handle: number, pSupport: any) => number;
     BCSDK_GetSupportFTPPicture: (handle: number, pSupport: any) => number;
     BCSDK_GetSupportFTPEnable: (handle: number, pSupport: any) => number;
+    BCSDK_GetSupportFTPAutoDir: (handle: number, pSupport: any) => number;
     BCSDK_GetSupportRTSP: (handle: number, pSupport: any) => number;
     BCSDK_GetSupportRTMP: (handle: number, pSupport: any) => number;
     BCSDK_GetSupportONVIF: (handle: number, pSupport: any) => number;
@@ -164,6 +165,7 @@ export interface NativeMethods {
     BCSDK_GetSupportFloodlight: (handle: number, channel: number, pSupport: any) => number;
     BCSDK_GetSupportFloodlightBrightnessCtrl: (handle: number, channel: number, pSupport: any) => number;
     BCSDK_GetSupportFloodlightAutoByPreview: (handle: number, channel: number, pSupport: any) => number;
+    BCSDK_GetSupportFloodlightModeConfig: (handle: number, channel: number, pSupport: any) => number;
     BCSDK_GetSupportPtzSpeed: (handle: number, channel: number, pSupport: any) => number;
     BCSDK_GetSupportPtzCruise: (handle: number, channel: number, pSupport: any) => number;
     BCSDK_GetSupportPtzPreset: (handle: number, channel: number, pSupport: any) => number;
@@ -208,6 +210,8 @@ export interface NativeMethods {
     BCSDK_GetSupportAIVehicle: (handle: number, channel: number, pSupport: any) => number;
     BCSDK_GetSupportAIFace: (handle: number, channel: number, pSupport: any) => number;
     BCSDK_GetSupportAIAnimal: (handle: number, channel: number, pSupport: any) => number;
+    BCSDK_GetSupportAIOther: (handle: number, channel: number, pSupport: any) => number;
+    BCSDK_GetSupportAIDetectConfig: (handle: number, channel: number, pSupport: any) => number;
     BCSDK_GetSupportTimelapse: (handle: number, channel: number, pSupport: any) => number;
     BCSDK_GetSupportTimelapseThumbnail: (handle: number, channel: number, pSupport: any) => number;
     /****************************************************************
@@ -315,6 +319,10 @@ export interface NativeMethods {
     BCSDK_RemoteConfigState: (handle: number, channel: number, cmd: T.BC_CMD_E, pState: any) => number;
     BCSDK_RemoteConfigState2: (handle: number, channel: number, cmd: T.BC_CMD_E, cmdIdx: number, pState: any) => number;
     BCSDK_RemoteGetVersionInfo: (handle: number) => number;
+    BCSDK_RemoteGetDefaultAIDetectCfg: (handle: number, channel: number, type: T.BC_DETECT_TYPE_E, cmdIdx: number) => number;
+    BCSDK_RemoteGetAIDetectCfg: (handle: number, channel: number, type: T.BC_DETECT_TYPE_E, cmdIdx: number) => number;
+    BCSDK_RemoteSetAIDetectCfg: (handle: number, channel: number, config: any, cmdIdx: number) => number;
+    BCSDK_RemoteSetAlarmAreas: (handle: number, channel: number, config: any) => number;
     BCSDK_RemoteGetSysGeneralCfg: (handle: number) => number;
     BCSDK_RemoteSetSysGeneralCfg: (handle: number, param: any, cmdIdx: number) => number;
     BCSDK_RemoteSetDeviceName: (handle: number, param: any) => number;

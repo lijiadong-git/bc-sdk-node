@@ -192,6 +192,10 @@ declare class CONFIG {
     saveRingtone(handle: number, channel: number): Promise<void>;
     getRingtoneAbility(handle: number, channel: number): Promise<T.BC_RINGTONE_ABILITY>;
     getChannelVersionInfo(handle: number, channel: number): Promise<T.BC_VERSION_INFO>;
+    getDefaultAIDetectCfg(handle: number, channel: number, type: T.BC_DETECT_TYPE_E): Promise<T.BC_AI_DETECT_CFG>;
+    getAIDetectCfg(handle: number, channel: number, type: T.BC_DETECT_TYPE_E): Promise<T.BC_AI_DETECT_CFG>;
+    setAIDetectCfg(handle: number, channel: number, param: T.BC_AI_DETECT_CFG): Promise<void>;
+    setAlarmAreas(handle: number, channel: number, param: T.BC_ALARM_AREAS_CFG): Promise<void>;
 }
 export declare const config: CONFIG;
 export {};

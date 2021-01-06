@@ -54,7 +54,13 @@
 #define BC_MAX_XML_SIZE             40000
 #define BC_LOG_INFO_LEN             4096
 #define BC_MAX_FRAME_SIZE           1000000
-#define BC_MAX_CONFIG_BUF_SIZE      50000
+#define BC_MAX_CONFIG_BUF_SIZE      60000
+
+#define BC_ALARM_AREA_MAX_WIDTH     130
+#define BC_ALARM_AREA_MAX_HEIGHT    100
+#define BC_MD_AREA_MAX_WIDTH        BC_ALARM_AREA_MAX_WIDTH
+#define BC_MD_AREA_MAX_HEIGHT       BC_ALARM_AREA_MAX_HEIGHT
+
 
 #define BC_MAX_DAYS             7
 #define BC_MAX_TIMESEGMENT      24
@@ -409,8 +415,11 @@ typedef enum
     E_BC_CMD_GET_FACTORY_TEST_INFO          = 2278,
     E_BC_CMD_SET_FACTORY_TEST_INFO          = 2279,
     E_BC_CMD_GET_PT_SELF_TEST_CFG           = 2280,
-    E_BC_CMD_SET_PT_SELF_TEST_CFG           = 2281,
-    E_BC_CMD_START_PT_SELF_TEST             = 2282,
+    E_BC_CMD_START_PT_SELF_TEST             = 2281,
+    E_BC_CMD_GET_AI_DETECT_CFG              = 2282,
+    E_BC_CMD_SET_AI_DETECT_CFG              = 2283,
+    E_BC_CMD_GET_DEF_AI_DETECT_CFG          = 2284,
+    E_BC_CMD_SET_ALARM_ARAES_CFG            = 2285,
     
     
     // sdk up layer callback use
@@ -1014,6 +1023,7 @@ typedef enum
     BC_ALARM_IN_IDX_PEOPLE,
     BC_ALARM_IN_IDX_FACE,
     BC_ALARM_IN_IDX_VEHICLE,
+    BC_ALARM_IN_IDX_AI_OTHER,
     BC_ALARM_IN_IDX_BUTT
 } BC_ALARM_IN_IDX_E;
 
@@ -1141,6 +1151,7 @@ typedef enum {
     BC_ALARM_IN_PEOPLE      = BC_MODE(BC_ALARM_IN_IDX_PEOPLE),
     BC_ALARM_IN_FACE        = BC_MODE(BC_ALARM_IN_IDX_FACE),
     BC_ALARM_IN_VEHICLE     = BC_MODE(BC_ALARM_IN_IDX_VEHICLE),
+    BC_ALARM_IN_AI_OTHER    = BC_MODE(BC_ALARM_IN_IDX_AI_OTHER),
     //
     /* callback has unknow bit */
     BC_ALARM_IN_UNKNOW      = BC_MODE(31),
@@ -1417,6 +1428,7 @@ typedef struct tagBC_ABILITY_INFO {
      *  bit2: support extension stream and pic
      *  bit3: not support picture
      *  bit4: support enable/disable all channel
+     *  bit5: support auto dir
      */
     int      iFtp;
     
@@ -1449,12 +1461,13 @@ typedef struct tagBC_ABILITY_INFO {
     /* @Param iUseRecordCfg
      *  whether use iRecordCfg or not
      *
-     * @Param iRecordCfg
+     * @Param iRecordCfg ( for battery camera only )
      *  bit0: post record
      *  bit1: pre record
      *  bit2: overwrite
      *  bit3: packet time
      *  bit4: post record time list
+     *  bit5: schedule
      */
     int      iUseRecordCfg;
     int 	 iRecordCfg;
@@ -1684,6 +1697,7 @@ typedef struct tagBC_ABILITY_INFO {
 	 *  bit1: support floodlight
 	 *  bit2: support floodlight brightness control
 	 *  bit3: support floodlight auto turn on during preview
+     *  bit4: support mode config
 	 */
     int      iLedCtrl[BC_MAX_CHANNEL];
 
@@ -1800,6 +1814,7 @@ typedef struct tagBC_ABILITY_INFO {
      *  bit10: satruation
      *  bit11: hue
      *  bit13: 1-support day to night threshold control
+     *  bit14: 1-support bright and dark part regulation
      */
 	int     iUseNewIspCfg;
 	int     iNewIspCfg[BC_MAX_CHANNEL];
@@ -1810,7 +1825,8 @@ typedef struct tagBC_ABILITY_INFO {
 	 *  bit2: suppport vehicle detection
 	 *  bit3: support face detection
 	 *  bit4: support animal detection
-	 *  bit5 ~ bit31: reserve
+     *  bit5: support ai config
+     *  bit6: support ai other
 	 */
 	int 	iAiVersion[BC_MAX_CHANNEL];
     
@@ -2101,8 +2117,6 @@ typedef struct tagBC_HANDLEEXCEPTION
     char     byRelAlarmOut[96];
 } BC_HANDLEEXCEPTION;
 
-#define BC_MD_AREA_MAX_HEIGHT   100
-#define BC_MD_AREA_MAX_WIDTH    130
 
 typedef struct tagBC_MOTION_CFG
 {
@@ -2114,9 +2128,9 @@ typedef struct tagBC_MOTION_CFG
     
     bool                 isCopyTo;
     bool                 bEnable;                         // FALSE: disable, TRUE:enable
-    int                  iWidth;   // video image width, max:120
-    int                  iHeight;   // video image hight, max:68
-    bool                 bMotionScope[BC_MD_AREA_MAX_HEIGHT][BC_MD_AREA_MAX_WIDTH];           // 1: set to motion, 0: not set
+    int                  iWidth;
+    int                  iHeight;
+    bool                 bMotionScope[BC_ALARM_AREA_MAX_HEIGHT][BC_ALARM_AREA_MAX_WIDTH];           // 1: set to motion, 0: not set
     int					 iSensVerion;/*0:use sensitivityInfo, 1:use newSensInfo*/
     BC_SENSITIVITY_INFO  sensitivityInfo[BC_MAX_MOTION_SENS_NUM];
 	BC_NEW_SENS_INFO	 newSensInfo;
@@ -2130,9 +2144,14 @@ typedef struct tagBC_MOTION_CFG
 
 typedef struct {
     
-    int                  iWidth;   // video image width, max:120
-    int                  iHeight;   // video image hight, max:68
-    bool                 bMotionScope[BC_MD_AREA_MAX_HEIGHT][BC_MD_AREA_MAX_WIDTH];// 1: set to motion, 0: not set
+    int                  iWidth;
+    int                  iHeight;
+    
+    /* @Param bMotionScope
+     *   1: set to motion
+     *   0: not set
+     */
+    bool                 bMotionScope[BC_ALARM_AREA_MAX_HEIGHT][BC_ALARM_AREA_MAX_WIDTH];
 } BC_MD_SCOPE;
 
 typedef struct tagBC_BLIND_CFG {
@@ -2351,6 +2370,21 @@ typedef enum
     BC_NR3D_BUTT = 255,
 } BC_ISP_NR3D_E;
 
+typedef enum
+{
+    BC_ISP_BD_MODE_AUTO,
+    BC_ISP_BD_MODE_MANUAL,
+    BC_ISP_BD_MODE_BUTT = 255,
+} BC_ISP_BD_MODE_E;
+
+typedef struct tagBC_ISP_BD_CTRL
+{
+    BC_ISP_BD_MODE_E    eMode;
+    BC_LINE_CTRL_VALUE  bright;
+    BC_LINE_CTRL_VALUE  dark;
+} BC_ISP_BD_CTRL;
+
+
 
 /*
  lDefault: It works in the setting command
@@ -2366,42 +2400,52 @@ typedef struct tagBC_ISP_CFG   {
      */
     char validField[128];
     
-    long lChannel;                       // 0~BC_MAX_CHANNEL
-    long lBright;                        // 0~0xff, default 0x80
-    long lContrast;                      // 0~0xff, default 0x80
-    long lSaturation;                    // 0~0xff, default 0x80
-    long lHue;                           // 0~0xff, default 0x80
-    long lSharpen;                       // 0~0xff, default 0x80
-    bool bSupportAdvanced;               // FALSE means the following member is invalid
-    BC_ANTIFLICK_TYPE_E   eAntiflick;    // Anti flash
-    BC_EXPOSURE_TYPE_E    eExpType;      // exposure type
-    BC_AREA_CTRL_VALUE    gainCtl;       // gain control, 1~100, default 1~20
-    BC_AREA_CTRL_VALUE    shutterCtl;    // Electronic shutter control, 2~40, default 2~40
-    BC_SHUTTER_AJUST_E    eShutterAjust; // shutter adjust
-    BC_AWB_SCENC_MODE_E   eScencMode;    // contextual model
-    long                  lSizeOfScencModes;
-    BC_AWB_SCENC_MODE_E   scencModeList[8];
-    BC_LINE_CTRL_VALUE    redGain;       // red gain, 0~100, default 50
-    BC_LINE_CTRL_VALUE    blueGain;      // blue gain, 0~100, default 50
-    BC_DAY_NIGHT_MODE_E   eDayNightMode; // day/night mode
-    BC_IR_CUT_TYPE_E      eIRCut;        // ir-cut-filter
-    long				  lExposureLevel;
-    BC_BLC_MODE_E         eBLCType;      // Backlight compensation mode
-    BC_LINE_CTRL_VALUE    DRCTarget;     // Wide dynamic range, 0~0xff,default:0x80
-    BC_LINE_CTRL_VALUE    BLCTarget;     // Backlight intensity,0~0xff,default:0x80
-    bool    bMirror;                     // FALSE:diable, TRUE:enable
-    bool    bFlip;                       // FALSE:diable, TRUE:enable
-    long    lDefault;                    // See the comment of this structure
-    long    lGainAjust;                  // 0~100, default 10
+    long                lChannel;           // 0~BC_MAX_CHANNEL
+    long                lBright;            // 0~0xff, default 0x80
+    long                lContrast;          // 0~0xff, default 0x80
+    long                lSaturation;        // 0~0xff, default 0x80
+    long                lHue;               // 0~0xff, default 0x80
+    long                lSharpen;           // 0~0xff, default 0x80
+    bool                bSupportAdvanced;   // FALSE means the following member is invalid
+    
+    BC_ANTIFLICK_TYPE_E eAntiflick;         // Anti flash
+    BC_EXPOSURE_TYPE_E  eExpType;           // exposure type
+    BC_AREA_CTRL_VALUE  gainCtl;            // gain control, 1~100, default 1~20
+    BC_AREA_CTRL_VALUE  shutterCtl;         // Electronic shutter control, 2~40, default 2~40
+    BC_SHUTTER_AJUST_E  eShutterAjust;      // shutter adjust
+    
+    BC_AWB_SCENC_MODE_E eScencMode;         // contextual model
+    long                lSizeOfScencModes;
+    BC_AWB_SCENC_MODE_E scencModeList[8];
+    
+    BC_LINE_CTRL_VALUE  redGain;            // red gain, 0~100, default 50
+    BC_LINE_CTRL_VALUE  blueGain;           // blue gain, 0~100, default 50
+    BC_DAY_NIGHT_MODE_E eDayNightMode;      // day/night mode
+    BC_IR_CUT_TYPE_E    eIRCut;             // ir-cut-filter
+    long          	    lExposureLevel;
+    
+    BC_BLC_MODE_E       eBLCType;           // Backlight compensation mode
+    BC_LINE_CTRL_VALUE  DRCTarget;          // Wide dynamic range, 0~0xff,default:0x80
+    BC_LINE_CTRL_VALUE  BLCTarget;          // Backlight intensity,0~0xff,default:0x80
+    
+    bool                bMirror;            // FALSE:diable, TRUE:enable
+    bool                bFlip;              // FALSE:diable, TRUE:enable
+    
+    long                lDefault;           // See the comment of this structure
+    long                lGainAjust;         // 0~100, default 10
     long                lAutoIrisState;
-    BC_LINE_CTRL_VALUE	   AutoirisValue;
-    long 					lFocusAutoiris;
-    long 					lSupportAutoiris;
+    BC_LINE_CTRL_VALUE	AutoirisValue;
+    long 				lFocusAutoiris;
+    long 		        lSupportAutoiris;
     
-    BC_ISP_NR3D_E		eNR3D;
-    long 			lSupportNR3D;
+    BC_ISP_NR3D_E       eNR3D;
+    long 			    lSupportNR3D;
+    long                lIspVersion;        // 0:old, 1:new
     
-    long            lIspVersion;//0:old, 1:new_1
+    BC_ISP_BD_CTRL      bdDayCtrl;
+    BC_ISP_BD_CTRL      bdNightCtrl;
+    BC_ISP_BD_CTRL      bdColorNightCtrl;
+    
 } BC_ISP_CFG, *LPBC_ISP_CFG;
 
 
@@ -2449,7 +2493,6 @@ typedef enum
 typedef struct
 {
     BC_FLOODLIGHT_OPER_E eOper;
-	int iDuration;/*open floodlight last iDuration seconds*/
 } BC_FLOODLIGHT_MANUAL;
 
 
@@ -2467,17 +2510,33 @@ typedef struct
 
 typedef struct
 {
-	int iCur;
-	int iDef;
-	int iMin;
-	int iMax;
-} BC_FLOODLIGHT_BRIGHT;
-
-typedef struct
-{
+    /* @param iBvalid
+     *  floodlight control on during alarm
+     *  0: close
+     *  1: auto
+     *  2: always
+     */
     int iBvalid;
-	BC_FLOODLIGHT_BRIGHT bright;
-	int iAutoByPreview;/*1:floodlight auto turn on during preview.*/
+    
+    /* @param bright
+     *  floodlight bright control
+     */
+    struct {
+        int iCur;
+        int iMin;
+        int iMax;
+    } bright;
+    
+    /* @param iAutoByPreview
+     *  1: floodlight auto turn on during preview.
+     */
+	int iAutoByPreview;
+    
+    /* @param iDuration
+     *  floodlight duration
+     */
+    int iDuration;
+    
 } BC_FLOODLIGHT_TASK;
 
 typedef enum
@@ -2963,12 +3022,6 @@ typedef struct {
     
     int iChannel;
     
-    /* @param iPowerOnSelfTest
-     *  0: not do self test when power on
-     *  1: do self test when power on
-     */
-    int iPowerOnSelfTest;
-    
     /* @param iTestState
      *  0: idle
      *  1: doing
@@ -2976,7 +3029,7 @@ typedef struct {
      */
     int iTestState;
     
-} BC_PT_SELF_TEST_CFG;
+} BC_PT_SELF_TEST_INFO;
 
 typedef enum
 {
@@ -3071,6 +3124,8 @@ typedef struct tagBC_FTP_CFG
     BC_FTP_INTERVAL_LIST intervalList; // readonly
     int   iSupportTransportMode;
     BC_FTP_TRANSPORT_MODE_E    eTransportMode;
+    int   iAutoDir;
+    
 } BC_FTP_CFG, *LPBC_FTP_CFG;
 
 typedef struct tagBC_FTP_TASK
@@ -3204,12 +3259,21 @@ typedef enum
     E_BC_WIFI_ENCRYPT_BUTT,
 } BC_WIFI_ENCRYPT_TYPE_E;
 
+typedef enum
+{
+    BC_WIFI_TYPE_UNKNOW,
+    BC_WIFI_TYPE_2_4G,
+    BC_WIFI_TYPE_5G,
+    BC_WIFI_TYPE_BUTT,
+} BC_WIFI_TYPE_E;
+
 typedef struct tagBC_UDID {
     
     char udid[128];
     int iSignal;
     int iSupportEncrypt;
     int iEncrypt;
+    BC_WIFI_TYPE_E eType;
 } BC_UDID;
 
 typedef struct tagBC_UDID_LIST {
@@ -3263,6 +3327,7 @@ typedef enum {
     RECORD_TYPE_PEOPLE      = (0x01 << 4),
     RECORD_TYPE_FACE        = (0x01 << 5),
     RECORD_TYPE_VEHICLE     = (0x01 << 6),
+    RECORD_TYPE_AI_OTHER    = (0x01 << 7),
     //
     /* callback file has unknow bit */
     RECORD_TYPE_UNKNOW      = (0x01 << 31),
@@ -4725,6 +4790,63 @@ typedef struct
     int iSDRes;
     
 } BC_FACTORY_TEST_INFO;
+
+
+typedef enum
+{
+    BC_DETECT_TYPE_MD = 0,
+    BC_DETECT_TYPE_PEOPLE,
+    BC_DETECT_TYPE_VEHICLE,
+    BC_DETECT_TYPE_FACE,
+    //
+    BC_DETECT_TYPE_KNOW = 255
+    
+} BC_DETECT_TYPE_E;
+
+
+typedef struct
+{
+    int iChannel;
+    BC_DETECT_TYPE_E type;
+    
+    int sensitivity;
+    int stayTime;
+    
+    /* @param minTargetWidth, minTargetWidth, maxTargetWidth, maxTargetHeight
+     *  0 - 1, percent of the whole picture
+     */
+    float minTargetWidth;
+    float minTargetHeight;
+    float maxTargetWidth;
+    float maxTargetHeight;
+    
+    /* @param width
+     *  number of areas per line
+     *
+     * @param height
+     *  number of areas per column
+     */
+    int width;
+    int height;
+    char area[BC_ALARM_AREA_MAX_WIDTH][BC_ALARM_AREA_MAX_HEIGHT];
+    
+} BC_AI_DETECT_CFG;
+
+
+typedef struct
+{
+    BC_DETECT_TYPE_E type;
+    int width;
+    int height;
+    char area[BC_ALARM_AREA_MAX_WIDTH][BC_ALARM_AREA_MAX_HEIGHT];
+} BC_DETECT_AREA;
+
+typedef struct
+{
+    int iChannel;
+    int num;
+    BC_DETECT_AREA areas[4];
+} BC_ALARM_AREAS_CFG;
 
 
 

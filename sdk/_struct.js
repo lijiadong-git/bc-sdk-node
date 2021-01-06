@@ -542,7 +542,8 @@ exports.BC_UDID = refStruct({
     udid: refArray('byte', 128),
     iSignal: ref.types.int,
     iSupportEncrypt: ref.types.int,
-    iEncrypt: ref.types.int
+    iEncrypt: ref.types.int,
+    eType: ref.types.int
 });
 exports.P_BC_UDID = exports.pointer(exports.BC_UDID);
 exports.BC_UDID_LIST = refStruct({
@@ -696,7 +697,8 @@ exports.BC_FTP_CFG = refStruct({
     ,
     intervalList: exports.BC_FTP_INTERVAL_LIST,
     iSupportTransportMode: ref.types.int,
-    eTransportMode: ref.types.int
+    eTransportMode: ref.types.int,
+    iAutoDir: ref.types.int
 });
 exports.P_BC_FTP_CFG = exports.pointer(exports.BC_FTP_CFG);
 exports.BC_CONFIG_FILE_INFO = refStruct({
@@ -975,6 +977,7 @@ exports.BC_LINE_CTRL_VALUE = refStruct({
     lMax: ref.types.long,
     lCur: ref.types.long
 });
+exports.PBC_LINE_CTRL_VALUE = exports.pointer(exports.BC_LINE_CTRL_VALUE);
 /*
 lDefault: It works in the setting command
 0: Normal set all the member of BC_ISP_CFG
@@ -982,6 +985,12 @@ lDefault: It works in the setting command
 and Flip to the default value
 2: Set other members to the default value
 */
+exports.BC_ISP_BD_CTRL = refStruct({
+    eMode: ref.types.int,
+    bright: exports.BC_LINE_CTRL_VALUE,
+    dark: exports.BC_LINE_CTRL_VALUE,
+});
+exports.P_BC_ISP_BD_CTRL = exports.pointer(exports.BC_ISP_BD_CTRL);
 exports.BC_ISP_CFG = refStruct({
     /* validField, used for only set some params.
      * for example, validField = "<lBright><lContrast><eAntiflick><eDayNightMode>", only set lBright, lContrast, eAntiflick, eDayNightMode.
@@ -1047,6 +1056,10 @@ exports.BC_ISP_CFG = refStruct({
     ,
     lSupportNR3D: ref.types.long,
     lIspVersion: ref.types.long // 0:old, 1:new_1
+    ,
+    bdDayCtrl: exports.BC_ISP_BD_CTRL,
+    bdNightCtrl: exports.BC_ISP_BD_CTRL,
+    bdColorNightCtrl: exports.BC_ISP_BD_CTRL
 });
 exports.P_BC_ISP_CFG = exports.pointer(exports.BC_ISP_CFG);
 exports.BC_DAY_NIGHT_MODE_CFG = refStruct({
@@ -1066,8 +1079,7 @@ exports.BC_LED_LIGHT_STATE = refStruct({
 });
 exports.P_BC_LED_LIGHT_STATE = exports.pointer(exports.BC_LED_LIGHT_STATE);
 exports.BC_FLOODLIGHT_MANUAL = refStruct({
-    eOper: ref.types.int,
-    iDuration: ref.types.int /* open floodlight last iDuration seconds */
+    eOper: ref.types.int
 });
 exports.P_BC_FLOODLIGHT_MANUAL = exports.pointer(exports.BC_FLOODLIGHT_MANUAL);
 exports.BC_FLOODLIGHT_STAT_ITEM = refStruct({
@@ -1082,7 +1094,6 @@ exports.BC_FLOODLIGHT_STAT = refStruct({
 exports.P_BC_FLOODLIGHT_STAT = exports.pointer(exports.BC_FLOODLIGHT_STAT);
 exports.BC_FLOODLIGHT_BRIGHT = refStruct({
     iCur: ref.types.int,
-    iDef: ref.types.int,
     iMin: ref.types.int,
     iMax: ref.types.int
 });
@@ -1090,7 +1101,8 @@ exports.P_BC_FLOODLIGHT_BRIGHT = exports.pointer(exports.BC_FLOODLIGHT_BRIGHT);
 exports.BC_FLOODLIGHT_TASK = refStruct({
     iBvalid: ref.types.int,
     bright: exports.BC_FLOODLIGHT_BRIGHT,
-    iAutoByPreview: ref.types.int /* 1:floodlight auto turn on during preview.*/
+    iAutoByPreview: ref.types.int,
+    iDuration: ref.types.int
 });
 exports.P_BC_FLOODLIGHT_TASK = exports.pointer(exports.BC_FLOODLIGHT_TASK);
 exports.BC_FTP_TASK = refStruct({
@@ -1664,4 +1676,40 @@ exports.BC_PT_SELF_TEST_CFG = refStruct({
     iTestState: ref.types.int
 });
 exports.P_BC_PT_SELF_TEST_CFG = exports.pointer(exports.BC_PT_SELF_TEST_CFG);
+exports.BC_AI_DETECT_CFG = refStruct({
+    iChannel: ref.types.int,
+    type: ref.types.int,
+    sensitivity: ref.types.int,
+    stayTime: ref.types.int,
+    /* @param minTargetWidth, minTargetWidth, maxTargetWidth, maxTargetHeight
+     *  0 - 1, percent of the whole picture
+     */
+    minTargetWidth: ref.types.float,
+    minTargetHeight: ref.types.float,
+    maxTargetWidth: ref.types.float,
+    maxTargetHeight: ref.types.float,
+    /* @param width
+     *  number of areas per line
+     *
+     * @param height
+     *  number of areas per column
+     */
+    width: ref.types.int,
+    height: ref.types.int,
+    area: refArray(ref.types.uint8, types_1.DEFINDE.BC_ALARM_AREA_MAX_WIDTH * types_1.DEFINDE.BC_ALARM_AREA_MAX_HEIGHT)
+});
+exports.P_BC_AI_DETECT_CFG = exports.pointer(exports.BC_AI_DETECT_CFG);
+exports.BC_DETECT_AREA = refStruct({
+    type: ref.types.int,
+    width: ref.types.int,
+    height: ref.types.int,
+    area: refArray(ref.types.uint8, types_1.DEFINDE.BC_ALARM_AREA_MAX_WIDTH * types_1.DEFINDE.BC_ALARM_AREA_MAX_HEIGHT)
+});
+exports.P_BC_DETECT_AREA = exports.pointer(exports.BC_DETECT_AREA);
+exports.BC_ALARM_AREAS_CFG = refStruct({
+    iChannel: ref.types.int,
+    num: ref.types.int,
+    areas: refArray(exports.BC_DETECT_AREA, 4)
+});
+exports.P_BC_ALARM_AREAS_CFG = exports.pointer(exports.BC_ALARM_AREAS_CFG);
 //# sourceMappingURL=_struct.js.map

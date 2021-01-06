@@ -762,7 +762,6 @@ int _BCSDK_ BCSDK_RemoteStartZoomFocus(H_BC_DEVICE hDevice, int channel, BC_STAR
  * callback with E_BC_CMD_GET_PT_SELF_TEST_CFG, E_BC_CMD_SET_PT_SELF_TEST_CFG
  */
 int _BCSDK_ BCSDK_RemoteGetPtSelfTestCfg(H_BC_DEVICE hDevice, int channel);
-int _BCSDK_ BCSDK_RemoteSetPtSelfTestCfg(H_BC_DEVICE hDevice, int channel, BC_PT_SELF_TEST_CFG *cfg);
 int _BCSDK_ BCSDK_RemoteStartPtSelfTest(H_BC_DEVICE hDevice, int channel);
 
 /* Crop Cfg
@@ -844,6 +843,22 @@ int _BCSDK_ BCSDK_RemoteGetRingtoneAbility(H_BC_DEVICE hDevice, int channel);
  * callback with E_BC_CMD_GET_CHN_VERSION
  */
 int _BCSDK_ BCSDK_RemoteGetChannelVersionInfo(H_BC_DEVICE hDevice, int channel);
+
+
+/* ai detect config
+ *
+ * callback with E_BC_CMD_GET_DEF_AI_DETECT_CFG_V20, E_BC_CMD_GET_AI_DETECT_CFG_V20, E_BC_CMD_SET_AI_DETECT_CFG_V20
+ */
+int _BCSDK_ BCSDK_RemoteGetDefaultAIDetectCfg(H_BC_DEVICE hDevice, int channel, BC_DETECT_TYPE_E type, int cmdIdx);
+int _BCSDK_ BCSDK_RemoteGetAIDetectCfg(H_BC_DEVICE hDevice, int channel, BC_DETECT_TYPE_E type, int cmdIdx);
+int _BCSDK_ BCSDK_RemoteSetAIDetectCfg(H_BC_DEVICE hDevice, int channel, BC_AI_DETECT_CFG *config, int cmdIdx);
+
+
+/* alarm areas config
+ *
+ * callback with E_BC_CMD_SET_ALARM_ARAES_CFG_V20
+ */
+int _BCSDK_ BCSDK_RemoteSetAlarmAreas(H_BC_DEVICE hDevice, int channel, BC_ALARM_AREAS_CFG *config);
 
 
 #ifdef __cplusplus

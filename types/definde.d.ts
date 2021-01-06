@@ -37,6 +37,10 @@ export declare namespace DEFINDE {
     const BC_LOG_INFO_LEN: number;
     const BC_MAX_FRAME_SIZE: number;
     const BC_MAX_CONFIG_BUF_SIZE: number;
+    const BC_ALARM_AREA_MAX_WIDTH: number;
+    const BC_ALARM_AREA_MAX_HEIGHT: number;
+    const BC_MD_AREA_MAX_WIDTH: number;
+    const BC_MD_AREA_MAX_HEIGHT: number;
     const BC_MAX_DAYS: number;
     const BC_MAX_TIMESEGMENT: number;
     const BC_MAX_COVER_AREA_NUM: number;
@@ -80,8 +84,6 @@ export declare namespace DEFINDE {
     const SDK_MAX_FILENAME_LEN: number;
     const BC_DIAGNOSE_LOG_MAX_SIZE = 16;
     const BC_DIAGNOSE_LOG_STRING_MAX_LENGTH = 256;
-    const BC_MD_AREA_MAX_HEIGHT = 100;
-    const BC_MD_AREA_MAX_WIDTH = 130;
     const BC_FTP_INTERVAL_TABLE_MAX_SIZE = 16;
     const BC_SMARTHOME_NAME_MAX_LEN = 32;
     const BC_SMARTHOME_ITEMS_MAX_NUM = 20;

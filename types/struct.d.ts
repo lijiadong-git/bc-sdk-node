@@ -661,6 +661,7 @@ export interface BC_UDID {
     iSignal: number;
     iSupportEncrypt: number;
     iEncrypt: number;
+    eType: T.BC_WIFI_TYPE_E;
 }
 export interface BC_UDID_LIST {
     size: number;
@@ -937,6 +938,7 @@ export interface BC_FTP_CFG {
     };
     iSupportTransportMode: number;
     eTransportMode: T.BC_FTP_TRANSPORT_MODE_E;
+    iAutoDir: number;
 }
 export interface BC_CONFIG_FILE_INFO {
     /**
@@ -1249,6 +1251,11 @@ export interface BC_LINE_CTRL_VALUE {
     lMax: number;
     lCur: number;
 }
+export interface BC_ISP_BD_CTRL {
+    eMode: T.BC_ISP_BD_MODE_E;
+    bright: BC_LINE_CTRL_VALUE;
+    dark: BC_LINE_CTRL_VALUE;
+}
 export interface BC_ISP_CFG {
     validField: string;
     /**
@@ -1364,6 +1371,9 @@ export interface BC_ISP_CFG {
      * 0:old, 1:new_1
      */
     lIspVersion: number;
+    bdDayCtrl: BC_ISP_BD_CTRL;
+    bdNightCtrl: BC_ISP_BD_CTRL;
+    bdColorNightCtrl: BC_ISP_BD_CTRL;
 }
 export interface BC_DAY_NIGHT_MODE_CFG {
     eMode: T.BC_DAY_NIGHT_MODE_E;
@@ -1379,10 +1389,6 @@ export interface BC_LED_LIGHT_STATE {
 }
 export interface BC_FLOODLIGHT_MANUAL {
     eOper: T.BC_FLOODLIGHT_OPER_E;
-    /**
-     * open floodlight last iDuration seconds
-     */
-    iDuration: number;
 }
 export interface BC_FLOODLIGHT_STAT_ITEM {
     iChannel: number;
@@ -1394,17 +1400,14 @@ export interface BC_FLOODLIGHT_STAT {
 }
 export interface BC_FLOODLIGHT_BRIGHT {
     iCur: number;
-    iDef: number;
     iMin: number;
     iMax: number;
 }
 export interface BC_FLOODLIGHT_TASK {
     iBvalid: number;
     bright: BC_FLOODLIGHT_BRIGHT;
-    /**
-     * 1:floodlight auto turn on during preview.
-     */
     iAutoByPreview: number;
+    iDuration: number;
 }
 export interface BC_FTP_TASK {
     validField: string;
@@ -1711,4 +1714,37 @@ export interface BC_PT_SELF_TEST_CFG {
     iChannel: number;
     iPowerOnSelfTest: number;
     iTestState: number;
+}
+export interface BC_AI_DETECT_CFG {
+    iChannel: number;
+    type: number;
+    sensitivity: number;
+    stayTime: number;
+    minTargetWidth: number;
+    minTargetHeight: number;
+    maxTargetWidth: number;
+    maxTargetHeight: number;
+    width: number;
+    height: number;
+    /**
+     * length: 130 * 100
+     */
+    area: number[];
+}
+export interface BC_DETECT_AREA {
+    type: T.BC_DETECT_TYPE_E;
+    width: number;
+    height: number;
+    /**
+     * length: 130 * 100
+     */
+    area: number[];
+}
+export interface BC_ALARM_AREAS_CFG {
+    iChannel: number;
+    num: number;
+    /**
+     * length: 4
+     */
+    areas: BC_DETECT_AREA[];
 }

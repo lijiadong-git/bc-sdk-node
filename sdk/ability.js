@@ -75,6 +75,7 @@ class ABILITY {
     getSupportFTPExtensionStream(handle, df) { return ABILITY.nativeCall(native_1.native.BCSDK_GetSupportFTPExtensionStream, handle, df ? df : false); }
     getSupportFTPPicture(handle, df) { return ABILITY.nativeCall(native_1.native.BCSDK_GetSupportFTPPicture, handle, df ? df : false); }
     getSupportFTPEnable(handle, df) { return ABILITY.nativeCall(native_1.native.BCSDK_GetSupportFTPEnable, handle, df ? df : false); }
+    getSupportFTPAutoDir(handle, df) { return ABILITY.nativeCall(native_1.native.BCSDK_GetSupportFTPAutoDir, handle, df ? df : false); }
     getSupportRTSP(handle, df) { return ABILITY.nativeCall(native_1.native.BCSDK_GetSupportRTSP, handle, df ? df : false); }
     getSupportRTMP(handle, df) { return ABILITY.nativeCall(native_1.native.BCSDK_GetSupportRTMP, handle, df ? df : false); }
     getSupportONVIF(handle, df) { return ABILITY.nativeCall(native_1.native.BCSDK_GetSupportONVIF, handle, df ? df : false); }
@@ -215,6 +216,7 @@ class ABILITY {
     getSupportFloodlight(handle, channel, df) { return ABILITY.nativeCall(native_1.native.BCSDK_GetSupportFloodlight, handle, df ? df : false, channel); }
     getSupportFloodlightBrightnessCtrl(handle, channel, df) { return ABILITY.nativeCall(native_1.native.BCSDK_GetSupportFloodlightBrightnessCtrl, handle, df ? df : false, channel); }
     getSupportFloodlightAutoByPreview(handle, channel, df) { return ABILITY.nativeCall(native_1.native.BCSDK_GetSupportFloodlightAutoByPreview, handle, df ? df : false, channel); }
+    getSupportFloodlightModeConfig(handle, channel, df) { return ABILITY.nativeCall(native_1.native.BCSDK_GetSupportFloodlightModeConfig, handle, df ? df : false, channel); }
     getSupportPtzSpeed(handle, channel, df) { return ABILITY.nativeCall(native_1.native.BCSDK_GetSupportPtzSpeed, handle, df ? df : false, channel); }
     getSupportPtzCruise(handle, channel, df) { return ABILITY.nativeCall(native_1.native.BCSDK_GetSupportPtzCruise, handle, df ? df : false, channel); }
     getSupportPtzPreset(handle, channel, df) { return ABILITY.nativeCall(native_1.native.BCSDK_GetSupportPtzPreset, handle, df ? df : false, channel); }

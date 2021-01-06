@@ -91,6 +91,7 @@ const MFFI = ffi.Library(path.join(folder, 'libBCSDKWrapper'), {
     BCSDK_GetSupportFTPExtensionStream: ['int', ['int', _T.pointer('bool')]],
     BCSDK_GetSupportFTPPicture: ['int', ['int', _T.pointer('bool')]],
     BCSDK_GetSupportFTPEnable: ['int', ['int', _T.pointer('bool')]],
+    BCSDK_GetSupportFTPAutoDir: ['int', ['int', _T.pointer('bool')]],
     BCSDK_GetSupportRTSP: ['int', ['int', _T.pointer('bool')]],
     BCSDK_GetSupportRTMP: ['int', ['int', _T.pointer('bool')]],
     BCSDK_GetSupportONVIF: ['int', ['int', _T.pointer('bool')]],
@@ -187,6 +188,7 @@ const MFFI = ffi.Library(path.join(folder, 'libBCSDKWrapper'), {
     BCSDK_GetSupportFloodlight: ['int', ['int', 'int', _T.pointer('bool')]],
     BCSDK_GetSupportFloodlightBrightnessCtrl: ['int', ['int', 'int', _T.pointer('bool')]],
     BCSDK_GetSupportFloodlightAutoByPreview: ['int', ['int', 'int', _T.pointer('bool')]],
+    BCSDK_GetSupportFloodlightModeConfig: ['int', ['int', 'int', _T.pointer('bool')]],
     BCSDK_GetSupportPtzSpeed: ['int', ['int', 'int', _T.pointer('bool')]],
     BCSDK_GetSupportPtzCruise: ['int', ['int', 'int', _T.pointer('bool')]],
     BCSDK_GetSupportPtzPreset: ['int', ['int', 'int', _T.pointer('bool')]],
@@ -234,7 +236,9 @@ const MFFI = ffi.Library(path.join(folder, 'libBCSDKWrapper'), {
     BCSDK_GetSupportAIPeople: ['int', ['int', 'int', _T.pointer('bool')]],
     BCSDK_GetSupportAIVehicle: ['int', ['int', 'int', _T.pointer('bool')]],
     BCSDK_GetSupportAIFace: ['int', ['int', 'int', _T.pointer('bool')]],
-    BCSDK_GetSupportAIAnimal: ['int', ['int', 'int', _T.pointer('bool')]]
+    BCSDK_GetSupportAIAnimal: ['int', ['int', 'int', _T.pointer('bool')]],
+    BCSDK_GetSupportAIOther: ['int', ['int', 'int', _T.pointer('bool')]],
+    BCSDK_GetSupportAIDetectConfig: ['int', ['int', 'int', _T.pointer('bool')]]
     // Timelapse
     ,
     BCSDK_GetSupportTimelapse: ['int', ['int', 'int', _T.pointer('bool')]],
@@ -1066,6 +1070,20 @@ const MFFI = ffi.Library(path.join(folder, 'libBCSDKWrapper'), {
      */
     ,
     BCSDK_RemoteGetChannelVersionInfo: ['int', ['int', 'int']]
+    /* ai detect config
+     *
+     * callback with E_BC_CMD_GET_DEF_AI_DETECT_CFG_V20, E_BC_CMD_GET_AI_DETECT_CFG_V20, E_BC_CMD_SET_AI_DETECT_CFG_V20
+     */
+    ,
+    BCSDK_RemoteGetDefaultAIDetectCfg: ['int', ['int', 'int', 'int', 'int']],
+    BCSDK_RemoteGetAIDetectCfg: ['int', ['int', 'int', 'int', 'int']],
+    BCSDK_RemoteSetAIDetectCfg: ['int', ['int', 'int', _T.P_BC_AI_DETECT_CFG, 'int']]
+    /* alarm areas config
+     *
+     * callback with E_BC_CMD_SET_ALARM_ARAES_CFG_V20
+     */
+    ,
+    BCSDK_RemoteSetAlarmAreas: ['int', ['int', 'int', _T.P_BC_ALARM_AREAS_CFG]]
     /************************************************************************
      *
      * Search interfaces
@@ -1185,6 +1203,7 @@ class NativeDelegate {
         this.BCSDK_GetSupportFTPExtensionStream = MFFI.BCSDK_GetSupportFTPExtensionStream;
         this.BCSDK_GetSupportFTPPicture = MFFI.BCSDK_GetSupportFTPPicture;
         this.BCSDK_GetSupportFTPEnable = MFFI.BCSDK_GetSupportFTPEnable;
+        this.BCSDK_GetSupportFTPAutoDir = MFFI.BCSDK_GetSupportFTPAutoDir;
         this.BCSDK_GetSupportRTSP = MFFI.BCSDK_GetSupportRTSP;
         this.BCSDK_GetSupportRTMP = MFFI.BCSDK_GetSupportRTMP;
         this.BCSDK_GetSupportONVIF = MFFI.BCSDK_GetSupportONVIF;
@@ -1278,6 +1297,7 @@ class NativeDelegate {
         this.BCSDK_GetSupportFloodlight = MFFI.BCSDK_GetSupportFloodlight;
         this.BCSDK_GetSupportFloodlightBrightnessCtrl = MFFI.BCSDK_GetSupportFloodlightBrightnessCtrl;
         this.BCSDK_GetSupportFloodlightAutoByPreview = MFFI.BCSDK_GetSupportFloodlightAutoByPreview;
+        this.BCSDK_GetSupportFloodlightModeConfig = MFFI.BCSDK_GetSupportFloodlightModeConfig;
         this.BCSDK_GetSupportPtzSpeed = MFFI.BCSDK_GetSupportPtzSpeed;
         this.BCSDK_GetSupportPtzCruise = MFFI.BCSDK_GetSupportPtzCruise;
         this.BCSDK_GetSupportPtzPreset = MFFI.BCSDK_GetSupportPtzPreset;
@@ -1322,6 +1342,8 @@ class NativeDelegate {
         this.BCSDK_GetSupportAIVehicle = MFFI.BCSDK_GetSupportAIVehicle;
         this.BCSDK_GetSupportAIFace = MFFI.BCSDK_GetSupportAIFace;
         this.BCSDK_GetSupportAIAnimal = MFFI.BCSDK_GetSupportAIAnimal;
+        this.BCSDK_GetSupportAIOther = MFFI.BCSDK_GetSupportAIOther;
+        this.BCSDK_GetSupportAIDetectConfig = MFFI.BCSDK_GetSupportAIDetectConfig;
         this.BCSDK_GetSupportTimelapse = MFFI.BCSDK_GetSupportTimelapse;
         this.BCSDK_GetSupportTimelapseThumbnail = MFFI.BCSDK_GetSupportTimelapseThumbnail;
         /****************************************************************
@@ -1460,6 +1482,18 @@ class NativeDelegate {
          * callback with E_BC_CMD_GET_VERSION
          */
         this.BCSDK_RemoteGetVersionInfo = MFFI.BCSDK_RemoteGetVersionInfo;
+        /* ai detect config
+         *
+         * callback with E_BC_CMD_GET_DEF_AI_DETECT_CFG_V20, E_BC_CMD_GET_AI_DETECT_CFG_V20, E_BC_CMD_SET_AI_DETECT_CFG_V20
+         */
+        this.BCSDK_RemoteGetDefaultAIDetectCfg = MFFI.BCSDK_RemoteGetDefaultAIDetectCfg;
+        this.BCSDK_RemoteGetAIDetectCfg = MFFI.BCSDK_RemoteGetAIDetectCfg;
+        this.BCSDK_RemoteSetAIDetectCfg = MFFI.BCSDK_RemoteSetAIDetectCfg;
+        /* alarm areas config
+         *
+         * callback with E_BC_CMD_SET_ALARM_ARAES_CFG_V20
+         */
+        this.BCSDK_RemoteSetAlarmAreas = MFFI.BCSDK_RemoteSetAlarmAreas;
         /* system general
          *
          * callback with E_BC_CMD_GET_SYS, E_BC_CMD_SET_SYS, E_BC_CMD_SET_DEVICE_NAME

@@ -39,6 +39,7 @@ int _BCSDK_ BCSDK_GetSupportFTPSubStream(H_BC_DEVICE hDevice, bool *support);
 int _BCSDK_ BCSDK_GetSupportFTPExtensionStream(H_BC_DEVICE hDevice, bool *support);
 int _BCSDK_ BCSDK_GetSupportFTPPicture(H_BC_DEVICE hDevice, bool *support);
 int _BCSDK_ BCSDK_GetSupportFTPEnable(H_BC_DEVICE hDevice, bool *support);
+int _BCSDK_ BCSDK_GetSupportFTPAutoDir(H_BC_DEVICE hDevice, bool *support);
 int _BCSDK_ BCSDK_GetSupportRTSP(H_BC_DEVICE hDevice, bool *support);
 int _BCSDK_ BCSDK_GetSupportRTMP(H_BC_DEVICE hDevice, bool *support);
 int _BCSDK_ BCSDK_GetSupportONVIF(H_BC_DEVICE hDevice, bool *support);
@@ -148,6 +149,7 @@ int _BCSDK_ BCSDK_GetSupportIndicatorLight(H_BC_DEVICE hDevice, int channel, boo
 int _BCSDK_ BCSDK_GetSupportFloodlight(H_BC_DEVICE hDevice, int channel, bool *support);
 int _BCSDK_ BCSDK_GetSupportFloodlightBrightnessCtrl(H_BC_DEVICE hDevice, int channel, bool *support);
 int _BCSDK_ BCSDK_GetSupportFloodlightAutoByPreview(H_BC_DEVICE hDevice, int channel, bool *support);
+int _BCSDK_ BCSDK_GetSupportFloodlightModeConfig(H_BC_DEVICE hDevice, int channel, bool *support);
 int _BCSDK_ BCSDK_GetSupportPtzSpeed(H_BC_DEVICE hDevice, int channel, bool *support);
 int _BCSDK_ BCSDK_GetSupportPtzCruise(H_BC_DEVICE hDevice, int channel, bool *support);
 int _BCSDK_ BCSDK_GetSupportPtzPreset(H_BC_DEVICE hDevice, int channel, bool *support);
@@ -196,6 +198,8 @@ int _BCSDK_ BCSDK_GetSupportAIPeople(H_BC_DEVICE hDevice, int channel, bool *sup
 int _BCSDK_ BCSDK_GetSupportAIVehicle(H_BC_DEVICE hDevice, int channel, bool *support);
 int _BCSDK_ BCSDK_GetSupportAIFace(H_BC_DEVICE hDevice, int channel, bool *support);
 int _BCSDK_ BCSDK_GetSupportAIAnimal(H_BC_DEVICE hDevice, int channel, bool *support);
+int _BCSDK_ BCSDK_GetSupportAIOther(H_BC_DEVICE hDevice, int channel, bool *support);
+int _BCSDK_ BCSDK_GetSupportAIDetectConfig(H_BC_DEVICE hDevice, int channel, bool *support);
 
 // timelapse
 int _BCSDK_ BCSDK_GetSupportTimelapse(H_BC_DEVICE hDevice, int channel, bool *support);

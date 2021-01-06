@@ -326,6 +326,11 @@ class CONFIG {
                 CONFIG.handleSDKGetCallback(_T.BC_DAY_NIGHT_THRESHOLD_CFG, handle, cmdData);
                 break;
             }
+            case T.BC_CMD_E.E_BC_CMD_GET_AI_DETECT_CFG:
+            case T.BC_CMD_E.E_BC_CMD_GET_DEF_AI_DETECT_CFG: {
+                CONFIG.handleSDKGetCallback(_T.BC_AI_DETECT_CFG, handle, cmdData);
+                break;
+            }
             case T.BC_CMD_E.E_BC_CMD_GET_RECORD_ENABLE:
             case T.BC_CMD_E.E_BC_CMD_GET_FTP_ENABLE:
             case T.BC_CMD_E.E_BC_CMD_GET_EMAIL_ENABLE:
@@ -471,6 +476,8 @@ class CONFIG {
             case T.BC_CMD_E.E_BC_CMD_SET_EMAIL_ENABLE:
             case T.BC_CMD_E.E_BC_CMD_SET_PUSH_ENABLE:
             case T.BC_CMD_E.E_BC_CMD_SET_BUZZER_ENABLE:
+            case T.BC_CMD_E.E_BC_CMD_SET_AI_DETECT_CFG:
+            case T.BC_CMD_E.E_BC_CMD_SET_ALARM_ARAES_CFG:
             default: {
                 if (T.BC_CMD_E.E_BC_CMD_SET_PRESET === bcCmd) {
                     setImmediate(() => {
@@ -524,7 +531,9 @@ class CONFIG {
                     ret = func(handle, data.ref(), cmdIdx);
             }
             else if (undefined !== param) {
-                ret = func(handle, param);
+                undefined === cmdIdx ?
+                    ret = func(handle, param) :
+                    ret = func(handle, param, cmdIdx);
             }
             else {
                 ret = func(handle);
@@ -552,7 +561,9 @@ class CONFIG {
                     ret = func(handle, channel, data.ref(), cmdIdx);
             }
             else if (undefined !== param) {
-                ret = func(handle, channel, param);
+                undefined === cmdIdx ?
+                    ret = func(handle, channel, param) :
+                    ret = func(handle, channel, param, cmdIdx);
             }
             else {
                 ret = func(handle, channel);
@@ -1563,6 +1574,26 @@ class CONFIG {
      */
     getChannelVersionInfo(handle, channel) {
         return this.channelCmd(handle, channel, T.BC_CMD_E.E_BC_CMD_GET_CHN_VERSION, native_1.native.BCSDK_RemoteGetChannelVersionInfo);
+    }
+    /* ai detect config
+     *
+     * callback with E_BC_CMD_GET_DEF_AI_DETECT_CFG, E_BC_CMD_GET_AI_DETECT_CFG, E_BC_CMD_SET_AI_DETECT_CFG
+     */
+    getDefaultAIDetectCfg(handle, channel, type) {
+        return this.channelCmd(handle, channel, T.BC_CMD_E.E_BC_CMD_GET_DEF_AI_DETECT_CFG, native_1.native.BCSDK_RemoteGetDefaultAIDetectCfg, 10, type, undefined, CONFIG.getCmdIndex());
+    }
+    getAIDetectCfg(handle, channel, type) {
+        return this.channelCmd(handle, channel, T.BC_CMD_E.E_BC_CMD_GET_AI_DETECT_CFG, native_1.native.BCSDK_RemoteGetAIDetectCfg, 10, type, undefined, CONFIG.getCmdIndex());
+    }
+    setAIDetectCfg(handle, channel, param) {
+        return this.channelCmd(handle, channel, T.BC_CMD_E.E_BC_CMD_SET_AI_DETECT_CFG, native_1.native.BCSDK_RemoteSetAIDetectCfg, 10, param, _T.BC_AI_DETECT_CFG, CONFIG.getCmdIndex());
+    }
+    /* alarm areas config
+    *
+    * callback with E_BC_CMD_SET_ALARM_ARAES_CFG
+    */
+    setAlarmAreas(handle, channel, param) {
+        return this.channelCmd(handle, channel, T.BC_CMD_E.E_BC_CMD_SET_ALARM_ARAES_CFG, native_1.native.BCSDK_RemoteSetAlarmAreas, 10, param, _T.BC_ALARM_AREAS_CFG);
     }
 }
 CONFIG.singleton = new CONFIG();
