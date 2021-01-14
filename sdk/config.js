@@ -984,7 +984,7 @@ class CONFIG {
         return this.deviceCmd(handle, T.BC_CMD_E.E_BC_CMD_GET_SIGNATURE_LOGIN_CFG, native_1.native.BCSDK_RemoteGetSignatureLoginCfg);
     }
     setSignatureLoginCfg(handle, param) {
-        return this.deviceCmd(handle, T.BC_CMD_E.E_BC_CMD_SET_SIGNATURE_LOGIN_CFG, native_1.native.BCSDK_RemoteSetSignatureLoginCfg, 10, param, _T.BC_SIGNATURE_LOGIN_CFG);
+        return this.deviceCmd(handle, T.BC_CMD_E.E_BC_CMD_SET_SIGNATURE_LOGIN_CFG, native_1.native.BCSDK_RemoteSetSignatureLoginCfg, 30, param, _T.BC_SIGNATURE_LOGIN_CFG);
     }
     /* sync utc time
      *

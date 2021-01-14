@@ -647,21 +647,21 @@ const MFFI = ffi.Library(path.join(folder, 'libBCSDKWrapper'), {
     BCSDK_RemoteGetCloudCfg: ['int', ['int']],
     BCSDK_RemoteSetCloudCfg: ['int', ['int', _T.P_BC_CLOUD_CFG]],
     BCSDK_RemoteGetSignatureLoginCfg: ['int', ['int']],
-    BCSDK_RemoteSetSignatureLoginCfg: ['int', ['int', _T.BC_SIGNATURE_LOGIN_CFG]]
+    BCSDK_RemoteSetSignatureLoginCfg: ['int', ['int', _T.P_BC_SIGNATURE_LOGIN_CFG]]
     /* sync utc time
      *
      * callback with    E_BC_CMD_SYNC_UTC_TIME
      */
     ,
-    BCSDK_RemoteSyncUtcTime: ['int', ['int', _T.BC_UTC_TIME]]
+    BCSDK_RemoteSyncUtcTime: ['int', ['int', _T.P_BC_UTC_TIME]]
     /* NAS
      *
      * callback with E_BC_CMD_NAS_GET_BIND_INFO, E_BC_CMD_NAS_BIND, E_BC_CMD_NAS_UNBIND
      */
     ,
     BCSDK_RemoteNasGetBindInfo: ['int', ['int']],
-    BCSDK_RemoteNasBind: ['int', ['int', _T.BC_NAS_BIND]],
-    BCSDK_RemoteNasUnbind: ['int', ['int', _T.BC_NAS_BIND, 'int']]
+    BCSDK_RemoteNasBind: ['int', ['int', _T.P_BC_NAS_BIND]],
+    BCSDK_RemoteNasUnbind: ['int', ['int', _T.P_BC_NAS_BIND, 'int']]
     /* Scan ap
      *
      * callback with E_BC_CMD_GET_SCAN_AP
@@ -991,7 +991,7 @@ const MFFI = ffi.Library(path.join(folder, 'libBCSDKWrapper'), {
      */
     ,
     BCSDK_RemoteGetZoomFocusInfo: ['int', ['int', 'int']],
-    BCSDK_RemoteStartZoomFocus: ['int', ['int', 'int', _T.BC_START_ZOOM_FOCUS]]
+    BCSDK_RemoteStartZoomFocus: ['int', ['int', 'int', _T.P_BC_START_ZOOM_FOCUS]]
     /* pt power on self test
      *
      * callback with E_BC_CMD_GET_PT_SELF_TEST_CFG, E_BC_CMD_SET_PT_SELF_TEST_CFG
