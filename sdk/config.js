@@ -249,6 +249,10 @@ class CONFIG {
                 CONFIG.handleSDKGetCallback(_T.BC_PTZ_PRESETS, handle, cmdData);
                 break;
             }
+            case T.BC_CMD_E.E_BC_CMD_GET_GUARD: {
+                CONFIG.handleSDKGetCallback(_T.BC_GUARD_INFO, handle, cmdData);
+                break;
+            }
             case T.BC_CMD_E.E_BC_CMD_GET_CRUISE: {
                 CONFIG.handleSDKGetCallback(_T.BC_PTZ_CRUISES, handle, cmdData);
                 break;
@@ -384,100 +388,7 @@ class CONFIG {
                     });
                     break;
                 }
-            case T.BC_CMD_E.E_BC_CMD_UPGRADE:
-            case T.BC_CMD_E.E_BC_CMD_EXPORT:
-            case T.BC_CMD_E.E_BC_CMD_IMPORT:
-            case T.BC_CMD_E.E_BC_CMD_SET_SYS:
-            case T.BC_CMD_E.E_BC_CMD_SET_DEVICE_NAME:
-            case T.BC_CMD_E.E_BC_CMD_SET_AUTOREBOOT_CFG:
-            case T.BC_CMD_E.E_BC_CMD_RESTORE:
-            case T.BC_CMD_E.E_BC_CMD_SET_ADVRECORD:
-            case T.BC_CMD_E.E_BC_CMD_SET_EMAIL:
-            case T.BC_CMD_E.E_BC_CMD_SET_OUTPUT:
-            case T.BC_CMD_E.E_BC_CMD_INIT_HDD:
-            case T.BC_CMD_E.E_BC_CMD_SET_HDDFULL_EXPCFG:
-            case T.BC_CMD_E.E_BC_CMD_SET_HDDERR_EXPCFG:
-            case T.BC_CMD_E.E_BC_CMD_SET_NETDISCONNECT_EXPCFG:
-            case T.BC_CMD_E.E_BC_CMD_SET_IPCONFLICT_EXPCFG:
-            case T.BC_CMD_E.E_BC_CMD_SET_LOCAL:
-            case T.BC_CMD_E.E_BC_CMD_SET_NORMAL_PORT:
-            case T.BC_CMD_E.E_BC_CMD_SET_ADVANCED_PORTS:
-            case T.BC_CMD_E.E_BC_CMD_SET_UPNPSTATE:
-            case T.BC_CMD_E.E_BC_CMD_SET_PTOP_CFG:
-            case T.BC_CMD_E.E_BC_CMD_SET_RFSENSOR:
-            case T.BC_CMD_E.E_BC_CMD_SET_ALARMINCFG:
-            case T.BC_CMD_E.E_BC_CMD_SET_ALARMOUTCFG:
-            case T.BC_CMD_E.E_BC_CMD_SET_RF_CFG:
-            case T.BC_CMD_E.E_BC_CMD_SET_RF_ALARM_STATUS:
-            case T.BC_CMD_E.E_BC_CMD_SET_DST:
-            case T.BC_CMD_E.E_BC_CMD_SET_DDNSCFG:
-            case T.BC_CMD_E.E_BC_CMD_SET_NTPCFG:
-            case T.BC_CMD_E.E_BC_CMD_SET_PPPOECFG:
-            case T.BC_CMD_E.E_BC_CMD_ONLINE_UPDATE:
-            case T.BC_CMD_E.E_BC_CMD_SET_WIFI_INFO:
-            case T.BC_CMD_E.E_BC_CMD_WIFI_TEST:
-            case T.BC_CMD_E.E_BC_CMD_SET_SIM_MODULE_INFO:
-            case T.BC_CMD_E.E_BC_CMD_BIND_CLOUD:
-            case T.BC_CMD_E.E_BC_CMD_SET_CLOUD_CFG:
-            case T.BC_CMD_E.E_BC_CMD_SET_SIGNATURE_LOGIN_CFG:
-            case T.BC_CMD_E.E_BC_CMD_SET_USERCFG:
-            case T.BC_CMD_E.E_BC_CMD_SET_USER_ALL_ABILITY:
-            case T.BC_CMD_E.E_BC_CMD_SET_USER_ONLINE:
-            case T.BC_CMD_E.E_BC_CMD_FORCE_PASSWORD:
-            case T.BC_CMD_E.E_BC_CMD_SET_BOOTPWD_STATE:
-            case T.BC_CMD_E.E_BC_CMD_SET_FTPCFG:
-            case T.BC_CMD_E.E_BC_CMD_FTP_TEST:
-            case T.BC_CMD_E.E_BC_CMD_IFRAME_PREVIEW:
-            case T.BC_CMD_E.E_BC_CMD_IFRAME_REPLAY:
-            case T.BC_CMD_E.E_BC_CMD_REBOOT:
-            case T.BC_CMD_E.E_BC_CMD_DEVICE_SLEEP:
-            case T.BC_CMD_E.E_BC_CMD_GETLOG:
-            case T.BC_CMD_E.E_BC_CMD_START_ALARM_REPORT:
-            case T.BC_CMD_E.E_BC_CMD_STOP_ALARM_REPORT:
-            case T.BC_CMD_E.E_BC_CMD_PUSH_ADD:
-            case T.BC_CMD_E.E_BC_CMD_RTMP_START:
-            case T.BC_CMD_E.E_BC_CMD_RTMP_STOP:
-            case T.BC_CMD_E.E_BC_CMD_SET_COMPRESS:
-            case T.BC_CMD_E.E_BC_CMD_SET_OSD:
-            case T.BC_CMD_E.E_BC_CMD_SET_COVER:
-            case T.BC_CMD_E.E_BC_CMD_SET_RECORDSCHED:
-            case T.BC_CMD_E.E_BC_CMD_SET_PTZCFG:
-            case T.BC_CMD_E.E_BC_CMD_SET_MOTION:
-            case T.BC_CMD_E.E_BC_CMD_SET_VILOST:
-            case T.BC_CMD_E.E_BC_CMD_SET_PRESET:
-            case T.BC_CMD_E.E_BC_CMD_GOTO_PRESET:
-            case T.BC_CMD_E.E_BC_CMD_SET_CRUISE:
-            case T.BC_CMD_E.E_BC_CMD_SET_CAMERA:
-            case T.BC_CMD_E.E_BC_CMD_SET_ISP_DAY_NIGHT_MODE:
-            case T.BC_CMD_E.E_BC_CMD_SET_LED_STATE:
-            case T.BC_CMD_E.E_BC_CMD_SET_FTPTASK:
-            case T.BC_CMD_E.E_BC_CMD_SET_EMAIL_TASK:
-            case T.BC_CMD_E.E_BC_CMD_SET_PUSH_TASK:
-            case T.BC_CMD_E.E_BC_CMD_SET_AUDIO_TASK:
-            case T.BC_CMD_E.E_BC_CMD_SET_BUZZER_TASK:
-            case T.BC_CMD_E.E_BC_CMD_SNAP:
-            case T.BC_CMD_E.E_BC_CMD_SET_AUTO_FOCUS:
-            case T.BC_CMD_E.E_BC_CMD_SET_CROP_CFG:
-            case T.BC_CMD_E.E_BC_CMD_CROP_SNAP:
-            case T.BC_CMD_E.E_BC_CMD_SET_RINGTONE_CFG:
-            case T.BC_CMD_E.E_BC_CMD_MANUAL_RING_DOWN:
-            case T.BC_CMD_E.E_BC_CMD_MUTE_ALARM_AUDIO:
-            case T.BC_CMD_E.E_BC_CMD_SAVE_RINGTONE:
-            case T.BC_CMD_E.E_BC_CMD_FLOODLIGHT_MANUAL:
-            case T.BC_CMD_E.E_BC_CMD_SET_FLOODLIGHT_TASK:
-            case T.BC_CMD_E.E_BC_CMD_RF_TEST_START:
-            case T.BC_CMD_E.E_BC_CMD_RF_TEST_STOP:
-            case T.BC_CMD_E.E_BC_CMD_SYNC_UTC_TIME:
-            case T.BC_CMD_E.E_BC_CMD_START_ZOOM_FOCUS:
-            case T.BC_CMD_E.E_BC_CMD_SET_DAY_NIGHT_THRESHOLD:
-            case T.BC_CMD_E.E_BC_CMD_REC_FILE_DEL:
-            case T.BC_CMD_E.E_BC_CMD_SET_RECORD_ENABLE:
-            case T.BC_CMD_E.E_BC_CMD_SET_FTP_ENABLE:
-            case T.BC_CMD_E.E_BC_CMD_SET_EMAIL_ENABLE:
-            case T.BC_CMD_E.E_BC_CMD_SET_PUSH_ENABLE:
-            case T.BC_CMD_E.E_BC_CMD_SET_BUZZER_ENABLE:
-            case T.BC_CMD_E.E_BC_CMD_SET_AI_DETECT_CFG:
-            case T.BC_CMD_E.E_BC_CMD_SET_ALARM_ARAES_CFG:
+            /* set cmds */
             default: {
                 if (T.BC_CMD_E.E_BC_CMD_SET_PRESET === bcCmd) {
                     setImmediate(() => {
@@ -1350,6 +1261,16 @@ class CONFIG {
     }
     presetInvoke(handle, channel, preset) {
         return this.channelCmd(handle, channel, T.BC_CMD_E.E_BC_CMD_GOTO_PRESET, native_1.native.BCSDK_RemotePresetInvoke, 10, preset);
+    }
+    /* ptz guard
+     *
+     * callback with E_BC_CMD_GET_GUARD, E_BC_CMD_SET_GUARD
+     */
+    getGuard(handle, channel) {
+        return this.channelCmd(handle, channel, T.BC_CMD_E.E_BC_CMD_GET_GUARD, native_1.native.BCSDK_RemoteGetGuard);
+    }
+    setGuard(handle, channel, param) {
+        return this.channelCmd(handle, channel, T.BC_CMD_E.E_BC_CMD_SET_GUARD, native_1.native.BCSDK_RemoteSetGuard, 10, param, _T.BC_GUARD_INFO, CONFIG.getCmdIndex());
     }
     /* ptz cruise
      *

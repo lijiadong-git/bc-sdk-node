@@ -157,6 +157,9 @@ int _BCSDK_ BCSDK_GetSupportPt(H_BC_DEVICE hDevice, int channel, bool *support);
 int _BCSDK_ BCSDK_GetSupportAutoPt(H_BC_DEVICE hDevice, int channel, bool *support);
 int _BCSDK_ BCSDK_GetSupportZoomAndFocus(H_BC_DEVICE hDevice, int channel, bool *support);
 int _BCSDK_ BCSDK_GetSupportZoomAndFocusSliderCfg(H_BC_DEVICE hDevice, int channel, bool *support);
+int _BCSDK_ BCSDK_GetSupportOnly4Directions(H_BC_DEVICE hDevice, int channel, bool *support);
+int _BCSDK_ BCSDK_GetSupportGuardPoint(H_BC_DEVICE hDevice, int channel, bool *support);
+int _BCSDK_ BCSDK_GetSupportPTSelfTestCfg(H_BC_DEVICE hDevice, int channel, bool *support);
 int _BCSDK_ BCSDK_GetSupportAudio(H_BC_DEVICE hDevice, int channel, bool *support);
 int _BCSDK_ BCSDK_GetSupportAutoFocus(H_BC_DEVICE hDevice, int channel, bool *support);
 int _BCSDK_ BCSDK_GetSupportCropSnap(H_BC_DEVICE hDevice, int channel, bool *support);
@@ -191,6 +194,8 @@ int _BCSDK_ BCSDK_GetSupportIspSatruation(H_BC_DEVICE hDevice, int channel, bool
 int _BCSDK_ BCSDK_GetSupportIspHue(H_BC_DEVICE hDevice, int channel, bool *support);
 int _BCSDK_ BCSDK_GetSupportIspSharpen(H_BC_DEVICE hDevice, int channel, bool *support);
 int _BCSDK_ BCSDK_GetSupportIspDayNightThreshold(H_BC_DEVICE hDevice, int channel, bool *support);
+int _BCSDK_ BCSDK_GetSupportIspBrightDarkRegulate(H_BC_DEVICE hDevice, int channel, bool *support);
+int _BCSDK_ BCSDK_GetSupportIspFirstFrameStrategy(H_BC_DEVICE hDevice, int channel, bool *support);
 
 // AI
 int _BCSDK_ BCSDK_GetSupportAI(H_BC_DEVICE hDevice, int channel, bool *support);
@@ -200,6 +205,7 @@ int _BCSDK_ BCSDK_GetSupportAIFace(H_BC_DEVICE hDevice, int channel, bool *suppo
 int _BCSDK_ BCSDK_GetSupportAIAnimal(H_BC_DEVICE hDevice, int channel, bool *support);
 int _BCSDK_ BCSDK_GetSupportAIOther(H_BC_DEVICE hDevice, int channel, bool *support);
 int _BCSDK_ BCSDK_GetSupportAIDetectConfig(H_BC_DEVICE hDevice, int channel, bool *support);
+int _BCSDK_ BCSDK_GetSupportAITrack(H_BC_DEVICE hDevice, int channel, bool *support);
 
 // timelapse
 int _BCSDK_ BCSDK_GetSupportTimelapse(H_BC_DEVICE hDevice, int channel, bool *support);

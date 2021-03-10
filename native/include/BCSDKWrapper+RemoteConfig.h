@@ -642,6 +642,14 @@ int _BCSDK_ BCSDK_RemoteSetPresets(H_BC_DEVICE hDevice, int channel, BC_PTZ_PRES
 int _BCSDK_ BCSDK_RemotePresetInvoke(H_BC_DEVICE hDevice, int channel, int preset);
 
 
+/* ptz guard
+ *
+ * callback with E_BC_CMD_GET_GUARD, E_BC_CMD_SET_GUARD
+ */
+int _BCSDK_ BCSDK_RemoteGetGuard(H_BC_DEVICE hDevice, int channel);
+int _BCSDK_ BCSDK_RemoteSetGuard(H_BC_DEVICE hDevice, int channel, BC_GUARD_INFO *gurad, int cmdIdx);
+
+
 /* ptz cruise
  *
  * callback with E_BC_CMD_GET_CRUISE, E_BC_CMD_SET_CRUISE
@@ -847,7 +855,7 @@ int _BCSDK_ BCSDK_RemoteGetChannelVersionInfo(H_BC_DEVICE hDevice, int channel);
 
 /* ai detect config
  *
- * callback with E_BC_CMD_GET_DEF_AI_DETECT_CFG_V20, E_BC_CMD_GET_AI_DETECT_CFG_V20, E_BC_CMD_SET_AI_DETECT_CFG_V20
+ * callback with E_BC_CMD_GET_DEF_AI_DETECT_CFG, E_BC_CMD_GET_AI_DETECT_CFG, E_BC_CMD_SET_AI_DETECT_CFG
  */
 int _BCSDK_ BCSDK_RemoteGetDefaultAIDetectCfg(H_BC_DEVICE hDevice, int channel, BC_DETECT_TYPE_E type, int cmdIdx);
 int _BCSDK_ BCSDK_RemoteGetAIDetectCfg(H_BC_DEVICE hDevice, int channel, BC_DETECT_TYPE_E type, int cmdIdx);
@@ -856,7 +864,7 @@ int _BCSDK_ BCSDK_RemoteSetAIDetectCfg(H_BC_DEVICE hDevice, int channel, BC_AI_D
 
 /* alarm areas config
  *
- * callback with E_BC_CMD_SET_ALARM_ARAES_CFG_V20
+ * callback with E_BC_CMD_SET_ALARM_ARAES_CFG
  */
 int _BCSDK_ BCSDK_RemoteSetAlarmAreas(H_BC_DEVICE hDevice, int channel, BC_ALARM_AREAS_CFG *config);
 

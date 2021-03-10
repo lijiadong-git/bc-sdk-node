@@ -420,6 +420,8 @@ typedef enum
     E_BC_CMD_SET_AI_DETECT_CFG              = 2283,
     E_BC_CMD_GET_DEF_AI_DETECT_CFG          = 2284,
     E_BC_CMD_SET_ALARM_ARAES_CFG            = 2285,
+    E_BC_CMD_GET_GUARD                      = 2286,
+    E_BC_CMD_SET_GUARD                      = 2287,
     
     
     // sdk up layer callback use
@@ -1323,55 +1325,55 @@ typedef struct tagBC_ABILITY_INFO {
     bool     bCameraMode[BC_MAX_CHANNEL];
     bool     bLedState[BC_MAX_CHANNEL];
     
-    /* @Param iUseReboot
+    /* @param iUseReboot
      *  whether use iReboot or not
      *
-     * @Param iReboot
+     * @param iReboot
      *  bit0: support
      */
     int      iUseReboot;
     int      iReboot;
     
-    /* @Param iUseVideoStandard
+    /* @param iUseVideoStandard
      *  whether use iVideoStandard or not
      *
-     * @Param iVideoStandard
+     * @param iVideoStandard
      *  bit0: support
      */
     int      iUseVideoStandard;
     int      iVideoStandard;
     
-    /* @Param iUseUpnp
+    /* @param iUseUpnp
      *  whether use iUpnp or not
      *
-     * @Param iUpnp
+     * @param iUpnp
      *  bit0: support
      */
     int      iUseUpnp;
     int      iUpnp;
     
-    /* @Param iUseExceptionCfg
+    /* @param iUseExceptionCfg
      *  whether use iUseExceptionCfg or not
      *
-     * @Param iUseExceptionCfg
+     * @param iUseExceptionCfg
      *  bit0: support
      */
     int      iUseExceptionCfg;
     int      iExceptionCfg;
     
-    /* @Param iUseLogSearch
+    /* @param iUseLogSearch
      *  whether use iLogSearch or not
      *
-     * @Param iLogSearch
+     * @param iLogSearch
      *  bit0: support
      */
     int      iUseLogSearch;
     int      iLogSearch;
     
-    /* @Param iUseNetPortCfg
+    /* @param iUseNetPortCfg
      *  whether use iNetPortCfg or not
      *
-     * @Param iNetPortCfg
+     * @param iNetPortCfg
      *  bit0: media port
      *  bit1: http port
      *  bit2: https port
@@ -1379,19 +1381,19 @@ typedef struct tagBC_ABILITY_INFO {
     int      iUseNetPortCfg;
     int      iNetPortCfg;
     
-    /* @Param iUseNtp
+    /* @param iUseNtp
      *  whether use iNtp or not
      *
-     * @Param iNtp
+     * @param iNtp
      *  bit0: support
      */
     int      iUseNtp;
     int      iNtp;
     
-    /* @Param iUseP2pCfg
+    /* @param iUseP2pCfg
      *  whether use iP2pCfg or not
      *
-     * @Param iP2pCfg
+     * @param iP2pCfg
      *  bit0: domain name cfg
      *  bit1: server port cfg
      *  bit2: enable p2p
@@ -1399,19 +1401,19 @@ typedef struct tagBC_ABILITY_INFO {
     int      iUseP2pCfg;
     int      iP2pCfg;
     
-    /* @Param iUsePppoe
+    /* @param iUsePppoe
      *  whether use iPppoe or not
      *
-     * @Param iPppoe
+     * @param iPppoe
      *  bit0: support pppoe
      */
     int      iUsePppoe;
     int      iPppoe;
     
-    /* @Param iUseStorageMode
+    /* @param iUseStorageMode
      *  whether use iStorageMode or not
      *
-     * @Param iStorageMode
+     * @param iStorageMode
      *  bit0:support hdd
      *  bit1:support SD-Card
      */
@@ -1422,7 +1424,7 @@ typedef struct tagBC_ABILITY_INFO {
     
     int      iPushAlarm;
     
-    /* @Param iFtp
+    /* @param iFtp
      *  bit0: support ftp
      *  bit1: support subStream and pic
      *  bit2: support extension stream and pic
@@ -1436,21 +1438,21 @@ typedef struct tagBC_ABILITY_INFO {
     int      iEmail;
     int      iWifi;
     
-    /* @Param iFtp
+    /* @param iFtp
      *  bit0: init wifi after logining success first time
      */
     int      iWifiVersion;
     
-    /* @Param iRecord
+    /* @param iRecord
      *  bit0: md record
      *  bit1: normal record
      */
     int      iRecord;
     
-    /* @Param iUseNewRecordType
+    /* @param iUseNewRecordType
      *  whether use iNewRecordType or not
      *
-     * @Param iNewRecordType
+     * @param iNewRecordType
      *  bit0: md record
      *  bit1: normal record
      *  bit2: support enable/disable all channel
@@ -1458,10 +1460,10 @@ typedef struct tagBC_ABILITY_INFO {
     int      iUseNewRecordType;
     int      iNewRecordType;
     
-    /* @Param iUseRecordCfg
+    /* @param iUseRecordCfg
      *  whether use iRecordCfg or not
      *
-     * @Param iRecordCfg ( for battery camera only )
+     * @param iRecordCfg ( for battery camera only )
      *  bit0: post record
      *  bit1: pre record
      *  bit2: overwrite
@@ -1477,7 +1479,7 @@ typedef struct tagBC_ABILITY_INFO {
     int      iOnvif;
     int      iRtmp;
     
-    /* @Param rfVersion
+    /* @param rfVersion
      *  0 -> no support;
      *  1 -> old,suppport 3 buttons;
      *  2 -> support RF Remote Config;
@@ -1489,16 +1491,16 @@ typedef struct tagBC_ABILITY_INFO {
     int      iNoExternStream;
     int      iTimeFormat;
     
-    /* @Param iUseDateFormat
+    /* @param iUseDateFormat
      *  whether use iDateFormat or not
      *
-     * @Param iDateFormat
+     * @param iDateFormat
      *  bit0: support date format set.
      */
     int      iUseDateFormat;
     int      iDateFormat;
     
-    /* @Param iDDnsVersion
+    /* @param iDDnsVersion
      *  0: 3322+dyndns
      *  1: dyndns+noip
      *  2: 3322
@@ -1511,16 +1513,16 @@ typedef struct tagBC_ABILITY_INFO {
      */
     int      iDDnsVersion;
     
-    /* @Param iUseDDNSCfg
+    /* @param iUseDDNSCfg
      *  whether use iDDNSCfg or not
      *
-     * @Param iDDNSCfg
+     * @param iDDNSCfg
      *  bit0: support ddns
      */
     int      iUseDDNSCfg;
     int      iDDNSCfg;
     
-    /* @Param iEmailVersion
+    /* @param iEmailVersion
      *  0: old
      *  bit0: task
      *  bit1: nickname
@@ -1530,7 +1532,7 @@ typedef struct tagBC_ABILITY_INFO {
      */
     int      iEmailVersion;
     
-    /* @Param iPushVersion
+    /* @param iPushVersion
      *  bit0: 0 - old, 1 - new (has push task)
      *  bit1: support enable/disable all channel
      */
@@ -1539,26 +1541,26 @@ typedef struct tagBC_ABILITY_INFO {
     int      iSupportUpgrade;
     int      iSupportAudioTask;
     
-    /* @Param iBuzzerVersion
+    /* @param iBuzzerVersion
      *  bit0: support;
      *  bit1: task;
      *  bit2: enable all channels
      */
     int      iBuzzerVersion;
     
-    /* @Param iChVerInfo
+    /* @param iChVerInfo
      *  bit0: support get channel's version info
      */
     int      iChVerInfo;
     
-    /* @Param iPushType
+    /* @param iPushType
      *  0: udp push
      *  1: http push
      *  2: https push
      */
     int      iPushType;
 
-    /* @Param iCloudVersion
+    /* @param iCloudVersion
 	 *  bit0: cloud task cfg
 	 *  bit1: cloud storage
 	 *  bit2: upload cfg
@@ -1568,13 +1570,13 @@ typedef struct tagBC_ABILITY_INFO {
      */
     int      iCloudVersion;
     
-    /* @Param iApMode
+    /* @param iApMode
      *  0: not support
      *  1: ap wifi wizard
      */
     int      iApMode;
     
-    /* @Param iReplayVersion
+    /* @param iReplayVersion
      *  bit0: 1-replay fast forward
      *  bit1: support mark alarm video
      *  bit2: support cover preview
@@ -1582,54 +1584,54 @@ typedef struct tagBC_ABILITY_INFO {
      */
     int      iReplayVersion;
     
-    /* @Param i4gDevVersion
+    /* @param i4gDevVersion
      *  bit0: 3g/4g net info
      *  bit1: SIM module Info
      */
     int      i4gDevVersion;
     
-    /* @Param iShowQrcode
+    /* @param iShowQrcode
      *  bit0: show QRCode
      */
     int      iShowQrcode;
     
-    /* @Param iLanguageVersion
+    /* @param iLanguageVersion
      *  bit0: support chinese
      */
     int      iLanguageVersion;
     
-    /* @Param iCfgFileOperation
+    /* @param iCfgFileOperation
      *  bit0: 1-disable export
      *  bit1: 1-disable import
      */
     int      iCfgFileOperation;
     
-    /* @Param iSyncTime
+    /* @param iSyncTime
      *  bit0: need client send utc time to ipc when login in
      */
 	int		 iSyncTime;
     
 	char     cQRAudio[BC_MAX_QR_AUDIO_LEN];
     
-    /* @Param iScheduleVersion
+    /* @param iScheduleVersion
      *  bit0: support output schedule and timing is a bit of trigger type.
      */
 	int		 iScheduleVersion;
 
-    /* @Param iScheduleVersion
+    /* @param iScheduleVersion
      *  bit0: support auto focus
      */
     int      iSupportAutoFocus[BC_MAX_CHANNEL];
     
-    /* @Param iScheduleVersion
+    /* @param iScheduleVersion
      *  bit0: support crop live stream
      */
     int      iSupportCrop[BC_MAX_CHANNEL];
     
-    /* @Param iUsePtzType
+    /* @param iUsePtzType
      *  whether use iPtzType or not
      *
-     * @Param iPtzType
+     * @param iPtzType
      *  0: none
      *  1: af
      *  2: ptz
@@ -1641,58 +1643,61 @@ typedef struct tagBC_ABILITY_INFO {
     int      iUsePtzType;
     int      iPtzType[BC_MAX_CHANNEL];
     
-    /* @Param iUseAutoPt
+    /* @param iUseAutoPt
      *  whether use iAutoPt or not
      *
-     * @Param iAutoPt
+     * @param iAutoPt
      */
     int      iUseAutoPt;
     int      iAutoPt[BC_MAX_CHANNEL];
     
-    /* @Param iUsePtzPreset
+    /* @param iUsePtzPreset
      *  whether use iPtzPreset or not
      *
-     * @Param iPtzPreset
+     * @param iPtzPreset
      *  bit0: support preset
      */
 	int      iUsePtzPreset;
 	int      iPtzPreset[BC_MAX_CHANNEL];
     
-    /* @Param iUsePtzPatrol
+    /* @param iUsePtzPatrol
      *  whether use iPtzPatrol or not
      *
-     * @Param iPtzPatrol
+     * @param iPtzPatrol
      *  bit0: support patrol
      */
 	int      iUsePtzPatrol;
 	int      iPtzPatrol[BC_MAX_CHANNEL];
 	
-    /* @Param iUsePtzPattern
+    /* @param iUsePtzPattern
      *  whether use iPtzPattern or not
      *
-     * @Param iPtzPattern
+     * @param iPtzPattern
      *  bit0: support pattern
      */
     int      iUsePtzPattern;
 	int      iPtzPattern[BC_MAX_CHANNEL];
 	
-    /* @Param iPtzControl
+    /* @param iPtzControl
      *  bit0: support control zoom and focus with slider
+     *  bit1: 0 - 8 deriction; 1 - 4 deriction;
+     *  bit2: support guard;
+     *  bit3: supprot pt self test;
      */
     int 	 iPtzControl[BC_MAX_CHANNEL];
     
-    /* @Param iNoAudio
+    /* @param iNoAudio
      *  1: no audio
      *  0: got some audio
      */
     int      iNoAudio[BC_MAX_CHANNEL];
     
-    /* @Param iExStreamCfg
+    /* @param iExStreamCfg
      *  bit0: support extend stream cfg
      */
     int      iExStreamCfg[BC_MAX_CHANNEL];
 	
-	/* @Param iLedCtrl
+	/* @param iLedCtrl
 	 *  bit0: indicator light control
 	 *  bit1: support floodlight
 	 *  bit2: support floodlight brightness control
@@ -1701,35 +1706,35 @@ typedef struct tagBC_ABILITY_INFO {
 	 */
     int      iLedCtrl[BC_MAX_CHANNEL];
 
-    /* @Param bSupportAudioTalk
+    /* @param bSupportAudioTalk
      *  bit0: support audio talk
      */
     bool     bSupportAudioTalk[BC_MAX_CHANNEL];
     
-    /* @Param iUseMotion
+    /* @param iUseMotion
      *  whether use iMotionVersion or not
      *
-     * @Param iMotionVersion
+     * @param iMotionVersion
      *  1: support MD
      *  2: support MD with PIR
      */
     int      iUseMotion;
     int      iMotionVersion[BC_MAX_CHANNEL];
     
-    /* @Param iUseMdConfig
+    /* @param iUseMdConfig
      *  whether use iMdConfig or not
      *
-     * @Param iMdConfig
+     * @param iMdConfig
      *  bit0: support audio warnning
      *  bit1: support trigger recording settings.
      */
     int      iUseMdConfig;
     int      iMdConfig[BC_MAX_CHANNEL];
     
-    /* @Param iUseBattery
+    /* @param iUseBattery
      *  whether use iBattery or not
      *
-     * @Param iBattery
+     * @param iBattery
      *  0: not
      *  1: dry battery
      *  2: charge battery
@@ -1737,28 +1742,28 @@ typedef struct tagBC_ABILITY_INFO {
     int      iUseBattery;
     int      iBattery[BC_MAX_CHANNEL];
     
-    /* @Param iUseBatAnalysis
+    /* @param iUseBatAnalysis
      *  whether use iBatAnalysis or not
      *
-     * @Param iBatAnalysis
+     * @param iBatAnalysis
      *  bit0: dump energy analysis
      */
     int      iUseBatAnalysis;
     int      iBatAnalysis[BC_MAX_CHANNEL];
     
-    /* @Param iUseShelterCfg
+    /* @param iUseShelterCfg
      *  whether use bShelterCfg or not
      *
-     * @Param bShelterCfg
+     * @param bShelterCfg
      *  bit0: support
      */
     int      iUseShelterCfg;
     int      bShelterCfg[BC_MAX_CHANNEL];
     
-    /* @Param iUseAudioVersion
+    /* @param iUseAudioVersion
      *  whether use iAudioVersion or not
      *
-     * @Param iAudioVersion
+     * @param iAudioVersion
      *  bit0: audio alarm enable
      *  bit1: audio alarm schedule
      *  bit2: manual ring down bit3:custom ringtone
@@ -1766,20 +1771,20 @@ typedef struct tagBC_ABILITY_INFO {
     int      iUseAudioVersion;
     int      iAudioVersion[BC_MAX_CHANNEL];
     
-    /* @Param iUseOsdCfg
+    /* @param iUseOsdCfg
      *  whether use iOsdCfg or not
      *
-     * @Param iOsdCfg
+     * @param iOsdCfg
      *  bit0: support watermark
      *  bit1: support padding
      */
     int      iUseOsdCfg;
     int      iOsdCfg[BC_MAX_CHANNEL];
     
-    /* @Param iUseIspCfg
+    /* @param iUseIspCfg
      *  whether use iIspCfg or not
      *
-     * @Param iIspCfg
+     * @param iIspCfg
      *  bit0: day/night cfg
      *  bit1: antiFlick
      *  bit2: exposure mode cfg
@@ -1797,10 +1802,10 @@ typedef struct tagBC_ABILITY_INFO {
     int     iUseIspCfg;
     int     iIspCfg[BC_MAX_CHANNEL];/*only for battery ipc*/
 
-	/* @Param iUseNewIspCfg
+	/* @param iUseNewIspCfg
      *  whether use iNewIspCfg or not
      *
-     * @Param iNewIspCfg
+     * @param iNewIspCfg
      *  bit0: day/night cfg
      *  bit1: antiFlick
      *  bit2: exposure mode cfg
@@ -1813,13 +1818,14 @@ typedef struct tagBC_ABILITY_INFO {
      *  bit9: contrast
      *  bit10: satruation
      *  bit11: hue
-     *  bit13: 1-support day to night threshold control
-     *  bit14: 1-support bright and dark part regulation
+     *  bit13: support day to night threshold control
+     *  bit14: support bright and dark part regulation
+     *  bit15: support first frame strategy
      */
 	int     iUseNewIspCfg;
 	int     iNewIspCfg[BC_MAX_CHANNEL];
 	
-	/* @Param iAiVersion
+	/* @param iAiVersion
 	 *  bit0: support AI
 	 *  bit1: suppport people detection
 	 *  bit2: suppport vehicle detection
@@ -1827,10 +1833,11 @@ typedef struct tagBC_ABILITY_INFO {
 	 *  bit4: support animal detection
      *  bit5: support ai config
      *  bit6: support ai other
+     *  bit7: support ai track
 	 */
 	int 	iAiVersion[BC_MAX_CHANNEL];
     
-    /* @Param iTimelapseVer
+    /* @param iTimelapseVer
      *  bit0: support
      *  bit1: support jpeg file's thumbnail
      */
@@ -1838,7 +1845,7 @@ typedef struct tagBC_ABILITY_INFO {
     
     BC_BASE_ABILITY_INFO    baseAbility;
     
-    /* @Param iNasVersion
+    /* @param iNasVersion
      *  bit0: support bind
      *  bit1: support unbind
      *  bit2: support get bind info
@@ -2147,7 +2154,7 @@ typedef struct {
     int                  iWidth;
     int                  iHeight;
     
-    /* @Param bMotionScope
+    /* @param bMotionScope
      *   1: set to motion
      *   0: not set
      */
@@ -2396,7 +2403,8 @@ typedef struct tagBC_ISP_BD_CTRL
 typedef struct tagBC_ISP_CFG   {
     
     /* validField, used for only set some params.
-     * for example, validField = "<lBright><lContrast><eAntiflick><eDayNightMode>", only set lBright, lContrast, eAntiflick, eDayNightMode.
+     * for example, validField = "<lBright><lContrast><eAntiflick><eDayNightMode>",
+     * only set lBright, lContrast, eAntiflick, eDayNightMode
      */
     char validField[128];
     
@@ -2445,6 +2453,12 @@ typedef struct tagBC_ISP_CFG   {
     BC_ISP_BD_CTRL      bdDayCtrl;
     BC_ISP_BD_CTRL      bdNightCtrl;
     BC_ISP_BD_CTRL      bdColorNightCtrl;
+    
+    /* @param iFirstFrameStrategy
+     *  0: outdoor
+     *  1: indoor
+     */
+    int                 iFirstFrameStrategy;
     
 } BC_ISP_CFG, *LPBC_ISP_CFG;
 
@@ -3018,6 +3032,33 @@ typedef struct
 	int iPos;
 } BC_START_ZOOM_FOCUS;
 
+// ptz guard
+typedef enum
+{
+    BC_GUARD_ACTION_SET = 0,
+    BC_GUARD_ACTION_SET_TIME,
+    BC_GUARD_ACTION_GOTO,
+} BC_GUARD_ACTION_E;
+
+typedef struct
+{
+    int iChannel;
+ 
+    int iEnable;
+    
+    /* @param: iTimeout (second)
+     *  when back to guard position
+     */
+    int iTimeout;
+
+    /* @param: eAction 
+     *  only for set
+     */
+    BC_GUARD_ACTION_E eAction;
+    
+} BC_GUARD_INFO;
+
+
 typedef struct {
     
     int iChannel;
@@ -3109,7 +3150,7 @@ typedef struct tagBC_FTP_CFG
     bool  bSupportTest;         //1:support ftp test
     int   iSupportStreamType;
     
-    /* @Param iStreamType
+    /* @param iStreamType
      *  0: pic and mainStream video
      *  1: pic and subStream video
      *  2: pic and extension stream video
@@ -4523,12 +4564,12 @@ typedef struct
 {
     BC_TIMELAPSE_TASK_TYPE_E eTaskType;
     
-    /* @Param cIdentity
+    /* @param cIdentity
      *  the unique identifier for timelapse task
      */
     char cIdentify[BC_MAX_TIMELAPSE_ID_LEN];
     
-    /* @Param cProperties
+    /* @param cProperties
      *  property string for task
      *  can not contain ( * . " / \ [ ] : ; | = , )
      */
@@ -4553,7 +4594,7 @@ typedef struct {
 
 typedef struct
 {
-    /* @Param iEnable
+    /* @param iEnable
      *  0: stop
      *  1: start
      */
@@ -4563,13 +4604,13 @@ typedef struct
     
     BC_STREAM_TYPE_E eStreamtype;
     
-    /* @Param iInterval
+    /* @param iInterval
      *  interval of frames, seconds
      */
     int iInterval;
     int iFrameRate;
     
-    /* @Param iUseThumbnail
+    /* @param iUseThumbnail
      *  0: no thumbnail
      *  1: has thumbnail when taks type is jpeg
      */

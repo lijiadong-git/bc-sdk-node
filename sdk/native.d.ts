@@ -173,6 +173,9 @@ export interface NativeMethods {
     BCSDK_GetSupportAutoPt: (handle: number, channel: number, pSupport: any) => number;
     BCSDK_GetSupportZoomAndFocus: (handle: number, channel: number, pSupport: any) => number;
     BCSDK_GetSupportZoomAndFocusSliderCfg: (handle: number, channel: number, pSupport: any) => number;
+    BCSDK_GetSupportOnly4Directions: (handle: number, channel: number, pSupport: any) => number;
+    BCSDK_GetSupportGuardPoint: (handle: number, channel: number, pSupport: any) => number;
+    BCSDK_GetSupportPTSelfTestCfg: (handle: number, channel: number, pSupport: any) => number;
     BCSDK_GetSupportAudio: (handle: number, channel: number, pSupport: any) => number;
     BCSDK_GetSupportAutoFocus: (handle: number, channel: number, pSupport: any) => number;
     BCSDK_GetSupportCropSnap: (handle: number, channel: number, pSupport: any) => number;
@@ -205,6 +208,8 @@ export interface NativeMethods {
     BCSDK_GetSupportIspHue: (handle: number, channel: number, pSupport: any) => number;
     BCSDK_GetSupportIspSharpen: (handle: number, channel: number, pSupport: any) => number;
     BCSDK_GetSupportIspDayNightThreshold: (handle: number, channel: number, pSupport: any) => number;
+    BCSDK_GetSupportIspBrightDarkRegulate: (handle: number, channel: number, pSupport: any) => number;
+    BCSDK_GetSupportIspFirstFrameStrategy: (handle: number, channel: number, pSupport: any) => number;
     BCSDK_GetSupportAI: (handle: number, channel: number, pSupport: any) => number;
     BCSDK_GetSupportAIPeople: (handle: number, channel: number, pSupport: any) => number;
     BCSDK_GetSupportAIVehicle: (handle: number, channel: number, pSupport: any) => number;
@@ -212,6 +217,7 @@ export interface NativeMethods {
     BCSDK_GetSupportAIAnimal: (handle: number, channel: number, pSupport: any) => number;
     BCSDK_GetSupportAIOther: (handle: number, channel: number, pSupport: any) => number;
     BCSDK_GetSupportAIDetectConfig: (handle: number, channel: number, pSupport: any) => number;
+    BCSDK_GetSupportAITrack: (handle: number, channel: number, pSupport: any) => number;
     BCSDK_GetSupportTimelapse: (handle: number, channel: number, pSupport: any) => number;
     BCSDK_GetSupportTimelapseThumbnail: (handle: number, channel: number, pSupport: any) => number;
     /****************************************************************
@@ -460,6 +466,8 @@ export interface NativeMethods {
     BCSDK_RemoteGetPresets: (handle: number, channel: number) => number;
     BCSDK_RemoteSetPresets: (handle: number, channel: number, param: any, cmdIdx: number) => number;
     BCSDK_RemotePresetInvoke: (handle: number, channel: number, preset: number) => number;
+    BCSDK_RemoteGetGuard: (handle: number, channel: number) => number;
+    BCSDK_RemoteSetGuard: (handle: number, channel: number, param: any, cmdIdx: number) => number;
     BCSDK_RemoteGetCruises: (handle: number, channel: number) => number;
     BCSDK_RemoteSetCruise: (handle: number, channel: number, param: any) => number;
     BCSDK_RemoteCruiseInvoke: (handle: number, channel: number, cruise: number) => number;

@@ -224,6 +224,9 @@ class ABILITY {
     getSupportAutoPt(handle, channel, df) { return ABILITY.nativeCall(native_1.native.BCSDK_GetSupportAutoPt, handle, df ? df : false, channel); }
     getSupportZoomAndFocus(handle, channel, df) { return ABILITY.nativeCall(native_1.native.BCSDK_GetSupportZoomAndFocus, handle, df ? df : false, channel); }
     getSupportZoomAndFocusSliderCfg(handle, channel, df) { return ABILITY.nativeCall(native_1.native.BCSDK_GetSupportZoomAndFocusSliderCfg, handle, df ? df : false, channel); }
+    getSupportOnly4Directions(handle, channel, df) { return ABILITY.nativeCall(native_1.native.BCSDK_GetSupportOnly4Directions, handle, df ? df : false, channel); }
+    getSupportGuardPoint(handle, channel, df) { return ABILITY.nativeCall(native_1.native.BCSDK_GetSupportGuardPoint, handle, df ? df : false, channel); }
+    getSupportPTSelfTestCfg(handle, channel, df) { return ABILITY.nativeCall(native_1.native.BCSDK_GetSupportPTSelfTestCfg, handle, df ? df : false, channel); }
     getSupportAudio(handle, channel, df) { return ABILITY.nativeCall(native_1.native.BCSDK_GetSupportAudio, handle, df ? df : false, channel); }
     getSupportAutoFocus(handle, channel, df) { return ABILITY.nativeCall(native_1.native.BCSDK_GetSupportAutoFocus, handle, df ? df : false, channel); }
     getSupportCropSnap(handle, channel, df) { return ABILITY.nativeCall(native_1.native.BCSDK_GetSupportCropSnap, handle, df ? df : false, channel); }
@@ -256,11 +259,14 @@ class ABILITY {
     getSupportIspHue(handle, channel, df) { return ABILITY.nativeCall(native_1.native.BCSDK_GetSupportIspHue, handle, df ? df : false, channel); }
     getSupportIspSharpen(handle, channel, df) { return ABILITY.nativeCall(native_1.native.BCSDK_GetSupportIspSharpen, handle, df ? df : false, channel); }
     getSupportIspDayNightThreshold(handle, channel, df) { return ABILITY.nativeCall(native_1.native.BCSDK_GetSupportIspDayNightThreshold, handle, df ? df : false, channel); }
+    getSupportIspBrightDarkRegulate(handle, channel, df) { return ABILITY.nativeCall(native_1.native.BCSDK_GetSupportIspBrightDarkRegulate, handle, df ? df : false, channel); }
+    getSupportIspFirstFrameStrategy(handle, channel, df) { return ABILITY.nativeCall(native_1.native.BCSDK_GetSupportIspFirstFrameStrategy, handle, df ? df : false, channel); }
     getSupportAI(handle, channel, df) { return ABILITY.nativeCall(native_1.native.BCSDK_GetSupportAI, handle, df ? df : false, channel); }
     getSupportAIPeople(handle, channel, df) { return ABILITY.nativeCall(native_1.native.BCSDK_GetSupportAIPeople, handle, df ? df : false, channel); }
     getSupportAIVehicle(handle, channel, df) { return ABILITY.nativeCall(native_1.native.BCSDK_GetSupportAIVehicle, handle, df ? df : false, channel); }
     getSupportAIFace(handle, channel, df) { return ABILITY.nativeCall(native_1.native.BCSDK_GetSupportAIFace, handle, df ? df : false, channel); }
     getSupportAIAnimal(handle, channel, df) { return ABILITY.nativeCall(native_1.native.BCSDK_GetSupportAIAnimal, handle, df ? df : false, channel); }
+    getSupportAITrack(handle, channel, df) { return ABILITY.nativeCall(native_1.native.BCSDK_GetSupportAITrack, handle, df ? df : false, channel); }
     getSupportTimelapse(handle, channel, df) { return ABILITY.nativeCall(native_1.native.BCSDK_GetSupportTimelapse, handle, df ? df : false, channel); }
     getSupportTimelapseThumbnail(handle, channel, df) { return ABILITY.nativeCall(native_1.native.BCSDK_GetSupportTimelapseThumbnail, handle, df ? df : false, channel); }
 }

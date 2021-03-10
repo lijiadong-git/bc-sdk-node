@@ -1374,6 +1374,7 @@ export interface BC_ISP_CFG {
     bdDayCtrl: BC_ISP_BD_CTRL;
     bdNightCtrl: BC_ISP_BD_CTRL;
     bdColorNightCtrl: BC_ISP_BD_CTRL;
+    iFirstFrameStrategy: number;
 }
 export interface BC_DAY_NIGHT_MODE_CFG {
     eMode: T.BC_DAY_NIGHT_MODE_E;
@@ -1747,4 +1748,10 @@ export interface BC_ALARM_AREAS_CFG {
      * length: 4
      */
     areas: BC_DETECT_AREA[];
+}
+export interface BC_GUARD_INFO {
+    iChannel: number;
+    iEnable: number;
+    iTimeout: number;
+    eAction: T.BC_GUARD_ACTION_E;
 }

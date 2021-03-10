@@ -146,6 +146,9 @@ declare class ABILITY {
     getSupportAutoPt(handle: number, channel: number, df?: boolean): Promise<boolean>;
     getSupportZoomAndFocus(handle: number, channel: number, df?: boolean): Promise<boolean>;
     getSupportZoomAndFocusSliderCfg(handle: number, channel: number, df?: boolean): Promise<boolean>;
+    getSupportOnly4Directions(handle: number, channel: number, df?: boolean): Promise<boolean>;
+    getSupportGuardPoint(handle: number, channel: number, df?: boolean): Promise<boolean>;
+    getSupportPTSelfTestCfg(handle: number, channel: number, df?: boolean): Promise<boolean>;
     getSupportAudio(handle: number, channel: number, df?: boolean): Promise<boolean>;
     getSupportAutoFocus(handle: number, channel: number, df?: boolean): Promise<boolean>;
     getSupportCropSnap(handle: number, channel: number, df?: boolean): Promise<boolean>;
@@ -178,11 +181,14 @@ declare class ABILITY {
     getSupportIspHue(handle: number, channel: number, df?: boolean): Promise<boolean>;
     getSupportIspSharpen(handle: number, channel: number, df?: boolean): Promise<boolean>;
     getSupportIspDayNightThreshold(handle: number, channel: number, df?: boolean): Promise<boolean>;
+    getSupportIspBrightDarkRegulate(handle: number, channel: number, df?: boolean): Promise<boolean>;
+    getSupportIspFirstFrameStrategy(handle: number, channel: number, df?: boolean): Promise<boolean>;
     getSupportAI(handle: number, channel: number, df?: boolean): Promise<boolean>;
     getSupportAIPeople(handle: number, channel: number, df?: boolean): Promise<boolean>;
     getSupportAIVehicle(handle: number, channel: number, df?: boolean): Promise<boolean>;
     getSupportAIFace(handle: number, channel: number, df?: boolean): Promise<boolean>;
     getSupportAIAnimal(handle: number, channel: number, df?: boolean): Promise<boolean>;
+    getSupportAITrack(handle: number, channel: number, df?: boolean): Promise<boolean>;
     getSupportTimelapse(handle: number, channel: number, df?: boolean): Promise<boolean>;
     getSupportTimelapseThumbnail(handle: number, channel: number, df?: boolean): Promise<boolean>;
 }

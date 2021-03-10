@@ -196,6 +196,9 @@ const MFFI = ffi.Library(path.join(folder, 'libBCSDKWrapper'), {
     BCSDK_GetSupportAutoPt: ['int', ['int', 'int', _T.pointer('bool')]],
     BCSDK_GetSupportZoomAndFocus: ['int', ['int', 'int', _T.pointer('bool')]],
     BCSDK_GetSupportZoomAndFocusSliderCfg: ['int', ['int', 'int', _T.pointer('bool')]],
+    BCSDK_GetSupportOnly4Directions: ['int', ['int', 'int', _T.pointer('bool')]],
+    BCSDK_GetSupportGuardPoint: ['int', ['int', 'int', _T.pointer('bool')]],
+    BCSDK_GetSupportPTSelfTestCfg: ['int', ['int', 'int', _T.pointer('bool')]],
     BCSDK_GetSupportAudio: ['int', ['int', 'int', _T.pointer('bool')]],
     BCSDK_GetSupportAutoFocus: ['int', ['int', 'int', _T.pointer('bool')]],
     BCSDK_GetSupportCropSnap: ['int', ['int', 'int', _T.pointer('bool')]],
@@ -229,7 +232,9 @@ const MFFI = ffi.Library(path.join(folder, 'libBCSDKWrapper'), {
     BCSDK_GetSupportIspSatruation: ['int', ['int', 'int', _T.pointer('bool')]],
     BCSDK_GetSupportIspHue: ['int', ['int', 'int', _T.pointer('bool')]],
     BCSDK_GetSupportIspSharpen: ['int', ['int', 'int', _T.pointer('bool')]],
-    BCSDK_GetSupportIspDayNightThreshold: ['int', ['int', 'int', _T.pointer('bool')]]
+    BCSDK_GetSupportIspDayNightThreshold: ['int', ['int', 'int', _T.pointer('bool')]],
+    BCSDK_GetSupportIspBrightDarkRegulate: ['int', ['int', 'int', _T.pointer('bool')]],
+    BCSDK_GetSupportIspFirstFrameStrategy: ['int', ['int', 'int', _T.pointer('bool')]]
     // AI
     ,
     BCSDK_GetSupportAI: ['int', ['int', 'int', _T.pointer('bool')]],
@@ -238,7 +243,8 @@ const MFFI = ffi.Library(path.join(folder, 'libBCSDKWrapper'), {
     BCSDK_GetSupportAIFace: ['int', ['int', 'int', _T.pointer('bool')]],
     BCSDK_GetSupportAIAnimal: ['int', ['int', 'int', _T.pointer('bool')]],
     BCSDK_GetSupportAIOther: ['int', ['int', 'int', _T.pointer('bool')]],
-    BCSDK_GetSupportAIDetectConfig: ['int', ['int', 'int', _T.pointer('bool')]]
+    BCSDK_GetSupportAIDetectConfig: ['int', ['int', 'int', _T.pointer('bool')]],
+    BCSDK_GetSupportAITrack: ['int', ['int', 'int', _T.pointer('bool')]]
     // Timelapse
     ,
     BCSDK_GetSupportTimelapse: ['int', ['int', 'int', _T.pointer('bool')]],
@@ -891,6 +897,13 @@ const MFFI = ffi.Library(path.join(folder, 'libBCSDKWrapper'), {
     BCSDK_RemoteGetPresets: ['int', ['int', 'int']],
     BCSDK_RemoteSetPresets: ['int', ['int', 'int', _T.P_BC_PTZ_PRESETS, 'int']],
     BCSDK_RemotePresetInvoke: ['int', ['int', 'int', 'int']]
+    /* ptz guard
+     *
+     * callback with E_BC_CMD_GET_GUARD, E_BC_CMD_SET_GUARD
+     */
+    ,
+    BCSDK_RemoteGetGuard: ['int', ['int', 'int']],
+    BCSDK_RemoteSetGuard: ['int', ['int', 'int', _T.P_BC_GUARD_INFO, 'int']]
     /* ptz cruise
      *
      * callback with E_BC_CMD_GET_CRUISE, E_BC_CMD_SET_CRUISE
@@ -1305,6 +1318,9 @@ class NativeDelegate {
         this.BCSDK_GetSupportAutoPt = MFFI.BCSDK_GetSupportAutoPt;
         this.BCSDK_GetSupportZoomAndFocus = MFFI.BCSDK_GetSupportZoomAndFocus;
         this.BCSDK_GetSupportZoomAndFocusSliderCfg = MFFI.BCSDK_GetSupportZoomAndFocusSliderCfg;
+        this.BCSDK_GetSupportOnly4Directions = MFFI.BCSDK_GetSupportOnly4Directions;
+        this.BCSDK_GetSupportGuardPoint = MFFI.BCSDK_GetSupportGuardPoint;
+        this.BCSDK_GetSupportPTSelfTestCfg = MFFI.BCSDK_GetSupportPTSelfTestCfg;
         this.BCSDK_GetSupportAudio = MFFI.BCSDK_GetSupportAudio;
         this.BCSDK_GetSupportAutoFocus = MFFI.BCSDK_GetSupportAutoFocus;
         this.BCSDK_GetSupportCropSnap = MFFI.BCSDK_GetSupportCropSnap;
@@ -1337,6 +1353,8 @@ class NativeDelegate {
         this.BCSDK_GetSupportIspHue = MFFI.BCSDK_GetSupportIspHue;
         this.BCSDK_GetSupportIspSharpen = MFFI.BCSDK_GetSupportIspSharpen;
         this.BCSDK_GetSupportIspDayNightThreshold = MFFI.BCSDK_GetSupportIspDayNightThreshold;
+        this.BCSDK_GetSupportIspBrightDarkRegulate = MFFI.BCSDK_GetSupportIspBrightDarkRegulate;
+        this.BCSDK_GetSupportIspFirstFrameStrategy = MFFI.BCSDK_GetSupportIspFirstFrameStrategy;
         this.BCSDK_GetSupportAI = MFFI.BCSDK_GetSupportAI;
         this.BCSDK_GetSupportAIPeople = MFFI.BCSDK_GetSupportAIPeople;
         this.BCSDK_GetSupportAIVehicle = MFFI.BCSDK_GetSupportAIVehicle;
@@ -1344,6 +1362,7 @@ class NativeDelegate {
         this.BCSDK_GetSupportAIAnimal = MFFI.BCSDK_GetSupportAIAnimal;
         this.BCSDK_GetSupportAIOther = MFFI.BCSDK_GetSupportAIOther;
         this.BCSDK_GetSupportAIDetectConfig = MFFI.BCSDK_GetSupportAIDetectConfig;
+        this.BCSDK_GetSupportAITrack = MFFI.BCSDK_GetSupportAITrack;
         this.BCSDK_GetSupportTimelapse = MFFI.BCSDK_GetSupportTimelapse;
         this.BCSDK_GetSupportTimelapseThumbnail = MFFI.BCSDK_GetSupportTimelapseThumbnail;
         /****************************************************************
@@ -1918,6 +1937,12 @@ class NativeDelegate {
         this.BCSDK_RemoteGetPresets = MFFI.BCSDK_RemoteGetPresets;
         this.BCSDK_RemoteSetPresets = MFFI.BCSDK_RemoteSetPresets;
         this.BCSDK_RemotePresetInvoke = MFFI.BCSDK_RemotePresetInvoke;
+        /* ptz guard
+         *
+         * callback with E_BC_CMD_GET_GUARD, E_BC_CMD_SET_GUARD
+         */
+        this.BCSDK_RemoteGetGuard = MFFI.BCSDK_RemoteGetGuard;
+        this.BCSDK_RemoteSetGuard = MFFI.BCSDK_RemoteSetGuard;
         /* ptz cruise
          *
          * callback with E_BC_CMD_GET_CRUISE, E_BC_CMD_SET_CRUISE

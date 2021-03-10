@@ -1059,7 +1059,8 @@ exports.BC_ISP_CFG = refStruct({
     ,
     bdDayCtrl: exports.BC_ISP_BD_CTRL,
     bdNightCtrl: exports.BC_ISP_BD_CTRL,
-    bdColorNightCtrl: exports.BC_ISP_BD_CTRL
+    bdColorNightCtrl: exports.BC_ISP_BD_CTRL,
+    iFirstFrameStrategy: ref.types.int
 });
 exports.P_BC_ISP_CFG = exports.pointer(exports.BC_ISP_CFG);
 exports.BC_DAY_NIGHT_MODE_CFG = refStruct({
@@ -1712,4 +1713,18 @@ exports.BC_ALARM_AREAS_CFG = refStruct({
     areas: refArray(exports.BC_DETECT_AREA, 4)
 });
 exports.P_BC_ALARM_AREAS_CFG = exports.pointer(exports.BC_ALARM_AREAS_CFG);
+// ptz guard
+exports.BC_GUARD_INFO = refStruct({
+    iChannel: ref.types.int,
+    iEnable: ref.types.int,
+    /* @param: iTimeout (second)
+     *  when back to guard position
+     */
+    iTimeout: ref.types.int,
+    /* @param: eAction
+     *  only for set
+     */
+    eAction: ref.types.int
+});
+exports.P_BC_GUARD_INFO = exports.pointer(exports.BC_GUARD_INFO);
 //# sourceMappingURL=_struct.js.map

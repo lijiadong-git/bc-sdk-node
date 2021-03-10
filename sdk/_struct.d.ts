@@ -365,3 +365,5 @@ export declare const BC_DETECT_AREA: refStruct;
 export declare const P_BC_DETECT_AREA: ref.Type;
 export declare const BC_ALARM_AREAS_CFG: refStruct;
 export declare const P_BC_ALARM_AREAS_CFG: ref.Type;
+export declare const BC_GUARD_INFO: refStruct;
+export declare const P_BC_GUARD_INFO: ref.Type;
