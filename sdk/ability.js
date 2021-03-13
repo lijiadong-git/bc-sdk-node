@@ -266,6 +266,7 @@ class ABILITY {
     getSupportAIVehicle(handle, channel, df) { return ABILITY.nativeCall(native_1.native.BCSDK_GetSupportAIVehicle, handle, df ? df : false, channel); }
     getSupportAIFace(handle, channel, df) { return ABILITY.nativeCall(native_1.native.BCSDK_GetSupportAIFace, handle, df ? df : false, channel); }
     getSupportAIAnimal(handle, channel, df) { return ABILITY.nativeCall(native_1.native.BCSDK_GetSupportAIAnimal, handle, df ? df : false, channel); }
+    getSupportAIDetectConfig(handle, channel, df) { return ABILITY.nativeCall(native_1.native.BCSDK_GetSupportAIDetectConfig, handle, df ? df : false, channel); }
     getSupportAITrack(handle, channel, df) { return ABILITY.nativeCall(native_1.native.BCSDK_GetSupportAITrack, handle, df ? df : false, channel); }
     getSupportTimelapse(handle, channel, df) { return ABILITY.nativeCall(native_1.native.BCSDK_GetSupportTimelapse, handle, df ? df : false, channel); }
     getSupportTimelapseThumbnail(handle, channel, df) { return ABILITY.nativeCall(native_1.native.BCSDK_GetSupportTimelapseThumbnail, handle, df ? df : false, channel); }

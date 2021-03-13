@@ -296,6 +296,8 @@ const deviceCallback = ffi_1.Callback('void', ['int', _T.BC_CMD_DATA, _T.pointer
         case T.BC_CMD_E.E_BC_CMD_SET_ALARM_ARAES_CFG:
         case T.BC_CMD_E.E_BC_CMD_SET_GUARD:
         case T.BC_CMD_E.E_BC_CMD_SET_GUARD:
+        case T.BC_CMD_E.E_BC_CMD_GET_AI_CFG:
+        case T.BC_CMD_E.E_BC_CMD_SET_AI_CFG:
             {
                 config_1.config.handleSDKCallback(handle, cmdData);
                 break;

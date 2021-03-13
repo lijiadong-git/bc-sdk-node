@@ -880,8 +880,9 @@ const MFFI = ffi.Library(path.join(folder, 'libBCSDKWrapper'), {
      *
      * callback with E_BC_CMD_GET_AI_CFG, E_BC_CMD_SET_AI_CFG
      */
-    //, BCSDK_RemoteGetAiCfg:             ['int', ['int', 'int']]
-    //, BCSDK_RemoteSetAiCfg:             ['int', ['int', 'int', _T.P_BC_AI_CFG, 'int']]
+    ,
+    BCSDK_RemoteGetAiCfg: ['int', ['int', 'int']],
+    BCSDK_RemoteSetAiCfg: ['int', ['int', 'int', _T.P_BC_AI_CFG, 'int']]
     /* Video Loss
      *
      * callback with E_BC_CMD_GET_VILOST, E_BC_CMD_SET_VILOST
@@ -1922,8 +1923,8 @@ class NativeDelegate {
          *
          * callback with E_BC_CMD_GET_AI_CFG, E_BC_CMD_SET_AI_CFG
          */
-        //BCSDK_RemoteGetAiCfg    = MFFI.BCSDK_RemoteGetAiCfg;
-        //BCSDK_RemoteSetAiCfg    = MFFI.BCSDK_RemoteSetAiCfg;
+        this.BCSDK_RemoteGetAiCfg = MFFI.BCSDK_RemoteGetAiCfg;
+        this.BCSDK_RemoteSetAiCfg = MFFI.BCSDK_RemoteSetAiCfg;
         /* Video Loss
          *
          * callback with E_BC_CMD_GET_VILOST, E_BC_CMD_SET_VILOST

@@ -6,6 +6,7 @@ declare class CONFIG {
     private static CMDIDX;
     private static getCmdIndex;
     private static handleSDKGetCallback;
+    private static cmdTypes;
     handleSDKCallback(handle: number, cmdData: any): void;
     private deviceCmd;
     private channelCmd;
@@ -144,6 +145,8 @@ declare class CONFIG {
     setPtzCfg(handle: number, channel: number, param: T.BC_PTZ_DECODER): Promise<void>;
     getMotionCfg(handle: number, channel: number): Promise<T.BC_MOTION_CFG>;
     setMotionCfg(handle: number, channel: number, param: T.BC_MOTION_CFG): Promise<void>;
+    getAiCfg(handle: number, channel: number): Promise<T.BC_AI_CFG>;
+    setAiCfg(handle: number, channel: number, param: T.BC_AI_CFG): Promise<any>;
     getVideoLoss(handle: number, channel: number): Promise<T.BC_VILOST_CFG>;
     setVideoLoss(handle: number, channel: number, param: T.BC_VILOST_CFG): Promise<void>;
     getPresets(handle: number, channel: number): Promise<T.BC_PTZ_PRESETS>;
@@ -194,10 +197,10 @@ declare class CONFIG {
     saveRingtone(handle: number, channel: number): Promise<void>;
     getRingtoneAbility(handle: number, channel: number): Promise<T.BC_RINGTONE_ABILITY>;
     getChannelVersionInfo(handle: number, channel: number): Promise<T.BC_VERSION_INFO>;
-    getDefaultAIDetectCfg(handle: number, channel: number, type: T.BC_DETECT_TYPE_E): Promise<T.BC_AI_DETECT_CFG>;
-    getAIDetectCfg(handle: number, channel: number, type: T.BC_DETECT_TYPE_E): Promise<T.BC_AI_DETECT_CFG>;
-    setAIDetectCfg(handle: number, channel: number, param: T.BC_AI_DETECT_CFG): Promise<void>;
-    setAlarmAreas(handle: number, channel: number, param: T.BC_ALARM_AREAS_CFG): Promise<void>;
+    getDefaultAIDetectCfg(handle: number, channel: number, type: T.BC_DETECT_TYPE_E): Promise<any>;
+    getAIDetectCfg(handle: number, channel: number, type: T.BC_DETECT_TYPE_E): Promise<any>;
+    setAIDetectCfg(handle: number, channel: number, param: T.BC_AI_DETECT_CFG): Promise<any>;
+    setAlarmAreas(handle: number, channel: number, param: T.BC_ALARM_AREAS_CFG): Promise<any>;
 }
 export declare const config: CONFIG;
 export {};

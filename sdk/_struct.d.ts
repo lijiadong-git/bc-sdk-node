@@ -367,3 +367,5 @@ export declare const BC_ALARM_AREAS_CFG: refStruct;
 export declare const P_BC_ALARM_AREAS_CFG: ref.Type;
 export declare const BC_GUARD_INFO: refStruct;
 export declare const P_BC_GUARD_INFO: ref.Type;
+export declare const BC_AI_CFG: refStruct;
+export declare const P_BC_AI_CFG: ref.Type;

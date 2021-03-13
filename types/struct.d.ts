@@ -1718,7 +1718,7 @@ export interface BC_PT_SELF_TEST_CFG {
 }
 export interface BC_AI_DETECT_CFG {
     iChannel: number;
-    type: number;
+    type: T.BC_DETECT_TYPE_E;
     sensitivity: number;
     stayTime: number;
     minTargetWidth: number;
@@ -1754,4 +1754,9 @@ export interface BC_GUARD_INFO {
     iEnable: number;
     iTimeout: number;
     eAction: T.BC_GUARD_ACTION_E;
+}
+export interface BC_AI_CFG {
+    validField: string;
+    iSmartTrack: number;
+    iDetectType: T.BC_AI_TYPE_E;
 }

@@ -21,7 +21,7 @@ declare class PromiseCallbacks {
     clearCallbackForCommond(handle: number, channel: number, cmd: number): void;
     clearCallback(handle: number, channel: number, cmd: number, cmdIndex: number): void;
     clearAll(): void;
-    handleCallback<T>(handle: number, channel: number, cmd: number, cmdIndex: number, func: (cb: SDKResolve<T>) => void): void;
+    handleCallback<T = unknown>(handle: number, channel: number, cmd: number, cmdIndex: number, func: (cb: SDKResolve<T>) => void): void;
 }
 export declare const PROMISE_CBS: PromiseCallbacks;
 declare class CommonCallbacks {

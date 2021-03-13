@@ -188,6 +188,7 @@ declare class ABILITY {
     getSupportAIVehicle(handle: number, channel: number, df?: boolean): Promise<boolean>;
     getSupportAIFace(handle: number, channel: number, df?: boolean): Promise<boolean>;
     getSupportAIAnimal(handle: number, channel: number, df?: boolean): Promise<boolean>;
+    getSupportAIDetectConfig(handle: number, channel: number, df?: boolean): Promise<boolean>;
     getSupportAITrack(handle: number, channel: number, df?: boolean): Promise<boolean>;
     getSupportTimelapse(handle: number, channel: number, df?: boolean): Promise<boolean>;
     getSupportTimelapseThumbnail(handle: number, channel: number, df?: boolean): Promise<boolean>;

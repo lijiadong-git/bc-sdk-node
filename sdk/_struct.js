@@ -1727,4 +1727,13 @@ exports.BC_GUARD_INFO = refStruct({
     eAction: ref.types.int
 });
 exports.P_BC_GUARD_INFO = exports.pointer(exports.BC_GUARD_INFO);
+exports.BC_AI_CFG = refStruct({
+    /* validField, used for only set some params.
+     * for example, validField = "<iSmartTrack>", only set iSmartTrack"
+     */
+    validField: refArray('byte', 128),
+    iSmartTrack: ref.types.int,
+    iDetectType: ref.types.int // bitmap (BC_AI_TYPE_PEOPLE | BC_AI_TYPE_VEHICLE | ...)
+});
+exports.P_BC_AI_CFG = exports.pointer(exports.BC_AI_CFG);
 //# sourceMappingURL=_struct.js.map

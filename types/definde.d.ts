@@ -89,20 +89,4 @@ export declare namespace DEFINDE {
     const BC_SMARTHOME_ITEMS_MAX_NUM = 20;
     const BC_CRYPT_MAX_LEN: number;
     const BASE64_OUT_SIZE: number;
-    const BC_ALARM_OUT_NONE = 0;
-    const BC_ALARM_OUT_IO: number;
-    const BC_ALARM_OUT_SNAP: number;
-    const BC_ALARM_OUT_REC: number;
-    const BC_ALARM_OUT_LED: number;
-    const BC_ALARM_OUT_BUZZ: number;
-    const BC_ALARM_OUT_PTZ: number;
-    const BC_ALARM_OUT_FTP: number;
-    const BC_ALARM_OUT_SCREEN: number;
-    const BC_ALARM_OUT_RFSPEAKER: number;
-    const BC_ALARM_OUT_PUSH: number;
-    const BC_ALARM_OUT_AUDIO: number;
-    const BC_AI_TYPE_PEOPLE: number;
-    const BC_AI_TYPE_VEHICLE: number;
-    const BC_AI_TYPE_FACE: number;
-    const BC_AI_TYPE_ANIMAL: number;
 }

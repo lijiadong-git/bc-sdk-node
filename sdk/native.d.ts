@@ -461,6 +461,8 @@ export interface NativeMethods {
     BCSDK_RemoteSetPtzCfg: (handle: number, channel: number, param: any) => number;
     BCSDK_RemoteGetMotionCfg: (handle: number, channel: number) => number;
     BCSDK_RemoteSetMotionCfg: (handle: number, channel: number, param: any, cmdIdx: number) => number;
+    BCSDK_RemoteGetAiCfg: (handle: number, channel: number) => number;
+    BCSDK_RemoteSetAiCfg: (handle: number, channel: number, param: any, cmdIdx: number) => number;
     BCSDK_RemoteGetVideoLoss: (handle: number, channel: number) => number;
     BCSDK_RemoteSetVideoLoss: (handle: number, channel: number, param: any) => number;
     BCSDK_RemoteGetPresets: (handle: number, channel: number) => number;
